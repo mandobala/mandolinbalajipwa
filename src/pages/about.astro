@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+import ContactCTA from '../components/ContactCTA.astro';
+import Hero from '../components/Hero.astro';
+---
+
+<BaseLayout title="About | Mandolin Balaji" description="About Mandolin Balaji">
+	<div class="stack gap-20">
+		<main class="wrapper about">
+			<Hero
+				title="About Me"
+				tagline="Concerts end, Practice never ends!"
+			>
+				<!-- <img
+					src="/assets/at-work.png"
+					alt="Mandolin Balaji at work with a colleague"
+				/> -->
+			</Hero>
+
+			<section>
+				<div class="content">
+					<p>
+						Born in Bengaluru, Karnataka, Balaji is one of the leading and few players in the world to play Indian classical music on the 5 String Electric Mandolin.   
+					</p>
+					<p>
+						He was trained by Late. Pandit U Shrinivas the pioneer himself for more than 2 decades. He gained the unique honour of playing along with his Guru on several occasions. Balaji spent many years eagerly learning the nuances of playing this instrument.   
+					</p>
+					<p>
+						He has shared the stage with world-renowned musicians like U Shrinivas, Vikku Vinayakram, Selva Ganesh, Ganesh to name a few. He has performed with several leading bands enthralling the audiences.
+					</p>
+					<p>
+						Balaji easily adapts to playing along with the leading musicians of different genres. He has performed with leading classical dancers in London and Cambridge. He has worked with several local bands of London and his program for Omnibus Theatre for their 5th birthday was well received.
+					</p>
+					<p>
+						His contribution was recognised by the prestigious “Narada Gana Sabha” during the yearly music festival. Balaji spent many years training students from all over the world. With a high level of commitment, he continues to carry on the tradition and pass on the unique playing style to many more students through online classes, lecture demonstrations, workshops, one-to-one, and group classes.  
+					</p>
+					<p>
+						Balaji being a post-graduate in Computer Science, adapted technology in teaching this classical music which attracted many working people to learn in a short time and easily without stress. His teaching methods involve tailoring the lessons according to individual interests, capability, availability, and age. He has students with an age range of 6 to 75 years.  
+					</p>
+					<p>
+						Currently, he is working with a band consisting of leading musicians from the UK including Tabla player, Guitarist, and Cello player.
+					</p>
+				</div>
+			</section>
+		</main>
+
+	</div>
+</BaseLayout>
+
+<style>
+	
+	.about {
+		display: flex;
+		flex-direction: column;
+		gap: 3.5rem;
+	}
+
+	img {
+		margin-top: 1.5rem;
+		border-radius: 1.5rem;
+		box-shadow: var(--shadow-md);
+	}
+
+	section p {
+		margin-top: 1em;
+	}
+
+	section {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		color: var(--gray-200);
+	}
+
+	.section-title {
+		grid-column-start: 1;
+		font-size: var(--text-xl);
+		color: var(--gray-0);
+	}
+
+	.content {
+		grid-column: 2 / 3;
+	}
+
+	.content :global(a) {
+		text-decoration: 1px solid underline transparent;
+		text-underline-offset: 0.25em;
+		transition: text-decoration-color var(--theme-transition);
+	}
+
+	.content :global(a:hover),
+	.content :global(a:focus) {
+		text-decoration-color: currentColor;
+	}
+
+	@media (min-width: 50em) {
+		.about {
+			display: grid;
+			grid-template-columns: 1fr 60% 1fr;
+		}
+
+		.about > :global(:first-child) {
+			grid-column-start: 2;
+		}
+
+		section {
+			display: contents;
+			font-size: var(--text-lg);
+		}
+	}
+</style>

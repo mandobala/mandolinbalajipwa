@@ -1,0 +1,88 @@
+---
+import Hero from "../components/Hero.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Contact details" description="Contact details">
+	<div class="stack gap-20">
+		<main class="wrapper about">
+			<section>
+				<div class="content">
+					<p class="bold">Please mention your name and timezone</p>
+					<p>
+						Any queries send email to: <a href="mailto:mandolinbala@gmail.com">mandolinbala (at) gmail (dot) com</a>
+					</p>
+					<p>
+						<b>WhatsApp:</b> <a href="https://whatsapp.com/channel/0029VatagPbHbFUzJSSlma0U">https://whatsapp.com/channel/0029VatagPbHbFUzJSSlma0U</a>
+					</p>
+				</div>
+			</section>
+		</main>
+	</div>
+</BaseLayout>
+
+<style>
+	.about {
+		display: flex;
+		flex-direction: column;
+		gap: 3.5rem;
+	}
+
+	img {
+		margin-top: 1.5rem;
+		border-radius: 1.5rem;
+		box-shadow: var(--shadow-md);
+	}
+
+	.bold {
+		font-weight: 600;
+	}
+
+	section p {
+		margin-top: 1em;
+	}
+
+	section {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		color: var(--gray-200);
+	}
+
+	.section-title {
+		grid-column-start: 1;
+		font-size: var(--text-xl);
+		color: var(--gray-0);
+	}
+
+	.content {
+		grid-column: 2 / 3;
+	}
+
+	.content :global(a) {
+		text-decoration: 1px solid underline transparent;
+		text-underline-offset: 0.25em;
+		transition: text-decoration-color var(--theme-transition);
+	}
+
+	.content :global(a:hover),
+	.content :global(a:focus) {
+		text-decoration-color: currentColor;
+	}
+
+	@media (min-width: 50em) {
+		.about {
+			display: grid;
+			grid-template-columns: 1fr 60% 1fr;
+		}
+
+		.about > :global(:first-child) {
+			grid-column-start: 2;
+		}
+
+		section {
+			display: contents;
+			font-size: var(--text-lg);
+		}
+	}
+</style>
