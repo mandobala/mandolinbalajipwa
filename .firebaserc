@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "mandolinbalajipwa"
+  },
+  "targets": {
+    "mandolinbalajipwa": {
+      "hosting": {
+        "app": [
+          "mandolinbalaji"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

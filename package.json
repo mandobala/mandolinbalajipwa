@@ -7,13 +7,25 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "fetch-videos": "node scripts/fetch-youtube-videos.mjs"
+    "fetch-videos": "node scripts/fetch-youtube-videos.mjs",
+    "generate-pwa-assets": "pwa-assets-generator --preset minimal public/favicon.svg",
+    "deploy": "npm run build && firebase deploy"
   },
   "dependencies": {
-    "@sentry/astro": "^9.0.1",
+    "@astrojs/node": "^9.1.0",
+    "@playform/compress": "^0.1.7",
+    "@playform/inline": "^0.1.1",
     "@spotlightjs/astro": "^2.4.3",
+    "@vite-pwa/assets-generator": "^0.2.6",
+    "@vite-pwa/astro": "^0.5.0",
     "astro": "^5.2.5",
     "astro-embed": "^0.9.0",
-    "astro-seo": "^0.8.4"
+    "astro-seo": "^0.8.4",
+    "firebase": "^11.3.1",
+    "firebase-tools": "^13.31.0",
+    "isomorphic-dompurify": "^2.21.0",
+    "marked": "^15.0.7",
+    "vanilla-cookieconsent": "^3.1.0",
+    "workbox-window": "^7.3.0"
   }
 }

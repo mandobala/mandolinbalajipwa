@@ -1,0 +1,94 @@
+// src/components/LiteYoutube.astro
+---
+interface Props {
+  videoid: string;
+  playlabel?: string;
+}
+
+const { videoid, playlabel = 'Play video' } = Astro.props;
+---
+
+<lite-youtube videoid={videoid} playlabel={playlabel}></lite-youtube>
+
+<style>
+  lite-youtube {
+    background-color: #000;
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16/9;
+    cursor: pointer;
+    margin: 2rem 0;
+  }
+
+  :global(.lty-playbtn) {
+    width: 70px;
+    height: 46px;
+    background-color: #212121;
+    z-index: 1;
+    opacity: 0.8;
+    border-radius: 14%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  :global(.lty-playbtn:before) {
+    content: '';
+    border-style: solid;
+    border-width: 11px 0 11px 19px;
+    border-color: transparent transparent transparent #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  :global(.yt-lite) {
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  :global(iframe) {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border: 0;
+  }
+</style>
+
+<script>
+  if (!customElements.get('lite-youtube')) {
+    class LiteYoutube extends HTMLElement {
+      connectedCallback() {
+        const videoId = this.getAttribute('videoid');
+        const playLabel = this.getAttribute('playlabel') || 'Play';
+        
+        const template = `
+          <div class="lty-playbtn" title="${playLabel}"></div>
+          <div class="yt-lite" style="background-image: url('https://i.ytimg.com/vi/${videoId}/hqdefault.jpg');">
+          </div>
+        `;
+        
+        this.innerHTML = template;
+        this.addEventListener('click', () => {
+          const iframe = document.createElement('iframe');
+          iframe.title = playLabel;
+          iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+          iframe.allowFullscreen = true;
+          iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+          
+          this.innerHTML = '';
+          this.appendChild(iframe);
+        });
+      }
+    }
+    
+    customElements.define('lite-youtube', LiteYoutube);
+  }
+</script>

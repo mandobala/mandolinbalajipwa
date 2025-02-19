@@ -1,0 +1,281 @@
+html {
+    width: 100%;
+    position: fixed;
+  }
+  
+  footer {
+    position: fixed !important;
+    bottom: 1em !important;
+    padding: 0 !important;
+    margin-top: 1em !important;
+    width: 100%;
+    text-align: center !important;
+  }
+
+  @media (min-width: 50em) {
+		.about {
+			display: grid;
+			grid-template-columns: 1fr 60% 1fr;
+		}
+
+		.about > :global(:first-child) {
+			grid-column-start: 2;
+		}
+
+		section {
+			display: contents;
+			font-size: var(--text-lg);
+		}
+	}
+
+	.about {
+		display: flex;
+		flex-direction: column;
+		gap: 3.5rem;
+	}
+
+	section {
+		margin-top: 1em;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		color: var(--gray-200);
+  }
+
+  /* .content {
+		grid-column: 1 / 3;
+	} */
+
+	.content :global(a) {
+		text-decoration: 1px solid underline transparent;
+		text-underline-offset: 0.25em;
+		transition: text-decoration-color var(--theme-transition);
+	}
+
+	.content :global(a:hover),
+	.content :global(a:focus) {
+		text-decoration-color: currentColor;
+	}
+  
+  .notes {
+    margin: auto;
+    width: 400px;
+    position: fixed;
+    top: 68%;
+    left: 0;
+    right: 0;
+    text-align: center;
+  }
+  
+  .note {
+    font-size: 90px;
+    font-weight: bold;
+    position: relative;
+    display: inline-block;
+    padding-right: 30px;
+    padding-left: 10px;
+  }
+  
+  .note.active {
+    color: #e74c3c;
+  }
+  
+  .notes-list {
+    overflow: auto;
+    overflow: -moz-scrollbars-none;
+    white-space: nowrap;
+    -ms-overflow-style: none;
+    -webkit-mask-image: -webkit-linear-gradient(
+      left,
+      rgba(255, 255, 255, 0),
+      #fff,
+      rgba(255, 255, 255, 0)
+    );
+  }
+  
+  .notes-list::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .note {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .note span {
+    position: absolute;
+    right: 0.25em;
+    font-size: 40%;
+    font-weight: normal;
+  }
+  
+  .note-sharp {
+    top: 0.3em;
+  }
+  
+  .note-octave {
+    bottom: 0.3em;
+  }
+  
+  .frequency {
+    font-size: 32px;
+  }
+  
+  .frequency span {
+    font-size: 50%;
+    margin-left: 0.25em;
+  }
+  
+  .meter {
+    position: fixed;
+    top: 15em;
+    left: 0;
+    right: 0;
+    bottom: 50%;
+    width: 400px;
+    height: 33%;
+    margin: 0 auto 5vh auto;
+  }
+  
+  .meter-pointer {
+    width: 2px;
+    height: 100%;
+    background: #2c3e50;
+    transform: rotate(45deg);
+    transform-origin: bottom;
+    transition: transform 0.5s;
+    position: absolute;
+    right: 50%;
+  }
+  
+  .meter-dot {
+    width: 10px;
+    height: 10px;
+    background: #2c3e50;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -5px;
+    right: 50%;
+    margin-right: -4px;
+  }
+  
+  .meter-scale {
+    width: 1px;
+    height: 100%;
+    transform-origin: bottom;
+    transition: transform 0.2s;
+    box-sizing: border-box;
+    border-top: 10px solid #2c3e50;
+    position: absolute;
+    right: 50%;
+  }
+  
+  .meter-scale-strong {
+    width: 2px;
+    border-top-width: 20px;
+  }
+  
+  .frequency-bars {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Hide the browser's default checkbox */
+  .checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  /* Create a custom checkbox */
+  .checkbox-checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    background-color: #eee;
+    border-radius: 20%;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .checkbox-container:hover input ~ .checkbox-checkmark {
+    background-color: #ccc;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .checkbox-container input:checked ~ .checkbox-checkmark {
+    background-color: #EF6C00;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkbox-checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .checkbox-container input:checked ~ .checkbox-checkmark:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .checkbox-container .checkbox-checkmark:after {
+    left: 7px;
+    top: 3px;
+    width: 8px;
+    height: 13px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  @media (max-width: 768px) {
+    .meter {
+      width: 100%;
+    }
+  
+    .notes {
+      width: 100%;
+    }
+  }
+  
+  .swal-button {
+    background: #2c3e50;
+  }
+  
+  .a4 {
+    position: absolute;
+    top: 20%;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .a4 span {
+    color: #e74c3c;
+    font-weight: 800;
+  }
+  
+  .auto {
+    position: absolute;
+    top: 25%;
+    width: 100%;
+  }

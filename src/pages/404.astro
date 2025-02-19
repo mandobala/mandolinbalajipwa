@@ -1,8 +1,25 @@
 ---
+import '../styles/404.css';
 import Hero from '../components/Hero.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Not Found" description="404 Error — this page was not found">
-	<Hero title="Page Not Found" tagline="Not found" />
+<BaseLayout title="Page Not Found | Mandolin Balaji" description="404 Error — this page was not found">
+	<div class="stack gap-20">
+		<main class="wrapper stack gap-8">
+			<Hero 
+				title="Page Not Found" 
+				tagline="Oops! The page you're looking for seems to have wandered off."
+			/>
+			<div class="error-content">
+				<p>Don't worry! You can:</p>
+				<ul>
+					<li><a href="/">Return to the homepage</a></li>
+					<li><a href="/video-lessons">Watch my video lessons</a></li>
+					<li><a href="/contact">Contact me</a></li>
+				</ul>
+			</div>
+		</main>
+	</div>
 </BaseLayout>
+

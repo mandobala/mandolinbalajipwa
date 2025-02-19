@@ -1,0 +1,168 @@
+// src/layouts/MarkdownLayout.astro
+---
+import { marked } from 'marked';
+import DOMPurify from 'isomorphic-dompurify';
+
+const { frontmatter } = Astro.props;
+
+// Custom renderer to handle HTML
+const renderer = new marked.Renderer();
+renderer.html = function(html) {
+  // Safely parse HTML content
+  return DOMPurify.sanitize(html, {
+    ADD_TAGS: ['lite-youtube'],
+    ADD_ATTR: ['videoid', 'playlabel']
+  });
+};
+
+// Parse the markdown content
+const content = await Astro.slots.render('default');
+const parsedContent = marked(content, { renderer });
+
+// Import the lite-youtube component script
+const ytScript = `
+  if (!customElements.get('lite-youtube')) {
+    class LiteYoutube extends HTMLElement {
+      connectedCallback() {
+        this.videoId = this.getAttribute('videoid');
+        this.playLabel = this.getAttribute('playlabel') || 'Play';
+        
+        const template = \`
+          <div class="lty-playbtn" title="\${this.playLabel}"></div>
+          <div class="yt-lite" style="background-image: url('https://i.ytimg.com/vi/\${this.videoId}/hqdefault.jpg');">
+          </div>
+        \`;
+        
+        this.innerHTML = template;
+        this.addEventListener('click', () => {
+          const iframe = document.createElement('iframe');
+          iframe.width = '560';
+          iframe.height = '315';
+          iframe.title = this.playLabel;
+          iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+          iframe.allowFullscreen = true;
+          iframe.src = \`https://www.youtube.com/embed/\${this.videoId}?autoplay=1\`;
+          
+          this.innerHTML = '';
+          this.appendChild(iframe);
+        });
+      }
+    }
+    
+    customElements.define('lite-youtube', LiteYoutube);
+  }
+`;
+---
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>{frontmatter.title}</title>
+  <style>
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+      margin: 2rem 0;
+    }
+    
+    lite-youtube {
+      background-color: #000;
+      position: relative;
+      display: block;
+      width: 100%;
+      aspect-ratio: 16/9;
+      cursor: pointer;
+    }
+    
+    .lty-playbtn {
+      width: 70px;
+      height: 46px;
+      background-color: #212121;
+      z-index: 1;
+      opacity: 0.8;
+      border-radius: 14%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .lty-playbtn:before {
+      content: '';
+      border-style: solid;
+      border-width: 11px 0 11px 19px;
+      border-color: transparent transparent transparent #fff;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .yt-lite {
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    
+    iframe {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border: 0;
+    }
+
+    .content {
+      max-width: 65ch;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .metadata {
+      margin: 1rem 0;
+    }
+
+    .tags {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .tag {
+      background: #eee;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+    }
+  </style>
+  <script set:html={ytScript}></script>
+</head>
+<body>
+  <article class="content">
+    <h1>{frontmatter.title}</h1>
+    <div class="metadata">
+      <time datetime={frontmatter.publishDate.toISOString()}>
+        {frontmatter.publishDate.toLocaleDateString('en-GB', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })}
+      </time>
+      <div class="tags">
+        {frontmatter.tags?.map(tag => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    </div>
+    <div class="description">
+      {frontmatter.description}
+    </div>
+    <div set:html={parsedContent} />
+  </article>
+</body>
+</html>

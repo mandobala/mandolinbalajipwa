@@ -1,5 +1,16 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"]
+  "include": [".astro/types.d.ts", "**/*", "src/pages/tuner/aubio.min.js", "public/js/aubio.js"],
+  "exclude": ["dist"],
+  "compilerOptions": {
+    "moduleResolution": "Bundler",
+    "types": [
+      "astro/client",
+      "vite-plugin-pwa/vanillajs",
+      "vite-plugin-pwa/info",
+      "vite-plugin-pwa/pwa-assets",
+      "dom-chromium-installation-events",
+      "web-app-manifest"
+    ]
+  }
 }

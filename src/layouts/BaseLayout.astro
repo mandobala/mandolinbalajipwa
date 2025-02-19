@@ -1,133 +1,139 @@
 ---
-// Learn about using Astro layouts:
-// https://docs.astro.build/en/core-concepts/layouts/
-
-// Component Imports
+// BaseLayout.astro
 import MainHead from '../components/MainHead.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import { SEO } from "astro-seo";
+import { pwaInfo } from "virtual:pwa-info";
+import ReloadPrompt from '../components/ReloadPrompt.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 
 interface Props {
-	title?: string | undefined;
-	description?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
 }
 
 const { title, description } = Astro.props;
 ---
 
 <html lang="en">
-	<head>
-		<SEO
-			title="Mandolin Balaji"
-			description="Carnatic Mandolin and Guitar Exponent"
-			openGraph={{
-			basic: {
-				title: "Mandolin Balaji",
-				type: "website",
-				image: "assets/portrait.png",
-			}
-			}}
-			extend={{
-				link: [{ rel: "icon", href: "/favicon.svg" }],
-			}}
-	  	/>
-		<MainHead title={title} description={description} />
-	</head>
-	<body>
-		<div class="stack backgrounds">
-			<Nav />
-			<slot />
-			<Footer />
-		</div>
+  <head>
+    <MainHead title={title} description={description} />
+    <SEO
+      title="Mandolin Balaji"
+      description="Carnatic Mandolin and Guitar Exponent"
+      openGraph={{
+        basic: {
+          title: "Mandolin Balaji",
+          type: "website",
+          image: "assets/portrait.png",
+        }
+      }}
+      extend={{
+        link: [
+          { rel: "icon", href: "/favicon.svg" },
+          { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+        ],
+        meta: [
+          { name: "mobile-web-app-capable", content: "yes" },
+          { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+          { name: "apple-mobile-web-app-title", content: "Mandolin Balaji" }
+        ]
+      }}
+    />
+    {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
+  </head>
+  <body>
+    <div class="stack">
+      <Nav />
+      <slot />
+      <Footer />
+    </div>
+    <script>
+      addEventListener('load', () => document.documentElement.classList.add('loaded'));
+    </script>
+    <ReloadPrompt />
+    <CookieConsent />
+	<script is:inline src="/js/pwa-install.bundle.js"></script>
+    <pwa-install
+	  id="pwa-install"
+      install-description="Install as an app for the best experience"
+      disable-screenshots="true"
+      disable-screenshots-apple="true"
+      disable-screenshots-chrome="true"
+      manifest-url="/manifest.webmanifest"
+      name="Mandolin Balaji"
+      description="Mandolin Balaji's web application"
+      icon="/favicon.png">
+    </pwa-install>
+	<script>
+		const pwaInstall = document.getElementById("pwa-install");
 
-		<script>
-			// Add “loaded” class once the document has completely loaded.
-			addEventListener('load', () => document.documentElement.classList.add('loaded'));
-		</script>
+		const logMessage = (message) => {
+			console.log(message);
+		}
 
-		<!-- <style>
-			:root {
-				--_placeholder-bg: linear-gradient(transparent, transparent);
-				--bg-image-main: url('/assets/backgrounds/bg-main-light-800w.jpg');
-				--bg-image-main-curves: url('/assets/backgrounds/bg-main-light.svg');
-				--bg-image-subtle-1: var(--_placeholder-bg);
-				--bg-image-subtle-2: var(--_placeholder-bg);
-				--bg-image-footer: var(--_placeholder-bg);
-				--bg-svg-blend-mode: overlay;
-				--bg-blend-mode: darken;
-				--bg-image-aspect-ratio: 2.25;
-				--bg-scale: 1.68;
-				--bg-aspect-ratio: calc(var(--bg-image-aspect-ratio) / var(--bg-scale));
-				--bg-gradient-size: calc(var(--bg-scale) * 100%);
-			}
-
-			:root.theme-dark {
-				--bg-image-main: url('/assets/backgrounds/bg-main-dark-800w.jpg');
-				--bg-image-main-curves: url('/assets/backgrounds/bg-main-dark.svg');
-				--bg-svg-blend-mode: darken;
-				--bg-blend-mode: lighten;
-			}
-
-			/* These backgrounds are displayed below the fold, so we lazy load them
-			   once the `.loaded` class has been set.  */
-			:root.loaded {
-				--bg-image-subtle-1: url('/assets/backgrounds/bg-subtle-1-light-800w.jpg');
-				--bg-image-subtle-2: url('/assets/backgrounds/bg-subtle-2-light-800w.jpg');
-				--bg-image-footer: url('/assets/backgrounds/bg-footer-light-800w.jpg');
-			}
-			:root.loaded.theme-dark {
-				--bg-image-subtle-1: url('/assets/backgrounds/bg-subtle-1-dark-800w.jpg');
-				--bg-image-subtle-2: url('/assets/backgrounds/bg-subtle-2-dark-800w.jpg');
-				--bg-image-footer: url('/assets/backgrounds/bg-footer-dark-800w.jpg');
-			}
-
-			@media (min-width: 50em) {
-				:root {
-					--bg-scale: 1;
-					--bg-image-main: url('/assets/backgrounds/bg-main-light-1440w.jpg');
+		const getRelated = () => {
+			pwaInstall.getInstalledRelatedApps().then(
+				(result) => {
+					logMessage(result.toString() || 'None');
 				}
-				:root.theme-dark {
-					--bg-image-main: url('/assets/backgrounds/bg-main-dark-1440w.jpg');
-				}
+			)
+		}
+		
+		const forceStyle = (style) => {
+			switch (style) {
+				case 'apple-mobile':
+					pwaInstall.isAppleDesktopPlatform = false;
+					pwaInstall.isAppleMobilePlatform = true;
+					break;
+				case 'apple-desktop':
+					pwaInstall.isAppleMobilePlatform = false;
+					pwaInstall.isAppleDesktopPlatform = true;
+					break;
+				case 'chrome':
+					pwaInstall.isAppleMobilePlatform = false;
+					pwaInstall.isAppleDesktopPlatform = false;
+					pwaInstall.isAndroidFallback = false;
+					break;
+				case 'fallback':
+					pwaInstall.isAppleMobilePlatform = false;
+					pwaInstall.isAppleDesktopPlatform = false;
+					pwaInstall.isAndroidFallback = true;
+					break;
+			}
+			pwaInstall.hideDialog();
+			pwaInstall.showDialog();
+		}
 
-				:root.loaded {
-					--bg-image-subtle-1: url('/assets/backgrounds/bg-subtle-1-light-1440w.jpg');
-					--bg-image-subtle-2: url('/assets/backgrounds/bg-subtle-2-light-1440w.jpg');
-					--bg-image-footer: url('/assets/backgrounds/bg-footer-light-1440w.jpg');
-				}
-				:root.loaded.theme-dark {
-					--bg-image-subtle-1: url('/assets/backgrounds/bg-subtle-1-dark-1440w.jpg');
-					--bg-image-subtle-2: url('/assets/backgrounds/bg-subtle-2-dark-1440w.jpg');
-					--bg-image-footer: url('/assets/backgrounds/bg-footer-dark-1440w.jpg');
-				}
-			}
+		const disableInstallDescription = (cb) => {
+			cb.checked ? pwaInstall.setAttribute('disable-install-description', true) :
+			pwaInstall.removeAttribute('disable-install-description');
+		}
+		const disableScreenshots = (cb) => {
+			cb.checked ? pwaInstall.setAttribute('disable-screenshots', true) :
+			pwaInstall.removeAttribute('disable-screenshots');
+		}
+		const disableScreenshotsPlatform = (cb, platform) => {
+			cb.checked ? pwaInstall.setAttribute(`disable-screenshots-${platform}`, true) :
+			pwaInstall.removeAttribute(`disable-screenshots-${platform}`);
+		}
+		const disableClose = (cb) => {
+			cb.checked ? pwaInstall.setAttribute('disable-close', true) :
+			pwaInstall.removeAttribute('disable-close');
+		}
+		const setAttr = (attr, value) => {
+			value? pwaInstall.setAttribute(attr, value) :
+			pwaInstall.removeAttribute(attr);
+			pwaInstall._init();
+		}
 
-			.backgrounds {
-				min-height: 100%;
-				isolation: isolate;
-				background:
-					/*noise*/
-					url('/assets/backgrounds/noise.png') top center/220px repeat,
-					/*footer*/ var(--bg-image-footer) bottom center/var(--bg-gradient-size) no-repeat,
-					/*header1*/ var(--bg-image-main-curves) top center/var(--bg-gradient-size) no-repeat,
-					/*header2*/ var(--bg-image-main) top center/var(--bg-gradient-size) no-repeat,
-					/*base*/ var(--gray-999);
-				background-blend-mode: /*noise*/
-					overlay,
-					/*footer*/ var(--bg-blend-mode),
-					/*header1*/ var(--bg-svg-blend-mode),
-					/*header2*/ normal,
-					/*base*/ normal;
-			}
-			@media (forced-colors: active) {
-				/* Deactivate custom backgrounds for high contrast users. */
-				.backgrounds {
-					background: none;
-					background-blend-mode: none;
-					--bg-gradient-size: none;
-				}
-			}
-		</style> -->
-	</body>
+		pwaInstall.addEventListener('pwa-install-success-event', (event) => {logMessage(event.detail.message)});
+		pwaInstall.addEventListener('pwa-install-fail-event', (event) => {logMessage(event.detail.message)});
+		pwaInstall.addEventListener('pwa-user-choice-result-event', (event) => {logMessage(event.detail.message)});
+		pwaInstall.addEventListener('pwa-install-available-event', (event) => {logMessage(event.detail.message)});
+		pwaInstall.addEventListener('pwa-install-how-to-event', (event) => {logMessage(event.detail.message)});
+		pwaInstall.addEventListener('pwa-install-gallery-event', (event) => {logMessage(event.detail.message)});
+	</script>
+  </body>
 </html>

@@ -1,0 +1,298 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import NotesPreview from '../components/NotesPreview.astro';
+import Hero from '../components/Hero.astro';
+import '../styles/notes.css';
+
+const allNotes = (await getCollection('notes')).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+// Get unique tags from all notes
+const allTags = [...new Set(allNotes.flatMap(note => note.data.tags))];
+
+// Initial values will be handled client-side
+const searchQuery = '';
+const currentPage = 1;
+const itemsPerPage = 10;
+
+// Pass all notes to client-side
+const serializedNotes = JSON.stringify(allNotes.map(note => ({
+  id: note.id,
+  ...note.data
+})));
+---
+
+<BaseLayout
+  title="Notes | Mandolin Balaji"
+  description="Notations for Carnatic music"
+>
+  <div class="stack gap-20">
+    <main class="wrapper stack gap-8">
+      <Hero
+        title="Notes"
+        align="center"
+      />
+
+      <!-- Search, Tags, and Pagination Controls -->
+      <div class="controls">
+        <div class="search-form">
+          <div class="search-wrapper">
+            <input 
+            type="text" 
+            id="searchInput"
+            value={searchQuery}
+            placeholder="Search notes..."
+            class="search-input"
+            aria-label="Search notes"
+            />
+          </div>
+          <div class="search-button-wrapper">
+            <button id="searchButton" class="search-button" aria-label="Search">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            Search
+            </button>
+            <button id="clearButton" class="search-button" aria-label="Clear">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFF" viewBox="0 0 256 256">
+              <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
+            </svg>
+            Clear
+            </button>
+          </div>
+        </div>		  
+
+        <!-- Tags Filter -->
+        <div class="tags-filter">
+          <div class="tags-wrapper" id="tagsContainer">
+            <!-- Tags will be inserted here by JavaScript -->
+          </div>
+        </div>
+
+        <p class="no-results" style="display: none;">No notes found matching your search.</p>
+        <p class="results-count" style="display: none;"></p>
+      </div>
+
+      <!-- Pagination controls at the top -->
+      <div class="pagination">
+        <div id="paginationContainer"></div>
+      </div>
+
+      <!-- Notes list -->
+      <ul id="notesContainer" class="notes-list">
+        <!-- Notes will be inserted here by JavaScript -->
+      </ul>
+
+      <!-- Pagination controls at the bottom -->
+      <div class="pagination">
+        <div id="paginationContainerBottom"></div>
+      </div>
+    </main>
+    <ContactCTA />
+  </div>
+</BaseLayout>
+
+<script define:vars={{ serializedNotes, allTags, itemsPerPage }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const allNotes = JSON.parse(serializedNotes);
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+    const clearButton = document.getElementById('clearButton');
+    const notesContainer = document.getElementById('notesContainer');
+    const tagsContainer = document.getElementById('tagsContainer');
+    const paginationContainer = document.getElementById('paginationContainer');
+    const paginationContainerBottom = document.getElementById('paginationContainerBottom');
+    const resultsCount = document.querySelector('.results-count');
+    const noResults = document.querySelector('.no-results');
+    let currentPage = 1;
+    let selectedTags = new Set();
+
+    // Initialize tags
+    function initializeTags() {
+      tagsContainer.innerHTML = allTags.map(tag => `
+        <button class="tag-button" data-tag="${tag}">
+          ${tag}
+          <span class="tag-count">${allNotes.filter(note => note.tags.includes(tag)).length}</span>
+        </button>
+      `).join('');
+
+      // Add tag click listeners
+      document.querySelectorAll('.tag-button').forEach(button => {
+        button.addEventListener('click', () => {
+          const tag = button.dataset.tag;
+          if (selectedTags.has(tag)) {
+            selectedTags.delete(tag);
+            button.classList.remove('selected');
+          } else {
+            selectedTags.add(tag);
+            button.classList.add('selected');
+          }
+          handleSearch();
+        });
+      });
+    }
+
+    // Generate pagination range
+    function generatePaginationRange(current, total) {
+      const maxPagesToShow = 5;
+      if (total <= maxPagesToShow) {
+        return Array.from({ length: total }, (_, i) => i + 1);
+      }
+      let start = Math.max(1, current - 2);
+      let end = Math.min(total, start + maxPagesToShow - 1);
+      if (end - start < maxPagesToShow - 1) {
+        start = Math.max(1, end - maxPagesToShow + 1);
+      }
+      return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    }
+
+    // Generate pagination HTML
+    function generatePaginationHTML(currentPage, totalPages) {
+      const range = generatePaginationRange(currentPage, totalPages);
+      let html = '<div class="pagination-controls">';
+      
+      html += `<a href="#" class="page-link ${currentPage === 1 ? 'disabled' : ''}" data-page="${currentPage - 1}" ${currentPage === 1 ? 'aria-disabled="true"' : ''}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+        <span>Prev</span>
+      </a>`;
+      
+      html += '<div class="page-numbers">';
+      range.forEach(page => {
+        html += `<a href="#" class="page-number ${page === currentPage ? 'active' : ''}" data-page="${page}" ${page === currentPage ? 'aria-current="page"' : ''}>${page}</a>`;
+      });
+      html += '</div>';
+      
+      html += `<a href="#" class="page-link ${currentPage === totalPages ? 'disabled' : ''}" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'aria-disabled="true"' : ''}>
+        <span>Next</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </a>`;
+      
+      html += '</div>';
+      return html;
+    }
+
+    // Format date
+    function formatDate(dateString) {
+      return new Date(dateString).toLocaleDateString('en-GB', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    }
+
+    // Update notes display
+    function updateDisplay(searchQuery = '') {
+      const filteredNotes = allNotes.filter(note => {
+        const matchesSearch = searchQuery
+          ? note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            note.description.toLowerCase().includes(searchQuery.toLowerCase())
+          : true;
+        
+        const matchesTags = selectedTags.size === 0 || 
+          [...selectedTags].every(tag => note.tags.includes(tag));
+        
+        return matchesSearch && matchesTags;
+      });
+
+      const totalPages = Math.ceil(filteredNotes.length / itemsPerPage);
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const paginatedNotes = filteredNotes.slice(startIndex, endIndex);
+
+      // Update notes
+      notesContainer.innerHTML = paginatedNotes.map(note => `
+        <li class="note-item">
+          <a href="/notes/${note.id}" class="note-link">
+            <div class="note-content">
+              <h3 class="note-title">${note.title}</h3>
+              <p class="note-description">${note.description}</p>
+              <div class="note-meta">
+                <div class="note-tags">
+                  ${note.tags.map(tag => `<span class="note-tag">${tag}</span>`).join('')}
+                </div>
+              </div>
+            </div>
+          </a>
+        </li>
+      `).join('');
+
+      // Update pagination
+      if (paginationContainer && paginationContainerBottom) {
+        const paginationHTML = generatePaginationHTML(currentPage, totalPages);
+        paginationContainer.innerHTML = paginationHTML;
+        paginationContainerBottom.innerHTML = paginationHTML;
+        attachPaginationListeners();
+      }
+
+      // Update results count
+      if (resultsCount && noResults) {
+        if (filteredNotes.length === 0) {
+          noResults.style.display = 'block';
+          resultsCount.style.display = 'none';
+        } else if (searchQuery || selectedTags.size > 0) {
+          noResults.style.display = 'none';
+          resultsCount.style.display = 'block';
+          resultsCount.textContent = `Found ${filteredNotes.length} note${filteredNotes.length !== 1 ? 's' : ''}`;
+        } else {
+          noResults.style.display = 'none';
+          resultsCount.style.display = 'none';
+        }
+      }
+    }
+
+    // Attach pagination listeners
+    function attachPaginationListeners() {
+      document.querySelectorAll('.page-link:not(.disabled), .page-number:not(.active)').forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.preventDefault();
+          const newPage = parseInt(button.getAttribute('data-page'));
+          if (newPage !== currentPage) {
+            currentPage = newPage;
+            updateDisplay(searchInput.value.trim());
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        });
+      });
+    }
+
+    // Search handlers
+    function handleSearch() {
+      currentPage = 1; // Reset to first page
+      updateDisplay(searchInput.value.trim());
+    }
+
+    searchButton?.addEventListener('click', (e) => {
+      e.preventDefault();
+      handleSearch();
+    });
+
+    clearButton?.addEventListener('click', (e) => {
+      e.preventDefault();
+      searchInput.value = '';
+      selectedTags.clear();
+      document.querySelectorAll('.tag-button').forEach(button => {
+        button.classList.remove('selected');
+      });
+      handleSearch();
+    });
+
+    searchInput?.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleSearch();
+      }
+    });
+
+    // Initialize
+    initializeTags();
+    updateDisplay();
+  });
+</script>

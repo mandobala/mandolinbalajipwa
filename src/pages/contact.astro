@@ -1,19 +1,26 @@
 ---
 import Hero from "../components/Hero.astro";
+import Icon from '../components/Icon.astro';
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="Contact details" description="Contact details">
 	<div class="stack gap-20">
 		<main class="wrapper about">
+			<Hero
+			title="Contact Me"
+			tagline="Please mention your name and timezone"
+		>
+		</Hero>
 			<section>
 				<div class="content">
-					<p class="bold">Please mention your name and timezone</p>
-					<p>
-						Any queries send email to: <a href="mailto:mandolinbala@gmail.com">mandolinbala (at) gmail (dot) com</a>
+					<p class="bold">
+						<Icon icon="email" color="var(--accent-regular)" size="2rem" gradient />
+						<a href="mailto:mandolinbala@gmail.com">mandolinbala (at) gmail (dot) com</a>
 					</p>
-					<p>
-						<b>WhatsApp:</b> <a href="https://whatsapp.com/channel/0029VatagPbHbFUzJSSlma0U">https://whatsapp.com/channel/0029VatagPbHbFUzJSSlma0U</a>
+					<p class="bold truncate">
+						<Icon icon="whatsapp-logo" color="var(--accent-regular)" size="2rem" gradient />
+						<a href="https://whatsapp.com/channel/0029VatagPbHbFUzJSSlma0U">https://whatsapp.com/channel/0029VatagPbHbFUzJSSlma0U</a>
 					</p>
 				</div>
 			</section>
@@ -22,6 +29,19 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 </BaseLayout>
 
 <style>
+
+	.truncate {
+		/* width: 325px; */
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.content a {
+		color: var(--gray-300);
+		font-weight: 300;
+	}
+
 	.about {
 		display: flex;
 		flex-direction: column;
@@ -40,6 +60,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 	section p {
 		margin-top: 1em;
+		text-wrap: nowrap;
 	}
 
 	section {

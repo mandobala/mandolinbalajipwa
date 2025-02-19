@@ -3,55 +3,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactCTA from '../components/ContactCTA.astro';
 import Hero from '../components/Hero.astro';
 import Grid from '../components/Grid.astro';
-import { YouTube } from '@astro-community/astro-embed-youtube';
 import { getYouTubeVideos } from '../utils/youtube.mjs';
-
-export const prerender = false;
+import '../styles/video-lessons.css';
+import '../styles/lite-yt-embed.css';
 
 // Get videos from cache
 const allVideos = getYouTubeVideos();
 
-// Get search query and current page from URL parameters
-const searchQuery = Astro.url.searchParams.get('search')?.toLowerCase() || '';
-const currentPage = parseInt(Astro.url.searchParams.get('page') || '1');
+// Initial values will be handled client-side
+const searchQuery = '';
+const currentPage = 1;
 const itemsPerPage = 12;
 
-// Filter videos based on search query
-const filteredVideos = searchQuery
-  ? allVideos.filter(video => 
-      video.title.toLowerCase().includes(searchQuery) ||
-      video.description.toLowerCase().includes(searchQuery)
-    )
-  : allVideos;
-
-console.log("DEBUG: " + Astro.url.searchParams.get('search'));
-
-// Calculate pagination
-const totalPages = Math.ceil(filteredVideos.length / itemsPerPage);
-const startIndex = (currentPage - 1) * itemsPerPage;
-const endIndex = startIndex + itemsPerPage;
-const paginatedVideos = filteredVideos.slice(startIndex, endIndex);
-
-// Generate pagination range
-const generatePaginationRange = (current: number, total: number) => {
-  const range = [];
-  const maxPagesToShow = 5;
-  
-  if (total <= maxPagesToShow) {
-    return Array.from({ length: total }, (_, i) => i + 1);
-  }
-
-  let start = Math.max(1, current - 2);
-  let end = Math.min(total, start + maxPagesToShow - 1);
-
-  if (end - start < maxPagesToShow - 1) {
-    start = Math.max(1, end - maxPagesToShow + 1);
-  }
-
-  return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-};
-
-const paginationRange = generatePaginationRange(currentPage, totalPages);
+// Pass all videos to client-side
+const serializedVideos = JSON.stringify(allVideos);
 ---
 
 <BaseLayout
@@ -62,7 +27,6 @@ const paginationRange = generatePaginationRange(currentPage, totalPages);
     <main class="wrapper stack gap-8">
       <Hero
         title="YouTube Channel Videos"
-        tagline="Watch my latest mandolin performances and tutorials."
         align="center"
       />
 
@@ -71,140 +35,210 @@ const paginationRange = generatePaginationRange(currentPage, totalPages);
         <div class="search-form">
           <div class="search-wrapper">
             <input 
-              type="text" 
-              id="searchInput"
-              value={searchQuery}
-              placeholder="Search videos..."
-              class="search-input"
-              aria-label="Search videos"
+            type="text" 
+            id="searchInput"
+            value={searchQuery}
+            placeholder="Search videos..."
+            class="search-input"
+            aria-label="Search notes"
             />
+          </div>
+          <div class="search-button-wrapper">
             <button id="searchButton" class="search-button" aria-label="Search">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-              Search
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            Search
             </button>
-			<button id="clearButton" class="search-button" aria-label="Clear">
-				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFF" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
-				Clear
-			  </button>
+            <button id="clearButton" class="search-button" aria-label="Clear">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFF" viewBox="0 0 256 256">
+              <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
+            </svg>
+            Clear
+            </button>
           </div>
-        </div>
+        </div>	
 
-        {filteredVideos.length === 0 ? (
-          <p class="no-results">No videos found matching your search.</p>
-        ) : searchQuery && (
-          <p class="results-count">Found {filteredVideos.length} video{filteredVideos.length !== 1 ? 's' : ''}</p>
-        )}
-
-        <!-- Pagination -->
-        {totalPages > 1 && (
-          <div class="pagination">
-            <div class="pagination-controls">
-              {currentPage > 1 && (
-                <a 
-                  href={`?page=${currentPage - 1}${searchQuery ? `&search=${searchQuery}` : ''}`} 
-                  class="page-link"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M15 18l-6-6 6-6"/>
-                  </svg>
-                  Prev
-                </a>
-              )}
-              
-              <div class="page-numbers">
-                {paginationRange.map(pageNum => (
-                  <a
-                    href={`?page=${pageNum}${searchQuery ? `&search=${searchQuery}` : ''}`}
-                    class={`page-number ${pageNum === currentPage ? 'active' : ''}`}
-                    aria-current={pageNum === currentPage ? 'page' : undefined}
-                  >
-                    {pageNum}
-                  </a>
-                ))}
-              </div>
-
-              {currentPage < totalPages && (
-                <a 
-                  href={`?page=${currentPage + 1}${searchQuery ? `&search=${searchQuery}` : ''}`} 
-                  class="page-link"
-                >
-                  Next
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M9 18l6-6-6-6"/>
-                  </svg>
-                </a>
-              )}
-            </div>
-          </div>
-        )}
+        <p class="no-results" style="display: none;">No videos found matching your search.</p>
+        <p class="results-count" style="display: none;"></p>
       </div>
 
-      <Grid>
-        {
-          paginatedVideos.map((video) => (
-            <li class="video-card">
-              <div class="video-wrapper">
-                <YouTube
-                  id={video.id}
-                  poster={video.thumbnail}
-                  playlabel={video.title}
-                />
-              </div>
-              <div class="content">
-                <h3 class="video-title">{video.title}</h3>
-                <p class="video-date">
-                  {video.publishDate.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </p>
-              </div>
-            </li>
-          ))
-        }
-      </Grid>
+      <!-- Pagination controls at the top -->
+      <div class="pagination">
+        <div id="paginationContainer"></div>
+      </div>
+
+      <!-- Videos grid -->
+      <div id="gridContainer">
+        <Grid id="videoContainer">
+          <!-- Videos will be inserted here by JavaScript -->
+        </Grid>
+      </div>
+
+      <!-- Pagination controls at the top -->
+      <div class="pagination">
+        <div id="paginationContainerBottom"></div>
+      </div>
     </main>
     <ContactCTA />
   </div>
 </BaseLayout>
-
-<script>
-  // Client-side search handling
+<script is:inline src="/js/lite-yt-embed.js"></script>
+<script define:vars={{ serializedVideos, itemsPerPage }}>
+  // Client-side search and pagination handling
   document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('searchInput') as HTMLInputElement;
+    const allVideos = JSON.parse(serializedVideos);
+    const searchInput = document.getElementById('searchInput');
     const searchButton = document.getElementById('searchButton');
-	const clearButton = document.getElementById('clearButton');
+    const clearButton = document.getElementById('clearButton');
+    const videoContainer = document.getElementById('videoContainer');
+    const paginationContainer = document.getElementById('paginationContainer');
+    const paginationContainerBottom = document.getElementById('paginationContainerBottom');
+    const resultsCount = document.querySelector('.results-count');
+    const noResults = document.querySelector('.no-results');
+    let currentPage = 1;
 
-    // Function to handle search
-    function handleSearch() {
-      const searchQuery = searchInput.value.trim();
-      const currentUrl = new URL(window.location.href);
-      
-      if (searchQuery) {
-        currentUrl.searchParams.set('search', searchQuery);
-        // Reset to first page when searching
-        currentUrl.searchParams.set('page', '1');
-      } else {
-        currentUrl.searchParams.delete('search');
-        currentUrl.searchParams.delete('page');
+    // Generate pagination range
+    function generatePaginationRange(current, total) {
+      const maxPagesToShow = 5;
+      if (total <= maxPagesToShow) {
+        return Array.from({ length: total }, (_, i) => i + 1);
       }
-      
-      window.location.href = currentUrl.toString();
+      let start = Math.max(1, current - 2);
+      let end = Math.min(total, start + maxPagesToShow - 1);
+      if (end - start < maxPagesToShow - 1) {
+        start = Math.max(1, end - maxPagesToShow + 1);
+      }
+      return Array.from({ length: end - start + 1 }, (_, i) => start + i);
     }
 
-    // Add event listeners
+    // Generate pagination HTML
+    function generatePaginationHTML(currentPage, totalPages) {
+      const range = generatePaginationRange(currentPage, totalPages);
+      let html = '<div class="pagination-controls">';
+      
+      // Always show Prev button, but disable if on first page
+      html += `<a href="#" class="page-link ${currentPage === 1 ? 'disabled' : ''}" data-page="${currentPage - 1}" ${currentPage === 1 ? 'aria-disabled="true"' : ''}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+        <span>Prev</span>
+      </a>`;
+      
+      html += '<div class="page-numbers">';
+      range.forEach(page => {
+        html += `<a href="#" class="page-number ${page === currentPage ? 'active' : ''}" data-page="${page}" ${page === currentPage ? 'aria-current="page"' : ''}>${page}</a>`;
+      });
+      html += '</div>';
+      
+      // Always show Next button, but disable if on last page
+      html += `<a href="#" class="page-link ${currentPage === totalPages ? 'disabled' : ''}" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'aria-disabled="true"' : ''}>
+        <span>Next</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </a>`;
+      
+      html += '</div>';
+      return html;
+    }
+
+    // Update video display
+    function updateDisplay(searchQuery = '') {
+      const filteredVideos = searchQuery
+        ? allVideos.filter(video =>
+            video.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            video.description.toLowerCase().includes(searchQuery.toLowerCase())
+          )
+        : allVideos;
+
+      const totalPages = Math.ceil(filteredVideos.length / itemsPerPage);
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const paginatedVideos = filteredVideos.slice(startIndex, endIndex);
+
+      // Update videos
+      videoContainer.innerHTML = paginatedVideos.map(video => `
+        <li class="video-card">
+          <div class="video-wrapper">
+            <lite-youtube videoid="${video.id}" playlabel="${video.title}"></lite-youtube>
+          </div>
+          <div class="content">
+            <h3 class="video-title">${video.title}</h3>
+            <p class="video-date">
+              ${new Date(video.publishDate).toLocaleDateString('en-GB', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </p>
+          </div>
+        </li>
+      `).join('');
+
+      // Update pagination
+      if (paginationContainer) {
+        const paginationHTML = generatePaginationHTML(currentPage, totalPages);
+        paginationContainer.innerHTML = paginationHTML;
+        attachPaginationListeners();
+      }
+      if (paginationContainerBottom) {
+        const paginationHTML = generatePaginationHTML(currentPage, totalPages);
+        paginationContainerBottom.innerHTML = paginationHTML;
+        attachPaginationListeners();
+      }
+      // Update results count
+      if (resultsCount && noResults) {
+        if (filteredVideos.length === 0) {
+          noResults.style.display = 'block';
+          resultsCount.style.display = 'none';
+        } else if (searchQuery) {
+          noResults.style.display = 'none';
+          resultsCount.style.display = 'block';
+          resultsCount.textContent = `Found ${filteredVideos.length} video${filteredVideos.length !== 1 ? 's' : ''}`;
+        } else {
+          noResults.style.display = 'none';
+          resultsCount.style.display = 'none';
+        }
+      }
+    }
+
+    // Attach pagination listeners
+    function attachPaginationListeners() {
+      // Remove existing listeners first to prevent duplicates
+      document.querySelectorAll('.page-link, .page-number').forEach(button => {
+        button.replaceWith(button.cloneNode(true));
+      });
+      
+      // Add new listeners
+      document.querySelectorAll('.page-link:not(.disabled), .page-number:not(.active)').forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.preventDefault();
+          const newPage = parseInt(button.getAttribute('data-page'));
+          if (newPage !== currentPage) {
+            currentPage = newPage;
+            updateDisplay(searchInput.value.trim());
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        });
+      });
+    }
+
+    // Search handlers
+    function handleSearch() {
+      currentPage = 1; // Reset to first page
+      updateDisplay(searchInput.value.trim());
+    }
+
     searchButton?.addEventListener('click', (e) => {
       e.preventDefault();
       handleSearch();
     });
 
-	clearButton?.addEventListener('click', (e) => {
+    clearButton?.addEventListener('click', (e) => {
       e.preventDefault();
-	  searchInput.value = "";
+      searchInput.value = '';
       handleSearch();
     });
 
@@ -214,210 +248,8 @@ const paginationRange = generatePaginationRange(currentPage, totalPages);
         handleSearch();
       }
     });
+
+    // Initialize display
+    updateDisplay();
   });
 </script>
-
-<style>
-  .video-card {
-    position: relative;
-    background: var(--gray-999);
-    border-radius: 1rem;
-    overflow: hidden;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-      0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    border: 1px solid var(--gray-800);
-  }
-
-  .video-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-      0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  }
-
-  .video-wrapper {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background: var(--gray-999);
-  }
-
-  .content {
-    padding: 1.5rem;
-    background: var(--gray-999);
-  }
-
-  .video-title {
-    margin: 0 0 0.5rem;
-    font-size: var(--text-lg);
-    font-weight: 600;
-    color: var(--gray-0);
-    line-height: 1.3;
-  }
-
-  .video-date {
-    color: var(--gray-300);
-    font-size: var(--text-sm);
-    margin: 0;
-  }
-
-  .controls {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    margin-bottom: 2rem;
-  }
-
-  .search-form {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .search-wrapper {
-    display: flex;
-    gap: 1rem;
-  }
-
-  .search-input {
-    flex: 1;
-    padding: 0.75rem 1.25rem;
-    border: 2px solid #EF6C00;
-    border-radius: 0.75rem;
-    background: var(--gray-999);
-    color: var(--gray-0);
-    font-size: 1rem;
-    transition: all 0.2s ease;
-  }
-
-  .search-input:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(239, 108, 0, 0.3);
-  }
-
-  .search-button {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    background: var(--gradient-accent-orange);
-    border: none;
-    border-radius: 0.75rem;
-	box-shadow: var(--shadow-md);
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-	/* Overlay for hover effects. */
-	.search-button::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		pointer-events: none;
-		transition: background-color var(--theme-transition);
-		mix-blend-mode: overlay;
-	}
-
-	.search-button:focus::after,
-	.search-button:hover::after {
-		background-color: hsla(var(--gray-999-basis), 0.3);
-	}
-
-  .no-results {
-    text-align: center;
-    color: var(--gray-300);
-    font-size: var(--text-lg);
-    margin: 2rem 0;
-  }
-
-  .results-count {
-    text-align: center;
-    color: var(--gray-300);
-    font-size: var(--text-md);
-    margin: 0;
-  }
-
-  .pagination {
-    display: flex;
-    justify-content: center;
-    margin: 2rem 0;
-  }
-
-  .pagination-controls {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-  }
-
-  .page-numbers {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-  }
-
-  .page-number {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 0.75rem;
-    background: var(--gray-800);
-    color: var(--gray-0);
-    text-decoration: none;
-    transition: all 0.2s ease;
-  }
-
-  .page-number:hover {
-    background: #EF6C00;
-    color: white;
-  }
-
-  .page-number.active {
-    background: #EF6C00;
-    color: white;
-    font-weight: 600;
-    pointer-events: none; /* Disable click on current page */
-  }
-
-  .page-link {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.25rem;
-    background: var(--gray-800);
-    border-radius: 0.75rem;
-    color: var(--gray-0);
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.2s ease;
-  }
-
-  .page-link:hover {
-    background: #EF6C00;
-	color: white;
-    transform: translateY(-1px);
-  }
-
-  .page-link:active {
-    transform: translateY(0);
-	color: white;
-  }
-
-  @media (max-width: 600px) {
-    .search-wrapper {
-      flex-direction: column;
-    }
-
-    .pagination-controls {
-      width: 100%;
-      justify-content: space-between;
-    }
-
-    .page-numbers {
-      display: none;
-    }
-  }
-</style>

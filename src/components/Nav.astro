@@ -8,6 +8,8 @@ const textLinks: { label: string; href: string }[] = [
 	{ label: 'Home', href: '/' },
 	{ label: 'Testimonials', href: '/testimonials/' },
 	{ label: 'Videos', href: '/video-lessons/' },
+	{ label: 'Notes', href: '/notes/' },
+	{ label: 'Tuner', href: '/tuner/' },
 	{ label: 'Contact', href: '/contact/' },
 	{ label: 'About', href: '/about/' },
 ];
@@ -29,7 +31,7 @@ const isCurrentPage = (href: string) => {
 <nav>
 	<div class="menu-header">
 		<a href="/" class="site-title">
-			<img src="/favicon.svg" width="40" height="40"/>
+			<img src="/favicon.svg" width="40" height="40" alt="Mandolin Icon"/>
 			Mandolin Balaji
 		</a>
 		<menu-button>
@@ -139,10 +141,10 @@ const isCurrentPage = (href: string) => {
 <style>
 	nav {
 		z-index: 9999;
-		position: relative;
+		/* position: relative; */
 		font-family: var(--font-brand);
 		font-weight: 500;
-		margin-bottom: 3.5rem;
+		/* margin-bottom: 1.5rem; */
 	}
 
 	.menu-header {
