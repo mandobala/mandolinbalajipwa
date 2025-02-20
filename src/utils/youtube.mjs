@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const VIDEOS_FILE = path.join(process.cwd(), 'src/data/youtube-videos.json');
+const VIDEOS_FILE = path.join(process.cwd(), 'src/content/data/youtube-videos.json');
 
 export async function fetchAndUpdateYouTubeVideos() {
   const YOUTUBE_API_KEY = 'AIzaSyC08asXz_XMuyLVEgzRxMU2BVJE43O45e8';
