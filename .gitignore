@@ -1,5 +1,12 @@
 # build output
 dist/
+.output
+.vercel
+.netlify
+.wrangler
+/.svelte-kit
+/build
+
 # generated types
 .astro/
 
@@ -17,8 +24,29 @@ pnpm-debug.log*
 .env
 .env.production
 
-# macOS-specific files
+# OS
 .DS_Store
+Thumbs.db
 
-# jetbrains setting folder
+# IDE
 .idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Firebase
+.firebase/
+.firebase/*.cache
+*.log
+firebase-debug.log
+ui-debug.log
+firebase-debug.*.log
+.runtimeconfig.json
+*.serviceaccount.json
+
+# Functions
+functions/lib
+functions/node_modules
+functions/.runtimeconfig.json
+functions/coverage
+functions/.nyc_output
