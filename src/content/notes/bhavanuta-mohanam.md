@@ -1,7 +1,7 @@
 ---
-title: Bhavanuta Na
-publishDate: 2019-12-01 00:00:00
-description: | 
+title: Bhavanuta Mohanam
+publishDate: 2025-02-20
+description: |
   Raagam: Mohanam
   Taalam: Aadi
   Composer: Tyaagaraaja
@@ -32,3 +32,4 @@ paravalEka saripOyinaTTADina baDalika dIra kamala sam
 ##### caraNam 3
 
 prabala jEsi nanu brOcEdavanu
+
