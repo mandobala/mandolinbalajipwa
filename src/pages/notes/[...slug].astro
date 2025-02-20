@@ -45,6 +45,16 @@ const { Content } = await render(entry);
         <div class="stack gap-10 content">
           <div class="content">
             <Content />
+            <div class="video-wrapper">
+              <iframe 
+                width="100%" 
+                height="100%" 
+                src={entry.data.youtubeUrl} 
+                title={entry.data.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+              </iframe>
+            </div>
           </div>
         </div>
       </main>

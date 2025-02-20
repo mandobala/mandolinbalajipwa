@@ -12,10 +12,13 @@ export const collections = {
 		}),
 	}),
 	notes: defineCollection({
+		// Load Markdown files in the src/content/notes directory.
+		loader: glob({ base: './src/content/notes', pattern: '**/*.md', }),
 		schema: z.object({
 		  title: z.string(),
 		  description: z.string(),
 		  publishDate: z.coerce.date(),
+		  youtubeUrl: z.string().optional(),
 		  tags: z.array(z.string()),
 		  // img: z.string().optional(),
 		  // img_alt: z.string().optional(),

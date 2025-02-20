@@ -5,6 +5,7 @@ description: |
   Raagam: Mohanam
   Taalam: Aadi
   Composer: Tyaagaraaja
+youtubeUrl: https://www.youtube.com/embed/XOX4qT1u8r4
 tags:
   - mohanam
   - bhavanuta
@@ -31,15 +32,3 @@ paravalEka saripOyinaTTADina baDalika dIra kamala sam
 ##### caraNam 3
 
 prabala jEsi nanu brOcEdavanu
-
-<div class="video-wrapper">
-  <iframe 
-    width="100%" 
-    height="100%" 
-    src="https://www.youtube.com/embed/XOX4qT1u8r4" 
-    title="Bhavanuta Mohanam"
-    frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-    allowfullscreen>
-  </iframe>
-</div>

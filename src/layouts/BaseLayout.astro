@@ -57,6 +57,7 @@ const { title, description } = Astro.props;
 	<script is:inline src="/js/pwa-install.bundle.js"></script>
     <pwa-install
 	  id="pwa-install"
+	  use-local-storage="true"
       install-description="Install as an app for the best experience"
       disable-screenshots="true"
       disable-screenshots-apple="true"
