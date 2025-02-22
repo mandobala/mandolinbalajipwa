@@ -1,7 +1,7 @@
 ---
 title: Jon, Mini Guitar, UK
-publishDate: 2025-02-21
+publishDate: 2025-02-22
 description: |
-  Having previously tried to teach myself Carnatic music without much success, I have found Balaji’s lessons to be invaluable. Exercises and Songs are taught in a way that I can follow without too much difficulty.
+  Having previously tried to teach myself Carnatic music without much success, I have found Balaji’s lessons to be invaluable. Exercises and songs are taught in a way that I can follow without too much difficulty.
 ---
 
