@@ -1,5 +1,5 @@
 /* notes.css */
-.notes-list {
+  .notes-list {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -307,7 +307,7 @@
     .note-tags {
       display: flex;
       gap: 0.5rem;
-      flex-wrap: nowrap;
+      /* flex-wrap: nowrap; */
     }
   
     .note-content {
