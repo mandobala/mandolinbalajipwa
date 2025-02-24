@@ -2,7 +2,7 @@
 title: Kanchadhalaya Dakshi
 publishDate: 2025-02-24
 description: |
-  Ragam: Kamalamanohari
+  Raagam: Kamalamanohari
   Taalam: Adhi
   Composer: Dikshithar
 youtubeUrl: https://www.youtube.com/embed/THTLx10uzyM
