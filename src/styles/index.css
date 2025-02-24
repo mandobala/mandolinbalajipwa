@@ -85,6 +85,10 @@
     font-size: var(--text-xl);
 }
 
+.section-header h4 {
+    font-size: var(--text-lg);
+}
+
 @media (min-width: 50em) {
     .section {
         grid-template-columns: repeat(4, 1fr);
@@ -102,7 +106,11 @@
     }
 
     .section-header h3 {
-        font-size: var(--text-4xl);
+        font-size: var(--text-2xl);
+    }
+
+    .section-header h4 {
+        font-size: var(--text-xl);
     }
 
     .with-cta .section-header {

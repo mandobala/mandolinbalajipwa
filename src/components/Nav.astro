@@ -32,7 +32,7 @@ const isCurrentPage = (href: string) => {
 	<div class="menu-header">
 		<a href="/" class="site-title">
 			<img src="/favicon.svg" width="40" height="40" alt="Mandolin Icon"/>
-			Mandolin Balaji
+			<span class="site-title-orange">Mandolin</span> Balaji
 		</a>
 		<menu-button>
 			<template>
@@ -161,6 +161,11 @@ const isCurrentPage = (href: string) => {
 		line-height: 1.1;
 		color: var(--gray-0);
 		text-decoration: none;
+		font-size: var(--text-lg);
+	}
+
+	.site-title-orange {
+		color: var(--accent-dark);
 	}
 
 	.menu-button {
@@ -276,7 +281,7 @@ const isCurrentPage = (href: string) => {
 		}
 
 		.site-title {
-			font-size: var(--text-lg);
+			font-size: var(--text-xl);
 		}
 
 		.menu-content {
