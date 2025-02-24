@@ -13,7 +13,7 @@ tags:
   - adhi
 ---
 
-##### Pallavi
+##### pallavi
 
 kanja daLAyatAkshi kAmAkshi
 kamalA manOhari tripura sundari

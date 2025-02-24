@@ -43,6 +43,7 @@ const { title, description } = Astro.props;
     />
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
 	<script is:inline src="/js/ios-pwa-splash.min.js"></script>
+	<script is:inline src="/js/pwa-install.bundle.js"></script>
   </head>
   <body>
     <div class="stack">
@@ -55,7 +56,6 @@ const { title, description } = Astro.props;
     </script>
     <ReloadPrompt />
     <CookieConsent />
-	<script is:inline src="/js/pwa-install.bundle.js"></script>
     <pwa-install
 	  id="pwa-install"
 	  use-local-storage="true"
