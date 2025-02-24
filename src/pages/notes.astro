@@ -68,8 +68,16 @@ const serializedNotes = JSON.stringify(allNotes.map(note => ({
 
         <!-- Tags Filter -->
         <div class="tags-filter">
-          <div class="tags-wrapper" id="tagsContainer">
-            <!-- Tags will be inserted here by JavaScript -->
+          <div class="tag-accordion">
+            <div class="tag-accordion-header">
+              <span class="tags-title">Tags</span>
+              <span class="icon">+</span>
+            </div>
+            <div class="tag-accordion-content">
+              <div class="tags-wrapper" id="tagsContainer">
+                <!-- Tags will be inserted here by JavaScript -->
+              </div>
+            </div>
           </div>
         </div>
 
@@ -111,17 +119,24 @@ const serializedNotes = JSON.stringify(allNotes.map(note => ({
     let currentPage = 1;
     let selectedTags = new Set();
 
+    const tagAccordion = document.querySelector('.tag-accordion');
+    const tagHeader = document.querySelector('.tag-accordion-header');
+    
+    tagHeader.addEventListener('click', function() {
+      tagAccordion.classList.toggle('active');
+    });
+
     // Initialize tags
     function initializeTags() {
       tagsContainer.innerHTML = allTags.map(tag => `
-        <button class="tag-button" data-tag="${tag}">
+        <button class="tag-item" data-tag="${tag}">
           ${tag}
           <span class="tag-count">${allNotes.filter(note => note.tags.includes(tag)).length}</span>
         </button>
       `).join('');
 
       // Add tag click listeners
-      document.querySelectorAll('.tag-button').forEach(button => {
+      document.querySelectorAll('.tag-item').forEach(button => {
         button.addEventListener('click', () => {
           const tag = button.dataset.tag;
           if (selectedTags.has(tag)) {
@@ -278,7 +293,7 @@ const serializedNotes = JSON.stringify(allNotes.map(note => ({
       e.preventDefault();
       searchInput.value = '';
       selectedTags.clear();
-      document.querySelectorAll('.tag-button').forEach(button => {
+      document.querySelectorAll('.tag-item').forEach(button => {
         button.classList.remove('selected');
       });
       handleSearch();

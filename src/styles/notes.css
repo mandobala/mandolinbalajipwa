@@ -168,19 +168,62 @@
       flex: 1;
     }
   }
-  
-  /* Tags filter */
+
   .tags-filter {
-    width: 100%;
+    border: 1px solid var(--gray-700);
+    border-radius: 0.75rem;
   }
   
+  .tag-accordion {
+    padding: 0.25rem;
+  }
+  
+  .tags-title {
+    color: var(--accent-dark);
+  }
+
+  .tag-accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: var(--text-md);
+    font-weight: 500;
+    padding: 0 1rem 0 1rem;
+  }
+  
+  .tag-accordion-header .icon {
+    color: #e78c2b;
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: transform 0.3s;
+  }
+  
+  .tag-accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  
+  .tag-accordion.active .tag-accordion-content {
+    max-height: 500px;
+  }
+  
+  .tag-accordion.active .icon {
+    transform: rotate(45deg);
+  }
+  
+  /* Tag styles */
   .tags-wrapper {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    overflow: scroll;
+    max-height: 15rem;
+    margin: 1rem;
   }
   
-  .tag-button {
+  .tag-item {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -193,30 +236,39 @@
     transition: all var(--theme-transition);
   }
   
-  .tag-button.selected {
-    background: var(--accent-regular);
-    border-color: var(--accent-dark);
+  .tag-item.selected {
+    background: var(--accent-dark);
+    border-color: var(--accent-light);
+    color: var(--accent-verylight);
   }
   
-  .tag-button:hover {
+  .tag-item:hover {
     background: var(--gray-700);
   }
   
-  .tag-button.selected:hover {
+  .tag-item.selected:hover {
     background: var(--accent-dark);
+    color: var(--accent-verylight);
   }
-  
+
   .tag-count {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 8px;
+    min-width: 24px;
+    height: 24px;
     background: var(--gray-700);
     padding: 0.125rem 0.375rem;
     border-radius: 0.25rem;
     font-size: var(--text-xs);
   }
-  
-  .tag-button.selected .tag-count {
-    background: var(--accent-dark);
+
+  .tag-item.selected .tag-count {
+    background: var(--accent-regular);
+    color: var(--accent-verylight);
   }
-  
+
   .pagination {
     display: flex;
     justify-content: center;
@@ -321,5 +373,18 @@
   
     .page-numbers {
       display: none;
+    }
+
+    .tags-filter {
+      border: 1px solid #EF6C00;
+      border-radius: 0.75rem;
+    }
+    
+    .tags-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      overflow: scroll;
+      max-height: 10rem;
     }
   }
