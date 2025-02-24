@@ -31,13 +31,24 @@ const { Content } = await render(entry);
             <a class="back-link" href="/notes/"><Icon icon="arrow-left" /> Notes</a>
             <Hero title={entry.data.title} align="start">
             <div class="description">
-              {entry.data.description.split("\n").map(line => <>{line}<br /></>)}
+              {entry.data.description.split("\n").map((line, index, array) => (
+              <>
+                {line.includes(':') ? (
+                  <>
+                    <strong>{line.split(':')[0]}:</strong>{line.split(':')[1]}
+                  </>
+                ) : (
+                  line
+                )}
+                {index < array.length - 1 && <br />}
+              </>
+            ))}
             </div>
             <div class="details">
-            <div class="tags">
-              {entry.data.tags.map((t) => <Pill>{t}</Pill>)}
+              <div class="tags">
+                {entry.data.tags.map((t) => <Pill>{t}</Pill>)}
+              </div>
             </div>
-          </div>
           </Hero>
         </div>
       </header>
