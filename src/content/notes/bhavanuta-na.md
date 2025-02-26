@@ -5,7 +5,7 @@ description: |
   Raagam: Mohanam
   Taalam: Aadi
   Composer: Tyaagaraaja
-  Arohanam: S ~R~ G~3~ P D~2~ S
+  Arohanam: S R~2~ G~3~ P D~2~ S
   Avarohanam: S D~2~ P G~3~ R~2~ S
 youtubeUrl: https://www.youtube.com/embed/XOX4qT1u8r4
 tags:
