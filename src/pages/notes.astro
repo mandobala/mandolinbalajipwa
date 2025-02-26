@@ -228,7 +228,7 @@ const serializedNotes = JSON.stringify(allNotes.map(note => ({
           <a href="/notes/${note.id}" class="note-link">
             <div class="note-content">
               <h3 class="note-title">${note.title}</h3>
-              <p class="note-description">${note.description}</p>
+              <p class="note-description">${note.description.replace(/(\w+)~(\w+)~/g, '$1<sub>$2</sub>')}</p>
               <div class="note-meta">
                 <div class="note-tags">
                   ${note.tags.map(tag => `<span class="note-tag">${tag}</span>`).join('')}

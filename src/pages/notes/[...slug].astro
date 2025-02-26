@@ -35,7 +35,7 @@ const { Content } = await render(entry);
               <>
                 {line.includes(':') ? (
                   <>
-                    <strong>{line.split(':')[0]}:</strong>{line.split(':')[1]}
+                    <strong>{line.split(':')[0]}:</strong><span set:html={line.split(':')[1].replace(/(\w+)~(\w+)~/g, '$1<sub>$2</sub>')}></span>
                   </>
                 ) : (
                   line
