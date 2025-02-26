@@ -31,14 +31,12 @@
   .note-title {
     font-size: var(--text-lg);
     font-weight: 600;
-    margin: 0 0 1rem;
     color: var(--gray-0);
   }
   
   .note-description {
     font-size: var(--text-md);
     line-height: 1.4;
-    margin: 0 0 1rem;
     white-space: pre-line;
   }
   
@@ -65,7 +63,7 @@
     background-color: var(--accent-regular);
     border-radius: 999rem;
     font-size: var(--text-sm);
-    line-height: 1.35;
+    line-height: 1;
     white-space: nowrap;
   }
   
@@ -170,7 +168,7 @@
   }
 
   .tags-filter {
-    border: 1px solid var(--gray-700);
+    border: 1px solid var(--accent-overlay);
     border-radius: 0.75rem;
   }
   
@@ -360,7 +358,6 @@
     .note-tags {
       display: flex;
       gap: 0.5rem;
-      /* flex-wrap: nowrap; */
     }
   
     .note-content {
