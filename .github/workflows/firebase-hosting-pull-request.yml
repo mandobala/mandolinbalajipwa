@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -19,7 +21,16 @@ jobs:
           node-version: '20'
           
       - name: Install dependencies
-        run: npm ci
+        run: |
+          set -e
+          npm ci || (
+            echo "\nERROR: 'npm ci' failed. This likely indicates package.json and package-lock.json are out of sync.\n"
+            echo "Run 'npm install' locally, commit the updated package-lock.json and re-run the PR.\n"
+            # Print diff if lockfile is changed after npm install
+            npm install --package-lock-only || true
+            git --no-pager diff -- package-lock.json || true
+            exit 1
+          )
         
       - name: Build
         run: npm run build
