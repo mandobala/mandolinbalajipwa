@@ -37,11 +37,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 							</svg>
 							Load Lyrics (LRC)
 						</label>
-						<input type="file" id="lyrics-file" accept=".lrc,text/plain" />
-					</div>
+					<input type="file" id="lyrics-file" accept=".lrc,text/plain" />
 				</div>
-
-				<div id="count-in-control" class="count-in-control hidden">
+				<button id="load-button" class="load-button" disabled>
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M5 12h14"/>
+						<path d="M12 5l7 7-7 7"/>
+					</svg>
+					Load
+				</button>
+			</div>				<div id="count-in-control" class="count-in-control hidden">
 					<label class="checkbox-label">
 						<input type="checkbox" id="count-in-enable" />
 						<span>Count-in:</span>
@@ -282,6 +287,36 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	.input-group input[type="file"]:hover {
 		border-color: var(--accent-regular);
+	}
+
+	.load-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		padding: 0.75rem 1.5rem;
+		background: var(--accent-regular);
+		color: var(--gray-0);
+		border: none;
+		border-radius: 0.5rem;
+		font-size: var(--text-base);
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.2s;
+		margin-top: 1rem;
+		width: 100%;
+	}
+
+	.load-button:hover:not(:disabled) {
+		background: var(--accent-dark);
+		transform: translateY(-2px);
+	}
+
+	.load-button:disabled {
+		background: var(--gray-800);
+		color: var(--gray-500);
+		cursor: not-allowed;
+		opacity: 0.6;
 	}
 
 	.audio-player {
@@ -723,6 +758,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	const audioFileInput = document.getElementById('audio-file') as HTMLInputElement;
 	const lyricsFileInput = document.getElementById('lyrics-file') as HTMLInputElement;
 	const fileInputsSection = document.getElementById('file-inputs') as HTMLDivElement;
+	const loadButton = document.getElementById('load-button') as HTMLButtonElement;
 	const audioPlayer = document.getElementById('audio-player') as HTMLDivElement;
 	const lyricsDisplay = document.getElementById('lyrics-display') as HTMLDivElement;
 	const playPauseBtn = document.getElementById('play-pause') as HTMLButtonElement;
@@ -791,22 +827,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					return;
 				}
 				
-				durationDisplay.textContent = formatTime(audio!.duration);
-				seekBar.max = audio!.duration.toString();
-				audioPlayer.classList.remove('hidden');
-				audioLoaded = true;
-				checkFilesLoaded();
-				// Create markers if lyrics are already loaded
-				if (lyrics.length > 0) {
-					createLyricMarkers();
-					// Jump to first lyric timestamp
-					if (lyrics[0].time > 0) {
-						audio!.currentTime = lyrics[0].time;
-					}
-				}
-			});
-
-			audio.addEventListener('timeupdate', updateProgress);
+			durationDisplay.textContent = formatTime(audio!.duration);
+			seekBar.max = audio!.duration.toString();
+			audioLoaded = true;
+			// Enable load button when audio is ready
+			loadButton.disabled = false;
+		});			audio.addEventListener('timeupdate', updateProgress);
 			audio.addEventListener('ended', () => {
 				playPauseBtn.querySelector('.play-icon')?.classList.remove('hidden');
 				playPauseBtn.querySelector('.pause-icon')?.classList.add('hidden');
@@ -857,17 +883,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				lyricsDisplay.classList.remove('hidden');
 				displayUpcomingLyrics();
 				lyricsLoaded = true;
-				checkFilesLoaded();
-				// Create markers immediately when lyrics are loaded
-				setTimeout(() => {
-					if (audio && audio.duration) {
-						createLyricMarkers();
-						// Jump to first lyric timestamp
-						if (lyrics[0].time > 0) {
-							audio!.currentTime = lyrics[0].time;
-						}
-					}
-				}, 100);
 			} catch (error) {
 				alert('Error reading lyrics file. Please ensure it is a valid text file.');
 				lyricsFileInput.value = '';
@@ -876,13 +891,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		}
 	});
 
-	// Check if both files are loaded to hide file inputs
-	function checkFilesLoaded() {
-		if (audioLoaded && lyricsLoaded) {
-			fileInputsSection.classList.add('collapsed');
-			countInControl.classList.remove('hidden');
+	// Load button handler - show player and controls
+	loadButton.addEventListener('click', () => {
+		if (!audioLoaded) return;
+		
+		// Show player
+		audioPlayer.classList.remove('hidden');
+		fileInputsSection.classList.add('collapsed');
+		countInControl.classList.remove('hidden');
+		
+		// Create markers if lyrics are loaded
+		if (lyrics.length > 0 && audio && audio.duration) {
+			createLyricMarkers();
+			// Jump to first lyric timestamp
+			if (lyrics[0].time > 0) {
+				audio.currentTime = lyrics[0].time;
+			}
 		}
-	}
+	});
 
 	// Count-in checkbox handler
 	countInEnable.addEventListener('change', () => {
