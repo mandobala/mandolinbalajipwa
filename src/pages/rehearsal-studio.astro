@@ -112,24 +112,50 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 								<path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
 							</svg>
 						</button>
-						<button id="stop" class="control-btn">
-							<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-								<rect x="6" y="6" width="12" height="12"/>
+					<button id="stop" class="control-btn">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+							<rect x="6" y="6" width="12" height="12"/>
+						</svg>
+					</button>
+					<div class="pitch-control">
+						<button id="pitch-down" class="control-btn-small" title="Lower pitch by half-step">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M19 12H5M12 19l-7-7 7-7"/>
 							</svg>
 						</button>
-						<div class="volume-control">
-							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-								<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-								<path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-								<path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+						<span id="pitch-display" class="control-display">0</span>
+						<button id="pitch-up" class="control-btn-small" title="Raise pitch by half-step">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M5 12h14M12 5l7 7-7 7"/>
 							</svg>
-							<input type="range" id="volume" min="0" max="100" value="80" />
-						</div>
+						</button>
+						<button id="pitch-reset" class="control-btn-tiny" title="Reset pitch">↺</button>
+					</div>
+					<div class="speed-control">
+						<button id="speed-down" class="control-btn-small" title="Slow down">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M12 5v14M5 12l7 7 7-7"/>
+							</svg>
+						</button>
+						<span id="speed-display" class="control-display">1.0x</span>
+						<button id="speed-up" class="control-btn-small" title="Speed up">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M12 19V5M5 12l7-7 7 7"/>
+							</svg>
+						</button>
+						<button id="speed-reset" class="control-btn-tiny" title="Reset speed">↺</button>
+					</div>
+					<div class="volume-control">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+							<path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+							<path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+						</svg>
+						<input type="range" id="volume" min="0" max="100" value="80" />
 					</div>
 				</div>
 			</div>
-
-		<div id="lyrics-display" class="lyrics-display hidden">
+		</div>		<div id="lyrics-display" class="lyrics-display hidden">
 			<div class="lyric-container">
 				<div class="lyric-indicator">
 					<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -547,6 +573,64 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		background: var(--accent-dark);
 	}
 
+	.pitch-control,
+	.speed-control {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem;
+		background: var(--gray-900);
+		border-radius: 0.5rem;
+	}
+
+	.control-btn-small {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		border: none;
+		border-radius: 0.375rem;
+		background: var(--gray-800);
+		color: var(--gray-0);
+		cursor: pointer;
+		transition: all 0.2s;
+	}
+
+	.control-btn-small:hover {
+		background: var(--accent-regular);
+		transform: scale(1.05);
+	}
+
+	.control-btn-tiny {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 28px;
+		height: 28px;
+		border: none;
+		border-radius: 0.375rem;
+		background: var(--gray-700);
+		color: var(--gray-300);
+		cursor: pointer;
+		transition: all 0.2s;
+		font-size: 1rem;
+	}
+
+	.control-btn-tiny:hover {
+		background: var(--gray-600);
+		color: var(--gray-0);
+	}
+
+	.control-display {
+		font-size: var(--text-sm);
+		font-weight: 600;
+		color: var(--accent-regular);
+		min-width: 2.5rem;
+		text-align: center;
+		font-variant-numeric: tabular-nums;
+	}
+
 	.volume-control {
 		display: flex;
 		align-items: center;
@@ -696,6 +780,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			height: 44px;
 		}
 
+		.pitch-control,
+		.speed-control {
+			gap: 0.375rem;
+			padding: 0.375rem;
+		}
+
+		.control-btn-small {
+			width: 32px;
+			height: 32px;
+		}
+
+		.control-btn-tiny {
+			width: 24px;
+			height: 24px;
+			font-size: 0.875rem;
+		}
+
 		.control-btn.primary {
 			width: 52px;
 			height: 52px;
@@ -754,6 +855,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	let loopEnd = 0;
 	let isDraggingLoop = false;
 	let currentDragHandle: 'start' | 'end' | null = null;
+	let pitchShift = 0; // in semitones
+	let playbackSpeed = 1.0;
+	let audioContext: AudioContext | null = null;
+	let sourceNode: MediaElementAudioSourceNode | null = null;
+	let pitchShifterNode: any = null;
 
 	const audioFileInput = document.getElementById('audio-file') as HTMLInputElement;
 	const lyricsFileInput = document.getElementById('lyrics-file') as HTMLInputElement;
@@ -778,6 +884,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	const loopStartHandle = document.getElementById('loop-start-handle') as HTMLDivElement;
 	const loopEndHandle = document.getElementById('loop-end-handle') as HTMLDivElement;
 	const loopArea = document.querySelector('.loop-area') as HTMLDivElement;
+	const pitchDownBtn = document.getElementById('pitch-down') as HTMLButtonElement;
+	const pitchUpBtn = document.getElementById('pitch-up') as HTMLButtonElement;
+	const pitchResetBtn = document.getElementById('pitch-reset') as HTMLButtonElement;
+	const pitchDisplay = document.getElementById('pitch-display') as HTMLSpanElement;
+	const speedDownBtn = document.getElementById('speed-down') as HTMLButtonElement;
+	const speedUpBtn = document.getElementById('speed-up') as HTMLButtonElement;
+	const speedResetBtn = document.getElementById('speed-reset') as HTMLButtonElement;
+	const speedDisplay = document.getElementById('speed-display') as HTMLSpanElement;
 
 	// Load audio file
 	audioFileInput.addEventListener('change', (e) => {
@@ -832,6 +946,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			audioLoaded = true;
 			// Enable load button when audio is ready
 			loadButton.disabled = false;
+			
+			// Initialize Web Audio API for pitch shifting
+			initializeAudioProcessing();
 		});			audio.addEventListener('timeupdate', updateProgress);
 			audio.addEventListener('ended', () => {
 				playPauseBtn.querySelector('.play-icon')?.classList.remove('hidden');
@@ -1300,6 +1417,89 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				marker.classList.remove('active');
 			}
 		});
+	}
+
+	// Initialize audio processing (not needed for basic playbackRate control)
+	function initializeAudioProcessing() {
+		// playbackRate is built into HTMLAudioElement, no Web Audio API needed
+		// Just ensure initial playbackRate is set
+		if (audio) {
+			audio.playbackRate = 1.0;
+		}
+	}
+
+	// Pitch control handlers
+	pitchDownBtn.addEventListener('click', () => {
+		if (pitchShift > -12) {
+			pitchShift -= 0.5;
+			updatePitchDisplay();
+			applyPitchShift();
+		}
+	});
+
+	pitchUpBtn.addEventListener('click', () => {
+		if (pitchShift < 12) {
+			pitchShift += 0.5;
+			updatePitchDisplay();
+			applyPitchShift();
+		}
+	});
+
+	pitchResetBtn.addEventListener('click', () => {
+		pitchShift = 0;
+		updatePitchDisplay();
+		applyPitchShift();
+	});
+
+	function updatePitchDisplay() {
+		const sign = pitchShift > 0 ? '+' : '';
+		pitchDisplay.textContent = `${sign}${pitchShift.toFixed(1)}`;
+	}
+
+	function applyPitchShift() {
+		if (!audio) return;
+		
+		// Pitch shift changes pitch without affecting speed
+		audio.preservesPitch = false; // Allow pitch to change with playback rate
+		const pitchRatio = Math.pow(2, pitchShift / 12);
+		audio.playbackRate = pitchRatio * playbackSpeed;
+		console.log(`Pitch shift: ${pitchShift} semitones, combined rate: ${(pitchRatio * playbackSpeed).toFixed(3)}`);
+	}
+
+	// Speed control handlers
+	speedDownBtn.addEventListener('click', () => {
+		if (playbackSpeed > 0.25) {
+			playbackSpeed = Math.max(0.25, playbackSpeed - 0.1);
+			updateSpeedDisplay();
+			applySpeed();
+		}
+	});
+
+	speedUpBtn.addEventListener('click', () => {
+		if (playbackSpeed < 2.0) {
+			playbackSpeed = Math.min(2.0, playbackSpeed + 0.1);
+			updateSpeedDisplay();
+			applySpeed();
+		}
+	});
+
+	speedResetBtn.addEventListener('click', () => {
+		playbackSpeed = 1.0;
+		updateSpeedDisplay();
+		applySpeed();
+	});
+
+	function updateSpeedDisplay() {
+		speedDisplay.textContent = `${playbackSpeed.toFixed(1)}x`;
+	}
+
+	function applySpeed() {
+		if (!audio) return;
+		
+		// Speed control changes tempo WITHOUT changing pitch
+		audio.preservesPitch = true; // Keep original pitch while changing speed
+		audio.playbackRate = playbackSpeed;
+		console.log(`Playback speed set to: ${playbackSpeed}x (pitch preserved)`);
 	}
 
 	function formatTime(seconds: number): string {
