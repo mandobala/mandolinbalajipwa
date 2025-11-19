@@ -1,0 +1,34 @@
+name: "Verify package-lock sync"
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  lockfile:
+    name: Check package-lock.json consistency
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies using lockfile
+        run: npm ci
+
+      - name: Ensure lockfile in sync with package.json
+        run: |
+          npm install --package-lock-only
+          # If installing updates the lockfile, diff will show changes and cause the job to fail.
+          git diff --exit-code -- package-lock.json || (echo "package-lock.json is out-of-date — run 'npm install' and commit the updated lockfile" && exit 1)
+
+      - name: Double-check with npm ci
+        run: npm ci
