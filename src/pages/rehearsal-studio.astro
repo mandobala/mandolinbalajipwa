@@ -66,13 +66,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 						<path d="M21 13v2a4 4 0 0 1-4 4H3"/>
 					</svg>
 				</label>
-				<button id="download-lrc" class="download-lrc-btn" title="Download LRC with metadata" style="margin-left: auto;">
-					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-						<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-						<polyline points="7 10 12 15 17 10"></polyline>
-						<line x1="12" y1="15" x2="12" y2="3"></line>
-					</svg>
-				</button>
 			</div>				<div id="audio-player" class="audio-player hidden">
 					<div class="waveform-container">
 						<div class="playhead-indicator">
@@ -865,8 +858,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	let audioContext: AudioContext | null = null;
 	let sourceNode: MediaElementAudioSourceNode | null = null;
 	let pitchShifterNode: any = null;
-	let audioFileName = '';
-	let audioLoadDate = '';
 
 	const audioFileInput = document.getElementById('audio-file') as HTMLInputElement;
 	const lyricsFileInput = document.getElementById('lyrics-file') as HTMLInputElement;
@@ -1260,51 +1251,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		}
 		
 		return parsed.sort((a, b) => a.time - b.time);
-	}
-
-	// Generate LRC content with metadata
-	function generateLRC(): string {
-		let lrcContent = '';
-		
-		// Add metadata
-		lrcContent += `[ti:${audioFileName}]\n`;
-		lrcContent += `[by:Mandolin Balaji Rehearsal Studio]\n`;
-		lrcContent += `[created:${audioLoadDate}]\n`;
-		lrcContent += '\n';
-		
-		// Add timestamps
-		for (const lyric of lyrics) {
-			const minutes = Math.floor(lyric.time / 60);
-			const seconds = Math.floor(lyric.time % 60);
-			const centiseconds = Math.floor((lyric.time % 1) * 100);
-			
-			const timestamp = `[${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}]`;
-			const text = lyric.text === 'No Lyrics' ? '' : lyric.text;
-			lrcContent += `${timestamp}${text}\n`;
-		}
-		
-		return lrcContent;
-	}
-
-	// Download LRC file with metadata
-	function downloadLRC() {
-		if (lyrics.length === 0 || !audioFileName) {
-			alert('Please load an audio file and lyrics first.');
-			return;
-		}
-		
-		const lrcContent = generateLRC();
-		const blob = new Blob([lrcContent], { type: 'text/plain' });
-		const url = URL.createObjectURL(blob);
-		
-		const a = document.createElement('a');
-		a.href = url;
-		const baseName = audioFileName.replace(/\.[^.]+$/, '');
-		a.download = `${baseName}.lrc`;
-		a.click();
-		
-		URL.revokeObjectURL(url);
-		console.log('Downloaded LRC file with metadata:', audioFileName, audioLoadDate);
 	}
 
 	// Create click sound for count-in
