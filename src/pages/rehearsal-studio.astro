@@ -864,6 +864,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	let toneGain: Tone.Gain | null = null;
 	let isUsingTone = false;
 	let rafId: number = 0;
+	let lastSeekTime = 0; // Track actual playback position
+	let playbackStartTime = 0; // Track when playback started
 	
 	let wasPlayingBeforeSeek = false;
 
@@ -1051,18 +1053,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		loopEnabled = loopEnable.checked;
 		if (loopEnabled) {
 			loopTrack.classList.remove('hidden');
-			if (audio && audio.duration) {
+			const duration = isUsingTone && tonePlayer ? tonePlayer.buffer.duration : (audio ? audio.duration : 0);
+			if (duration) {
 				// Initialize loop points - start at first lyric or beginning, end at last lyric or end
 				if (lyrics.length > 0) {
 					loopStart = lyrics[0].time;
-					loopEnd = lyrics[lyrics.length - 1].time || audio.duration;
+					loopEnd = lyrics[lyrics.length - 1].time || duration;
 				} else {
 					loopStart = 0;
-					loopEnd = audio.duration;
+					loopEnd = duration;
 				}
 				updateLoopVisuals();
-				// Jump to loop start
-				audio.currentTime = loopStart;
+				// Don't jump to loop start - continue playing from current position
+				// Loop will trigger when playhead reaches loop end
 			}
 		} else {
 			loopTrack.classList.add('hidden');
@@ -1355,6 +1358,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		if (isUsingTone && tonePlayer) {
 			stopBufferSource();
 			tonePlayer.seek(firstMarkerTime);
+			lastSeekTime = firstMarkerTime;
+			playbackStartTime = Tone.now();
 		} else {
 			audio.pause();
 			audio.currentTime = firstMarkerTime;
@@ -1377,6 +1382,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				stopBufferSource();
 			}
 			tonePlayer.seek(newTime);
+			lastSeekTime = newTime;
+			playbackStartTime = Tone.now();
 			if (wasPlaying) {
 				playBufferSource(newTime);
 			}
@@ -1662,17 +1669,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		if (!tonePlayer || !isUsingTone) return;
 		
 		try {
-			// Stop if playing
+			// Stop immediately (with 0 fade time) if already playing
 			if (tonePlayer.state === 'started') {
-				tonePlayer.stop();
+				tonePlayer.stop(0);
 			}
+			
+			// Cancel any pending sync loops
+			cancelAnimationFrame(rafId);
 			
 			// Seek to offset and start
 			tonePlayer.seek(offset);
+			lastSeekTime = offset;
+			playbackStartTime = Tone.now();
 			tonePlayer.start();
 			
 			// Start UI sync loop
-			cancelAnimationFrame(rafId);
 			rafId = requestAnimationFrame(syncBufferToUI);
 			
 			console.log(`Tone.js playback started at ${offset}s with speed ${playbackSpeed}x and pitch ${pitchShift} semitones (independent)`);
@@ -1686,7 +1697,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		
 		try {
 			if (tonePlayer.state === 'started') {
-				tonePlayer.stop();
+				tonePlayer.stop(0); // Stop immediately with 0 fade
 			}
 			cancelAnimationFrame(rafId);
 		} catch (e) {
@@ -1697,9 +1708,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	function getCurrentBufferTime(): number {
 		if (!tonePlayer || !isUsingTone) return 0;
 		
-		// Tone.js handles timing internally with playbackRate
-		// No need to manually calculate - just get immediate property
-		return tonePlayer.immediate();
+		// Calculate actual playback time based on seek position and elapsed time
+		if (tonePlayer.state === 'started') {
+			const elapsedTime = (Tone.now() - playbackStartTime) * playbackSpeed;
+			return lastSeekTime + elapsedTime;
+		}
+		return lastSeekTime;
 	}
 
 	// Sync Tone.js playback to UI
@@ -1723,9 +1737,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		}
 		
 		// Handle loop
-		if (loopEnabled && currentTime >= loopEnd) {
-			stopBufferSource();
-			playBufferSource(loopStart);
+		if (loopEnabled && loopEnd > 0 && currentTime >= loopEnd) {
+			console.log(`Looping: ${currentTime.toFixed(2)}s >= ${loopEnd.toFixed(2)}s, jumping to ${loopStart.toFixed(2)}s`);
+			// Just seek to loop start - player continues
+			tonePlayer.seek(loopStart);
+			lastSeekTime = loopStart;
+			playbackStartTime = Tone.now();
 		}
 		
 		// Update lyrics
