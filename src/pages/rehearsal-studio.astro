@@ -842,6 +842,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </style>
 
 <script>
+	import * as Tone from 'tone';
+	
 	let audio: HTMLAudioElement | null = null;
 	let lyrics: Array<{ time: number; text: string }> = [];
 	let currentLyricIndex = -1;
@@ -855,9 +857,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	let currentDragHandle: 'start' | 'end' | null = null;
 	let pitchShift = 0; // in semitones
 	let playbackSpeed = 1.0;
-	let audioContext: AudioContext | null = null;
-	let sourceNode: MediaElementAudioSourceNode | null = null;
-	let pitchShifterNode: any = null;
+	
+	// Tone.js nodes for independent pitch and speed
+	let tonePlayer: Tone.Player | null = null;
+	let pitchShifter: Tone.PitchShift | null = null;
+	let toneGain: Tone.Gain | null = null;
+	let isUsingTone = false;
+	let rafId: number = 0;
+	
+	let wasPlayingBeforeSeek = false;
 
 	const audioFileInput = document.getElementById('audio-file') as HTMLInputElement;
 	const lyricsFileInput = document.getElementById('lyrics-file') as HTMLInputElement;
@@ -1279,17 +1287,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	playPauseBtn.addEventListener('click', async () => {
 		if (!audio) return;
 		
-		if (audio.paused) {
+		const isPaused = isUsingTone ? (tonePlayer?.state !== 'started') : audio.paused;
+		
+		if (isPaused) {
 			// Check if count-in is enabled and we're at/before the first lyric
-			const isAtStart = lyrics.length > 0 ? audio.currentTime <= lyrics[0].time : audio.currentTime === 0;
+			const currentTime = isUsingTone ? getCurrentBufferTime() : audio.currentTime;
+			const isAtStart = lyrics.length > 0 ? currentTime <= lyrics[0].time : currentTime === 0;
 			
 			if (countInEnable.checked && isAtStart && lyrics.length > 0) {
 				const beatsCount = parseInt(countInBeatsSelect.value);
-				
-				// Jump to first lyric position if not already there
-				if (lyrics[0].time > 0) {
-					audio.currentTime = lyrics[0].time;
-				}
 				
 				// Display count-in beats with click sound
 				for (let i = 1; i <= beatsCount; i++) {
@@ -1307,16 +1313,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				currentLyricDisplay.style.color = '';
 				currentLyricDisplay.textContent = '';
 				
-				audio.play();
+				const startTime = lyrics[0].time > 0 ? lyrics[0].time : 0;
+				if (isUsingTone) {
+					playBufferSource(startTime);
+				} else {
+					audio.currentTime = startTime;
+					audio.play();
+				}
 				playPauseBtn.querySelector('.play-icon')?.classList.add('hidden');
 				playPauseBtn.querySelector('.pause-icon')?.classList.remove('hidden');
 			} else {
-				audio.play();
+				if (isUsingTone) {
+					playBufferSource(getCurrentBufferTime());
+				} else {
+					audio.play();
+				}
 				playPauseBtn.querySelector('.play-icon')?.classList.add('hidden');
 				playPauseBtn.querySelector('.pause-icon')?.classList.remove('hidden');
 			}
 		} else {
-			audio.pause();
+			if (isUsingTone) {
+				stopBufferSource();
+			} else {
+				audio.pause();
+			}
 			playPauseBtn.querySelector('.play-icon')?.classList.remove('hidden');
 			playPauseBtn.querySelector('.pause-icon')?.classList.add('hidden');
 		}
@@ -1325,8 +1345,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	// Stop control
 	stopBtn.addEventListener('click', () => {
 		if (!audio) return;
-		audio.pause();
-		audio.currentTime = 0;
+		
+		// Find first marker or go to start
+		const sortedMarkers = lyrics
+			.map(l => l.time)
+			.sort((a, b) => a - b);
+		const firstMarkerTime = sortedMarkers.length > 0 ? sortedMarkers[0] : 0;
+		
+		if (isUsingTone && tonePlayer) {
+			stopBufferSource();
+			tonePlayer.seek(firstMarkerTime);
+		} else {
+			audio.pause();
+			audio.currentTime = firstMarkerTime;
+		}
 		
 		playPauseBtn.querySelector('.play-icon')?.classList.remove('hidden');
 		playPauseBtn.querySelector('.pause-icon')?.classList.add('hidden');
@@ -1337,13 +1369,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	// Seek control
 	seekBar.addEventListener('input', () => {
 		if (!audio) return;
-		audio.currentTime = parseFloat(seekBar.value);
+		const newTime = parseFloat(seekBar.value);
+		
+		if (isUsingTone && tonePlayer) {
+			const wasPlaying = tonePlayer.state === 'started';
+			if (wasPlaying) {
+				stopBufferSource();
+			}
+			tonePlayer.seek(newTime);
+			if (wasPlaying) {
+				playBufferSource(newTime);
+			}
+		} else {
+			audio.currentTime = newTime;
+		}
 	});
 
 	// Volume control
 	volumeControl.addEventListener('input', () => {
-		if (!audio) return;
-		audio.volume = parseInt(volumeControl.value) / 100;
+		const volume = parseInt(volumeControl.value) / 100;
+		
+		if (toneGain) {
+			toneGain.gain.value = volume;
+		}
+		if (audio) {
+			audio.volume = volume;
+		}
 	});
 
 	// Update progress and lyrics
@@ -1460,11 +1511,45 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	}
 
 	// Initialize audio processing (not needed for basic playbackRate control)
-	function initializeAudioProcessing() {
-		// playbackRate is built into HTMLAudioElement, no Web Audio API needed
-		// Just ensure initial playbackRate is set
-		if (audio) {
-			audio.playbackRate = 1.0;
+	async function initializeAudioProcessing() {
+		if (!audio) return;
+		
+		try {
+			// Start Tone.js audio context
+			await Tone.start();
+			
+			// Create Tone.js Player
+			tonePlayer = new Tone.Player({
+				url: audio.src,
+				loop: false,
+				autostart: false
+			}).toDestination();
+			
+			// Wait for player to load
+			await Tone.loaded();
+			
+			// Create pitch shifter (independent of speed)
+			pitchShifter = new Tone.PitchShift(pitchShift);
+			
+			// Create gain node
+			toneGain = new Tone.Gain(parseInt(volumeControl.value) / 100);
+			
+			// Connect: Player -> PitchShift -> Gain -> Destination
+			tonePlayer.disconnect();
+			tonePlayer.chain(pitchShifter, toneGain, Tone.Destination);
+			
+			// Set initial playback rate for speed
+			tonePlayer.playbackRate = playbackSpeed;
+			
+			isUsingTone = true;
+			console.log('Tone.js initialized - independent pitch/speed control enabled');
+			
+		} catch (error) {
+			console.error('Tone.js initialization failed:', error);
+			isUsingTone = false;
+			// Fallback to HTML5 audio
+			audio.playbackRate = playbackSpeed;
+			audio.preservesPitch = true;
 		}
 	}
 
@@ -1499,11 +1584,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	function applyPitchShift() {
 		if (!audio) return;
 		
-		// Pitch shift changes pitch without affecting speed
-		audio.preservesPitch = false; // Allow pitch to change with playback rate
-		const pitchRatio = Math.pow(2, pitchShift / 12);
-		audio.playbackRate = pitchRatio * playbackSpeed;
-		console.log(`Pitch shift: ${pitchShift} semitones, combined rate: ${(pitchRatio * playbackSpeed).toFixed(3)}`);
+		if (isUsingTone && pitchShifter && tonePlayer) {
+			// Compensate for pitch change caused by playbackRate
+			const playbackPitchShift = 12 * Math.log2(playbackSpeed);
+			const compensatedPitch = pitchShift - playbackPitchShift;
+			pitchShifter.pitch = compensatedPitch;
+			console.log(`Pitch: ${pitchShift} semitones (compensated: ${compensatedPitch.toFixed(2)} for speed ${playbackSpeed}x)`);
+		} else {
+			// Fallback to HTML5 audio (pitch affects speed)
+			if (pitchShift === 0) {
+				audio.preservesPitch = true;
+				audio.playbackRate = playbackSpeed;
+			} else {
+				const pitchRatio = Math.pow(2, pitchShift / 12);
+				audio.preservesPitch = false;
+				audio.playbackRate = pitchRatio;
+				console.log(`Pitch: ${pitchShift} semitones (fallback - affects tempo)`);
+			}
+		}
 	}
 
 	// Speed control handlers
@@ -1536,10 +1634,108 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	function applySpeed() {
 		if (!audio) return;
 		
-		// Speed control changes tempo WITHOUT changing pitch
-		audio.preservesPitch = true; // Keep original pitch while changing speed
-		audio.playbackRate = playbackSpeed;
-		console.log(`Playback speed set to: ${playbackSpeed}x (pitch preserved)`);
+		if (isUsingTone && tonePlayer && pitchShifter) {
+			// Tone.js: playbackRate affects pitch, so compensate
+			// Set playbackRate for speed
+			tonePlayer.playbackRate = playbackSpeed;
+			// Calculate pitch shift needed to compensate for playbackRate pitch change
+			// playbackRate changes pitch by: 12 * log2(playbackRate) semitones
+			const playbackPitchShift = 12 * Math.log2(playbackSpeed);
+			// Compensate by shifting pitch in opposite direction, then add user's desired pitch
+			const compensatedPitch = pitchShift - playbackPitchShift;
+			pitchShifter.pitch = compensatedPitch;
+			console.log(`Speed: ${playbackSpeed}x, Pitch: ${pitchShift} semitones (compensated: ${compensatedPitch.toFixed(2)})`);
+		} else {
+			// Fallback to HTML5 audio
+			if (pitchShift === 0) {
+				audio.preservesPitch = true;
+				audio.playbackRate = playbackSpeed;
+				console.log(`Speed: ${playbackSpeed}x (pitch preserved)`);
+			} else {
+				console.log(`Speed control limited when pitch active (fallback mode)`);
+			}
+		}
+	}
+
+	// Tone.js playback functions
+	function playBufferSource(offset: number = 0) {
+		if (!tonePlayer || !isUsingTone) return;
+		
+		try {
+			// Stop if playing
+			if (tonePlayer.state === 'started') {
+				tonePlayer.stop();
+			}
+			
+			// Seek to offset and start
+			tonePlayer.seek(offset);
+			tonePlayer.start();
+			
+			// Start UI sync loop
+			cancelAnimationFrame(rafId);
+			rafId = requestAnimationFrame(syncBufferToUI);
+			
+			console.log(`Tone.js playback started at ${offset}s with speed ${playbackSpeed}x and pitch ${pitchShift} semitones (independent)`);
+		} catch (e) {
+			console.error('Play error:', e);
+		}
+	}
+
+	function stopBufferSource() {
+		if (!tonePlayer || !isUsingTone) return;
+		
+		try {
+			if (tonePlayer.state === 'started') {
+				tonePlayer.stop();
+			}
+			cancelAnimationFrame(rafId);
+		} catch (e) {
+			console.error('Stop error:', e);
+		}
+	}
+
+	function getCurrentBufferTime(): number {
+		if (!tonePlayer || !isUsingTone) return 0;
+		
+		// Tone.js handles timing internally with playbackRate
+		// No need to manually calculate - just get immediate property
+		return tonePlayer.immediate();
+	}
+
+	// Sync Tone.js playback to UI
+	function syncBufferToUI() {
+		if (!isUsingTone || !tonePlayer) return;
+		
+		const currentTime = getCurrentBufferTime();
+		const duration = tonePlayer.buffer.duration;
+		
+		// Update UI elements
+		currentTimeDisplay.textContent = formatTime(currentTime);
+		seekBar.value = currentTime.toString();
+		
+		const progress = (currentTime / duration) * 100;
+		progressFill.style.width = `${progress}%`;
+		
+		// Update playhead indicator
+		const playheadIndicator = document.querySelector('.playhead-indicator') as HTMLElement;
+		if (playheadIndicator) {
+			playheadIndicator.style.left = `calc(${progress}% - 8px)`;
+		}
+		
+		// Handle loop
+		if (loopEnabled && currentTime >= loopEnd) {
+			stopBufferSource();
+			playBufferSource(loopStart);
+		}
+		
+		// Update lyrics
+		updateLyrics(currentTime);
+		updateMarkers(currentTime);
+		
+		// Continue syncing if playing
+		if (tonePlayer.state === 'started') {
+			rafId = requestAnimationFrame(syncBufferToUI);
+		}
 	}
 
 	function formatTime(seconds: number): string {
