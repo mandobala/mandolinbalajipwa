@@ -37,7 +37,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 							</svg>
 							Load Lyrics (LRC)
 						</label>
-					<input type="file" id="lyrics-file" accept=".lrc,text/plain" />
+					<input type="file" id="lyrics-file" accept=".lrc,.txt,text/plain,text/*,application/octet-stream" />
 				</div>
 				<button id="load-button" class="load-button" disabled>
 					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -958,10 +958,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	// Load lyrics file (LRC format)
 	lyricsFileInput.addEventListener('change', async (e) => {
 		const file = (e.target as HTMLInputElement).files?.[0];
+		console.log('Lyrics file input changed:', file);
 		if (file) {
+			console.log('File details:', file.name, file.size, file.type);
 			// Validate file type
 			const validLyricTypes = ['text/plain', 'application/octet-stream', ''];
 			const fileExtension = file.name.toLowerCase().split('.').pop();
+			console.log('File extension:', fileExtension);
 			
 			if (fileExtension !== 'lrc' && fileExtension !== 'txt') {
 				alert('Invalid lyrics file. Please select an LRC or TXT file.');
