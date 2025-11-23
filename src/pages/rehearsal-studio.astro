@@ -50,7 +50,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 							</svg>
 							Load Lyrics (LRC)
 						</label>
-					<input type="file" id="lyrics-file" accept=".lrc,.txt,text/plain,text/*,application/octet-stream" />
+						<div class="file-input-wrapper">
+							<input type="file" id="lyrics-file" accept=".lrc,.txt,text/plain,text/*,application/octet-stream" />
+							<button id="server-lyrics-download" class="server-download-btn hidden" title="Newer lyrics available on server">
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+									<path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+								</svg>
+							</button>
+						</div>
+					</div>
 				</div>
 					<button id="load-button" class="load-button" disabled>
 						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -353,6 +361,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		height: 16px;
 	}
 
+	.file-input-wrapper {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
 	.input-group input[type="file"] {
 		padding: 0.5rem;
 		background: var(--gray-900);
@@ -361,10 +376,40 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		color: var(--gray-200);
 		cursor: pointer;
 		font-size: var(--text-xs);
+		flex: 1;
 	}
 
 	.input-group input[type="file"]:hover {
 		border-color: var(--accent-regular);
+	}
+
+	.server-download-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 32px;
+		height: 32px;
+		background: var(--accent-regular);
+		border: none;
+		border-radius: 0.375rem;
+		color: var(--gray-0);
+		cursor: pointer;
+		transition: all 0.2s;
+		animation: pulse-download 2s ease-in-out infinite;
+	}
+
+	.server-download-btn:hover {
+		background: var(--accent-dark);
+		transform: translateY(-2px);
+	}
+
+	@keyframes pulse-download {
+		0%, 100% {
+			box-shadow: 0 0 0 0 rgba(var(--accent-regular-rgb), 0.7);
+		}
+		50% {
+			box-shadow: 0 0 0 8px rgba(var(--accent-regular-rgb), 0);
+		}
 	}
 
 	.load-button {
@@ -878,6 +923,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	const lyricsFileInput = document.getElementById('lyrics-file') as HTMLInputElement;
 	const fileInputsSection = document.getElementById('file-inputs') as HTMLDivElement;
 	const loadButton = document.getElementById('load-button') as HTMLButtonElement;
+	const serverLyricsDownloadBtn = document.getElementById('server-lyrics-download') as HTMLButtonElement;
+	
+	let currentAudioFileName = '';
+	let loadedLyricsTimestamp = 0;
+	let serverLyricsTimestamp = 0;
 	const audioPlayer = document.getElementById('audio-player') as HTMLDivElement;
 	const lyricsDisplay = document.getElementById('lyrics-display') as HTMLDivElement;
 	const playPauseBtn = document.getElementById('play-pause') as HTMLButtonElement;
@@ -936,6 +986,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			}
 			audio = new Audio(url);
 			audio.volume = parseInt(volumeControl.value) / 100;
+			
+			// Store audio filename and check for server lyrics
+			currentAudioFileName = file.name.replace(/\.[^/.]+$/, ''); // Remove extension
+			checkServerLyrics();
 			
 			// Add error handler for corrupted/invalid audio files
 			audio.addEventListener('error', () => {
@@ -1016,12 +1070,98 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				lyricsDisplay.classList.remove('hidden');
 				displayUpcomingLyrics();
 				lyricsLoaded = true;
+				
+				// Set loaded lyrics timestamp from file's last modified date
+				loadedLyricsTimestamp = file.lastModified;
+				
+				// Check if server has newer version
+				checkServerLyrics();
 			} catch (error) {
 				alert('Error reading lyrics file. Please ensure it is a valid text file.');
 				lyricsFileInput.value = '';
 				console.error('Lyrics file error:', error);
 			}
 		}
+	});
+
+	// Check for server-side lyrics file
+	async function checkServerLyrics() {
+		if (!currentAudioFileName) return;
+		
+		const lrcUrl = `/lyrics/${encodeURIComponent(currentAudioFileName)}.lrc`;
+		
+		try {
+			const response = await fetch(lrcUrl, { method: 'HEAD' });
+			if (response.ok) {
+				// Get server file timestamp from Last-Modified header
+				const lastModified = response.headers.get('Last-Modified');
+				if (lastModified) {
+					serverLyricsTimestamp = new Date(lastModified).getTime();
+					
+					// Show download button if server version is newer or no lyrics loaded yet
+					if (serverLyricsTimestamp > loadedLyricsTimestamp || !lyricsLoaded) {
+						serverLyricsDownloadBtn.classList.remove('hidden');
+					} else {
+						serverLyricsDownloadBtn.classList.add('hidden');
+					}
+				}
+			} else {
+				serverLyricsDownloadBtn.classList.add('hidden');
+			}
+		} catch (error) {
+			console.log('No server lyrics found for:', currentAudioFileName);
+			serverLyricsDownloadBtn.classList.add('hidden');
+		}
+	}
+
+	// Download and load server lyrics
+	async function loadServerLyrics() {
+		if (!currentAudioFileName) return;
+		
+		const lrcUrl = `/lyrics/${encodeURIComponent(currentAudioFileName)}.lrc`;
+		
+		try {
+			const response = await fetch(lrcUrl);
+			if (!response.ok) {
+				throw new Error('Failed to fetch server lyrics');
+			}
+			
+			const text = await response.text();
+			const lastModified = response.headers.get('Last-Modified');
+			if (lastModified) {
+				loadedLyricsTimestamp = new Date(lastModified).getTime();
+			}
+			
+			// Parse and load lyrics
+			const parsedLyrics = parseLRC(text);
+			if (parsedLyrics.length === 0) {
+				alert('Server lyrics file is empty or invalid.');
+				return;
+			}
+			
+			lyrics = parsedLyrics;
+			lyricsDisplay.classList.remove('hidden');
+			displayUpcomingLyrics();
+			lyricsLoaded = true;
+			
+			// Hide download button
+			serverLyricsDownloadBtn.classList.add('hidden');
+			
+			// Create markers if audio is loaded
+			if (audio && audio.duration) {
+				createLyricMarkers();
+			}
+			
+			alert('Server lyrics loaded successfully!');
+		} catch (error) {
+			console.error('Error loading server lyrics:', error);
+			alert('Failed to load server lyrics. Please try loading manually.');
+		}
+	}
+
+	// Server lyrics download button handler
+	serverLyricsDownloadBtn.addEventListener('click', () => {
+		loadServerLyrics();
 	});
 
 	// Load button handler - show player and controls
