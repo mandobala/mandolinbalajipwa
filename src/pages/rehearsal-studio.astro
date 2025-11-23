@@ -24,9 +24,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		</div>
 
 		<!-- File Loading Section -->
-		<div id="file-inputs" class="file-inputs">
+		<div id="file-inputs-wrapper" class="file-inputs-wrapper">
 			<div class="controls-section">
-				<div id="file-inputs" class="file-inputs">
 					<div class="input-group">
 						<label for="audio-file">
 							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -59,15 +58,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 							</button>
 						</div>
 					</div>
-				</div>
-					<button id="load-button" class="load-button" disabled>
-						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-							<path d="M5 12h14"/>
-							<path d="M12 5l7 7-7 7"/>
-						</svg>
-						Load
-					</button>
-				</div>
+				<button id="load-button" class="load-button" disabled>
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M5 12h14"/>
+						<path d="M12 5l7 7-7 7"/>
+					</svg>
+					Load
+				</button>
 			</div>
 		</div>
 
@@ -266,6 +263,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		max-height: 40vh;
 	}
 
+	.file-inputs-wrapper {
+		flex: 0 0 auto;
+		background: #0a0a0a;
+		border-bottom: 1px solid #222;
+		transition: all 0.3s ease;
+	}
+
+	.file-inputs-wrapper.collapsed {
+		display: none;
+	}
+
 	.controls-section {
 		background: var(--gray-999);
 		border: 1px solid var(--gray-800);
@@ -278,11 +286,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
-		transition: all 0.3s ease;
-	}
-
-	.file-inputs.collapsed {
-		display: none;
 	}
 
 	.count-in-control {
@@ -921,7 +924,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	const audioFileInput = document.getElementById('audio-file') as HTMLInputElement;
 	const lyricsFileInput = document.getElementById('lyrics-file') as HTMLInputElement;
-	const fileInputsSection = document.getElementById('file-inputs') as HTMLDivElement;
+	const fileInputsSection = document.getElementById('file-inputs-wrapper') as HTMLDivElement;
 	const loadButton = document.getElementById('load-button') as HTMLButtonElement;
 	const serverLyricsDownloadBtn = document.getElementById('server-lyrics-download') as HTMLButtonElement;
 	
@@ -1098,11 +1101,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				if (lastModified) {
 					serverLyricsTimestamp = new Date(lastModified).getTime();
 					
-					// Show download button if server version is newer or no lyrics loaded yet
-					if (serverLyricsTimestamp > loadedLyricsTimestamp || !lyricsLoaded) {
+					// Show download button ONLY if server version is newer than loaded lyrics
+					if (lyricsLoaded && serverLyricsTimestamp > loadedLyricsTimestamp) {
 						serverLyricsDownloadBtn.classList.remove('hidden');
+						console.log('Server lyrics is newer:', new Date(serverLyricsTimestamp), 'vs local:', new Date(loadedLyricsTimestamp));
+					} else if (!lyricsLoaded) {
+						// If no lyrics loaded yet, show button as a convenience
+						serverLyricsDownloadBtn.classList.remove('hidden');
+						console.log('No lyrics loaded, server version available');
 					} else {
 						serverLyricsDownloadBtn.classList.add('hidden');
+						console.log('Local lyrics is current or newer');
 					}
 				}
 			} else {
