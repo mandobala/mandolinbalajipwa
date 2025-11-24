@@ -1251,14 +1251,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	async function checkServerNotation() {
 		if (!currentAudioFileName) return;
 		
-		const notationUrl = `/notation/${encodeURIComponent(currentAudioFileName)}.lrc`;
+		// Try .not extension first, then .lrc
+		const notExtensionUrl = `/notation/${encodeURIComponent(currentAudioFileName)}.not`;
+		const lrcExtensionUrl = `/notation/${encodeURIComponent(currentAudioFileName)}.lrc`;
 		
 		try {
-			const response = await fetch(notationUrl, { method: 'HEAD' });
+			// Check for .not file first
+			let response = await fetch(notExtensionUrl, { method: 'HEAD' });
 			if (response.ok) {
-				console.log('Server notation found for:', currentAudioFileName);
-				// Auto-load notation if available
-				loadServerNotation();
+				console.log('Server notation (.not) found for:', currentAudioFileName);
+				loadServerNotation(notExtensionUrl);
+				return;
+			}
+			
+			// Fall back to .lrc extension
+			response = await fetch(lrcExtensionUrl, { method: 'HEAD' });
+			if (response.ok) {
+				console.log('Server notation (.lrc) found for:', currentAudioFileName);
+				loadServerNotation(lrcExtensionUrl);
 			}
 		} catch (error) {
 			console.log('No server notation found for:', currentAudioFileName);
@@ -1266,10 +1276,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	}
 
 	// Download and load server notation
-	async function loadServerNotation() {
-		if (!currentAudioFileName) return;
-		
-		const notationUrl = `/notation/${encodeURIComponent(currentAudioFileName)}.lrc`;
+	async function loadServerNotation(notationUrl: string) {
+		if (!currentAudioFileName || !notationUrl) return;
 		
 		try {
 			const response = await fetch(notationUrl);
