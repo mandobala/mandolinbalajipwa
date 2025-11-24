@@ -1673,6 +1673,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			playbackStartTime = Tone.now();
 			if (wasPlaying) {
 				playBufferSource(newTime);
+			} else {
+				// Update UI when seeking while paused
+				currentTimeDisplay.textContent = formatTime(newTime);
+				const duration = tonePlayer.buffer.duration;
+				const progress = (newTime / duration) * 100;
+				progressFill.style.width = `${progress}%`;
+				updateLyrics(newTime);
+				updateNotation(newTime);
+				updateMarkers(newTime);
 			}
 		} else {
 			audio.currentTime = newTime;
