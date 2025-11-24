@@ -2,134 +2,201 @@
 
 ## Project Overview
 
-This is an Astro-based Progressive Web App (PWA) for Mandolin Balaji's portfolio, featuring carnatic music notes, testimonials, and video lessons. It's deployed to Firebase Hosting with automated CI/CD via GitHub Actions.
+Astro 5.x Progressive Web App for Mandolin Balaji's portfolio featuring carnatic music notations, testimonials, and video lessons. Deployed to Firebase Hosting with automated CI/CD.
 
-## Architecture & Key Technologies
+## Architecture
 
-- **Framework**: Astro 5.x with SSR adapter (`@astrojs/node` in standalone mode)
-- **Content Management**: Astro Content Collections with glob loaders for markdown files
-- **PWA**: `@vite-pwa/astro` with Workbox for offline support and service worker management
-- **Deployment**: Firebase Hosting with server region `europe-west1`
-- **Build Output**: `dist/client` for static assets (configured in `firebase.json`)
+**Framework**: Astro 5.x with Node adapter (`@astrojs/node` standalone mode)
+**Content**: Astro Content Collections using glob loaders for markdown files
+**PWA**: `@vite-pwa/astro` with Workbox service worker
+**Deployment**: Firebase Hosting (`europe-west1` region)
 
-### Critical PWA Setup
+### Critical Build Configuration
 
-The PWA configuration in `astro.config.mjs` is production-ready:
-- Service worker auto-updates on new deployments
-- 404.html fallback for offline navigation
-- Maximum cache file size: 5MB
-- Custom 512x512 maskable icons for Android
-
-### Content Collections Schema
-
-Two collections defined in `src/content.config.ts`:
-- **notes**: Musical notation files with `title`, `description`, `publishDate`, optional `youtubeUrl`, and `tags[]`
-- **testimonials**: User testimonials with `title`, `description`, `publishDate`
-
-Both use glob loaders pointing to respective markdown directories.
-
-## Development Workflow
-
-### Essential Commands
-
-```bash
-npm run dev              # Dev server at localhost:4321
-npm run build            # Production build to ./dist/
-npm run preview          # Preview production build locally
-npm run fetch-videos     # Fetch YouTube videos via API (stores in src/content/data/youtube-videos.json)
-npm run deploy           # Build + Firebase deploy (manual)
+The Node adapter outputs to `dist/client` (NOT standard `dist`):
+```javascript
+// astro.config.mjs
+adapter: node({ mode: 'standalone' })
+```
+```json
+// firebase.json
+"public": "dist/client"  // Required for Firebase deployment
 ```
 
-### YouTube Integration
+## Development Commands
 
-The `src/utils/youtube.mjs` module fetches videos from channel `UCOMb0jCFPsDVs3A8YNPXG8Q`:
-- Uses incremental updates (only fetches new videos)
-- Stores in `src/content/data/youtube-videos.json` with metadata
-- API key is hardcoded (consider environment variable for production)
-- Implements pagination with 50 results per page
+```bash
+npm run dev              # localhost:4321
+npm run build            # Production build → ./dist/
+npm run preview          # Test production build locally
+npm run fetch-videos     # Fetch YouTube channel videos to JSON
+npm run deploy           # Build + Firebase deploy
+```
 
-### Theme System
+## Content Collections
 
-Dark mode is implemented via inline script in `src/components/MainHead.astro`:
-- Reads from localStorage or system preference
-- Applies `theme-dark` class to `<html>` element before page render (prevents flash)
-- Uses MutationObserver to persist theme changes
+Defined in `src/content.config.ts` with Zod schemas:
 
-## Code Conventions
-
-### Component Structure
-
-- **Layouts**: `BaseLayout.astro` wraps all pages with Nav, Footer, SEO, PWA components
-- **Pages**: Use `.astro` files in `src/pages/` for routing
-- **Dynamic Routes**: `[...slug].astro` pattern for content collection entries (see `notes/[...slug].astro`)
-
-### Styling Approach
-
-- Global styles in `src/styles/global.css`
-- Page-specific CSS files (e.g., `tuner.css`, `video-lessons.css`)
-- Google Fonts preloaded with fallback for no-JS users
-
-### PWA Components
-
-The `pwa-install` web component in `BaseLayout.astro` handles install prompts:
-- Uses localStorage for persistence
-- Platform-specific UI for iOS/Android/Desktop
-- Event listeners track installation success/failure
-
-## Firebase Deployment
-
-### Configuration
-
-- Public directory: `dist/client` (not standard `dist` due to Node adapter)
-- Rewrites all routes to `/index.html` for SPA-like behavior
-- Frameworks backend enabled in `europe-west1`
-
-### CI/CD Pipeline
-
-GitHub Actions auto-deploy on:
-- PR creation → preview channel (`.github/workflows/firebase-hosting-pull-request.yml`)
-- Merge to main → production (`.github/workflows/firebase-hosting-merge.yml`)
-
-## Common Tasks
-
-### Adding Musical Notes
-
-1. Create markdown file in `src/content/notes/` with frontmatter:
+**notes** (`src/content/notes/*.md`):
 ```markdown
 ---
 title: Song Name
 publishDate: 2025-01-15
 description: |
-  Raagam: [name]
-  Taalam: [name]
-  Composer: [name]
-tags:
-  - tag1
-  - tag2
-youtubeUrl: https://youtube.com/watch?v=...
+  Raagam: Mohanam
+  Taalam: Aadi
+  Composer: Tyaagaraaja
+  Arohanam: S R~2~ G~3~ P D~2~ S
+tags: [mohanam, bhavanuta]
+youtubeUrl: https://youtube.com/embed/...
 ---
 ```
-2. Content automatically appears on `/notes` page via `getCollection('notes')`
 
-### Updating YouTube Videos
+**testimonials** (`src/content/testimonials/*.md`): Same schema without `youtubeUrl` or `tags`
 
-Run `npm run fetch-videos` to pull latest videos. The script:
-- Compares with existing videos to avoid duplicates
-- Sorts by publish date (newest first)
-- Updates `src/content/data/youtube-videos.json`
+### Musical Notation Conventions
 
-### Cookie Consent
+- Subscript syntax: `R~2~` renders as R₂ (raaga notes)
+- Description field supports multi-line structured text (Raagam, Taalam, Composer, Arohanam, Avarohanam)
+- Content body uses standard markdown headings: `##### pallavi`, `##### anupallavi`, `##### caraNam 1`
 
-Uses `vanilla-cookieconsent` with custom config in `src/components/CookieConsentConfig.ts`. The elegant-black theme class is applied in `CookieConsent.astro`.
+## Component Patterns
 
-## Important Files
+### Layout Structure
 
-- `astro.config.mjs`: PWA manifest, Workbox config, integrations
-- `src/content.config.ts`: Content collection schemas
-- `src/layouts/BaseLayout.astro`: Core layout with PWA, SEO, and analytics setup
-- `src/utils/youtube.mjs`: YouTube API integration
-- `firebase.json`: Hosting config (note non-standard public path)
+`BaseLayout.astro` is the universal wrapper providing:
+- SEO tags via `astro-seo` package
+- PWA manifest injection via `virtual:pwa-info`
+- Theme toggle (dark mode)
+- Cookie consent integration
+- `pwa-install` web component for install prompts
+
+All pages follow: `<BaseLayout title="..." description="..."><slot /></BaseLayout>`
+
+### Dynamic Routes
+
+Use `[...slug].astro` pattern for content entries:
+```astro
+export async function getStaticPaths() {
+  const notes = await getCollection('notes');
+  return notes.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+```
+
+### Client-Side Interactivity
+
+Astro pages use inline `<script>` tags with `define:vars` for hydration:
+```astro
+<script define:vars={{ serializedData }}>
+  const data = JSON.parse(serializedData);
+  // Client-side logic
+</script>
+```
+
+Example: `src/pages/notes.astro` implements search, tag filtering, and pagination entirely client-side.
+
+## Theme System (Dark Mode)
+
+Implemented in `src/components/MainHead.astro` as blocking inline script:
+- Reads `localStorage.getItem('theme')` or system preference
+- Applies `theme-dark` class to `<html>` before render (prevents flash)
+- MutationObserver persists user changes
+
+**Critical**: Script is `is:inline` and runs synchronously in `<head>`.
+
+## YouTube Integration
+
+`src/utils/youtube.mjs` fetches from channel `UCOMb0jCFPsDVs3A8YNPXG8Q`:
+- **Incremental**: Compares with existing `src/content/data/youtube-videos.json` to avoid duplicates
+- **Pagination**: 50 results per page with `nextPageToken` handling
+- **API Key**: Hardcoded (not in env vars)
+
+Run `npm run fetch-videos` to update JSON before builds.
+
+## Styling Conventions
+
+- **Global**: `src/styles/global.css` (CSS custom properties for theming)
+- **Page-specific**: Co-located CSS files (`tuner.css`, `video-lessons.css`, `notes.css`)
+- **Fonts**: Google Fonts preloaded with `<link rel="preload">` + `<noscript>` fallback
+
+## PWA Configuration
+
+In `astro.config.mjs`:
+```javascript
+AstroPWA({
+  registerType: 'autoUpdate',  // Auto-update SW on deploy
+  workbox: {
+    additionalManifestEntries: [{ url: '/404.html', revision: null }],
+    navigateFallback: '/404.html',
+    maximumFileSizeToCacheInBytes: 5000000  // 5MB limit
+  }
+})
+```
+
+Service worker updates automatically on new deployments. No manual intervention required.
+
+## Firebase Deployment
+
+### CI/CD Pipeline
+
+1. **Pull Request**: Preview channel (`.github/workflows/firebase-hosting-pull-request.yml`)
+2. **Merge to main**: Production deploy (`.github/workflows/firebase-hosting-merge.yml`)
+
+Workflow validates lockfile sync with strict `npm ci` check.
+
+### Manual Deployment
+
+```bash
+npm run deploy  # Builds then deploys
+```
+
+### Troubleshooting
+
+If `npm ci` fails in Actions:
+```bash
+npm install --package-lock-only
+git add package-lock.json
+git commit -m "Sync package-lock.json"
+```
 
 ## TypeScript Configuration
 
-Extends Astro's strict tsconfig with additional types for PWA, DOM installation events, and web app manifests. Includes `public/js/aubio.js` for the tuner feature.
+`tsconfig.json` extends `astro/tsconfigs/strict` with additional types:
+- `vite-plugin-pwa/*` for PWA types
+- `dom-chromium-installation-events` for install event handling
+- `web-app-manifest` for manifest types
+
+Includes `public/js/aubio.js` for tuner feature audio processing.
+
+## Cookie Consent
+
+Uses `vanilla-cookieconsent` library:
+- Config: `src/components/CookieConsentConfig.ts` (TypeScript)
+- Component: `src/components/CookieConsent.astro` (applies elegant-black theme)
+- Categories: necessary (read-only), functionality, analytics (GA4 placeholder)
+
+## Special Features
+
+**Tuner**: Interactive pitch tuner using Aubio.js library
+**Rehearsal Studio**: Audio manipulation with Tone.js and SoundTouch
+**Lite YouTube Embeds**: Custom `LiteYoutube.astro` component for performance
+
+## File Organization
+
+```
+src/
+  components/     # Reusable Astro components
+  content/        # Content collections (notes, testimonials, data/youtube-videos.json)
+  layouts/        # BaseLayout, MarkdownLayout
+  pages/          # Routes (index, about, notes, notes/[...slug])
+  styles/         # Global + page-specific CSS
+  utils/          # youtube.mjs API integration
+public/
+  js/             # Third-party libraries (aubio, soundtouch, pwa-install)
+  assets/         # Static images, backgrounds
+  notation/       # .not files (notation format)
+  lyrics/         # .lrc files (synchronized lyrics)
+```

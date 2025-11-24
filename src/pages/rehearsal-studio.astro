@@ -59,10 +59,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 								<line x1="16" y1="17" x2="8" y2="17"></line>
 								<polyline points="10 9 9 9 8 9"></polyline>
 							</svg>
-							Load Lyrics (LRC)
+							Load custom lyrics
 						</label>
 						<div class="file-input-wrapper">
 							<input type="file" id="lyrics-file" />
+						</div>
+					</div>
+
+					<div class="input-group">
+						<label for="server-lyrics-download">
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+							</svg>
+							Load updated lyrics from server
+						</label>
+						<div class="file-input-wrapper">
 							<button id="server-lyrics-download" class="server-download-btn hidden" title="Newer lyrics available on server">
 								<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
 									<path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
