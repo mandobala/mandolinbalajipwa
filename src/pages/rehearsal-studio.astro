@@ -1330,7 +1330,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		if (lyrics.length > 0 && audio && audio.duration) {
 			createLyricMarkers();
 			// Jump to first lyric timestamp
-			if (lyrics[0].time > 0) {
+			// Only set currentTime if at the beginning
+			if (lyrics[0].time > 0 && Math.abs(audio.currentTime) < 0.01) {
 				audio.currentTime = lyrics[0].time;
 			}
 		}
@@ -1588,6 +1589,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	playPauseBtn.addEventListener('click', async () => {
 		if (!audio) return;
 		
+		// Ensure Tone.js audio context is started (required for iOS)
+		try {
+			await Tone.start();
+		} catch (error) {
+			console.warn('Tone.js start failed:', error);
+			isUsingTone = false; // Fallback to HTML5 audio
+		}
+		
 		const isPaused = isUsingTone ? (tonePlayer?.state !== 'started') : audio.paused;
 		
 		if (isPaused) {
@@ -1614,11 +1623,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				currentLyricDisplay.style.color = '';
 				currentLyricDisplay.textContent = '';
 				
-				const startTime = lyrics[0].time > 0 ? lyrics[0].time : 0;
+				// Start from current playhead position, not from first lyric
 				if (isUsingTone) {
-					playBufferSource(startTime);
+					playBufferSource(currentTime);
 				} else {
-					audio.currentTime = startTime;
 					audio.play();
 				}
 				playPauseBtn.querySelector('.play-icon')?.classList.add('hidden');
@@ -1670,21 +1678,35 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	});
 
 	// Seek control
+
 	seekBar.addEventListener('input', () => {
 		if (!audio) return;
 		const newTime = parseFloat(seekBar.value);
-		
+		console.log('[SeekBar] Playhead moved. newTime:', newTime, 'isUsingTone:', isUsingTone);
+
 		if (isUsingTone && tonePlayer) {
 			const wasPlaying = tonePlayer.state === 'started';
+			console.log('[SeekBar] Tone.js wasPlaying:', wasPlaying);
 			if (wasPlaying) {
+				console.log('[SeekBar] Stopping and restarting Tone.js playback at', newTime);
 				stopBufferSource();
-			}
-			tonePlayer.seek(newTime);
-			lastSeekTime = newTime;
-			playbackStartTime = Tone.now();
-			if (wasPlaying) {
-				playBufferSource(newTime);
+				   playBufferSource(newTime);
+				   // Log actual buffer time after starting
+				   setTimeout(() => {
+					   if (isUsingTone && tonePlayer) {
+						   const actualTime = getCurrentBufferTime();
+						   console.log('[SeekBar] After playBufferSource, getCurrentBufferTime():', actualTime);
+					   }
+				   }, 100);
+                if (loopEnabled) {
+                    updateLoopVisuals();
+                    console.log('[SeekBar] Loop state after seek:', { loopStart, loopEnd });
+                }
 			} else {
+				console.log('[SeekBar] Seeking Tone.js to', newTime);
+				tonePlayer.seek(newTime);
+				lastSeekTime = newTime;
+				playbackStartTime = Tone.now();
 				// Update UI when seeking while paused
 				currentTimeDisplay.textContent = formatTime(newTime);
 				const duration = tonePlayer.buffer.duration;
@@ -1693,9 +1715,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				updateLyrics(newTime);
 				updateNotation(newTime);
 				updateMarkers(newTime);
+                if (loopEnabled) {
+                    updateLoopVisuals();
+                    console.log('[SeekBar] Loop state after seek:', { loopStart, loopEnd });
+                }
 			}
 		} else {
+			const wasPlaying = !audio.paused;
+			console.log('[SeekBar] HTML5 audio wasPlaying:', wasPlaying);
 			audio.currentTime = newTime;
+			if (wasPlaying) {
+				console.log('[SeekBar] Restarting HTML5 audio playback at', newTime);
+				audio.play(); // Restart playback from new position
+			}
+            if (loopEnabled) {
+                updateLoopVisuals();
+                console.log('[SeekBar] Loop state after seek:', { loopStart, loopEnd });
+            }
 		}
 	});
 
