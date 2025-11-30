@@ -1456,16 +1456,34 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				currentLyricDisplay.textContent = '';
 				
 				// Start from current playhead position, not from first lyric
+				let startTime = currentTime;
+				// If loop is enabled and current position is outside loop boundaries, start from loop start
+				if (loopEnabled && loopEnd > 0 && (startTime < loopStart || startTime >= loopEnd)) {
+					startTime = loopStart;
+					console.log(`[Count-in] Loop enabled, adjusting start position from ${currentTime.toFixed(2)}s to loop start ${loopStart.toFixed(2)}s`);
+				}
 				if (isUsingTone) {
-					playBufferSource(currentTime);
+					playBufferSource(startTime);
 				} else {
+					audio.currentTime = startTime;
 					audio.play();
 				}
 				playPauseBtn.querySelector('.play-icon')?.classList.add('hidden');
 				playPauseBtn.querySelector('.pause-icon')?.classList.remove('hidden');
 			} else {
 				if (isUsingTone) {
-					playBufferSource(getCurrentBufferTime());
+					let resumeTime = getCurrentBufferTime();
+					console.log(`[Resume] Current buffer time: ${resumeTime.toFixed(2)}s, loop enabled: ${loopEnabled}, loopStart: ${loopStart.toFixed(2)}s, loopEnd: ${loopEnd.toFixed(2)}s`);
+					// If loop is enabled and current position is outside loop boundaries, start from loop start
+					if (loopEnabled && loopEnd > 0) {
+						if (resumeTime < loopStart || resumeTime >= loopEnd) {
+							console.log(`[Resume] Position ${resumeTime.toFixed(2)}s is outside loop [${loopStart.toFixed(2)}s, ${loopEnd.toFixed(2)}s], adjusting to loop start`);
+							resumeTime = loopStart;
+						} else {
+							console.log(`[Resume] Position ${resumeTime.toFixed(2)}s is within loop boundaries, resuming from there`);
+						}
+					}
+					playBufferSource(resumeTime);
 				} else {
 					audio.play();
 				}
@@ -1474,6 +1492,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			}
 		} else {
 			if (isUsingTone) {
+				// Update lastSeekTime to current position before stopping
+				lastSeekTime = getCurrentBufferTime();
 				stopBufferSource();
 			} else {
 				audio.pause();
@@ -1514,28 +1534,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	seekBar.addEventListener('input', () => {
 		if (!audio) return;
 		const newTime = parseFloat(seekBar.value);
-		console.log('[SeekBar] Playhead moved. newTime:', newTime, 'isUsingTone:', isUsingTone);
+		console.log('[SeekBar] Playhead moved to:', newTime.toFixed(2), 's, loop enabled:', loopEnabled, 'loop bounds:', loopStart.toFixed(2), '-', loopEnd.toFixed(2));
+		const isWithinLoop = loopEnabled && loopEnd > 0 && newTime >= loopStart && newTime < loopEnd;
+		console.log('[SeekBar] Position within loop:', isWithinLoop);
 
 		if (isUsingTone && tonePlayer) {
 			const wasPlaying = tonePlayer.state === 'started';
 			console.log('[SeekBar] Tone.js wasPlaying:', wasPlaying);
+
 			if (wasPlaying) {
-				console.log('[SeekBar] Stopping and restarting Tone.js playback at', newTime);
-				stopBufferSource();
-				   playBufferSource(newTime);
-				   // Log actual buffer time after starting
-				   setTimeout(() => {
-					   if (isUsingTone && tonePlayer) {
-						   const actualTime = getCurrentBufferTime();
-						   console.log('[SeekBar] After playBufferSource, getCurrentBufferTime():', actualTime);
-					   }
-				   }, 100);
-                if (loopEnabled) {
-                    updateLoopVisuals();
-                    console.log('[SeekBar] Loop state after seek:', { loopStart, loopEnd });
-                }
+				console.log('[SeekBar] Seeking Tone.js to', newTime, 'without stopping playback');
+				tonePlayer.seek(newTime);
+				lastSeekTime = newTime;
+				playbackStartTime = Tone.now();
+				// Update UI immediately when seeking during playback
+				currentTimeDisplay.textContent = formatTime(newTime);
+				const duration = tonePlayer.buffer.duration;
+				const progress = (newTime / duration) * 100;
+				progressFill.style.width = `${progress}%`;
+				updateLyrics(newTime);
+				updateNotation(newTime);
+				updateMarkers(newTime);
 			} else {
-				console.log('[SeekBar] Seeking Tone.js to', newTime);
+				console.log('[SeekBar] Seeking Tone.js to', newTime, 'while paused');
 				tonePlayer.seek(newTime);
 				lastSeekTime = newTime;
 				playbackStartTime = Tone.now();
@@ -1547,23 +1568,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				updateLyrics(newTime);
 				updateNotation(newTime);
 				updateMarkers(newTime);
-                if (loopEnabled) {
-                    updateLoopVisuals();
-                    console.log('[SeekBar] Loop state after seek:', { loopStart, loopEnd });
-                }
+			}
+			if (loopEnabled) {
+				updateLoopVisuals();
+				console.log('[SeekBar] Loop state after seek:', { loopStart, loopEnd });
 			}
 		} else {
 			const wasPlaying = !audio.paused;
 			console.log('[SeekBar] HTML5 audio wasPlaying:', wasPlaying);
+
 			audio.currentTime = newTime;
-			if (wasPlaying) {
-				console.log('[SeekBar] Restarting HTML5 audio playback at', newTime);
-				audio.play(); // Restart playback from new position
+			currentTimeDisplay.textContent = formatTime(newTime);
+			const progress = (newTime / audio.duration) * 100;
+			progressFill.style.width = `${progress}%`;
+			updateLyrics(newTime);
+			updateNotation(newTime);
+			updateMarkers(newTime);
+
+			// Only restart playback if it was playing before (and loop is disabled)
+			if (wasPlaying && !loopEnabled) {
+				console.log('[SeekBar] Continuing HTML5 audio playback from', newTime);
+				// Don't call play() here - just let it continue from the new position
 			}
-            if (loopEnabled) {
-                updateLoopVisuals();
-                console.log('[SeekBar] Loop state after seek:', { loopStart, loopEnd });
-            }
+			if (loopEnabled) {
+				updateLoopVisuals();
+				console.log('[SeekBar] Loop state after seek:', { loopStart, loopEnd });
+			}
 		}
 	});
 
@@ -1877,16 +1907,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			// Cancel any pending sync loops
 			cancelAnimationFrame(rafId);
 			
-			// Seek to offset and start
-			tonePlayer.seek(offset);
-			lastSeekTime = offset;
-			playbackStartTime = Tone.now();
+			// Start playback first, then seek to offset
 			tonePlayer.start();
+			// Small delay to ensure playback has started before seeking
+			setTimeout(() => {
+				if (tonePlayer) {
+					tonePlayer.seek(offset);
+					lastSeekTime = offset;
+					playbackStartTime = Tone.now();
+					console.log(`Tone.js seeked to ${offset}s after starting playback`);
+				}
+			}, 10);
 			
 			// Start UI sync loop
 			rafId = requestAnimationFrame(syncBufferToUI);
 			
-			console.log(`Tone.js playback started at ${offset}s with speed ${playbackSpeed}x and pitch ${pitchShift} semitones (independent)`);
+			console.log(`Tone.js playback started (will seek to ${offset}s) with speed ${playbackSpeed}x and pitch ${pitchShift} semitones (independent)`);
 		} catch (e) {
 			console.error('Play error:', e);
 		}
