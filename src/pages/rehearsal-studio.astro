@@ -10,6 +10,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		<header>
 			<h1 class="hero-title">Rehearsal Studio</h1>
 			<p class="hero-tagline">Practice with time-synced lyrics</p>
+			<div id="song-metadata" class="song-metadata hidden">
+				<div id="song-title" class="song-title"></div>
+				<div id="song-raaga" class="song-raaga">
+					<span id="arohanam-label" class="metadata-label">Aroh:</span>
+					<span id="arohanam-text" class="metadata-text"></span>
+					<span id="avarohanam-label" class="metadata-label">Ava:</span>
+					<span id="avarohanam-text" class="metadata-text"></span>
+				</div>
+			</div>
 		</header>
 
 		<!-- Display Area (75% height) - Split between Notation and Lyrics -->
@@ -207,7 +216,39 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	.hero-tagline {
 		color: var(--gray-400);
 		font-size: var(--text-xs);
-		margin: 0;
+		margin: 0 0 0.5rem 0;
+	}
+
+	.song-metadata {
+		margin-top: 0.5rem;
+	}
+
+	.song-title {
+		color: var(--accent-regular);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		margin-bottom: 0.25rem;
+	}
+
+	.song-raaga {
+		display: flex;
+		flex-direction: column;
+		gap: 0.125rem;
+	}
+
+	.metadata-label {
+		color: var(--gray-300);
+		font-size: var(--text-xs);
+		font-weight: 500;
+		min-width: 2.5rem;
+		display: inline-block;
+	}
+
+	.metadata-text {
+		color: var(--gray-100);
+		font-size: var(--text-xs);
+		font-family: 'Courier New', monospace;
+		margin-left: 0.25rem;
 	}
 
 	/* Main Display Area - 75% split between notation and lyrics */
@@ -222,7 +263,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	/* Notation Display - Top Half */
 	.notation-display {
-		flex: 0 0 50%;
+		flex: 0 0 45%; /* Reduced by 10% from 50% */
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -253,7 +294,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	/* Lyrics Display - Bottom Half */
 	.lyrics-display {
-		flex: 0 0 50%;
+		flex: 0 0 45%; /* Reduced by 10% from 50% */
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -953,6 +994,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	let loopEnabled = false;
 	let loopStart = 0;
 	let loopEnd = 0;
+	
+	// CSLP metadata
+	let songTitle = '';
+	let aarohanam = '';
+	let avarohanam = '';
 	let isDraggingLoop = false;
 	let currentDragHandle: 'start' | 'end' | null = null;
 	let pitchShift = 0; // in semitones
@@ -1097,6 +1143,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			
 			console.log('✅ CSLP file found and loaded successfully:', currentAudioFileName);
 			
+			// Extract metadata
+			if (cslpData.data.metadata) {
+				songTitle = cslpData.data.metadata.title || '';
+				aarohanam = cslpData.data.metadata.aarohanam || '';
+				avarohanam = cslpData.data.metadata.avarohanam || '';
+				console.log('📊 CSLP metadata loaded:', { songTitle, aarohanam, avarohanam });
+			}
+			
 			// Validate CSLP structure
 			if (!cslpData.data || !cslpData.data.timeline || !Array.isArray(cslpData.data.timeline)) {
 				console.log('Invalid CSLP file structure');
@@ -1138,6 +1192,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				notationLoaded = true;
 				currentNotationDisplay.textContent = 'Notation ready';
 			}
+			
+			// Update metadata display
+			updateSongMetadata();
 			
 			console.log('CSLP file loaded successfully:', { lyricsCount: lyrics.length, notationCount: notation.length });
 			
@@ -1688,12 +1745,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	function displayUpcomingLyrics() {
 		const startIndex = Math.max(0, currentLyricIndex + 1);
-		const endIndex = Math.min(lyrics.length, startIndex + 3);
+		const endIndex = Math.min(lyrics.length, startIndex + 2); // Show only 2 lines
 		const upcoming = lyrics.slice(startIndex, endIndex);
 		
 		upcomingLyricsDisplay.innerHTML = upcoming
 			.map(lyric => `<span class="lyric-line">${lyric.text}</span>`)
 			.join('');
+	}
+
+	function updateSongMetadata() {
+		const songMetadata = document.getElementById('song-metadata') as HTMLElement;
+		const songTitleEl = document.getElementById('song-title') as HTMLElement;
+		const arohanamText = document.getElementById('arohanam-text') as HTMLElement;
+		const avarohanamText = document.getElementById('avarohanam-text') as HTMLElement;
+		
+		if (songTitle) {
+			songTitleEl.textContent = songTitle;
+			songMetadata.classList.remove('hidden');
+		}
+		
+		if (aarohanam) {
+			arohanamText.textContent = aarohanam;
+		}
+		
+		if (avarohanam) {
+			avarohanamText.textContent = avarohanam;
+		}
 	}
 
 	// Create visual markers for lyric timestamps
