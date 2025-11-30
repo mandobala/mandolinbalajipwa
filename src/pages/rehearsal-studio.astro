@@ -263,7 +263,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	/* Notation Display - Top Half */
 	.notation-display {
-		flex: 0 0 45%; /* Reduced by 10% from 50% */
+		flex: 0 0 calc(33.75% + 37.5px); /* Reduced by 25% from previous size */
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -294,7 +294,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	/* Lyrics Display - Bottom Half */
 	.lyrics-display {
-		flex: 0 0 45%; /* Reduced by 10% from 50% */
+		flex: 0 0 calc(56.25% - 37.5px); /* Increased to compensate for notation reduction */
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -371,7 +371,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
-		padding: 0.5rem 1rem;
+		padding: 0.25rem 1rem; /* Reduced top/bottom padding to move up closer */
 		background: #0a0a0a;
 		border-bottom: 1px solid #222;
 		flex-wrap: nowrap;
@@ -535,7 +535,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	}
 
 	.audio-player {
-		padding: 0.75rem;
+		padding: 0.5rem; /* Reduced padding to move up closer */
 	}
 
 	.waveform-container {
