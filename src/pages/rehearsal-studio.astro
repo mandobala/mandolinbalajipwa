@@ -1116,6 +1116,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				playPauseBtn.querySelector('.play-icon')?.classList.remove('hidden');
 				playPauseBtn.querySelector('.pause-icon')?.classList.add('hidden');
 			});
+			// Add play/pause state sync listeners for iOS compatibility
+			audio.addEventListener('play', () => {
+				playPauseBtn.querySelector('.play-icon')?.classList.add('hidden');
+				playPauseBtn.querySelector('.pause-icon')?.classList.remove('hidden');
+			});
+			audio.addEventListener('pause', () => {
+				playPauseBtn.querySelector('.play-icon')?.classList.remove('hidden');
+				playPauseBtn.querySelector('.pause-icon')?.classList.add('hidden');
+			});
+			audio.addEventListener('error', (e) => {
+				console.error('Audio error:', e);
+				// Reset button state on error
+				playPauseBtn.querySelector('.play-icon')?.classList.remove('hidden');
+				playPauseBtn.querySelector('.pause-icon')?.classList.add('hidden');
+			});
 		}
 	});
 
@@ -1474,16 +1489,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		oscillator.stop(audioContext.currentTime + 0.1);
 	}
 
-	// Play/Pause control
+	// Play/Pause control - Enhanced for iOS compatibility
 	playPauseBtn.addEventListener('click', async () => {
 		if (!audio) return;
 		
-		// Ensure Tone.js audio context is started (required for iOS)
+		// Ensure audio context is started (required for iOS)
 		try {
-			await Tone.start();
+			if (Tone.context.state !== 'running') {
+				await Tone.start();
+			}
 		} catch (error) {
-			console.warn('Tone.js start failed:', error);
-			isUsingTone = false; // Fallback to HTML5 audio
+			console.warn('Audio context start failed:', error);
 		}
 		
 		const isPaused = isUsingTone ? (tonePlayer?.state !== 'started') : audio.paused;
@@ -1523,7 +1539,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					playBufferSource(startTime);
 				} else {
 					audio.currentTime = startTime;
-					audio.play();
+					audio.play().catch(e => {
+						console.error('Play failed:', e);
+						// Reset button state on error
+						playPauseBtn.querySelector('.play-icon')?.classList.remove('hidden');
+						playPauseBtn.querySelector('.pause-icon')?.classList.add('hidden');
+					});
 				}
 				playPauseBtn.querySelector('.play-icon')?.classList.add('hidden');
 				playPauseBtn.querySelector('.pause-icon')?.classList.remove('hidden');
@@ -1542,7 +1563,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					}
 					playBufferSource(resumeTime);
 				} else {
-					audio.play();
+					audio.play().then(() => {
+						console.log('HTML5 audio play started successfully');
+					}).catch(e => {
+						console.error('HTML5 audio play failed:', e);
+						// Reset button state on error
+						playPauseBtn.querySelector('.play-icon')?.classList.remove('hidden');
+						playPauseBtn.querySelector('.pause-icon')?.classList.add('hidden');
+					});
 				}
 				playPauseBtn.querySelector('.play-icon')?.classList.add('hidden');
 				playPauseBtn.querySelector('.pause-icon')?.classList.remove('hidden');
@@ -1586,9 +1614,33 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		displayUpcomingLyrics();
 	});
 
-	// Seek control
-
-	seekBar.addEventListener('input', () => {
+	// Seek control - Enhanced for iOS touch support
+	seekBar.addEventListener('input', handleSeek);
+	seekBar.addEventListener('change', handleSeek); // iOS fires change instead of input during touch
+	
+	// Add touch event listeners for better iOS support
+	seekBar.addEventListener('touchstart', (e) => {
+		// Prevent default to avoid scrolling on iOS
+		e.preventDefault();
+	});
+	
+	seekBar.addEventListener('touchmove', (e) => {
+		// Handle continuous touch dragging on iOS
+		e.preventDefault();
+		const touch = e.touches[0];
+		const rect = seekBar.getBoundingClientRect();
+		const percent = Math.max(0, Math.min(1, (touch.clientX - rect.left) / rect.width));
+		const newTime = percent * parseFloat(seekBar.max);
+		seekBar.value = newTime.toString();
+		handleSeek();
+	});
+	
+	seekBar.addEventListener('touchend', (e) => {
+		e.preventDefault();
+		handleSeek();
+	});
+	
+	function handleSeek() {
 		if (!audio) return;
 		const newTime = parseFloat(seekBar.value);
 		console.log('[SeekBar] Playhead moved to:', newTime.toFixed(2), 's, loop enabled:', loopEnabled, 'loop bounds:', loopStart.toFixed(2), '-', loopEnd.toFixed(2));
@@ -1652,7 +1704,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				console.log('[SeekBar] Loop state after seek:', { loopStart, loopEnd });
 			}
 		}
-	});
+	}
 
 	// Volume control
 	volumeControl.addEventListener('input', () => {
@@ -1824,9 +1876,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		});
 	}
 
+	// Detect iOS and force HTML5 audio fallback
+	const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+	              (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+	const isIOSChrome = isIOS && /CriOS/.test(navigator.userAgent);
+	
+	if (isIOS || isIOSChrome) {
+		console.log('iOS detected - forcing HTML5 audio fallback for better compatibility');
+		isUsingTone = false;
+	}
+
 	// Initialize audio processing (not needed for basic playbackRate control)
 	async function initializeAudioProcessing() {
 		if (!audio) return;
+		
+		// Skip Tone.js initialization on iOS
+		if (isIOS || isIOSChrome) {
+			console.log('Skipping Tone.js initialization on iOS - using HTML5 audio fallback');
+			audio.playbackRate = playbackSpeed;
+			audio.preservesPitch = true;
+			isUsingTone = false;
+			return;
+		}
 		
 		try {
 			// Start Tone.js audio context
