@@ -27,7 +27,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			<div id="lyrics-display" class="lyrics-display">
 				<div class="lyric-container">
 					<div id="current-lyric" class="current-lyric">
-						Select audio and lyrics files to begin
+						Select audio file to begin
 					</div>
 					<div id="upcoming-lyrics" class="upcoming-lyrics">
 					</div>
@@ -48,38 +48,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 							Load Audio (MP3)
 						</label>
 						<input type="file" id="audio-file" accept="audio/mp3,audio/mpeg" />
-					</div>
-
-					<div class="input-group">
-						<label for="lyrics-file">
-							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-								<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-								<polyline points="14 2 14 8 20 8"></polyline>
-								<line x1="16" y1="13" x2="8" y2="13"></line>
-								<line x1="16" y1="17" x2="8" y2="17"></line>
-								<polyline points="10 9 9 9 8 9"></polyline>
-							</svg>
-							Load custom lyrics
-						</label>
-						<div class="file-input-wrapper">
-							<input type="file" id="lyrics-file" />
-						</div>
-					</div>
-
-					<div class="input-group">
-						<label for="server-lyrics-download">
-							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-								<path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-							</svg>
-							Load updated lyrics from server
-						</label>
-						<div class="file-input-wrapper">
-							<button id="server-lyrics-download" class="server-download-btn hidden" title="Newer lyrics available on server">
-								<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-									<path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-								</svg>
-							</button>
-						</div>
 					</div>
 				<button id="load-button" class="load-button" disabled>
 					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1002,14 +970,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	let wasPlayingBeforeSeek = false;
 
 	const audioFileInput = document.getElementById('audio-file') as HTMLInputElement;
-	const lyricsFileInput = document.getElementById('lyrics-file') as HTMLInputElement;
 	const fileInputsSection = document.getElementById('file-inputs-wrapper') as HTMLDivElement;
 	const loadButton = document.getElementById('load-button') as HTMLButtonElement;
-	const serverLyricsDownloadBtn = document.getElementById('server-lyrics-download') as HTMLButtonElement;
 	
 	let currentAudioFileName = '';
-	let loadedLyricsTimestamp = 0;
-	let serverLyricsTimestamp = 0;
 	const audioPlayer = document.getElementById('audio-player') as HTMLDivElement;
 	const lyricsDisplay = document.getElementById('lyrics-display') as HTMLDivElement;
 	const notationDisplay = document.getElementById('notation-display') as HTMLDivElement;
@@ -1071,11 +1035,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			audio = new Audio(url);
 			audio.volume = parseInt(volumeControl.value) / 100;
 			
-			// Store audio filename and check for server lyrics and notation
+			// Store audio filename and check for CSLP file
 			currentAudioFileName = file.name.replace(/\.[^/.]+$/, ''); // Remove extension
 			currentLyricDisplay.textContent = `🎵 ${currentAudioFileName}`;
-			checkServerLyrics();
-			checkServerNotation();
+			loadCSLPFile();
 			
 			// Add error handler for corrupted/invalid audio files
 			audio.addEventListener('error', () => {
@@ -1110,209 +1073,78 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		}
 	});
 
-	// Load lyrics file (LRC format)
-	lyricsFileInput.addEventListener('change', async (e) => {
-		const file = (e.target as HTMLInputElement).files?.[0];
-		console.log('Lyrics file input changed:', file);
-		if (file) {
-			console.log('File details:', file.name, file.size, file.type);
-			// Validate file type
-			const validLyricTypes = ['text/plain', 'application/octet-stream', ''];
-			const fileExtension = file.name.toLowerCase().split('.').pop();
-			console.log('File extension:', fileExtension);
-			
-			if (fileExtension !== 'lrc' && fileExtension !== 'txt') {
-				alert('Invalid lyrics file. Please select an LRC or TXT file.');
-				lyricsFileInput.value = '';
+	// Load CSLP file (JSON format with timeline)
+	async function loadCSLPFile() {
+		if (!currentAudioFileName) return;
+		
+		console.log('🎵 MP3 basename loaded:', currentAudioFileName);
+		console.log('🔍 Looking for CSLP file basename:', currentAudioFileName);
+		console.log('📁 Attempting to fetch CSLP file...');
+		
+		const cslpUrl = `/LyricsTagged/${encodeURIComponent(currentAudioFileName)}.cslp`;
+		console.log('🔗 Full CSLP file path:', cslpUrl);
+		
+		try {
+			const response = await fetch(cslpUrl);
+			if (!response.ok) {
+				console.log('No CSLP file found for:', currentAudioFileName);
+				currentLyricDisplay.textContent = 'No lyrics';
+				lyricsDisplay.classList.remove('hidden');
 				return;
 			}
 			
-			// Check file size (limit to 5MB for text files)
-			const maxSize = 5 * 1024 * 1024; // 5MB in bytes
-			if (file.size > maxSize) {
-				alert('Lyrics file is too large. Please select a file smaller than 5MB.');
-				lyricsFileInput.value = '';
+			const cslpData = await response.json();
+			
+			console.log('✅ CSLP file found and loaded successfully:', currentAudioFileName);
+			
+			// Validate CSLP structure
+			if (!cslpData.data || !cslpData.data.timeline || !Array.isArray(cslpData.data.timeline)) {
+				console.log('Invalid CSLP file structure');
+				currentLyricDisplay.textContent = 'No lyrics';
+				lyricsDisplay.classList.remove('hidden');
 				return;
 			}
 			
-			try {
-				const text = await file.text();
-				
-				// Validate that it's actually text content
-				if (text.includes('\x00') || text.includes('\uFFFD')) {
-					alert('Invalid lyrics file. File appears to be binary or corrupted.');
-					lyricsFileInput.value = '';
-					return;
+			// Parse timeline data
+			const timeline = cslpData.data.timeline;
+			lyrics = [];
+			notation = [];
+			
+			for (const item of timeline) {
+				if (item.time !== undefined && item.text) {
+					lyrics.push({ time: item.time, text: item.text });
 				}
-				
-				lyrics = parseLRC(text);
-				
-				if (lyrics.length === 0) {
-					alert('No valid lyrics found in file. Please check the LRC format:\n[mm:ss.xx]Lyric text');
-					lyricsFileInput.value = '';
-					return;
+				if (item.time !== undefined && item.notation) {
+					notation.push({ time: item.time, text: item.notation });
 				}
-				
+			}
+			
+			// Sort by time
+			lyrics.sort((a, b) => a.time - b.time);
+			notation.sort((a, b) => a.time - b.time);
+			
+			if (lyrics.length > 0) {
 				lyricsDisplay.classList.remove('hidden');
 				currentLyricDisplay.textContent = 'Lyrics loaded';
 				displayUpcomingLyrics();
 				lyricsLoaded = true;
-				
-				// Set loaded lyrics timestamp from file's last modified date
-				loadedLyricsTimestamp = file.lastModified;
-				
-				// Check if server has newer version
-				checkServerLyrics();
-			} catch (error) {
-				alert('Error reading lyrics file. Please ensure it is a valid text file.');
-				lyricsFileInput.value = '';
-				console.error('Lyrics file error:', error);
-			}
-		}
-	});
-
-	// Check for server-side lyrics file
-	async function checkServerLyrics() {
-		if (!currentAudioFileName) return;
-		
-		const lrcUrl = `/lyrics/${encodeURIComponent(currentAudioFileName)}.lrc`;
-		
-		try {
-			const response = await fetch(lrcUrl, { method: 'HEAD' });
-			if (response.ok) {
-				// Get server file timestamp from Last-Modified header
-				const lastModified = response.headers.get('Last-Modified');
-				if (lastModified) {
-					serverLyricsTimestamp = new Date(lastModified).getTime();
-					
-					// Show download button ONLY if server version is newer than loaded lyrics
-					if (lyricsLoaded && serverLyricsTimestamp > loadedLyricsTimestamp) {
-						serverLyricsDownloadBtn.classList.remove('hidden');
-						console.log('Server lyrics is newer:', new Date(serverLyricsTimestamp), 'vs local:', new Date(loadedLyricsTimestamp));
-					} else if (!lyricsLoaded) {
-						// If no lyrics loaded yet, show button as a convenience
-						serverLyricsDownloadBtn.classList.remove('hidden');
-						console.log('No lyrics loaded, server version available');
-					} else {
-						serverLyricsDownloadBtn.classList.add('hidden');
-						console.log('Local lyrics is current or newer');
-					}
-				}
 			} else {
-				serverLyricsDownloadBtn.classList.add('hidden');
+				currentLyricDisplay.textContent = 'No lyrics';
+				lyricsDisplay.classList.remove('hidden');
 			}
+			
+			if (notation.length > 0) {
+				notationDisplay.classList.remove('hidden');
+				notationLoaded = true;
+				currentNotationDisplay.textContent = 'Notation ready';
+			}
+			
+			console.log('CSLP file loaded successfully:', { lyricsCount: lyrics.length, notationCount: notation.length });
+			
 		} catch (error) {
-			console.log('No server lyrics found for:', currentAudioFileName);
-			serverLyricsDownloadBtn.classList.add('hidden');
-		}
-	}
-
-	// Download and load server lyrics
-	async function loadServerLyrics() {
-		if (!currentAudioFileName) return;
-		
-		const lrcUrl = `/lyrics/${encodeURIComponent(currentAudioFileName)}.lrc`;
-		
-		try {
-			const response = await fetch(lrcUrl);
-			if (!response.ok) {
-				throw new Error('Failed to fetch server lyrics');
-			}
-			
-			const text = await response.text();
-			const lastModified = response.headers.get('Last-Modified');
-			if (lastModified) {
-				loadedLyricsTimestamp = new Date(lastModified).getTime();
-			}
-			
-			// Parse and load lyrics
-			const parsedLyrics = parseLRC(text);
-			if (parsedLyrics.length === 0) {
-				alert('Server lyrics file is empty or invalid.');
-				return;
-			}
-			
-			lyrics = parsedLyrics;
+			console.error('Error loading CSLP file:', error);
+			currentLyricDisplay.textContent = 'No lyrics';
 			lyricsDisplay.classList.remove('hidden');
-			currentLyricDisplay.textContent = 'Lyrics loaded';
-			displayUpcomingLyrics();
-			lyricsLoaded = true;
-			
-			// Hide download button
-			serverLyricsDownloadBtn.classList.add('hidden');
-			
-			// Create markers if audio is loaded
-			if (audio && audio.duration) {
-				createLyricMarkers();
-			}
-			
-			alert('Server lyrics loaded successfully!');
-		} catch (error) {
-			console.error('Error loading server lyrics:', error);
-			alert('Failed to load server lyrics. Please try loading manually.');
-		}
-	}
-
-	// Server lyrics download button handler
-	serverLyricsDownloadBtn.addEventListener('click', () => {
-		loadServerLyrics();
-	});
-
-	// Check for server-side notation file
-	async function checkServerNotation() {
-		if (!currentAudioFileName) return;
-		
-		// Try .not extension first, then .lrc
-		const notExtensionUrl = `/notation/${encodeURIComponent(currentAudioFileName)}.not`;
-		const lrcExtensionUrl = `/notation/${encodeURIComponent(currentAudioFileName)}.lrc`;
-		
-		try {
-			// Check for .not file first
-			let response = await fetch(notExtensionUrl, { method: 'HEAD' });
-			if (response.ok) {
-				console.log('Server notation (.not) found for:', currentAudioFileName);
-				loadServerNotation(notExtensionUrl);
-				return;
-			}
-			
-			// Fall back to .lrc extension
-			response = await fetch(lrcExtensionUrl, { method: 'HEAD' });
-			if (response.ok) {
-				console.log('Server notation (.lrc) found for:', currentAudioFileName);
-				loadServerNotation(lrcExtensionUrl);
-			}
-		} catch (error) {
-			console.log('No server notation found for:', currentAudioFileName);
-		}
-	}
-
-	// Download and load server notation
-	async function loadServerNotation(notationUrl: string) {
-		if (!currentAudioFileName || !notationUrl) return;
-		
-		try {
-			const response = await fetch(notationUrl);
-			if (!response.ok) {
-				throw new Error('Failed to fetch server notation');
-			}
-			
-			const text = await response.text();
-			
-			// Parse and load notation (same LRC format)
-			const parsedNotation = parseLRC(text);
-			if (parsedNotation.length === 0) {
-				console.log('Server notation file is empty or invalid.');
-				return;
-			}
-			
-			notation = parsedNotation;
-			notationDisplay.classList.remove('hidden');
-			notationLoaded = true;
-			currentNotationDisplay.textContent = 'Notation ready';
-			
-			console.log('Server notation loaded successfully!');
-		} catch (error) {
-			console.error('Error loading server notation:', error);
 		}
 	}
 

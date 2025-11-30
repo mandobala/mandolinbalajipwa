@@ -1,0 +1,311 @@
+{
+  "data": {
+    "metadata": {
+      "title": "Jagatpathey_Hari_Sai_Gopala_Db_Balaji",
+      "artist": "Unknown Artist",
+      "ragam": "Desh",
+      "talam": "Adi",
+      "shruti": "",
+       "aarohanam": "s r2 m1 p  n3 Ṡ",
+      "avarohanam": "Ṡ n3 d2 p  m1 g3  r2 g3 r2 s",
+      "edupu": 0
+    },
+    "mp3FileName": "Jagatpathey_Hari_Sai_Gopala_Db_Balaji.mp3",
+    "config": {
+      "offset": 0.25,
+      "lastPosition": 0
+    },
+    "ulpLines": [
+      "Jagatpathey Hari Sai Gopala",
+      "Jagadodhara Sai Nandalala",
+      "Mathuradhipathey Krishna Gopala",
+      "Madhura Madhura Hey Gaana Vilola",
+      "Jagadodhara Sai Nandalala",
+      "Sai Nandalala Jai Jai Gopala"
+    ],
+    "rawText": "Jagatpathey Hari Sai Gopala\nJagadodhara Sai Nandalala\nMathuradhipathey Krishna Gopala\nMadhura Madhura Hey Gaana Vilola\nJagadodhara Sai Nandalala\nSai Nandalala Jai Jai Gopala ",
+    "timeline": [
+      {
+        "id": 1764518916240,
+        "time": 0,
+        "text": "Jagatpathey Hari Sai Gopala",
+        "notation": "NN,N | Ṡ,ṠṠ | N,ṠṘ | N,DP",
+        "lineNumber": 0
+      },
+      {
+        "id": 1764518924553,
+        "time": 5.328268,
+        "text": "Jagatpathey Hari Sai Gopala",
+        "notation": "NN,N | Ṡ,ṠṠ | N,ṠṘ | N,DP",
+        "lineNumber": 1
+      },
+      {
+        "id": 1764518929929,
+        "time": 10.704125,
+        "text": "Jagatpathey Hari Sai Gopala",
+        "notation": "NN,N | Ṡ,ṠṠ | N,ṠṘ | N,DP",
+        "lineNumber": 2
+      },
+      {
+        "id": 1764518935345,
+        "time": 16.120104,
+        "text": "Jagatpathey Hari Sai Gopala",
+        "notation": "NN,N | Ṡ,ṠṠ | N,ṠṘ | N,DP",
+        "lineNumber": 3
+      },
+      {
+        "id": 1764518940689,
+        "time": 21.464451,
+        "text": "Jagadodhara Sai Nandalala",
+        "notation": "P,D, | PNDP | MGRG | S,,, | ",
+        "lineNumber": 4
+      },
+      {
+        "id": 1764518946129,
+        "time": 26.903994,
+        "text": "Jagadodhara Sai Nandalala",
+        "notation": "P,D, | PNDP | MGRG | S,,, | ",
+        "lineNumber": 5
+      },
+      {
+        "id": 1764518951378,
+        "time": 32.152229,
+        "text": "Jagadodhara Sai Nandalala",
+        "notation": "P,D, | PNDP | MGRG | S,,, | R,R, | M,M, | P,P, |",
+        "lineNumber": 6
+      },
+      {
+        "id": 1764518956737,
+        "time": 37.511937,
+        "text": "Jagadodhara Sai Nandalala",
+        "notation": "P,D, | PNDP | MGRG | S,,, | R,R, | M,M, | P,P, |",
+        "lineNumber": 7
+      },
+      {
+        "id": 1764518962026,
+        "time": 42.800237,
+        "text": "Mathuradhipathey Krishna Gopala",
+        "notation": "M,P, | N,S, | RRR, | S,RG | N,Ṡ, |",
+        "lineNumber": 8
+      },
+      {
+        "id": 1764518967362,
+        "time": 48.13603,
+        "text": "Mathuradhipathey Krishna Gopala",
+        "notation": "M,P, | N,S, | RRR, | S,RG | N,Ṡ, |",
+        "lineNumber": 9
+      },
+      {
+        "id": 1764518972738,
+        "time": 53.512017,
+        "text": "Mathuradhipathey Krishna Gopala",
+        "notation": "M,P, | N,S, | RRR, | S,RG | N,Ṡ, |",
+        "lineNumber": 10
+      },
+      {
+        "id": 1764518978018,
+        "time": 58.792112,
+        "text": "Mathuradhipathey Krishna Gopala",
+        "notation": "M,P, | N,S, | RRR, | S,RG | N,Ṡ, |",
+        "lineNumber": 11
+      },
+      {
+        "id": 1764518983387,
+        "time": 64.160365,
+        "text": "Madhura Madhura Hey Gaana Vilola",
+        "notation": "N,N, | N,N, | Ṡ,N, | Ṡ,,, | N,,, | Ṡ,R, | N,DP |",
+        "lineNumber": 12
+      },
+      {
+        "id": 1764518988715,
+        "time": 69.488278,
+        "text": "Madhura Madhura Hey Gaana Vilola",
+        "notation": "N,N, | N,N, | Ṡ,N, | Ṡ,,, | N,,, | Ṡ,R, | N,DP |",
+        "lineNumber": 13
+      },
+      {
+        "id": 1764518993947,
+        "time": 74.719982,
+        "text": "Madhura Madhura Hey Gaana Vilola",
+        "notation": "N,N, | N,N, | Ṡ,N, | Ṡ,,, | N,,, | Ṡ,R, | N,DP |",
+        "lineNumber": 14
+      },
+      {
+        "id": 1764518999203,
+        "time": 79.97613,
+        "text": "Madhura Madhura Hey Gaana Vilola",
+        "notation": "N,N, | N,N, | Ṡ,N, | Ṡ,,, | N,,, | Ṡ,R, | N,DP |",
+        "lineNumber": 15
+      },
+      {
+        "id": 1764519004435,
+        "time": 85.208098,
+        "text": "Jagadodhara Sai Nandalala",
+        "notation": "P,D, | PNDP | MGRG | S,,, | ",
+        "lineNumber": 16
+      },
+      {
+        "id": 1764519009747,
+        "time": 90.519948,
+        "text": "Jagadodhara Sai Nandalala",
+        "notation": "P,D, | PNDP | MGRG | S,,, | ",
+        "lineNumber": 17
+      },
+      {
+        "id": 1764519014956,
+        "time": 95.72831,
+        "text": "Jagadodhara Sai Nandalala",
+        "notation": "P,D, | PNDP | MGRG | S,,, | ",
+        "lineNumber": 18
+      },
+      {
+        "id": 1764519020083,
+        "time": 100.855983,
+        "text": "Jagadodhara Sai Nandalala",
+        "notation": "P,D, | PNDP | MGRG | S,,, | ",
+        "lineNumber": 19
+      },
+      {
+        "id": 1764519025276,
+        "time": 106.048126,
+        "text": "Jagatpathey Hari Sai Gopala",
+        "notation": "NN,N | Ṡ,ṠṠ | N,ṠṘ | N,DP",
+        "lineNumber": 20
+      },
+      {
+        "id": 1764519029812,
+        "time": 110.583962,
+        "text": "Jagatpathey Hari Sai Gopala",
+        "notation": "NN,N | Ṡ,ṠṠ | N,ṠṘ | N,DP",
+        "lineNumber": 21
+      },
+      {
+        "id": 1764519034132,
+        "time": 114.904109,
+        "text": "Jagadodhara Sai Nandalala",
+        "notation": "P,D, | PNDP | MGRG | S,,, | ",
+        "lineNumber": 22
+      },
+      {
+        "id": 1764519038476,
+        "time": 119.248137,
+        "text": "Jagadodhara Sai Nandalala",
+        "notation": "P,D, | PNDP | MGRG | S,,, | ",
+        "lineNumber": 23
+      },
+      {
+        "id": 1764519042868,
+        "time": 123.639902,
+        "text": "Mathuradhipathey Krishna Gopala",
+        "notation": "M,P, | N,S, | RRR, | S,RG | N,Ṡ, |",
+        "lineNumber": 24
+      },
+      {
+        "id": 1764519047284,
+        "time": 128.055991,
+        "text": "Mathuradhipathey Krishna Gopala",
+        "notation": "M,P, | N,S, | RRR, | S,RG | N,Ṡ, |",
+        "lineNumber": 25
+      },
+      {
+        "id": 1764519051685,
+        "time": 132.45628,
+        "text": "Madhura Madhura Hey Gaana Vilola",
+        "notation": "N,N, | N,N, | Ṡ,N, | Ṡ,,, | N,,, | Ṡ,R, | N,DP |",
+        "lineNumber": 26
+      },
+      {
+        "id": 1764519056076,
+        "time": 136.847961,
+        "text": "Madhura Madhura Hey Gaana Vilola",
+        "notation": "N,N, | N,N, | Ṡ,N, | Ṡ,,, | N,,, | Ṡ,R, | N,DP |",
+        "lineNumber": 27
+      },
+      {
+        "id": 1764519060477,
+        "time": 141.24812,
+        "text": "Jagadodhara Sai Nandalala",
+        "notation": "P,D, | PNDP | MGRG | S,,, | ",
+        "lineNumber": 28
+      },
+      {
+        "id": 1764519064885,
+        "time": 145.656216,
+        "text": "Jagadodhara Sai Nandalala",
+        "notation": "P,D, | PNDP | MGRG | S,,, | ",
+        "lineNumber": 29
+      },
+      {
+        "id": 1764519254539,
+        "time": 149.951012,
+        "text": "Sai Nandalala Jai Jai Gopala",
+        "notation": "NNNN | Ṡ,Ṡ, | N,NN | Ṡ,Ṡ,|",
+        "lineNumber": 30
+      },
+      {
+        "id": 1764519258778,
+        "time": 154.190506,
+        "text": "Sai Nandalala Jai Jai Gopala",
+        "notation": "NNNN | Ṡ,Ṡ, | N,NN | Ṡ,Ṡ,|",
+        "lineNumber": 31
+      },
+      {
+        "id": 1764519263322,
+        "time": 158.73462,
+        "text": "Sai Nandalala Jai Jai Gopala",
+        "notation": "N,P, | N,Ṡ, | Ṙ,,, | Ṙ,Ṙ,| ṠRN,Ṡ | Ṙ,,, | Ṙ,Ṙ,|",
+        "lineNumber": 32
+      },
+      {
+        "id": 1764519267627,
+        "time": 163.038679,
+        "text": "Sai Nandalala Jai Jai Gopala",
+        "notation": "N,P, | N,Ṡ, | Ṙ,,, | Ṙ,Ṙ,| ṠRN,Ṡ | Ṙ,,, | Ṙ,Ṙ,|",
+        "lineNumber": 33
+      },
+      {
+        "id": 1764519272051,
+        "time": 167.462639,
+        "text": "Sai Nandalala Jai Jai Gopala",
+        "notation": "ṀṀṀṀ | ṀĠṖṀṘ,,, | ṘĠ,Ṙ | N,Ṡ |",
+        "lineNumber": 34
+      },
+      {
+        "id": 1764519276443,
+        "time": 171.854451,
+        "text": "Sai Nandalala Jai Jai Gopala",
+        "notation": "ṀṀṀṀ | ṀĠṖṀṘ,,, | ṘĠ,Ṙ | N,Ṡ |",
+        "lineNumber": 35
+      },
+      {
+        "id": 1764519280859,
+        "time": 176.27,
+        "text": "Sai Nandalala Jai Jai Gopala",
+        "notation": "ṀṀṀṀ | ṀĠṖṀṘ,,, | ṘĠ,Ṙ | N,Ṡ |",
+        "lineNumber": 36
+      },
+      {
+        "id": 1764519285099,
+        "time": 180.51,
+        "text": "Sai Nandalala Jai Jai Gopala",
+        "notation": "ṀṀṀṀ | ṀĠṖṀṘ,,, | ṘĠ,Ṙ | N,Ṡ |",
+        "lineNumber": 37
+      },
+      {
+        "id": 1764519289699,
+        "time": 185.11067,
+        "text": "Jagatpathey Hari Sai Gopala",
+        "notation": "NN,N | Ṡ,ṠṠ | N,ṠṘ | N,DP",
+        "lineNumber": 38
+      },
+      {
+        "id": 1764519295635,
+        "time": 191.0465,
+        "text": "Jagadodhara Sai Nandalala",
+        "notation": "P,D, | PNDP | MGRG | S,,, | ",
+        "lineNumber": 39
+      }
+    ]
+  },
+  "integrityHash": "fd71d0e8d1bf2ce3d407ca9a29ba4d14bcdf8f6d"
+}
