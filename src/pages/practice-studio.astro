@@ -947,7 +947,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	let isCountingIn = false;
 	let countInActive = false;
 	let countInIntervalId: number | null = null;
-	let beatDurationMs = 30; // Default 30ms per beat, will be overridden by eduppu from CSLP
+	let beatDurationMs = 30; // Default 30ms per beat, will be overridden by edupu from CSLP
 
 	// Tone.js nodes for independent pitch and speed
 	let tonePlayer: Tone.Player | null = null;
@@ -1107,10 +1107,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			talamText.textContent = metadata.talam || '';
 			sruthiText.textContent = metadata.sruthi || '';
 			
-			// Extract eduppu value for count-in beat timing (in milliseconds)
-			if (metadata.eduppu && typeof metadata.eduppu === 'number' && metadata.eduppu > 0) {
-				beatDurationMs = metadata.eduppu;
-				// console.log(`📊 Count-in beat duration set to ${beatDurationMs}ms from eduppu`);
+			// Extract edupu value for count-in beat timing (in milliseconds)
+			// Higher edupu values = slower beats (inverse relationship)
+			// edupu is typically a musical time unit, so we interpret higher values as slower timing
+			if (metadata.edupu && typeof metadata.edupu === 'number' && metadata.edupu > 0) {
+				beatDurationMs = metadata.edupu;
+				// console.log(`📊 Count-in beat duration set to ${beatDurationMs}ms from edupu`);
 			}
 			
 			songMetadata.classList.remove('hidden');
