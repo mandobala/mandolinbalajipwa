@@ -1,0 +1,1403 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+	title="Practice Studio | Mandolin Balaji"
+	description="Modern practice studio with synchronized lyrics and notation"
+>
+	<div class="practice-studio">
+		<!-- Header Section -->
+		<header class="studio-header">
+			<div class="header-content">
+				<h1 class="studio-title">Practice Studio</h1>
+				<p class="studio-subtitle">Master your music with precision timing</p>
+				<div id="song-metadata" class="song-info hidden">
+					<div class="song-title" id="song-title"></div>
+					<div class="song-details">
+						<span class="arohanam">
+							<span class="label">Aroh:</span>
+							<span class="value" id="arohanam-text"></span>
+						</span>
+						<span class="avarohanam">
+							<span class="label">Ava:</span>
+							<span class="value" id="avarohanam-text"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<!-- Main Content Area -->
+		<main class="studio-main">
+			<!-- Practice Display -->
+			<div id="practice-display" class="practice-display hidden">
+				<!-- Notation Panel -->
+				<div id="notation-panel" class="panel notation-panel hidden">
+					<div class="panel-header">
+						<h3>Musical Notation</h3>
+						<button class="panel-toggle" data-panel="notation">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<polyline points="18,15 12,9 6,15"></polyline>
+							</svg>
+						</button>
+					</div>
+					<div class="panel-content">
+						<div id="current-notation" class="notation-content">
+							Notation will appear here
+						</div>
+					</div>
+				</div>
+
+				<!-- Lyrics Panel -->
+				<div id="lyrics-panel" class="panel lyrics-panel">
+					<div class="panel-header">
+						<h3>Lyrics & Timing</h3>
+						<div class="panel-controls">
+							<button class="panel-toggle" data-panel="lyrics">
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<polyline points="6,9 12,15 18,9"></polyline>
+								</svg>
+							</button>
+						</div>
+					</div>
+					<div class="panel-content">
+						<div class="lyrics-content">
+							<div id="current-lyric" class="current-lyric-line">
+								Select audio file to begin practice
+							</div>
+							<div id="upcoming-lyrics" class="upcoming-lyrics-preview">
+								<!-- Upcoming lyrics will appear here -->
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Loop Area - Above Progress Bar -->
+				<div id="loop-section" class="control-section loop-section hidden">
+					<div id="loop-controls" class="loop-controls">
+						<div class="loop-visualizer">
+							<div class="loop-track">
+								<div id="loop-area" class="loop-area"></div>
+								<div id="loop-markers" class="loop-markers"></div>
+								<div id="loop-start-handle" class="loop-handle loop-start">
+									<div class="loop-grip">A</div>
+								</div>
+								<div id="loop-end-handle" class="loop-handle loop-end">
+									<div class="loop-grip">B</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Progress Bar with Timeline Markers - Below Loop Area -->
+				<div id="progress-section" class="control-section progress-section hidden">
+					<div class="time-display">
+						<span id="current-time">0:00</span>
+						<span id="duration">0:00</span>
+					</div>
+					<div class="progress-container">
+						<div class="progress-bar">
+							<div id="progress-fill" class="progress-fill"></div>
+							<input type="range" id="seek-bar" min="0" max="100" value="0" />
+						</div>
+						<div id="timeline-markers" class="timeline-markers"></div>
+						<div class="playhead-indicator">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+								<path d="M7 10l5 5 5-5z"/>
+							</svg>
+						</div>
+					</div>
+				</div>
+
+				<!-- Transport & Loop Controls - Below Loop Area -->
+				<div class="control-section playback-controls-section hidden">
+					<div class="playback-controls">
+						<button id="play-pause" class="transport-button play-button">
+							<svg class="play-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+								<path d="M8 5v14l11-7z"/>
+							</svg>
+							<svg class="pause-icon hidden" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+								<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+							</svg>
+						</button>
+						<button id="stop" class="transport-button">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+							</svg>
+						</button>
+						<label class="control-label loop-label">
+							<input type="checkbox" id="loop-enable" />
+							<span>A-B</span>
+						</label>
+					</div>
+				</div>
+			</div>
+
+			<!-- Control Panel -->
+			<div class="control-panel">
+				<!-- File Input Section -->
+				<div id="file-inputs-section" class="control-section file-inputs-section">
+					<div class="control-group">
+						<label class="file-input-label">
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M9 18V5l12-2v13"></path>
+								<circle cx="6" cy="18" r="3"></circle>
+								<circle cx="18" cy="16" r="3"></circle>
+							</svg>
+							<span>Load Audio File</span>
+							<input type="file" id="audio-file" accept="audio/mp3,audio/mpeg" hidden />
+						</label>
+						<button id="load-button" class="primary-button" disabled>
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M5 12h14M12 5l7 7-7 7"/>
+							</svg>
+							Start Practice
+						</button>
+					</div>
+				</div>
+
+				<!-- Practice Controls - Count In -->
+				<div id="practice-controls" class="control-section practice-controls hidden">
+					<div class="control-group">
+						<label class="control-label">
+							<input type="checkbox" id="count-in-enable" />
+							<span>Count-in</span>
+						</label>
+						<select id="count-in-beats" disabled>
+							<option value="1">1 beat</option>
+							<option value="2">2 beats</option>
+							<option value="3">3 beats</option>
+							<option value="4" selected>4 beats</option>
+						</select>
+					</div>
+				</div>
+
+				<!-- Advanced Controls -->
+				<div id="advanced-controls" class="control-section advanced-controls hidden">
+					<div class="control-row">
+						<div class="control-group">
+							<label class="control-label">Speed</label>
+							<div class="slider-group">
+								<button id="speed-down" class="adjust-button">-</button>
+								<span id="speed-display" class="value-display">1.0x</span>
+								<button id="speed-up" class="adjust-button">+</button>
+								<button id="speed-reset" class="reset-button">↺</button>
+							</div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">Pitch</label>
+							<div class="slider-group">
+								<button id="pitch-down" class="adjust-button">-</button>
+								<span id="pitch-display" class="value-display">0</span>
+								<button id="pitch-up" class="adjust-button">+</button>
+								<button id="pitch-reset" class="reset-button">↺</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">Volume</label>
+						<input type="range" id="volume" min="0" max="100" value="80" />
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+</BaseLayout>
+
+<style>
+	.practice-studio {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+		background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+		color: #ffffff;
+	}
+
+	/* Header Styles */
+	.studio-header {
+		background: rgba(0, 0, 0, 0.8);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		padding: 1.5rem;
+		backdrop-filter: blur(10px);
+	}
+
+	.header-content {
+		max-width: 1200px;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	.studio-title {
+		font-size: clamp(2rem, 5vw, 3rem);
+		font-weight: 700;
+		margin: 0 0 0.5rem 0;
+		background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+	}
+
+	.studio-subtitle {
+		font-size: clamp(1rem, 2.5vw, 1.25rem);
+		color: rgba(255, 255, 255, 0.7);
+		margin: 0 0 1.5rem 0;
+		font-weight: 300;
+	}
+
+	.song-info {
+		background: rgba(255, 255, 255, 0.05);
+		border-radius: 12px;
+		padding: 1rem;
+		margin-top: 1rem;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.song-title {
+		font-size: 1.25rem;
+		font-weight: 600;
+		color: #4ecdc4;
+		margin-bottom: 0.5rem;
+	}
+
+	.song-details {
+		display: flex;
+		gap: 2rem;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+
+	.arohanam, .avarohanam {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.label {
+		font-weight: 500;
+		color: rgba(255, 255, 255, 0.6);
+		min-width: 3rem;
+	}
+
+	.value {
+		font-family: 'Courier New', monospace;
+		font-weight: 600;
+		color: #ff6b6b;
+	}
+
+	/* Main Content */
+	.studio-main {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		max-width: 1200px;
+		margin: 0 auto;
+		width: 100%;
+		padding: 0 1rem;
+		gap: 2rem;
+	}
+
+	/* Practice Display */
+	.practice-display {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		min-height: 400px;
+	}
+
+	.panel {
+		background: rgba(255, 255, 255, 0.05);
+		border-radius: 16px;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		overflow: hidden;
+		transition: all 0.3s ease;
+	}
+
+	.panel-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1rem 1.5rem;
+		background: rgba(0, 0, 0, 0.3);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.panel-header h3 {
+		margin: 0;
+		font-size: 1.1rem;
+		font-weight: 600;
+		color: #4ecdc4;
+	}
+
+	.panel-toggle {
+		background: none;
+		border: none;
+		color: rgba(255, 255, 255, 0.6);
+		cursor: pointer;
+		padding: 0.5rem;
+		border-radius: 6px;
+		transition: all 0.2s ease;
+	}
+
+	.panel-toggle:hover {
+		background: rgba(255, 255, 255, 0.1);
+		color: #ffffff;
+	}
+
+	.panel-content {
+		padding: 1.5rem;
+	}
+
+	.notation-panel {
+		flex: 0 0 35%;
+	}
+
+	.lyrics-panel {
+		flex: 1;
+	}
+
+	.notation-content, .lyrics-content {
+		font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+		line-height: 1.6;
+		text-align: center;
+		min-height: 3rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	.current-lyric-line {
+		font-weight: 600;
+		color: #ffffff;
+		margin-bottom: 1rem;
+	}
+
+	.upcoming-lyrics-preview {
+		font-size: 0.9em;
+		color: rgba(255, 255, 255, 0.6);
+		line-height: 1.4;
+	}
+
+	.upcoming-lyrics-preview .lyric-line {
+		margin: 0.5rem 0;
+		opacity: 0.7;
+		transition: all 0.3s ease;
+	}
+
+	/* Control Panel */
+	.control-panel {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		padding: 2rem 0;
+	}
+
+	.control-section {
+		background: rgba(255, 255, 255, 0.05);
+		border-radius: 12px;
+		padding: 1.5rem;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.control-group {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.file-input-label {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.75rem 1.5rem;
+		background: rgba(255, 255, 255, 0.1);
+		border-radius: 8px;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		font-weight: 500;
+	}
+
+	.file-input-label:hover {
+		background: rgba(255, 255, 255, 0.15);
+		transform: translateY(-1px);
+	}
+
+	.primary-button {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.75rem 2rem;
+		background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+		color: white;
+		border: none;
+		border-radius: 8px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	.primary-button:hover:not(:disabled) {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+	}
+
+	.primary-button:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	/* Transport Controls */
+	.transport-controls {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.playback-controls {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1.5rem;
+	}
+
+	.transport-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 60px;
+		height: 60px;
+		border-radius: 50%;
+		border: none;
+		background: rgba(255, 255, 255, 0.1);
+		color: white;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	.transport-button:hover {
+		background: rgba(255, 255, 255, 0.2);
+		transform: scale(1.05);
+	}
+
+	.play-button {
+		background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+	}
+
+	.play-button:hover {
+		box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+	}
+
+	.loop-label {
+		font-weight: 600;
+		color: #4ecdc4;
+	}
+
+	/* Progress Section */
+	.progress-section {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.time-display {
+		display: flex;
+		justify-content: space-between;
+		font-size: 0.9rem;
+		color: rgba(255, 255, 255, 0.7);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.progress-container {
+		position: relative;
+		height: 8px;
+		background: rgba(255, 255, 255, 0.1);
+		border-radius: 4px;
+		overflow: visible;
+		cursor: pointer;
+	}
+
+	.progress-bar {
+		position: relative;
+		height: 100%;
+	}
+
+	.progress-fill {
+		position: absolute;
+		height: 100%;
+		background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+		border-radius: 4px;
+		width: 0%;
+		transition: width 0.1s ease;
+	}
+
+	.timeline-markers {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 15;
+		pointer-events: none;
+	}
+
+	.marker-line {
+		position: absolute;
+		width: 2px;
+		height: 100%;
+		background: #ffff00;
+		top: 0;
+		bottom: 0;
+		box-shadow: 0 0 8px #ffff00, 0 0 16px rgba(255, 255, 0, 0.8);
+		opacity: 1;
+	}
+
+	#seek-bar {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+		cursor: pointer;
+		z-index: 10;
+	}
+
+	.playhead-indicator {
+		position: absolute;
+		top: -12px;
+		left: 0;
+		color: #4ecdc4;
+		transform: translateX(-50%);
+		transition: left 0.1s ease;
+		z-index: 10;
+	}
+
+	/* Practice Controls */
+	.control-label {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-weight: 500;
+		cursor: pointer;
+	}
+
+	.control-label input[type="checkbox"] {
+		width: 18px;
+		height: 18px;
+		accent-color: #4ecdc4;
+	}
+
+	#count-in-beats {
+		padding: 0.5rem;
+		background: rgba(255, 255, 255, 0.1);
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		border-radius: 6px;
+		color: white;
+		font-size: 0.9rem;
+	}
+
+	.loop-controls {
+		width: 100%;
+		margin-top: 1rem;
+	}
+
+	.loop-section {
+		background: rgba(78, 205, 196, 0.05) !important;
+		border: 1px solid rgba(78, 205, 196, 0.2) !important;
+		display: none !important;
+	}
+
+	.loop-section.enabled {
+		display: block !important;
+	}
+
+	.loop-header {
+		margin-bottom: 1rem;
+	}
+
+	.loop-visualizer {
+		width: 100%;
+		height: 30px;
+		background: rgba(0, 0, 0, 0.3);
+		border-radius: 6px;
+		position: relative;
+		border: 1px solid rgba(255, 255, 255, 0.2);
+	}
+
+	.loop-track {
+		position: relative;
+		width: 100%;
+		height: 100%;
+	}
+
+	.loop-markers {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 15;
+		pointer-events: none;
+		overflow: visible;
+	}
+
+	.loop-marker-line {
+		position: absolute;
+		width: 4px;
+		height: 100%;
+		background: #00ff00 !important;
+		top: 0;
+		bottom: 0;
+		box-shadow: 0 0 12px #00ff00, 0 0 24px rgba(0, 255, 0, 1);
+		opacity: 1 !important;
+		display: block !important;
+		visibility: visible !important;
+	}
+
+	.loop-area {
+		position: absolute;
+		top: 0;
+		height: 100%;
+		background: rgba(78, 205, 196, 0.2);
+		border-left: 2px solid #4ecdc4;
+		border-right: 2px solid #4ecdc4;
+	}
+
+	.loop-handle {
+		position: absolute;
+		top: 0;
+		width: 20px;
+		height: 100%;
+		cursor: ew-resize;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transform: translateX(-50%);
+		z-index: 20;
+	}
+
+	.loop-grip {
+		background: #4ecdc4;
+		color: #000;
+		font-weight: bold;
+		font-size: 0.8rem;
+		width: 16px;
+		height: 16px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: ew-resize;
+		transition: all 0.2s ease;
+	}
+
+	.loop-grip:hover {
+		transform: scale(1.2);
+	}
+
+	/* Advanced Controls */
+	.control-row {
+		display: flex;
+		gap: 2rem;
+		margin-bottom: 1.5rem;
+		flex-wrap: wrap;
+	}
+
+	.slider-group {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.adjust-button {
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		border: none;
+		background: rgba(255, 255, 255, 0.1);
+		color: white;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.2s ease;
+	}
+
+	.adjust-button:hover {
+		background: rgba(255, 255, 255, 0.2);
+	}
+
+	.value-display {
+		min-width: 3rem;
+		text-align: center;
+		font-weight: 600;
+		color: #4ecdc4;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.reset-button {
+		width: 24px;
+		height: 24px;
+		font-size: 0.8rem;
+	}
+
+	#volume {
+		flex: 1;
+		max-width: 200px;
+		height: 6px;
+		background: rgba(255, 255, 255, 0.1);
+		border-radius: 3px;
+		outline: none;
+		-webkit-appearance: none;
+	}
+
+	#volume::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		width: 16px;
+		height: 16px;
+		border-radius: 50%;
+		background: #4ecdc4;
+		cursor: pointer;
+	}
+
+	/* Responsive Design */
+	@media (max-width: 768px) {
+		.studio-main {
+			padding: 0 0.5rem;
+			gap: 1rem;
+		}
+
+		.studio-header {
+			padding: 1rem;
+		}
+
+		.control-section {
+			padding: 1rem;
+		}
+
+		.control-group {
+			flex-direction: column;
+			align-items: stretch;
+			gap: 0.75rem;
+		}
+
+		.transport-controls {
+			gap: 0.75rem;
+		}
+
+		.transport-button {
+			width: 50px;
+			height: 50px;
+		}
+
+		.control-row {
+			flex-direction: column;
+			gap: 1rem;
+		}
+
+		.song-details {
+			flex-direction: column;
+			gap: 0.5rem;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.studio-title {
+			font-size: 2rem;
+		}
+
+		.panel-content {
+			padding: 1rem;
+		}
+
+		.transport-button {
+			width: 45px;
+			height: 45px;
+		}
+
+		.primary-button {
+			padding: 0.6rem 1.5rem;
+			font-size: 0.9rem;
+		}
+	}
+
+	/* Utility Classes */
+	.hidden {
+		display: none !important;
+	}
+
+	/* Animations */
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(-10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.panel {
+		animation: fadeIn 0.3s ease-out;
+	}
+</style>
+
+<script>
+	console.log('Practice Studio loaded');
+
+	// State variables
+	let audio: HTMLAudioElement | null = null;
+	let currentAudioFileName = '';
+	let isPlaying = false;
+
+	// DOM elements
+	const audioFileInput = document.getElementById('audio-file') as HTMLInputElement;
+	const loadButton = document.getElementById('load-button') as HTMLButtonElement;
+	const playPauseBtn = document.getElementById('play-pause') as HTMLButtonElement;
+	const stopBtn = document.getElementById('stop') as HTMLButtonElement;
+	const seekBar = document.getElementById('seek-bar') as HTMLInputElement;
+	const currentTimeDisplay = document.getElementById('current-time') as HTMLSpanElement;
+	const durationDisplay = document.getElementById('duration') as HTMLSpanElement;
+	const progressFill = document.getElementById('progress-fill') as HTMLDivElement;
+	const volumeControl = document.getElementById('volume') as HTMLInputElement;
+	const currentLyricDisplay = document.getElementById('current-lyric') as HTMLDivElement;
+	const practiceDisplay = document.getElementById('practice-display') as HTMLDivElement;
+	const practiceControls = document.getElementById('practice-controls') as HTMLDivElement;
+	const advancedControls = document.getElementById('advanced-controls') as HTMLDivElement;
+	const countInEnable = document.getElementById('count-in-enable') as HTMLInputElement;
+	const countInBeats = document.getElementById('count-in-beats') as HTMLSelectElement;
+	const loopEnable = document.getElementById('loop-enable') as HTMLInputElement;
+	const loopControls = document.getElementById('loop-controls') as HTMLDivElement;
+	const speedDisplay = document.getElementById('speed-display') as HTMLSpanElement;
+	const pitchDisplay = document.getElementById('pitch-display') as HTMLSpanElement;
+
+	// Audio file selection
+	audioFileInput.addEventListener('change', (e) => {
+		const file = (e.target as HTMLInputElement).files?.[0];
+		if (file) {
+			const validAudioTypes = ['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/ogg', 'audio/m4a'];
+			const fileExtension = file.name.toLowerCase().split('.').pop();
+			const validExtensions = ['mp3', 'wav', 'ogg', 'm4a', 'aac'];
+
+			if (!validAudioTypes.includes(file.type) && !validExtensions.includes(fileExtension || '')) {
+				alert('Invalid audio file. Please select a valid audio file.');
+				audioFileInput.value = '';
+				return;
+			}
+
+			const url = URL.createObjectURL(file);
+			if (audio) {
+				audio.pause();
+				URL.revokeObjectURL(audio.src);
+			}
+
+			audio = new Audio(url);
+			audio.volume = parseInt(volumeControl.value) / 100;
+			currentAudioFileName = file.name.replace(/\.[^/.]+$/, '');
+
+			audio.addEventListener('loadedmetadata', () => {
+				if (!audio!.duration || isNaN(audio!.duration) || audio!.duration === Infinity) {
+					alert('Invalid audio file. Unable to read file duration.');
+					URL.revokeObjectURL(url);
+					audioFileInput.value = '';
+					return;
+				}
+
+				durationDisplay.textContent = formatTime(audio!.duration);
+				seekBar.max = audio!.duration.toString();
+				loadButton.disabled = false;
+				
+				// Regenerate markers if CSLP data is already loaded
+				if (cslpData && cslpData.data.timeline) {
+					generateTimelineMarkers(cslpData.data.timeline, audio!.duration);
+					generateLoopMarkers(cslpData.data.timeline, audio!.duration);
+				}
+				
+				console.log('Audio file ready:', currentAudioFileName);
+			});
+
+			audio.addEventListener('timeupdate', updateProgress);
+			audio.addEventListener('ended', () => {
+				isPlaying = false;
+				updatePlayPauseButton();
+			});
+			audio.addEventListener('play', () => {
+				isPlaying = true;
+				updatePlayPauseButton();
+			});
+			audio.addEventListener('pause', () => {
+				isPlaying = false;
+				updatePlayPauseButton();
+			});
+
+			console.log('Audio file selected:', currentAudioFileName);
+		}
+	});
+
+	// Load button handler
+	loadButton.addEventListener('click', async () => {
+		if (!audio) return;
+
+		// Show practice display and controls
+		practiceDisplay.classList.remove('hidden');
+		
+		// Show all new sections
+		const progressSection = document.getElementById('progress-section') as HTMLDivElement;
+		const loopSection = document.getElementById('loop-section') as HTMLDivElement;
+		const playbackControlsSection = document.querySelector('.playback-controls-section') as HTMLDivElement;
+		
+		if (progressSection) progressSection.classList.remove('hidden');
+		if (loopSection) loopSection.classList.remove('hidden');
+		if (playbackControlsSection) playbackControlsSection.classList.remove('hidden');
+		
+		practiceControls.classList.remove('hidden');
+		advancedControls.classList.remove('hidden');
+
+		// Hide file input section
+		const fileInputSection = document.getElementById('file-inputs-section') as HTMLDivElement;
+		fileInputSection.classList.add('hidden');
+
+		// Try to load CSLP file for dummy display
+		await loadCSLPData();
+
+		console.log('Practice studio activated for:', currentAudioFileName);
+	});
+
+	// State for CSLP data
+	let cslpData: any = null;
+
+	// Load CSLP file and display data
+	async function loadCSLPData() {
+		const cslpUrl = `/LyricsTagged/${encodeURIComponent(currentAudioFileName)}.cslp`;
+		
+		try {
+			const response = await fetch(cslpUrl);
+			if (!response.ok) {
+				console.log('CSLP file not found, using default display');
+				currentLyricDisplay.textContent = '🎵 Ready to practice';
+				return;
+			}
+
+			cslpData = await response.json();
+			console.log('📝 CSLP Data loaded:', cslpData);
+
+			// Extract metadata
+			const metadata = cslpData.data.metadata;
+			const timeline = cslpData.data.timeline;
+
+			// Display song metadata in header
+			const songMetadata = document.getElementById('song-metadata') as HTMLDivElement;
+			const songTitle = document.getElementById('song-title') as HTMLDivElement;
+			const arohanamText = document.getElementById('arohanam-text') as HTMLDivElement;
+			const avarohanamText = document.getElementById('avarohanam-text') as HTMLDivElement;
+
+			if (metadata) {
+				songTitle.textContent = metadata.title || 'Unknown Song';
+				arohanamText.textContent = metadata.aarohanam || '';
+				avarohanamText.textContent = metadata.avarohanam || '';
+				songMetadata.classList.remove('hidden');
+			}
+
+			// Generate timeline markers (if duration is available)
+			// If duration not available yet, markers will be regenerated when audio metadata loads
+			if (audio && audio.duration && !isNaN(audio.duration)) {
+				generateTimelineMarkers(timeline, audio.duration);
+				generateLoopMarkers(timeline, audio.duration);
+				console.log('✅ Markers generated with duration:', audio.duration);
+			} else {
+				console.log('⏳ Duration not yet available, markers will generate after audio loads');
+			}
+
+			// Display initial lyrics and notation
+			updateLyricsAndNotation(0);
+
+			// Show notation panel
+			if ((window as any).showNotationPanel) {
+				(window as any).showNotationPanel();
+			}
+
+			console.log('✅ CSLP loaded successfully');
+			console.log('  Title:', metadata.title);
+			console.log('  Raagam:', metadata.ragam);
+			console.log('  Talam:', metadata.talam);
+			console.log('  Timeline entries:', timeline.length);
+		} catch (error) {
+			console.error('Error loading CSLP file:', error);
+			currentLyricDisplay.textContent = '🎵 Ready to practice';
+		}
+	}
+
+	// Find the current timeline entry based on time
+	function getCurrentTimelineEntry(currentTime: number) {
+		if (!cslpData || !cslpData.data.timeline) return null;
+		
+		const timeline = cslpData.data.timeline;
+		let currentEntry = null;
+		
+		// Find the entry that matches or is just before the current time
+		for (let i = timeline.length - 1; i >= 0; i--) {
+			if (timeline[i].time <= currentTime) {
+				currentEntry = timeline[i];
+				break;
+			}
+		}
+		
+		return currentEntry;
+	}
+
+	// Update lyrics and notation based on current time
+	function updateLyricsAndNotation(currentTime: number) {
+		if (!cslpData || !cslpData.data.timeline) return;
+
+		const timeline = cslpData.data.timeline;
+		const currentEntry = getCurrentTimelineEntry(currentTime);
+
+		if (currentEntry) {
+			// Update current lyric
+			currentLyricDisplay.textContent = currentEntry.text || '🎵';
+
+			// Update notation
+			const notationDisplay = document.getElementById('current-notation') as HTMLDivElement;
+			if (notationDisplay) {
+				notationDisplay.textContent = currentEntry.notation || 'No notation';
+			}
+
+			// Update upcoming lyrics
+			const upcomingLyricsDiv = document.getElementById('upcoming-lyrics') as HTMLDivElement;
+			if (upcomingLyricsDiv) {
+				const currentIndex = timeline.indexOf(currentEntry);
+				const upcomingEntries = timeline.slice(currentIndex + 1, currentIndex + 4);
+				
+				upcomingLyricsDiv.innerHTML = upcomingEntries
+					.map((entry: any) => `<div class="lyric-line" style="margin: 0.5rem 0; opacity: 0.6;">${entry.text}</div>`)
+					.join('');
+			}
+		} else if (timeline.length > 0) {
+			// Before first entry
+			const firstEntry = timeline[0];
+			currentLyricDisplay.textContent = firstEntry.text || '🎵';
+			
+			const notationDisplay = document.getElementById('current-notation') as HTMLDivElement;
+			if (notationDisplay) {
+				notationDisplay.textContent = firstEntry.notation || 'No notation';
+			}
+
+			const upcomingLyricsDiv = document.getElementById('upcoming-lyrics') as HTMLDivElement;
+			if (upcomingLyricsDiv) {
+				const upcomingEntries = timeline.slice(1, 4);
+				upcomingLyricsDiv.innerHTML = upcomingEntries
+					.map((entry: any) => `<div class="lyric-line" style="margin: 0.5rem 0; opacity: 0.6;">${entry.text}</div>`)
+					.join('');
+			}
+		}
+	}
+
+	// Generate timeline markers on progress bar
+	function generateTimelineMarkers(timeline: any[], duration: number) {
+		const markersContainer = document.getElementById('timeline-markers') as HTMLDivElement;
+		if (!markersContainer) {
+			console.error('❌ timeline-markers container not found');
+			return;
+		}
+
+		// Clear existing markers
+		markersContainer.innerHTML = '';
+
+		// Create a marker for each timeline entry
+		let markersCreated = 0;
+		const samplePositions: any[] = [];
+		timeline.forEach((entry: any, idx: number) => {
+			if (entry.time >= 0 && entry.time <= duration) {
+				const marker = document.createElement('div');
+				marker.className = 'marker-line';
+				const percentage = (entry.time / duration) * 100;
+				marker.style.left = `${percentage}%`;
+				markersContainer.appendChild(marker);
+				markersCreated++;
+				
+				// Store sample positions for logging
+				if (idx === 0 || idx === Math.floor(timeline.length / 2) || idx === timeline.length - 1) {
+					samplePositions.push({ time: entry.time, percentage: percentage.toFixed(2) });
+				}
+			}
+		});
+
+		console.log(`📍 Generated ${markersCreated} timeline markers out of ${timeline.length} entries`);
+		console.log(`  Duration: ${duration}s`);
+		console.log(`  Sample positions:`, samplePositions);
+		console.log(`  First marker DOM element:`, markersContainer.firstChild);
+	}
+
+	// Generate loop markers (same as timeline markers for loop track)
+	function generateLoopMarkers(timeline: any[], duration: number) {
+		const markersContainer = document.getElementById('loop-markers') as HTMLDivElement;
+		if (!markersContainer) {
+			console.error('❌ loop-markers container not found');
+			return;
+		}
+
+		// Clear existing markers
+		markersContainer.innerHTML = '';
+		console.log(`🎯 Starting to generate loop markers for ${timeline.length} entries, duration: ${duration}s`);
+
+		// Create a marker for each timeline entry
+		let markersCreated = 0;
+		timeline.forEach((entry: any, idx: number) => {
+			if (entry.time >= 0 && entry.time <= duration) {
+				const marker = document.createElement('div');
+				marker.className = 'loop-marker-line';
+				const percentage = (entry.time / duration) * 100;
+				marker.style.left = `${percentage}%`;
+				
+				// Add inline styles for maximum visibility
+				marker.style.position = 'absolute';
+				marker.style.width = '4px';
+				marker.style.height = '100%';
+				marker.style.background = '#00ff00';
+				marker.style.top = '0';
+				marker.style.bottom = '0';
+				marker.style.boxShadow = '0 0 12px #00ff00, 0 0 24px rgba(0, 255, 0, 1)';
+				marker.style.opacity = '1';
+				marker.style.display = 'block';
+				marker.style.visibility = 'visible';
+				marker.style.zIndex = '15';
+				
+				// Add detailed attributes for debugging
+				marker.setAttribute('data-time', entry.time);
+				marker.setAttribute('data-index', idx);
+				
+				markersContainer.appendChild(marker);
+				if (markersCreated < 5) {
+					console.log(`  ✓ Marker ${markersCreated}: time=${entry.time}s, left=${percentage}%`);
+				}
+				markersCreated++;
+			}
+		});
+
+		console.log(`📍 Generated ${markersCreated} loop markers out of ${timeline.length} entries`);
+		console.log(`📊 Container size: ${markersContainer.offsetWidth}x${markersContainer.offsetHeight}, Children: ${markersContainer.children.length}`);
+	}
+
+	// Play/Pause button
+	playPauseBtn.addEventListener('click', async () => {
+		if (!audio) return;
+
+		if (audio.paused) {
+			audio.play().catch(e => {
+				console.error('Play failed:', e);
+				alert('Could not start playback. Please try again.');
+			});
+		} else {
+			audio.pause();
+		}
+	});
+
+	// Stop button
+	stopBtn.addEventListener('click', () => {
+		if (!audio) return;
+		audio.pause();
+		audio.currentTime = 0;
+		currentTimeDisplay.textContent = '0:00';
+		progressFill.style.width = '0%';
+		seekBar.value = '0';
+	});
+
+	// Seek bar
+	seekBar.addEventListener('input', () => {
+		if (!audio) return;
+		const newTime = parseFloat(seekBar.value);
+		audio.currentTime = newTime;
+	});
+
+	// Volume control
+	volumeControl.addEventListener('input', () => {
+		if (!audio) return;
+		audio.volume = parseInt(volumeControl.value) / 100;
+	});
+
+	// Progress update
+	function updateProgress() {
+		if (!audio) return;
+
+		const currentTime = audio.currentTime;
+		currentTimeDisplay.textContent = formatTime(currentTime);
+		seekBar.value = currentTime.toString();
+
+		const progress = (currentTime / audio.duration) * 100;
+		progressFill.style.width = `${progress}%`;
+
+		// Update playhead indicator
+		const playheadIndicator = document.querySelector('.playhead-indicator') as HTMLElement;
+		if (playheadIndicator) {
+			playheadIndicator.style.left = `calc(${progress}% - 8px)`;
+		}
+
+		// Update lyrics and notation based on current time
+		updateLyricsAndNotation(currentTime);
+	}
+
+	// Format time helper
+	function formatTime(seconds: number): string {
+		const mins = Math.floor(seconds / 60);
+		const secs = Math.floor(seconds % 60);
+		return `${mins}:${secs.toString().padStart(2, '0')}`;
+	}
+
+	// Update play/pause button appearance
+	function updatePlayPauseButton() {
+		const playIcon = playPauseBtn.querySelector('.play-icon') as HTMLElement;
+		const pauseIcon = playPauseBtn.querySelector('.pause-icon') as HTMLElement;
+
+		if (isPlaying) {
+			playIcon?.classList.add('hidden');
+			pauseIcon?.classList.remove('hidden');
+		} else {
+			playIcon?.classList.remove('hidden');
+			pauseIcon?.classList.add('hidden');
+		}
+	}
+
+	// Panel toggle functionality
+	document.addEventListener('DOMContentLoaded', () => {
+		const panelToggles = document.querySelectorAll('.panel-toggle');
+
+		panelToggles.forEach(toggle => {
+			toggle.addEventListener('click', () => {
+				const panelType = (toggle as HTMLElement).dataset.panel;
+				const panel = document.getElementById(`${panelType}-panel`);
+
+				if (panel) {
+					const isHidden = panel.classList.contains('hidden');
+					if (isHidden) {
+						panel.classList.remove('hidden');
+						toggle.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18,15 12,9 6,15"></polyline></svg>';
+					} else {
+						panel.classList.add('hidden');
+						toggle.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"></polyline></svg>';
+					}
+				}
+			});
+		});
+
+		// Show notation panel by default when CSLP data loads
+		const showNotationPanel = () => {
+			const notationPanel = document.getElementById('notation-panel') as HTMLDivElement;
+			if (notationPanel) {
+				notationPanel.classList.remove('hidden');
+				// Set toggle to show down arrow (open state)
+				const toggle = notationPanel.querySelector('.panel-toggle') as HTMLElement;
+				if (toggle) {
+					toggle.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18,15 12,9 6,15"></polyline></svg>';
+				}
+			}
+		};
+
+		// Make showNotationPanel available globally so loadCSLPData can call it
+		(window as any).showNotationPanel = showNotationPanel;
+
+		// Loop controls toggle
+		if (loopEnable && loopControls) {
+			loopEnable.addEventListener('change', () => {
+				const loopSection = document.getElementById('loop-section') as HTMLDivElement;
+				if (loopEnable.checked) {
+					loopControls.classList.remove('hidden');
+					if (loopSection) {
+						loopSection.classList.remove('hidden');
+						loopSection.classList.add('enabled');
+					}
+				} else {
+					loopControls.classList.add('hidden');
+					if (loopSection) {
+						loopSection.classList.remove('enabled');
+						loopSection.classList.add('hidden');
+					}
+				}
+			});
+		}
+
+		// Count-in controls
+		if (countInEnable && countInBeats) {
+			countInEnable.addEventListener('change', () => {
+				countInBeats.disabled = !countInEnable.checked;
+			});
+		}
+
+		// Speed controls
+		const speedDownBtn = document.getElementById('speed-down') as HTMLButtonElement;
+		const speedUpBtn = document.getElementById('speed-up') as HTMLButtonElement;
+		const speedResetBtn = document.getElementById('speed-reset') as HTMLButtonElement;
+		let playbackSpeed = 1.0;
+
+		speedDownBtn?.addEventListener('click', () => {
+			if (playbackSpeed > 0.25) {
+				playbackSpeed = Math.max(0.25, playbackSpeed - 0.1);
+				if (audio) audio.playbackRate = playbackSpeed;
+				speedDisplay.textContent = `${playbackSpeed.toFixed(1)}x`;
+			}
+		});
+
+		speedUpBtn?.addEventListener('click', () => {
+			if (playbackSpeed < 2.0) {
+				playbackSpeed = Math.min(2.0, playbackSpeed + 0.1);
+				if (audio) audio.playbackRate = playbackSpeed;
+				speedDisplay.textContent = `${playbackSpeed.toFixed(1)}x`;
+			}
+		});
+
+		speedResetBtn?.addEventListener('click', () => {
+			playbackSpeed = 1.0;
+			if (audio) audio.playbackRate = playbackSpeed;
+			speedDisplay.textContent = '1.0x';
+		});
+
+		// Pitch controls
+		const pitchDownBtn = document.getElementById('pitch-down') as HTMLButtonElement;
+		const pitchUpBtn = document.getElementById('pitch-up') as HTMLButtonElement;
+		const pitchResetBtn = document.getElementById('pitch-reset') as HTMLButtonElement;
+		let pitchShift = 0;
+
+		pitchDownBtn?.addEventListener('click', () => {
+			if (pitchShift > -12) {
+				pitchShift -= 0.5;
+				pitchDisplay.textContent = `${pitchShift.toFixed(1)}`;
+				applyPitchShift(pitchShift);
+			}
+		});
+
+		pitchUpBtn?.addEventListener('click', () => {
+			if (pitchShift < 12) {
+				pitchShift += 0.5;
+				pitchDisplay.textContent = `${pitchShift > 0 ? '+' : ''}${pitchShift.toFixed(1)}`;
+				applyPitchShift(pitchShift);
+			}
+		});
+
+		pitchResetBtn?.addEventListener('click', () => {
+			pitchShift = 0;
+			pitchDisplay.textContent = '0';
+			applyPitchShift(pitchShift);
+		});
+
+		function applyPitchShift(semitones: number) {
+			if (!audio) return;
+			if (semitones === 0) {
+				audio.preservesPitch = true;
+				audio.playbackRate = playbackSpeed;
+			} else {
+				const pitchRatio = Math.pow(2, semitones / 12);
+				audio.preservesPitch = false;
+				audio.playbackRate = pitchRatio;
+			}
+		}
+
+		console.log('Practice Studio fully initialized');
+	});
+</script>
