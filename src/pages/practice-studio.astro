@@ -131,11 +131,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 							<input type="checkbox" id="loop-enable" />
 							<span>A-B</span>
 						</label>
-						<label class="control-label count-in-label">
-							<input type="checkbox" id="count-in-enable" />
-							<span>Count-in</span>
-						</label>
-						<span id="count-in-display" class="count-in-display hidden">Count set to: <span id="count-in-value">-</span></span>
+						<div class="count-in-controls">
+							<select id="count-in-beats-dropdown">
+								<option value="4" selected>4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+							<button id="count-in-button" class="transport-button count-in-square" title="Count-in">
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+									<text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="bold">🎵</text>
+									<rect x="2" y="2" width="20" height="20" fill="none" stroke="currentColor"/>
+								</svg>
+							</button>
+							<span id="count-in-countdown" class="count-in-countdown hidden"></span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -589,21 +602,65 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		accent-color: #4ecdc4;
 	}
 
-	.count-in-label {
+	.count-in-controls {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
-		font-size: 0.95rem;
+		gap: 0.75rem;
+		padding: 0 0.5rem;
 	}
 
-	.count-in-display {
+	#count-in-beats-dropdown {
+		padding: 0.4rem 0.6rem;
+		background: rgba(255, 255, 255, 0.1);
+		border: 1px solid rgba(78, 205, 196, 0.3);
+		border-radius: 4px;
+		color: white;
 		font-size: 0.9rem;
-		color: #4ecdc4;
-		font-weight: 500;
-		white-space: nowrap;
+		cursor: pointer;
+		min-width: 60px;
+		transition: all 0.2s ease;
 	}
 
-	.count-in-display.hidden {
+	#count-in-beats-dropdown:hover:not(:disabled) {
+		border-color: #4ecdc4;
+		background: rgba(78, 205, 196, 0.1);
+	}
+
+	#count-in-beats-dropdown:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	.count-in-square {
+		min-width: 36px;
+		min-height: 36px;
+		padding: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 2px solid rgba(78, 205, 196, 0.5);
+		transition: all 0.2s ease;
+	}
+
+	.count-in-square:hover:not(:disabled) {
+		border-color: #4ecdc4;
+		background: rgba(78, 205, 196, 0.2);
+	}
+
+	.count-in-square:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	#count-in-countdown {
+		font-size: 1.8rem;
+		font-weight: bold;
+		color: #4ecdc4;
+		min-width: 40px;
+		text-align: center;
+	}
+
+	#count-in-countdown.hidden {
 		display: none;
 	}
 
@@ -873,6 +930,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	let pitchShift = 0; // in semitones
 	let playbackSpeed = 1.0;
 	let isIntentionalStop = false; // Flag to distinguish pause from stop
+	
+	// Count-in state
+	let isCountingIn = false;
+	let countInActive = false;
+	let countInIntervalId: number | null = null;
 
 	// Tone.js nodes for independent pitch and speed
 	let tonePlayer: Tone.Player | null = null;
@@ -896,9 +958,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	const currentLyricDisplay = document.getElementById('current-lyric') as HTMLDivElement;
 	const practiceDisplay = document.getElementById('practice-display') as HTMLDivElement;
 	const advancedControls = document.getElementById('advanced-controls') as HTMLDivElement;
-	const countInEnable = document.getElementById('count-in-enable') as HTMLInputElement;
-	const countInDisplay = document.getElementById('count-in-display') as HTMLSpanElement;
-	const countInValue = document.getElementById('count-in-value') as HTMLSpanElement;
+	const countInButton = document.getElementById('count-in-button') as HTMLButtonElement;
+	const countInBeatsDropdown = document.getElementById('count-in-beats-dropdown') as HTMLSelectElement;
+	const countInCountdown = document.getElementById('count-in-countdown') as HTMLSpanElement;
 	const loopEnable = document.getElementById('loop-enable') as HTMLInputElement;
 	const loopControls = document.getElementById('loop-controls') as HTMLDivElement;
 	const speedDisplay = document.getElementById('speed-display') as HTMLSpanElement;
@@ -997,7 +1059,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	// State for CSLP data
 	let cslpData: any = null;
-	let eduppu: number = 0;
 
 	// Load CSLP file and display data
 	async function loadCSLPData() {
@@ -1032,16 +1093,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			ragamText.textContent = metadata.ragam || '';
 			talamText.textContent = metadata.talam || '';
 			sruthiText.textContent = metadata.sruthi || '';
-			
-			// Extract eduppu value for count-in
-			eduppu = metadata.eduppu || 0;
-			if (eduppu > 0) {
-				countInValue.textContent = eduppu.toString();
-				countInDisplay.classList.remove('hidden');
-			} else {
-				countInDisplay.classList.add('hidden');
-			}
-			
 			songMetadata.classList.remove('hidden');
 		}			// Generate timeline markers (if duration is available)
 			// If duration not available yet, markers will be regenerated when audio metadata loads
@@ -1518,6 +1569,92 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		updatePlayPauseButton();
 	});
 
+	// Count-in button
+	countInButton.addEventListener('click', async () => {
+		// Only allow count-in when not playing
+		if (isPlaying || isCountingIn) return;
+
+		try {
+			const selectedBeats = parseInt(countInBeatsDropdown.value);
+			isCountingIn = true;
+			countInActive = true;
+			countInButton.disabled = true;
+			countInBeatsDropdown.disabled = true;
+
+			// Start countdown
+			let currentCount = selectedBeats;
+			const beatDuration = 15; // 15ms per beat
+
+			// Display and play sounds for countdown
+			const countdownInterval = setInterval(async () => {
+				if (currentCount > 0) {
+					// Display number
+					countInCountdown.textContent = currentCount.toString();
+					countInCountdown.classList.remove('hidden');
+
+					// Play wood block sound
+					try {
+						await playClickSound();
+					} catch (e) {
+						// console.log('Click sound failed:', e);
+					}
+
+					currentCount--;
+				} else {
+					// Countdown finished, start playback
+					clearInterval(countdownInterval);
+					countInCountdown.classList.add('hidden');
+
+					// Start audio playback from current position
+					if (Tone.context.state !== 'running') {
+						await Tone.start();
+					}
+
+					if (tonePlayer) {
+						try {
+							tonePlayer.start();
+							setTimeout(() => {
+								if (tonePlayer) {
+									tonePlayer.seek(toneNow);
+									playStartTime = performance.now() - (toneNow * 1000);
+								}
+							}, 10);
+						} catch (e) {
+							// console.log('Play after count-in failed:', e);
+						}
+					}
+
+					isPlaying = true;
+					isCountingIn = false;
+					startProgressTracking();
+					updatePlayPauseButton();
+				}
+			}, beatDuration);
+
+			countInIntervalId = countdownInterval as unknown as number;
+		} catch (e) {
+			console.error('Count-in failed:', e);
+			isCountingIn = false;
+			countInButton.disabled = false;
+			countInBeatsDropdown.disabled = false;
+			countInCountdown.classList.add('hidden');
+		}
+	});
+
+	// Update button states based on playback
+	function updateCountInButtonState() {
+		const canUseCountIn = !isPlaying && !isCountingIn;
+		countInButton.disabled = !canUseCountIn;
+		countInBeatsDropdown.disabled = !canUseCountIn;
+	}
+
+	// Hook into existing play/pause/stop updates
+	const originalUpdatePlayPauseButton = updatePlayPauseButton;
+	updatePlayPauseButton = function() {
+		originalUpdatePlayPauseButton.call(this);
+		updateCountInButtonState();
+	};
+
 	// Seek bar
 	seekBar.addEventListener('input', () => {
 		if (!isUsingTone || !tonePlayer) return;
@@ -1875,16 +2012,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					}
 				}
 			});
-		}
-
-		// Count-in controls
-		if (countInEnable && eduppu > 0) {
-			// Count-in checkbox is enabled when eduppu > 0
-			countInEnable.disabled = false;
-		} else if (countInEnable) {
-			// Disable if no eduppu value
-			countInEnable.checked = false;
-			countInEnable.disabled = true;
 		}
 
 		// Speed controls
