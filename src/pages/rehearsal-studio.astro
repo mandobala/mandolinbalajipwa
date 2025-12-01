@@ -65,34 +65,34 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					</svg>
 					Load
 				</button>
+
+				<!-- Count-in and Loop Controls (inside controls-section) -->
+				<div id="count-in-control" class="count-in-control hidden">
+					<label class="checkbox-label">
+						<input type="checkbox" id="count-in-enable" />
+						<span>Count-in:</span>
+					</label>
+					<select id="count-in-beats" disabled>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4" selected>4</option>
+					</select>
+					<label class="checkbox-label loop-label">
+						<input type="checkbox" id="loop-enable" />
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M17 1l4 4-4 4"/>
+							<path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+							<path d="M7 23l-4-4 4-4"/>
+							<path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+						</svg>
+					</label>
+				</div>
 			</div>
 		</div>
 
 		<!-- Controls Area (25% height at bottom) -->
 		<div class="controls-area">
-			<!-- Count-in and Loop Controls -->
-			<div id="count-in-control" class="count-in-control hidden">
-				<label class="checkbox-label">
-					<input type="checkbox" id="count-in-enable" />
-					<span>Count-in:</span>
-				</label>
-				<select id="count-in-beats" disabled>
-					<option value="1">1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
-					<option value="4" selected>4</option>
-				</select>
-				<label class="checkbox-label loop-label">
-					<input type="checkbox" id="loop-enable" />
-					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-						<path d="M17 1l4 4-4 4"/>
-						<path d="M3 11V9a4 4 0 0 1 4-4h14"/>
-						<path d="M7 23l-4-4 4-4"/>
-						<path d="M21 13v2a4 4 0 0 1-4 4H3"/>
-					</svg>
-				</label>
-			</div>
-
 			<div id="audio-player" class="audio-player hidden">
 					<div class="waveform-container">
 						<div class="playhead-indicator">
@@ -142,6 +142,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 							<rect x="6" y="6" width="12" height="12"/>
 						</svg>
 					</button>
+
 					<div class="pitch-control">
 						<button id="pitch-down" class="control-btn-small" title="Lower pitch by half-step">
 							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -179,8 +180,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 						<input type="range" id="volume" min="0" max="100" value="80" />
 					</div>
 				</div>
+
+				<!-- Count-in Button Row (separate section below play/stop on mobile) -->
+				<div id="count-in-button-row" class="count-in-button-row hidden">
+					<label for="count-in-bpm" class="bpm-label">BPM:</label>
+					<input type="number" id="count-in-bpm" class="bpm-input" min="40" max="300" value="120" />
+					<label for="count-in-beats-dropdown" class="beats-label">Beats:</label>
+					<select id="count-in-beats-dropdown" class="beats-dropdown">
+						<option value="4" selected>4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+					</select>
+					<button id="count-in-button" class="count-in-button" title="Click to start count-in">▶</button>
+					<div id="count-in-countdown" class="count-in-countdown hidden"></div>
+				</div>
+
 			</div>
 		</div>
+
+		<!-- Count-in and Loop Controls (outside controls-area) -->
 		</div>
 	</div>
 </BaseLayout>
@@ -876,6 +898,114 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		border: none;
 	}
 
+	.count-in-controls {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding: 0.75rem 1rem;
+		background: #0a0a0a;
+		border-top: 1px solid #222;
+	}
+
+	.count-in-row {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+		justify-content: center;
+		width: 100%;
+	}
+
+	.count-in-button-row {
+		display: flex;
+		align-items: center;
+		gap: 0.375rem;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		width: 100%;
+		margin-top: 0.5rem;
+	}
+
+	.bpm-label,
+	.beats-label {
+		font-size: var(--text-xs);
+		color: var(--gray-300);
+		font-weight: 600;
+		white-space: nowrap;
+	}
+
+	.bpm-input,
+	.beats-dropdown {
+		padding: 0.375rem 0.5rem;
+		background: var(--gray-800);
+		border: 1px solid var(--gray-700);
+		border-radius: 0.25rem;
+		color: var(--gray-200);
+		font-size: var(--text-xs);
+		cursor: pointer;
+	}
+
+	.bpm-input {
+		width: 60px;
+	}
+
+	.bpm-input:disabled,
+	.beats-dropdown:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	.count-in-button {
+		padding: 0.5rem 1rem;
+		background: var(--accent-regular);
+		color: #000;
+		border: none;
+		border-radius: 0.375rem;
+		font-weight: 700;
+		cursor: pointer;
+		font-size: var(--text-xs);
+		white-space: nowrap;
+		transition: all 0.2s;
+		box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+		min-width: 45px;
+	}
+
+	.count-in-button:hover:not(:disabled) {
+		opacity: 0.9;
+		box-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
+		transform: scale(1.05);
+	}
+
+	.count-in-button:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+		box-shadow: none;
+	}
+
+	.count-in-countdown {
+		font-size: 5rem;
+		color: #00ffff;
+		text-align: center;
+		font-weight: bold;
+		text-shadow: 0 0 20px #00ffff;
+		animation: pulse 0.5s ease-in-out;
+	}
+
+	.count-in-countdown.hidden {
+		display: none;
+	}
+
+	@keyframes pulse {
+		0%, 100% {
+			transform: scale(1);
+			opacity: 1;
+		}
+		50% {
+			transform: scale(1.1);
+			opacity: 0.8;
+		}
+	}
+
 	.lyrics-display {
 		background: var(--gradient-subtle);
 		border: 1px solid var(--gray-800);
@@ -930,23 +1060,63 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	@media (max-width: 768px) {
 		.player-controls {
 			gap: 0.375rem;
+			flex-wrap: wrap;
 		}
 
 		.pitch-control,
 		.speed-control {
 			gap: 0.25rem;
 			padding: 0.25rem 0.375rem;
+			display: none;
 		}
 
 		.volume-control {
 			margin-left: 0;
 			width: 100%;
 			justify-content: center;
+			display: none;
 		}
 
 		.volume-control input[type="range"] {
 			flex: 1;
 			max-width: 200px;
+		}
+
+		.count-in-button-row {
+			gap: 0.25rem;
+			width: 100%;
+			margin-top: 0.5rem;
+			padding: 0.5rem;
+			background: var(--gray-900);
+			border-radius: 0.375rem;
+			justify-content: center;
+		}
+
+		.count-in-controls {
+			padding: 0.5rem;
+		}
+
+		.count-in-row {
+			gap: 0.375rem;
+			justify-content: center;
+		}
+
+		.bpm-input {
+			width: 45px;
+		}
+
+		.bpm-label,
+		.beats-label {
+			font-size: 0.6rem;
+		}
+
+		.count-in-button {
+			padding: 0.375rem 0.625rem;
+			font-size: 0.65rem;
+		}
+
+		.count-in-countdown {
+			font-size: 2.5rem;
 		}
 
 		.lyric-container {
@@ -1049,6 +1219,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	const speedUpBtn = document.getElementById('speed-up') as HTMLButtonElement;
 	const speedResetBtn = document.getElementById('speed-reset') as HTMLButtonElement;
 	const speedDisplay = document.getElementById('speed-display') as HTMLSpanElement;
+	const countInButtonRow = document.getElementById('count-in-button-row') as HTMLDivElement;
+	const countInBpmInput = document.getElementById('count-in-bpm') as HTMLInputElement;
+	const countInBeatsDropdown = document.getElementById('count-in-beats-dropdown') as HTMLSelectElement;
+	const countInButton = document.getElementById('count-in-button') as HTMLButtonElement;
+	const countInCountdown = document.getElementById('count-in-countdown') as HTMLDivElement;
 
 	// Load audio file
 	audioFileInput.addEventListener('change', (e) => {
@@ -1229,6 +1404,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		document.getElementById('main-display')!.classList.remove('hidden');
 		fileInputsSection.classList.add('collapsed');
 		countInControl.classList.remove('hidden');
+		countInButtonRow.classList.remove('hidden');
 		
 		// Create markers if lyrics are loaded
 		if (lyrics.length > 0 && audio && audio.duration) {
@@ -1489,6 +1665,105 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		oscillator.stop(audioContext.currentTime + 0.1);
 	}
 
+	// BPM-based count-in button handler
+	let isCountingIn = false;
+	let countInIntervalId: number | null = null;
+
+	countInButton.addEventListener('click', async () => {
+		if (!audio || isCountingIn) return;
+
+		// Ensure Tone.js is started
+		try {
+			if (Tone.context.state !== 'running') {
+				await Tone.start();
+			}
+		} catch (error) {
+			console.warn('Audio context start failed:', error);
+		}
+
+		// Check if playback is active (don't allow count-in during playback)
+		const isPlaying = isUsingTone ? (tonePlayer?.state === 'started') : !audio.paused;
+		if (isPlaying) {
+			return;
+		}
+
+		isCountingIn = true;
+		updateCountInButtonState();
+
+		const bpm = parseInt(countInBpmInput.value) || 120;
+		const selectedBeats = parseInt(countInBeatsDropdown.value) || 4;
+		const beatDurationMs = Math.round(60000 / bpm);
+		const ticksPerBeat = Math.max(1, Math.floor(beatDurationMs / 10));
+
+		let currentCount = selectedBeats;
+		let tickCounter = 0;
+
+		// Use Tone.js synth for better sound
+		let synth: Tone.Synth | null = null;
+		try {
+			synth = new Tone.Synth({
+				oscillator: { type: 'sine' },
+				envelope: { attack: 0.002, decay: 0.05, sustain: 0, release: 0.1 },
+			}).toDestination();
+		} catch (e) {
+			console.error('Failed to create Tone.Synth:', e);
+			isCountingIn = false;
+			updateCountInButtonState();
+			return;
+		}
+
+		const countdownInterval = setInterval(async () => {
+			if (tickCounter % ticksPerBeat === 0 && currentCount > 0) {
+				// Display number and play sound
+				countInCountdown.textContent = currentCount.toString();
+				countInCountdown.classList.remove('hidden');
+
+				// Play click sound
+				try {
+					synth?.triggerAttackRelease('C4', '0.1');
+				} catch (e) {
+					console.error('Sound playback error:', e);
+				}
+
+				currentCount--;
+			}
+
+			tickCounter++;
+
+			// Check if countdown is complete
+			if (tickCounter >= selectedBeats * ticksPerBeat) {
+				clearInterval(countdownInterval);
+				countInCountdown.classList.add('hidden');
+				isCountingIn = false;
+				updateCountInButtonState();
+
+				// Start playback after count-in
+				if (audio) {
+					const startTime = isUsingTone ? getCurrentBufferTime() : audio.currentTime;
+					if (isUsingTone) {
+						playBufferSource(startTime);
+					} else {
+						audio.play().catch(e => console.error('Play failed:', e));
+					}
+					playPauseBtn.querySelector('.play-icon')?.classList.add('hidden');
+					playPauseBtn.querySelector('.pause-icon')?.classList.remove('hidden');
+				}
+			}
+		}, 10);
+
+		countInIntervalId = countdownInterval as any;
+	});
+
+	// Update button state based on playback/countdown
+	function updateCountInButtonState() {
+		const isPlaying = isUsingTone ? (tonePlayer?.state === 'started') : !audio.paused;
+		const canClick = !isPlaying && !isCountingIn;
+
+		countInButton.disabled = !canClick;
+		countInBpmInput.disabled = !canClick;
+		countInBeatsDropdown.disabled = !canClick;
+	}
+
 	// Play/Pause control - Enhanced for iOS compatibility
 	playPauseBtn.addEventListener('click', async () => {
 		if (!audio) return;
@@ -1586,6 +1861,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			playPauseBtn.querySelector('.play-icon')?.classList.remove('hidden');
 			playPauseBtn.querySelector('.pause-icon')?.classList.add('hidden');
 		}
+		updateCountInButtonState();
 	});
 
 	// Stop control

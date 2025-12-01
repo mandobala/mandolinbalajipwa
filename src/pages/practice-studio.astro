@@ -132,9 +132,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 							<input type="checkbox" id="loop-enable" />
 							<span>A-B</span>
 						</label>
-						<div class="count-in-controls">
+						
+					</div>
+				</div>
+			</div>
+
+			<!-- Control Panel -->
+			<div class="control-panel">
+                <div class="count-in-controls">
+							<label for="count-in-bpm" class="bpm-label">BPM:</label>
+							<input type="number" id="count-in-bpm" class="bpm-input" value="120" min="40" max="300" />
 							<select id="count-in-beats-dropdown">
 								<option value="4" selected>4</option>
+                                <option value="3">3</option>
 								<option value="5">5</option>
 								<option value="6">6</option>
 								<option value="7">7</option>
@@ -149,12 +159,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 								</svg>
 							</button>
 						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- Control Panel -->
-			<div class="control-panel">
 				<!-- File Input Section -->
 				<div id="file-inputs-section" class="control-section file-inputs-section">
 					<div class="control-group">
@@ -607,6 +611,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		align-items: center;
 		gap: 0.75rem;
 		padding: 0 0.5rem;
+	}
+
+	.bpm-label {
+		color: rgba(255, 255, 255, 0.7);
+		font-size: 0.9rem;
+		white-space: nowrap;
+	}
+
+	.bpm-input {
+		padding: 0.4rem 0.6rem;
+		background: rgba(255, 255, 255, 0.1);
+		border: 1px solid rgba(78, 205, 196, 0.3);
+		border-radius: 4px;
+		color: white;
+		font-size: 0.9rem;
+		width: 70px;
+		transition: all 0.2s ease;
+	}
+
+	.bpm-input:focus {
+		outline: none;
+		border-color: #4ecdc4;
+		background: rgba(78, 205, 196, 0.1);
 	}
 
 	#count-in-beats-dropdown {
@@ -1094,27 +1121,36 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 			// Display song metadata in header
 			const songMetadata = document.getElementById('song-metadata') as HTMLDivElement;
-		const songTitle = document.getElementById('song-title') as HTMLDivElement;
-		const ragamText = document.getElementById('ragam-text') as HTMLDivElement;
-		const talamText = document.getElementById('talam-text') as HTMLDivElement;
-		const sruthiText = document.getElementById('sruthi-text') as HTMLDivElement;
+			const songTitle = document.getElementById('song-title') as HTMLDivElement;
+			const ragamText = document.getElementById('ragam-text') as HTMLDivElement;
+			const talamText = document.getElementById('talam-text') as HTMLDivElement;
+			const sruthiText = document.getElementById('sruthi-text') as HTMLDivElement;
 
-		if (metadata) {
-			// Limit title to 20 characters
-			const titleDisplay = (metadata.title || 'Unknown Song').substring(0, 20);
-			songTitle.textContent = titleDisplay;
-			ragamText.textContent = metadata.ragam || '';
-			talamText.textContent = metadata.talam || '';
-			sruthiText.textContent = metadata.sruthi || '';
+			// Check if elements exist before using them
+			if (!songTitle || !ragamText || !talamText || !sruthiText) {
+				console.warn(`⚠️ Some metadata elements not found. songTitle=${!!songTitle}, ragamText=${!!ragamText}, talamText=${!!talamText}, sruthiText=${!!sruthiText}`);
+			}
+
+			if (metadata) {
+				// Limit title to 20 characters
+				const titleDisplay = (metadata.title || 'Unknown Song').substring(0, 20);
+				if (songTitle) songTitle.textContent = titleDisplay;
+				if (ragamText) ragamText.textContent = metadata.ragam || '';
+				if (talamText) talamText.textContent = metadata.talam || '';
+				if (sruthiText) sruthiText.textContent = metadata.sruthi || '';
 			
 			// Extract edupu value for count-in beat timing (in milliseconds)
 			// Higher edupu values = slower beats (inverse relationship)
 			// edupu is typically a musical time unit, so we interpret higher values as slower timing
-			if (metadata.edupu && typeof metadata.edupu === 'number' && metadata.edupu > 0) {
-				beatDurationMs = metadata.edupu;
-				console.log(`🎵 Count-in edupu read: ${metadata.edupu}ms per beat`);
-			} else {
-				console.log(`🎵 Count-in: edupu not set in CSLP, will use fallback timing`);
+			
+			// Try to convert edupu to number if it exists
+			let edupuValue = null;
+			if (metadata?.edupu !== undefined && metadata?.edupu !== null) {
+				edupuValue = typeof metadata.edupu === 'number' ? metadata.edupu : parseInt(metadata.edupu, 10);
+			}
+			
+			if (edupuValue && !isNaN(edupuValue) && edupuValue > 0) {
+				beatDurationMs = edupuValue;
 			}
 			
 			songMetadata.classList.remove('hidden');
@@ -1144,7 +1180,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			// console.log('  Timeline entries:', timeline.length);
 		} catch (error) {
 			console.error('Error loading CSLP file:', error);
-			currentLyricDisplay.textContent = '🎵 Ready to practice';
+			if (currentLyricDisplay) {
+				currentLyricDisplay.textContent = '🎵 Ready to practice';
+			}
 		}
 	}
 
@@ -1602,21 +1640,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 		try {
 			const selectedBeats = parseInt(countInBeatsDropdown.value);
+			const bpmInput = document.getElementById('count-in-bpm') as HTMLInputElement;
+			const bpm = parseInt(bpmInput.value) || 120; // Default to 120 BPM
+			
 			isCountingIn = true;
 			countInActive = true;
 			countInButton.disabled = true;
 			countInBeatsDropdown.disabled = true;
+			bpmInput.disabled = true;
 
 			// Start countdown
 			let currentCount = selectedBeats;
 			
-			// Use edupu from CSLP metadata as beat duration in ms
-			const currentBeatDuration = beatDurationMs > 0 ? beatDurationMs : 50; // Fallback to 50ms if edupu not set
-			console.log(`▶️ Count-in started: ${selectedBeats} beats × ${currentBeatDuration}ms = ${selectedBeats * currentBeatDuration}ms total`);
+			// Calculate beat duration from BPM: 60000ms per minute / BPM = ms per beat
+			const currentBeatDuration = Math.round(60000 / bpm);
 
 			// Display and play sounds for countdown
+			// Each beat should display for currentBeatDuration milliseconds
+			// We'll run the interval faster (every 10ms) to get smooth updates, but only show/play every (currentBeatDuration/10) ticks
+			let tickCounter = 0;
+			const ticksPerBeat = Math.max(1, Math.floor(currentBeatDuration / 10)); // How many 10ms ticks = 1 beat
+			
 			const countdownInterval = setInterval(async () => {
-				if (currentCount > 0) {
+				// Check if it's time to show the next number (every ticksPerBeat ticks)
+				if (tickCounter % ticksPerBeat === 0 && currentCount > 0) {
 					// Display number
 					countInCountdown.textContent = currentCount.toString();
 					countInCountdown.classList.remove('hidden');
@@ -1638,7 +1685,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					}
 
 					currentCount--;
-				} else {
+				}
+				
+				tickCounter++;
+				
+				// Check if countdown is complete (when currentCount goes below 0 after showing all numbers)
+				if (currentCount === 0 && tickCounter % ticksPerBeat === 0) {
 					// Countdown finished, start playback
 					clearInterval(countdownInterval);
 					countInCountdown.classList.add('hidden');
@@ -1667,7 +1719,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				startProgressTracking();
 				updatePlayPauseButton();
 			}
-		}, currentBeatDuration);			countInIntervalId = countdownInterval as unknown as number;
+		}, 10); // Run every 10ms for smooth timing			countInIntervalId = countdownInterval as unknown as number;
 		} catch (e) {
 			console.error('Count-in failed:', e);
 			isCountingIn = false;
@@ -1679,9 +1731,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	// Update button states based on playback
 	function updateCountInButtonState() {
+		const bpmInput = document.getElementById('count-in-bpm') as HTMLInputElement;
 		const canUseCountIn = !isPlaying && !isCountingIn;
 		countInButton.disabled = !canUseCountIn;
 		countInBeatsDropdown.disabled = !canUseCountIn;
+		if (bpmInput) bpmInput.disabled = !canUseCountIn;
 	}
 
 	// Seek bar
