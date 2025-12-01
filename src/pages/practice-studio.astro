@@ -131,6 +131,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 							<input type="checkbox" id="loop-enable" />
 							<span>A-B</span>
 						</label>
+						<label class="control-label count-in-label">
+							<input type="checkbox" id="count-in-enable" />
+							<span>Count-in</span>
+						</label>
+						<span id="count-in-display" class="count-in-display hidden">Count set to: <span id="count-in-value">-</span></span>
 					</div>
 				</div>
 			</div>
@@ -155,22 +160,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 							</svg>
 							Start Practice
 						</button>
-					</div>
-				</div>
-
-				<!-- Practice Controls - Count In -->
-				<div id="practice-controls" class="control-section practice-controls hidden">
-					<div class="control-group">
-						<label class="control-label">
-							<input type="checkbox" id="count-in-enable" />
-							<span>Count-in</span>
-						</label>
-						<select id="count-in-beats" disabled>
-							<option value="1">1 beat</option>
-							<option value="2">2 beats</option>
-							<option value="3">3 beats</option>
-							<option value="4" selected>4 beats</option>
-						</select>
 					</div>
 				</div>
 
@@ -600,13 +589,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		accent-color: #4ecdc4;
 	}
 
-	#count-in-beats {
-		padding: 0.5rem;
-		background: rgba(255, 255, 255, 0.1);
-		border: 1px solid rgba(255, 255, 255, 0.2);
-		border-radius: 6px;
-		color: white;
+	.count-in-label {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-size: 0.95rem;
+	}
+
+	.count-in-display {
 		font-size: 0.9rem;
+		color: #4ecdc4;
+		font-weight: 500;
+		white-space: nowrap;
+	}
+
+	.count-in-display.hidden {
+		display: none;
 	}
 
 	.loop-controls {
@@ -897,10 +895,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	const volumeControl = document.getElementById('volume') as HTMLInputElement;
 	const currentLyricDisplay = document.getElementById('current-lyric') as HTMLDivElement;
 	const practiceDisplay = document.getElementById('practice-display') as HTMLDivElement;
-	const practiceControls = document.getElementById('practice-controls') as HTMLDivElement;
 	const advancedControls = document.getElementById('advanced-controls') as HTMLDivElement;
 	const countInEnable = document.getElementById('count-in-enable') as HTMLInputElement;
-	const countInBeats = document.getElementById('count-in-beats') as HTMLSelectElement;
+	const countInDisplay = document.getElementById('count-in-display') as HTMLSpanElement;
+	const countInValue = document.getElementById('count-in-value') as HTMLSpanElement;
 	const loopEnable = document.getElementById('loop-enable') as HTMLInputElement;
 	const loopControls = document.getElementById('loop-controls') as HTMLDivElement;
 	const speedDisplay = document.getElementById('speed-display') as HTMLSpanElement;
@@ -982,7 +980,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		if (loopSection) loopSection.classList.remove('hidden');
 		if (playbackControlsSection) playbackControlsSection.classList.remove('hidden');
 		
-		practiceControls.classList.remove('hidden');
 		advancedControls.classList.remove('hidden');
 
 		// Hide file input section
@@ -1000,6 +997,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	// State for CSLP data
 	let cslpData: any = null;
+	let eduppu: number = 0;
 
 	// Load CSLP file and display data
 	async function loadCSLPData() {
@@ -1034,6 +1032,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			ragamText.textContent = metadata.ragam || '';
 			talamText.textContent = metadata.talam || '';
 			sruthiText.textContent = metadata.sruthi || '';
+			
+			// Extract eduppu value for count-in
+			eduppu = metadata.eduppu || 0;
+			if (eduppu > 0) {
+				countInValue.textContent = eduppu.toString();
+				countInDisplay.classList.remove('hidden');
+			} else {
+				countInDisplay.classList.add('hidden');
+			}
+			
 			songMetadata.classList.remove('hidden');
 		}			// Generate timeline markers (if duration is available)
 			// If duration not available yet, markers will be regenerated when audio metadata loads
@@ -1870,10 +1878,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		}
 
 		// Count-in controls
-		if (countInEnable && countInBeats) {
-			countInEnable.addEventListener('change', () => {
-				countInBeats.disabled = !countInEnable.checked;
-			});
+		if (countInEnable && eduppu > 0) {
+			// Count-in checkbox is enabled when eduppu > 0
+			countInEnable.disabled = false;
+		} else if (countInEnable) {
+			// Disable if no eduppu value
+			countInEnable.checked = false;
+			countInEnable.disabled = true;
 		}
 
 		// Speed controls
