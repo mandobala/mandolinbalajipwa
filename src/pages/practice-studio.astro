@@ -1112,7 +1112,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			// edupu is typically a musical time unit, so we interpret higher values as slower timing
 			if (metadata.edupu && typeof metadata.edupu === 'number' && metadata.edupu > 0) {
 				beatDurationMs = metadata.edupu;
-				// console.log(`📊 Count-in beat duration set to ${beatDurationMs}ms from edupu`);
+				console.log(`🎵 Count-in edupu read: ${metadata.edupu}ms per beat`);
+			} else {
+				console.log(`🎵 Count-in using default: ${beatDurationMs}ms per beat (edupu not set)`);
 			}
 			
 			songMetadata.classList.remove('hidden');
@@ -1608,8 +1610,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			// Start countdown
 			let currentCount = selectedBeats;
 			
-			// Use eduppu from CSLP metadata as beat duration in ms, fallback to default 30ms
+			// Use edupu from CSLP metadata as beat duration in ms, fallback to default 30ms
 			const currentBeatDuration = beatDurationMs || 30;
+			console.log(`▶️ Count-in started: ${selectedBeats} beats × ${currentBeatDuration}ms = ${selectedBeats * currentBeatDuration}ms total`);
 
 			// Display and play sounds for countdown
 			const countdownInterval = setInterval(async () => {
