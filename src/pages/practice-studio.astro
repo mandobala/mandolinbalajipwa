@@ -665,6 +665,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		opacity: 1 !important;
 		display: block !important;
 		visibility: visible !important;
+		transition: all 0.1s ease;
+	}
+
+	.loop-marker-line.snapped {
+		width: 6px;
+		background: #ffff00 !important;
+		box-shadow: 0 0 16px #ffff00, 0 0 32px rgba(255, 255, 0, 1) !important;
 	}
 
 	.loop-area {
@@ -1234,6 +1241,26 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		(window as any).loopEndTime = lastEntry.time;
 
 		console.log(`📍 Loop handles initialized: A=${startPercentage.toFixed(1)}%, B=${endPercentage.toFixed(1)}%`);
+		updateLoopArea();
+	}
+
+	// Update loop area visual region
+	function updateLoopArea() {
+		const loopStartHandle = document.getElementById('loop-start-handle') as HTMLDivElement;
+		const loopEndHandle = document.getElementById('loop-end-handle') as HTMLDivElement;
+		const loopArea = document.getElementById('loop-area') as HTMLDivElement;
+
+		if (!loopStartHandle || !loopEndHandle || !loopArea) return;
+
+		const startLeft = parseFloat(loopStartHandle.style.left);
+		const endLeft = parseFloat(loopEndHandle.style.left);
+
+		// Ensure start is before end
+		const minLeft = Math.min(startLeft, endLeft);
+		const maxLeft = Math.max(startLeft, endLeft);
+
+		loopArea.style.left = `${minLeft}%`;
+		loopArea.style.width = `${maxLeft - minLeft}%`;
 	}
 
 	// Play/Pause button
@@ -1289,6 +1316,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			playheadIndicator.style.left = `calc(${progress}% - 8px)`;
 		}
 
+		// Auto-loop functionality: Jump from B to A when reaching loop end
+		const loopEnable = document.getElementById('loopEnable') as HTMLInputElement;
+		const loopStartTime = (window as any).loopStartTime || 0;
+		const loopEndTime = (window as any).loopEndTime || audio.duration;
+
+		if (loopEnable?.checked && currentTime >= loopEndTime && audio.duration > 0) {
+			audio.currentTime = loopStartTime;
+			console.log(`🔄 Loop: Jumped from ${loopEndTime.toFixed(2)}s to ${loopStartTime.toFixed(2)}s`);
+		}
+
 		// Update lyrics and notation based on current time
 		updateLyricsAndNotation(currentTime);
 	}
@@ -1331,6 +1368,155 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		playheadIndicator.addEventListener('touchstart', handlePlayheadDragStart, { passive: false });
 		document.addEventListener('touchmove', handlePlayheadDragMove, { passive: false });
 		document.addEventListener('touchend', handlePlayheadDragEnd);
+	}
+
+	// Loop handle dragging with snap-to-marker functionality
+	let isDraggingLoopStart = false;
+	let isDraggingLoopEnd = false;
+	let currentAudioDuration = 0;
+
+	function findNearestMarker(clientX: number, markerElements: Element[]): { time: number; position: number } | null {
+		if (!progressContainer || markerElements.length === 0) return null;
+
+		const rect = progressContainer.getBoundingClientRect();
+		const x = clientX - rect.left;
+		const percentage = (x / rect.width) * 100;
+		const snapDistance = 5; // 5% snap distance
+
+		let nearest: { time: number; position: number } | null = null;
+		let minDistance = snapDistance;
+
+		for (const marker of markerElements) {
+			const markerRect = marker.getBoundingClientRect();
+			const markerLeft = markerRect.left - rect.left;
+			const markerPercentage = (markerLeft / rect.width) * 100;
+			const distance = Math.abs(percentage - markerPercentage);
+
+			if (distance < minDistance) {
+				minDistance = distance;
+				const timeStr = marker.getAttribute('data-time');
+				const markerTime = timeStr ? parseFloat(timeStr) : 0;
+				nearest = { time: markerTime, position: markerPercentage };
+			}
+		}
+
+		return nearest;
+	}
+
+	function handleLoopStartDragStart(e: Event) {
+		isDraggingLoopStart = true;
+		(e as any).preventDefault?.();
+	}
+
+	function handleLoopStartDragMove(e: Event) {
+		if (!isDraggingLoopStart || !audio || !progressContainer) return;
+
+		const clientX = (e as MouseEvent).clientX || (e as TouchEvent).touches?.[0]?.clientX;
+		if (clientX === undefined) return;
+
+		const loopStartHandle = document.getElementById('loop-start-handle') as HTMLDivElement;
+		if (!loopStartHandle) return;
+
+		// Get all markers
+		const markers = Array.from(document.querySelectorAll('.loop-marker-line'));
+
+		// Find nearest marker
+		const nearest = findNearestMarker(clientX, markers);
+
+		if (nearest) {
+			// Snap to marker
+			loopStartHandle.style.left = `${nearest.position}%`;
+			(window as any).loopStartTime = nearest.time;
+
+			// Highlight snapped marker
+			markers.forEach(m => m.classList.remove('snapped'));
+			const snappedMarker = markers.find(m => m.getAttribute('data-time') === nearest.time.toString());
+			if (snappedMarker) snappedMarker.classList.add('snapped');
+
+			// Update loop area visual
+			updateLoopArea();
+
+			console.log(`📌 Loop start snapped to: ${nearest.time.toFixed(2)}s at ${nearest.position.toFixed(1)}%`);
+		}
+	}
+
+	function handleLoopStartDragEnd() {
+		isDraggingLoopStart = false;
+
+		// Remove highlight
+		document.querySelectorAll('.loop-marker-line.snapped').forEach(m => m.classList.remove('snapped'));
+	}
+
+	function handleLoopEndDragStart(e: Event) {
+		isDraggingLoopEnd = true;
+		(e as any).preventDefault?.();
+	}
+
+	function handleLoopEndDragMove(e: Event) {
+		if (!isDraggingLoopEnd || !audio || !progressContainer) return;
+
+		const clientX = (e as MouseEvent).clientX || (e as TouchEvent).touches?.[0]?.clientX;
+		if (clientX === undefined) return;
+
+		const loopEndHandle = document.getElementById('loop-end-handle') as HTMLDivElement;
+		if (!loopEndHandle) return;
+
+		// Get all markers
+		const markers = Array.from(document.querySelectorAll('.loop-marker-line'));
+
+		// Find nearest marker
+		const nearest = findNearestMarker(clientX, markers);
+
+		if (nearest) {
+			// Snap to marker
+			loopEndHandle.style.left = `${nearest.position}%`;
+			(window as any).loopEndTime = nearest.time;
+
+			// Highlight snapped marker
+			markers.forEach(m => m.classList.remove('snapped'));
+			const snappedMarker = markers.find(m => m.getAttribute('data-time') === nearest.time.toString());
+			if (snappedMarker) snappedMarker.classList.add('snapped');
+
+			// Update loop area visual
+			updateLoopArea();
+
+			console.log(`📌 Loop end snapped to: ${nearest.time.toFixed(2)}s at ${nearest.position.toFixed(1)}%`);
+		}
+	}
+
+	function handleLoopEndDragEnd() {
+		isDraggingLoopEnd = false;
+
+		// Remove highlight
+		document.querySelectorAll('.loop-marker-line.snapped').forEach(m => m.classList.remove('snapped'));
+	}
+
+	// Attach loop handle drag listeners (desktop + mobile)
+	const loopStartHandle = document.getElementById('loop-start-handle');
+	const loopEndHandle = document.getElementById('loop-end-handle');
+
+	if (loopStartHandle && progressContainer) {
+		// Mouse events
+		loopStartHandle.addEventListener('mousedown', handleLoopStartDragStart);
+		document.addEventListener('mousemove', handleLoopStartDragMove);
+		document.addEventListener('mouseup', handleLoopStartDragEnd);
+
+		// Touch events for mobile
+		loopStartHandle.addEventListener('touchstart', handleLoopStartDragStart, { passive: false });
+		document.addEventListener('touchmove', handleLoopStartDragMove, { passive: false });
+		document.addEventListener('touchend', handleLoopStartDragEnd);
+	}
+
+	if (loopEndHandle && progressContainer) {
+		// Mouse events
+		loopEndHandle.addEventListener('mousedown', handleLoopEndDragStart);
+		document.addEventListener('mousemove', handleLoopEndDragMove);
+		document.addEventListener('mouseup', handleLoopEndDragEnd);
+
+		// Touch events for mobile
+		loopEndHandle.addEventListener('touchstart', handleLoopEndDragStart, { passive: false });
+		document.addEventListener('touchmove', handleLoopEndDragMove, { passive: false });
+		document.addEventListener('touchend', handleLoopEndDragEnd);
 	}
 
 	// Format time helper
