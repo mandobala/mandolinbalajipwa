@@ -577,6 +577,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		transform: translateX(-50%);
 		transition: left 0.1s ease;
 		z-index: 10;
+		cursor: grab;
+		user-select: none;
+	}
+
+	.playhead-indicator:active {
+		cursor: grabbing;
 	}
 
 	/* Practice Controls */
@@ -879,6 +885,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	const speedDisplay = document.getElementById('speed-display') as HTMLSpanElement;
 	const pitchDisplay = document.getElementById('pitch-display') as HTMLSpanElement;
 
+	// Cache frequently accessed DOM elements
+	const playheadIndicator = document.querySelector('.playhead-indicator') as HTMLElement;
+	const progressContainer = document.querySelector('.progress-container') as HTMLElement;
+
 	// Audio file selection
 	audioFileInput.addEventListener('change', (e) => {
 		const file = (e.target as HTMLInputElement).files?.[0];
@@ -919,6 +929,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				if (cslpData && cslpData.data.timeline) {
 					generateTimelineMarkers(cslpData.data.timeline, audio!.duration);
 					generateLoopMarkers(cslpData.data.timeline, audio!.duration);
+					initializeLoopHandles(cslpData.data.timeline, audio!.duration);
 				}
 				
 				console.log('Audio file ready:', currentAudioFileName);
@@ -1011,6 +1022,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			if (audio && audio.duration && !isNaN(audio.duration)) {
 				generateTimelineMarkers(timeline, audio.duration);
 				generateLoopMarkers(timeline, audio.duration);
+				initializeLoopHandles(timeline, audio.duration);
 				console.log('✅ Markers generated with duration:', audio.duration);
 			} else {
 				console.log('⏳ Duration not yet available, markers will generate after audio loads');
@@ -1148,6 +1160,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		markersContainer.innerHTML = '';
 		console.log(`🎯 Starting to generate loop markers for ${timeline.length} entries, duration: ${duration}s`);
 
+		// Pre-calculate styles to reduce repeated calculations
+		const markerStyles = {
+			position: 'absolute' as const,
+			width: '4px',
+			height: '100%',
+			background: '#00ff00',
+			top: '0',
+			bottom: '0',
+			boxShadow: '0 0 12px #00ff00, 0 0 24px rgba(0, 255, 0, 1)',
+			opacity: '1',
+			display: 'block' as const,
+			visibility: 'visible' as const,
+			zIndex: '15',
+		};
+
+		// Use document fragment for batch DOM insertion
+		const fragment = document.createDocumentFragment();
+
 		// Create a marker for each timeline entry
 		let markersCreated = 0;
 		timeline.forEach((entry: any, idx: number) => {
@@ -1156,25 +1186,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				marker.className = 'loop-marker-line';
 				const percentage = (entry.time / duration) * 100;
 				marker.style.left = `${percentage}%`;
-				
-				// Add inline styles for maximum visibility
-				marker.style.position = 'absolute';
-				marker.style.width = '4px';
-				marker.style.height = '100%';
-				marker.style.background = '#00ff00';
-				marker.style.top = '0';
-				marker.style.bottom = '0';
-				marker.style.boxShadow = '0 0 12px #00ff00, 0 0 24px rgba(0, 255, 0, 1)';
-				marker.style.opacity = '1';
-				marker.style.display = 'block';
-				marker.style.visibility = 'visible';
-				marker.style.zIndex = '15';
-				
+
+				// Apply all styles at once
+				Object.assign(marker.style, markerStyles);
+
 				// Add detailed attributes for debugging
-				marker.setAttribute('data-time', entry.time);
-				marker.setAttribute('data-index', idx);
-				
-				markersContainer.appendChild(marker);
+				marker.setAttribute('data-time', String(entry.time));
+				marker.setAttribute('data-index', String(idx));
+
+				fragment.appendChild(marker);
 				if (markersCreated < 5) {
 					console.log(`  ✓ Marker ${markersCreated}: time=${entry.time}s, left=${percentage}%`);
 				}
@@ -1182,8 +1202,38 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			}
 		});
 
+		// Single DOM operation for all markers
+		markersContainer.appendChild(fragment);
+
 		console.log(`📍 Generated ${markersCreated} loop markers out of ${timeline.length} entries`);
 		console.log(`📊 Container size: ${markersContainer.offsetWidth}x${markersContainer.offsetHeight}, Children: ${markersContainer.children.length}`);
+	}	// Set loop handles to first and last marker positions
+	function initializeLoopHandles(timeline: any[], duration: number) {
+		if (!timeline || timeline.length === 0) return;
+
+		const loopStartHandle = document.getElementById('loop-start-handle') as HTMLDivElement;
+		const loopEndHandle = document.getElementById('loop-end-handle') as HTMLDivElement;
+		const loopTrack = document.querySelector('.loop-track') as HTMLDivElement;
+
+		if (!loopStartHandle || !loopEndHandle || !loopTrack) return;
+
+		// Get first and last timeline entries
+		const firstEntry = timeline[0];
+		const lastEntry = timeline[timeline.length - 1];
+
+		// Calculate percentages
+		const startPercentage = (firstEntry.time / duration) * 100;
+		const endPercentage = (lastEntry.time / duration) * 100;
+
+		// Set positions
+		loopStartHandle.style.left = `${startPercentage}%`;
+		loopEndHandle.style.left = `${endPercentage}%`;
+
+		// Store loop times
+		(window as any).loopStartTime = firstEntry.time;
+		(window as any).loopEndTime = lastEntry.time;
+
+		console.log(`📍 Loop handles initialized: A=${startPercentage.toFixed(1)}%, B=${endPercentage.toFixed(1)}%`);
 	}
 
 	// Play/Pause button
@@ -1234,14 +1284,53 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		const progress = (currentTime / audio.duration) * 100;
 		progressFill.style.width = `${progress}%`;
 
-		// Update playhead indicator
-		const playheadIndicator = document.querySelector('.playhead-indicator') as HTMLElement;
+		// Update playhead indicator (using cached element)
 		if (playheadIndicator) {
 			playheadIndicator.style.left = `calc(${progress}% - 8px)`;
 		}
 
 		// Update lyrics and notation based on current time
 		updateLyricsAndNotation(currentTime);
+	}
+
+	// Make playhead draggable for seeking (with touch support for mobile)
+	let isDraggingPlayhead = false;
+
+	function handlePlayheadDragStart(e: Event) {
+		isDraggingPlayhead = true;
+		(e as any).preventDefault?.();
+	}
+
+	function handlePlayheadDragMove(e: Event) {
+		if (!isDraggingPlayhead || !audio || !progressContainer) return;
+
+		const clientX = (e as MouseEvent).clientX || (e as TouchEvent).touches?.[0]?.clientX;
+		if (clientX === undefined) return;
+
+		const rect = progressContainer.getBoundingClientRect();
+		const x = clientX - rect.left;
+		const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+		const newTime = (percentage / 100) * audio.duration;
+
+		audio.currentTime = newTime;
+		seekBar.value = newTime.toString();
+	}
+
+	function handlePlayheadDragEnd() {
+		isDraggingPlayhead = false;
+	}
+
+	// Attach playhead drag listeners (desktop + mobile)
+	if (playheadIndicator && progressContainer) {
+		// Mouse events
+		playheadIndicator.addEventListener('mousedown', handlePlayheadDragStart);
+		document.addEventListener('mousemove', handlePlayheadDragMove);
+		document.addEventListener('mouseup', handlePlayheadDragEnd);
+
+		// Touch events for mobile
+		playheadIndicator.addEventListener('touchstart', handlePlayheadDragStart, { passive: false });
+		document.addEventListener('touchmove', handlePlayheadDragMove, { passive: false });
+		document.addEventListener('touchend', handlePlayheadDragEnd);
 	}
 
 	// Format time helper
