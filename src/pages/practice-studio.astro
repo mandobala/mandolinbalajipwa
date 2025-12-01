@@ -1317,7 +1317,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		}
 
 		// Auto-loop functionality: Jump from B to A when reaching loop end
-		const loopEnable = document.getElementById('loopEnable') as HTMLInputElement;
+		const loopEnable = document.getElementById('loop-enable') as HTMLInputElement;
 		const loopStartTime = (window as any).loopStartTime || 0;
 		const loopEndTime = (window as any).loopEndTime || audio.duration;
 
