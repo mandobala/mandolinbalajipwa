@@ -947,7 +947,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	let isCountingIn = false;
 	let countInActive = false;
 	let countInIntervalId: number | null = null;
-	let beatDurationMs = 30; // Default 30ms per beat, will be overridden by edupu from CSLP
+	let beatDurationMs = 0; // Will be set from CSLP edupu, or falls back to this value if not set
 
 	// Tone.js nodes for independent pitch and speed
 	let tonePlayer: Tone.Player | null = null;
@@ -1114,7 +1114,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				beatDurationMs = metadata.edupu;
 				console.log(`🎵 Count-in edupu read: ${metadata.edupu}ms per beat`);
 			} else {
-				console.log(`🎵 Count-in using default: ${beatDurationMs}ms per beat (edupu not set)`);
+				console.log(`🎵 Count-in: edupu not set in CSLP, will use fallback timing`);
 			}
 			
 			songMetadata.classList.remove('hidden');
@@ -1610,8 +1610,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			// Start countdown
 			let currentCount = selectedBeats;
 			
-			// Use edupu from CSLP metadata as beat duration in ms, fallback to default 30ms
-			const currentBeatDuration = beatDurationMs || 30;
+			// Use edupu from CSLP metadata as beat duration in ms
+			const currentBeatDuration = beatDurationMs > 0 ? beatDurationMs : 50; // Fallback to 50ms if edupu not set
 			console.log(`▶️ Count-in started: ${selectedBeats} beats × ${currentBeatDuration}ms = ${selectedBeats * currentBeatDuration}ms total`);
 
 			// Display and play sounds for countdown
