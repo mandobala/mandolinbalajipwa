@@ -866,7 +866,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <script>
 	import * as Tone from 'tone';
 
-	console.log('Practice Studio loaded');
+	// console.log('Practice Studio loaded');
 
 	// State variables
 	let audio: HTMLAudioElement | null = null;
@@ -953,7 +953,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					initializeLoopHandles(cslpData.data.timeline, audio!.duration);
 				}
 				
-				console.log('Audio file ready:', currentAudioFileName);
+				// console.log('Audio file ready:', currentAudioFileName);
 			});
 
 			// Note: We'll use RAF for Tone.js playback progress, not timeupdate
@@ -962,7 +962,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				updatePlayPauseButton();
 			});
 
-			console.log('Audio file selected:', currentAudioFileName);
+			// console.log('Audio file selected:', currentAudioFileName);
 		}
 	});
 
@@ -995,7 +995,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		// Try to load CSLP file for dummy display
 		await loadCSLPData();
 
-		console.log('Practice studio activated for:', currentAudioFileName);
+		// console.log('Practice studio activated for:', currentAudioFileName);
 	});
 
 	// State for CSLP data
@@ -1008,13 +1008,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		try {
 			const response = await fetch(cslpUrl);
 			if (!response.ok) {
-				console.log('CSLP file not found, using default display');
+				// console.log('CSLP file not found, using default display');
 				currentLyricDisplay.textContent = '🎵 Ready to practice';
 				return;
 			}
 
 			cslpData = await response.json();
-			console.log('📝 CSLP Data loaded:', cslpData);
+			// console.log('📝 CSLP Data loaded:', cslpData);
 
 			// Extract metadata
 			const metadata = cslpData.data.metadata;
@@ -1039,9 +1039,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				generateTimelineMarkers(timeline, audio.duration);
 				generateLoopMarkers(timeline, audio.duration);
 				initializeLoopHandles(timeline, audio.duration);
-				console.log('✅ Markers generated with duration:', audio.duration);
+				// console.log('✅ Markers generated with duration:', audio.duration);
 			} else {
-				console.log('⏳ Duration not yet available, markers will generate after audio loads');
+				// console.log('⏳ Duration not yet available, markers will generate after audio loads');
 			}
 
 			// Display initial lyrics and notation
@@ -1052,11 +1052,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				(window as any).showNotationPanel();
 			}
 
-			console.log('✅ CSLP loaded successfully');
-			console.log('  Title:', metadata.title);
-			console.log('  Raagam:', metadata.ragam);
-			console.log('  Talam:', metadata.talam);
-			console.log('  Timeline entries:', timeline.length);
+			// console.log('✅ CSLP loaded successfully');
+			// console.log('  Title:', metadata.title);
+			// console.log('  Raagam:', metadata.ragam);
+			// console.log('  Talam:', metadata.talam);
+			// console.log('  Timeline entries:', timeline.length);
 		} catch (error) {
 			console.error('Error loading CSLP file:', error);
 			currentLyricDisplay.textContent = '🎵 Ready to practice';
@@ -1166,13 +1166,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					isIntentionalStop = false; // Reset flag
 					isPlaying = false;
 					if (rafId) cancelAnimationFrame(rafId);
-					console.log('⏹️ Playback stopped');
+					// console.log('⏹️ Playback stopped');
 				}
 				// Ignore if this is just a pause
 			};
 
 			isUsingTone = true;
-			console.log('✅ Tone.js initialized - independent pitch/speed control enabled');
+			// console.log('✅ Tone.js initialized - independent pitch/speed control enabled');
 
 		} catch (error) {
 			console.error('❌ Tone.js initialization failed:', error);
@@ -1263,7 +1263,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			const playbackPitchShift = 12 * Math.log2(playbackSpeed);
 			const compensatedPitch = pitchShift - playbackPitchShift;
 			pitchShifter.pitch = compensatedPitch;
-			console.log(`🎵 Pitch: ${pitchShift} semitones (compensated: ${compensatedPitch.toFixed(2)} for speed ${playbackSpeed}x)`);
+			// console.log(`🎵 Pitch: ${pitchShift} semitones (compensated: ${compensatedPitch.toFixed(2)} for speed ${playbackSpeed}x)`);
 		} else {
 			// Fallback to HTML5 audio (pitch affects speed)
 			if (pitchShift === 0) {
@@ -1284,13 +1284,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			// Compensate by shifting pitch in opposite direction, then add user's desired pitch
 			const compensatedPitch = pitchShift - playbackPitchShift;
 			pitchShifter.pitch = compensatedPitch;
-			console.log(`⚡ Speed: ${playbackSpeed}x, Pitch: ${pitchShift} semitones (compensated: ${compensatedPitch.toFixed(2)})`);
+			// console.log(`⚡ Speed: ${playbackSpeed}x, Pitch: ${pitchShift} semitones (compensated: ${compensatedPitch.toFixed(2)})`);
 		} else {
 			// Fallback to HTML5 audio
 			if (pitchShift === 0) {
 				audio.preservesPitch = true;
 				audio.playbackRate = playbackSpeed;
-				console.log(`⚡ Speed: ${playbackSpeed}x (pitch preserved)`);
+				// console.log(`⚡ Speed: ${playbackSpeed}x (pitch preserved)`);
 			}
 		}
 	}
@@ -1325,10 +1325,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			}
 		});
 
-		console.log(`📍 Generated ${markersCreated} timeline markers out of ${timeline.length} entries`);
-		console.log(`  Duration: ${duration}s`);
-		console.log(`  Sample positions:`, samplePositions);
-		console.log(`  First marker DOM element:`, markersContainer.firstChild);
+		// console.log(`📍 Generated ${markersCreated} timeline markers out of ${timeline.length} entries`);
+		// console.log(`  Duration: ${duration}s`);
+		// console.log(`  Sample positions:`, samplePositions);
+		// console.log(`  First marker DOM element:`, markersContainer.firstChild);
 	}
 
 	// Generate loop markers (same as timeline markers for loop track)
@@ -1341,7 +1341,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 		// Clear existing markers
 		markersContainer.innerHTML = '';
-		console.log(`🎯 Starting to generate loop markers for ${timeline.length} entries, duration: ${duration}s`);
+		// console.log(`🎯 Starting to generate loop markers for ${timeline.length} entries, duration: ${duration}s`);
 
 		// Pre-calculate styles to reduce repeated calculations
 		const markerStyles = {
@@ -1388,8 +1388,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		// Single DOM operation for all markers
 		markersContainer.appendChild(fragment);
 
-		console.log(`📍 Generated ${markersCreated} loop markers out of ${timeline.length} entries`);
-		console.log(`📊 Container size: ${markersContainer.offsetWidth}x${markersContainer.offsetHeight}, Children: ${markersContainer.children.length}`);
+		// console.log(`📍 Generated ${markersCreated} loop markers out of ${timeline.length} entries`);
+		// console.log(`📊 Container size: ${markersContainer.offsetWidth}x${markersContainer.offsetHeight}, Children: ${markersContainer.children.length}`);
 	}	// Set loop handles to first and last marker positions
 	function initializeLoopHandles(timeline: any[], duration: number) {
 		if (!timeline || timeline.length === 0) return;
@@ -1416,7 +1416,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		(window as any).loopStartTime = firstEntry.time;
 		(window as any).loopEndTime = lastEntry.time;
 
-		console.log(`📍 Loop handles initialized: A=${startPercentage.toFixed(1)}%, B=${endPercentage.toFixed(1)}%`);
+		// console.log(`📍 Loop handles initialized: A=${startPercentage.toFixed(1)}%, B=${endPercentage.toFixed(1)}%`);
 		updateLoopArea();
 	}
 
@@ -1451,7 +1451,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				tonePlayer.stop(0); // Stop immediately with 0 fade
 				if (rafId) cancelAnimationFrame(rafId);
 				isPlaying = false;
-				console.log('⏸️ Paused at', toneNow.toFixed(2), 's');
+				// console.log('⏸️ Paused at', toneNow.toFixed(2), 's');
 			} else {
 				// RESUME: Restart from paused position using seek (like rehearsal studio)
 				try {
@@ -1473,13 +1473,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					if (tonePlayer) {
 						tonePlayer.seek(toneNow);
 						playStartTime = performance.now() - (toneNow * 1000);
-						console.log(`🔍 Seeked to ${toneNow.toFixed(2)}s after starting`);
+						// console.log(`🔍 Seeked to ${toneNow.toFixed(2)}s after starting`);
 					}
 				}, 10);
 				
 				isPlaying = true;
 				startProgressTracking();
-				console.log('▶️ Playing from', toneNow.toFixed(2), 's');
+				// console.log('▶️ Playing from', toneNow.toFixed(2), 's');
 			}
 		} catch (e) {
 			console.error('Play/pause failed:', e);
@@ -1501,7 +1501,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			progressFill.style.width = '0%';
 			seekBar.value = '0';
 			if (playheadIndicator) playheadIndicator.style.left = 'calc(0% - 8px)';
-			console.log('⏹️ Stopped');
+			// console.log('⏹️ Stopped');
 		} catch (e) {
 			console.error('Stop failed:', e);
 		}
@@ -1528,7 +1528,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			const progress = (newTime / (audio?.duration || 1)) * 100;
 			progressFill.style.width = `${progress}%`;
 			if (playheadIndicator) playheadIndicator.style.left = `calc(${progress}% - 8px)`;
-			console.log('🔍 Seeked to', newTime.toFixed(2), 's');
+			// console.log('🔍 Seeked to', newTime.toFixed(2), 's');
 		} catch (e) {
 			console.error('Seek failed:', e);
 		}
@@ -1539,7 +1539,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		if (!isUsingTone || !toneGain) return;
 		const volume = parseInt(volumeControl.value) / 100;
 		toneGain.gain.value = volume;
-		console.log('🔊 Volume:', (volume * 100).toFixed(0) + '%');
+		// console.log('🔊 Volume:', (volume * 100).toFixed(0) + '%');
 	});
 
 	// Progress tracking with RAF for Tone.js
@@ -1568,7 +1568,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				toneNow = loopStartTime;
 				playStartTime = performance.now();
 				tonePlayer.start(0, loopStartTime);
-				console.log(`🔄 Auto-loop: ${loopEndTime.toFixed(2)}s → ${loopStartTime.toFixed(2)}s`);
+				// console.log(`🔄 Auto-loop: ${loopEndTime.toFixed(2)}s → ${loopStartTime.toFixed(2)}s`);
 				rafId = requestAnimationFrame(updateFrame);
 				return;
 			}
@@ -1705,7 +1705,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			// Update loop area visual
 			updateLoopArea();
 
-			console.log(`📌 Loop start snapped to: ${nearest.time.toFixed(2)}s at ${nearest.position.toFixed(1)}%`);
+			// console.log(`📌 Loop start snapped to: ${nearest.time.toFixed(2)}s at ${nearest.position.toFixed(1)}%`);
 		}
 	}
 
@@ -1749,7 +1749,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			// Update loop area visual
 			updateLoopArea();
 
-			console.log(`📌 Loop end snapped to: ${nearest.time.toFixed(2)}s at ${nearest.position.toFixed(1)}%`);
+			// console.log(`📌 Loop end snapped to: ${nearest.time.toFixed(2)}s at ${nearest.position.toFixed(1)}%`);
 		}
 	}
 
@@ -1942,6 +1942,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			}
 		}
 
-		console.log('Practice Studio fully initialized');
+		// console.log('Practice Studio fully initialized');
 	});
 </script>
