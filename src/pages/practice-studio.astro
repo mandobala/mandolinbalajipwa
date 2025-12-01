@@ -947,6 +947,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	let isCountingIn = false;
 	let countInActive = false;
 	let countInIntervalId: number | null = null;
+	let beatDurationMs = 30; // Default 30ms per beat, will be overridden by eduppu from CSLP
 
 	// Tone.js nodes for independent pitch and speed
 	let tonePlayer: Tone.Player | null = null;
@@ -1105,6 +1106,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			ragamText.textContent = metadata.ragam || '';
 			talamText.textContent = metadata.talam || '';
 			sruthiText.textContent = metadata.sruthi || '';
+			
+			// Extract eduppu value for count-in beat timing (in milliseconds)
+			if (metadata.eduppu && typeof metadata.eduppu === 'number' && metadata.eduppu > 0) {
+				beatDurationMs = metadata.eduppu;
+				// console.log(`📊 Count-in beat duration set to ${beatDurationMs}ms from eduppu`);
+			}
+			
 			songMetadata.classList.remove('hidden');
 		}			// Generate timeline markers (if duration is available)
 			// If duration not available yet, markers will be regenerated when audio metadata loads
@@ -1597,7 +1605,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 			// Start countdown
 			let currentCount = selectedBeats;
-			const beatDuration = 30; // 30ms per beat
+			
+			// Use eduppu from CSLP metadata as beat duration in ms, fallback to default 30ms
+			const currentBeatDuration = beatDurationMs || 30;
 
 			// Display and play sounds for countdown
 			const countdownInterval = setInterval(async () => {
@@ -1647,14 +1657,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 						}
 					}
 
-					isPlaying = true;
-					isCountingIn = false;
-					startProgressTracking();
-					updatePlayPauseButton();
-				}
-			}, beatDuration);
-
-			countInIntervalId = countdownInterval as unknown as number;
+				isPlaying = true;
+				isCountingIn = false;
+				startProgressTracking();
+				updatePlayPauseButton();
+			}
+		}, currentBeatDuration);			countInIntervalId = countdownInterval as unknown as number;
 		} catch (e) {
 			console.error('Count-in failed:', e);
 			isCountingIn = false;
