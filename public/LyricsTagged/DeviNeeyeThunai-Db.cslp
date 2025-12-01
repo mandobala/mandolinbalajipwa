@@ -1,0 +1,259 @@
+{
+  "data": {
+    "metadata": {
+      "title": "DeviNeeyeThunai-Db",
+      "artist": "",
+      "ragam": "Keeravani",
+      "talam": "",
+      "shruti": "Db",
+      "aarohanam": "",
+      "avarohanam": "",
+      "edupu": 0
+    },
+    "mp3FileName": "DeviNeeyeThunai-Db.m4a",
+    "config": {
+      "offset": 0.25,
+      "lastPosition": 199.76127
+    },
+    "ulpLines": [
+      "Devi Neeye Thunai  (“Amba”)",
+      "Thenmaduraivaal Meena Lochani",
+      "Anupallavi:",
+      "Devaadi Devan Sundaresan",
+      "Chitham Kavar Bhuvana Sundari",
+      "Charanam:",
+      "Malaya Dwajan Madhavame",
+      "Kaanchana Maalai Muthalvi Maharagni",
+      "Alaimagal Kalaimaghal Pani Keervaani",
+      "Amudanaya Iniye Muthamizh Valartthai"
+    ],
+    "rawText": "Devi Neeye Thunai  (“Amba”) \nThenmaduraivaal Meena Lochani\n\n \n\nAnupallavi:\n\nDevaadi Devan Sundaresan\n\nChitham Kavar Bhuvana Sundari\n\n \n\nCharanam:\n\nMalaya Dwajan Madhavame\n\nKaanchana Maalai Muthalvi Maharagni\n\nAlaimagal Kalaimaghal Pani Keervaani\n\nAmudanaya Iniye Muthamizh Valartthai",
+    "timeline": [
+      {
+        "id": 1764609526885,
+        "time": 2.380432,
+        "text": "Devi Neeye Thunai  (“Amba”)",
+        "notation": "",
+        "lineNumber": 0
+      },
+      {
+        "id": 1764608777743,
+        "time": 8.421141,
+        "text": "Devi Neeye Thunai  (“Amba”)",
+        "notation": "",
+        "lineNumber": 1
+      },
+      {
+        "id": 1764608783591,
+        "time": 14.271509,
+        "text": "Thenmaduraivaal Meena Lochani",
+        "notation": "",
+        "lineNumber": 2
+      },
+      {
+        "id": 1764608789416,
+        "time": 20.093214,
+        "text": "Devi Neeye Thunai  (“Amba”)",
+        "notation": "",
+        "lineNumber": 3
+      },
+      {
+        "id": 1764608795360,
+        "time": 26.041286,
+        "text": "Thenmaduraivaal Meena Lochani",
+        "notation": "",
+        "lineNumber": 4
+      },
+      {
+        "id": 1764608801200,
+        "time": 31.880204999999997,
+        "text": "Devi Neeye Thunai  (“Amba”)",
+        "notation": "",
+        "lineNumber": 5
+      },
+      {
+        "id": 1764608807000,
+        "time": 37.674033,
+        "text": "Thenmaduraivaal Meena Lochani",
+        "notation": "",
+        "lineNumber": 6
+      },
+      {
+        "id": 1764608812728,
+        "time": 43.408698,
+        "text": "Devi Neeye Thunai  (“Amba”)",
+        "notation": "",
+        "lineNumber": 7
+      },
+      {
+        "id": 1764608818456,
+        "time": 49.128495,
+        "text": "Thenmaduraivaal Meena Lochani",
+        "notation": "",
+        "lineNumber": 8
+      },
+      {
+        "id": 1764608824081,
+        "time": 54.752636,
+        "text": "Devi Neeye Thunai  (“Amba”)",
+        "notation": "",
+        "lineNumber": 9
+      },
+      {
+        "id": 1764608834689,
+        "time": 65.363454,
+        "text": "Anupallavi:",
+        "notation": "",
+        "lineNumber": 10
+      },
+      {
+        "id": 1764608868890,
+        "time": 66.221836,
+        "text": "Devaadi Devan Sundaresan",
+        "notation": "",
+        "lineNumber": 11
+      },
+      {
+        "id": 1764608874650,
+        "time": 71.979777,
+        "text": "Devaadi Devan Sundaresan",
+        "notation": "",
+        "lineNumber": 12
+      },
+      {
+        "id": 1764608880411,
+        "time": 77.739004,
+        "text": "Devaadi Devan Sundaresan",
+        "notation": "",
+        "lineNumber": 13
+      },
+      {
+        "id": 1764608886138,
+        "time": 83.470191,
+        "text": "Devaadi Devan Sundaresan",
+        "notation": "",
+        "lineNumber": 14
+      },
+      {
+        "id": 1764608891962,
+        "time": 89.291017,
+        "text": "Devaadi Devan Sundaresan",
+        "notation": "",
+        "lineNumber": 15
+      },
+      {
+        "id": 1764609076752,
+        "time": 94.671928,
+        "text": "Chitham Kavar Bhuvana Sundari",
+        "notation": "",
+        "lineNumber": 16
+      },
+      {
+        "id": 1764609082520,
+        "time": 100.441614,
+        "text": "Devaadi Devan Sundaresan",
+        "notation": "",
+        "lineNumber": 17
+      },
+      {
+        "id": 1764609146274,
+        "time": 106.187393,
+        "text": "Chitham Kavar Bhuvana Sundari",
+        "notation": "",
+        "lineNumber": 18
+      },
+      {
+        "id": 1764609152058,
+        "time": 111.972108,
+        "text": "Devi Neeye Thunai  (“Amba”)",
+        "notation": "",
+        "lineNumber": 19
+      },
+      {
+        "id": 1764609157698,
+        "time": 117.615354,
+        "text": "Thenmaduraivaal Meena Lochani",
+        "notation": "",
+        "lineNumber": 20
+      },
+      {
+        "id": 1764609191140,
+        "time": 123.310662,
+        "text": "Devi Neeye Thunai  (“Amba”)",
+        "notation": "",
+        "lineNumber": 21
+      },
+      {
+        "id": 1764609202316,
+        "time": 134.485738,
+        "text": "Malaya Dwajan Madhavame",
+        "notation": "",
+        "lineNumber": 22
+      },
+      {
+        "id": 1764609208036,
+        "time": 140.198123,
+        "text": "Malaya Dwajan Madhavame",
+        "notation": "",
+        "lineNumber": 23
+      },
+      {
+        "id": 1764609221044,
+        "time": 144.660259,
+        "text": "Kaanchana Maalai Muthalvi Maharagni",
+        "notation": "",
+        "lineNumber": 24
+      },
+      {
+        "id": 1764609228204,
+        "time": 151.823362,
+        "text": "Malaya Dwajan Madhavame",
+        "notation": "",
+        "lineNumber": 25
+      },
+      {
+        "id": 1764609239724,
+        "time": 156.192257,
+        "text": "Kaanchana Maalai Muthalvi Maharagni",
+        "notation": "",
+        "lineNumber": 26
+      },
+      {
+        "id": 1764609251797,
+        "time": 163.197358,
+        "text": "Alaimagal Kalaimaghal Pani Keervaani",
+        "notation": "",
+        "lineNumber": 27
+      },
+      {
+        "id": 1764609268781,
+        "time": 180.175209,
+        "text": "Alaimagal Kalaimaghal Pani Keervaani",
+        "notation": "",
+        "lineNumber": 28
+      },
+      {
+        "id": 1764609288494,
+        "time": 185.702142,
+        "text": "Alaimagal Kalaimaghal Pani Keervaani",
+        "notation": "",
+        "lineNumber": 29
+      },
+      {
+        "id": 1764609294046,
+        "time": 191.252233,
+        "text": "Amudanaya Iniye Muthamizh Valartthai",
+        "notation": "",
+        "lineNumber": 30
+      },
+      {
+        "id": 1764609306934,
+        "time": 196.77879,
+        "text": "Devi Neeye Thunai  (“Amba”)",
+        "notation": "",
+        "lineNumber": 31
+      }
+    ]
+  },
+  "integrityHash": "2e4cb7d7b7ce7c4545e848826454099a95462d4e"
+}

@@ -270,7 +270,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		flex-wrap: wrap;
 	}
 
-	.arohanam, .avarohanam {
+	.arohanam, .avarohanam, .ragam, .talam, .sruthi {
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
@@ -1022,18 +1022,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 			// Display song metadata in header
 			const songMetadata = document.getElementById('song-metadata') as HTMLDivElement;
-			const songTitle = document.getElementById('song-title') as HTMLDivElement;
-			const arohanamText = document.getElementById('arohanam-text') as HTMLDivElement;
-			const avarohanamText = document.getElementById('avarohanam-text') as HTMLDivElement;
+		const songTitle = document.getElementById('song-title') as HTMLDivElement;
+		const ragamText = document.getElementById('ragam-text') as HTMLDivElement;
+		const talamText = document.getElementById('talam-text') as HTMLDivElement;
+		const sruthiText = document.getElementById('sruthi-text') as HTMLDivElement;
 
-			if (metadata) {
-				songTitle.textContent = metadata.title || 'Unknown Song';
-				arohanamText.textContent = metadata.aarohanam || '';
-				avarohanamText.textContent = metadata.avarohanam || '';
-				songMetadata.classList.remove('hidden');
-			}
-
-			// Generate timeline markers (if duration is available)
+		if (metadata) {
+			// Limit title to 20 characters
+			const titleDisplay = (metadata.title || 'Unknown Song').substring(0, 20);
+			songTitle.textContent = titleDisplay;
+			ragamText.textContent = metadata.ragam || '';
+			talamText.textContent = metadata.talam || '';
+			sruthiText.textContent = metadata.sruthi || '';
+			songMetadata.classList.remove('hidden');
+		}			// Generate timeline markers (if duration is available)
 			// If duration not available yet, markers will be regenerated when audio metadata loads
 			if (audio && audio.duration && !isNaN(audio.duration)) {
 				generateTimelineMarkers(timeline, audio.duration);
