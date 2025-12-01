@@ -864,12 +864,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </style>
 
 <script>
+	import * as Tone from 'tone';
+
 	console.log('Practice Studio loaded');
 
 	// State variables
 	let audio: HTMLAudioElement | null = null;
 	let currentAudioFileName = '';
 	let isPlaying = false;
+	let pitchShift = 0; // in semitones
+	let playbackSpeed = 1.0;
+
+	// Tone.js nodes for independent pitch and speed
+	let tonePlayer: Tone.Player | null = null;
+	let pitchShifter: Tone.PitchShift | null = null;
+	let toneGain: Tone.Gain | null = null;
+	let isUsingTone = false;
+	let toneNow: number = 0;
+	let rafId: number = 0;
 
 	// DOM elements
 	const audioFileInput = document.getElementById('audio-file') as HTMLInputElement;
@@ -942,16 +954,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				console.log('Audio file ready:', currentAudioFileName);
 			});
 
-			audio.addEventListener('timeupdate', updateProgress);
+			// Note: We'll use RAF for Tone.js playback progress, not timeupdate
 			audio.addEventListener('ended', () => {
-				isPlaying = false;
-				updatePlayPauseButton();
-			});
-			audio.addEventListener('play', () => {
-				isPlaying = true;
-				updatePlayPauseButton();
-			});
-			audio.addEventListener('pause', () => {
 				isPlaying = false;
 				updatePlayPauseButton();
 			});
@@ -982,6 +986,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		// Hide file input section
 		const fileInputSection = document.getElementById('file-inputs-section') as HTMLDivElement;
 		fileInputSection.classList.add('hidden');
+
+		// Initialize Tone.js for independent pitch and speed control
+		await initializeToneJS();
 
 		// Try to load CSLP file for dummy display
 		await loadCSLPData();
@@ -1115,6 +1122,169 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				upcomingLyricsDiv.innerHTML = upcomingEntries
 					.map((entry: any) => `<div class="lyric-line" style="margin: 0.5rem 0; opacity: 0.6;">${entry.text}</div>`)
 					.join('');
+			}
+		}
+	}
+
+	// Initialize Tone.js for independent pitch and speed control
+	async function initializeToneJS() {
+		if (!audio) return;
+
+		try {
+			// Start Tone.js audio context
+			await Tone.start();
+
+			// Create Tone.js Player
+			tonePlayer = new Tone.Player({
+				url: audio.src,
+				loop: false,
+				autostart: false
+			}).toDestination();
+
+			// Wait for player to load
+			await Tone.loaded();
+
+			// Create pitch shifter (independent of speed)
+			pitchShifter = new Tone.PitchShift(pitchShift);
+
+			// Create gain node
+			toneGain = new Tone.Gain(parseInt(volumeControl.value) / 100);
+
+			// Connect: Player -> PitchShift -> Gain -> Destination
+			tonePlayer.disconnect();
+			tonePlayer.chain(pitchShifter, toneGain, Tone.Destination);
+
+			// Set initial playback rate for speed
+			tonePlayer.playbackRate = playbackSpeed;
+
+			// Set up event handler for playback end
+			tonePlayer.onstop = () => {
+				isPlaying = false;
+				if (rafId) cancelAnimationFrame(rafId);
+				updatePlayPauseButton();
+				console.log('⏹️ Playback ended');
+			};
+
+			isUsingTone = true;
+			console.log('✅ Tone.js initialized - independent pitch/speed control enabled');
+
+		} catch (error) {
+			console.error('❌ Tone.js initialization failed:', error);
+			isUsingTone = false;
+			alert('Failed to initialize audio system. Please refresh the page.');
+		}
+	}
+
+	// Pitch control handlers
+	const pitchDownBtn = document.getElementById('pitch-down') as HTMLButtonElement;
+	const pitchUpBtn = document.getElementById('pitch-up') as HTMLButtonElement;
+	const pitchResetBtn = document.getElementById('pitch-reset') as HTMLButtonElement;
+
+	const speedDownBtn = document.getElementById('speed-down') as HTMLButtonElement;
+	const speedUpBtn = document.getElementById('speed-up') as HTMLButtonElement;
+	const speedResetBtn = document.getElementById('speed-reset') as HTMLButtonElement;
+
+	if (pitchDownBtn) {
+		pitchDownBtn.addEventListener('click', () => {
+			if (pitchShift > -12) {
+				pitchShift -= 0.5;
+				updatePitchDisplay();
+				applyPitchShift();
+			}
+		});
+	}
+
+	if (pitchUpBtn) {
+		pitchUpBtn.addEventListener('click', () => {
+			if (pitchShift < 12) {
+				pitchShift += 0.5;
+				updatePitchDisplay();
+				applyPitchShift();
+			}
+		});
+	}
+
+	if (pitchResetBtn) {
+		pitchResetBtn.addEventListener('click', () => {
+			pitchShift = 0;
+			updatePitchDisplay();
+			applyPitchShift();
+		});
+	}
+
+	if (speedDownBtn) {
+		speedDownBtn.addEventListener('click', () => {
+			if (playbackSpeed > 0.25) {
+				playbackSpeed = Math.max(0.25, playbackSpeed - 0.1);
+				updateSpeedDisplay();
+				applySpeed();
+			}
+		});
+	}
+
+	if (speedUpBtn) {
+		speedUpBtn.addEventListener('click', () => {
+			if (playbackSpeed < 2.0) {
+				playbackSpeed = Math.min(2.0, playbackSpeed + 0.1);
+				updateSpeedDisplay();
+				applySpeed();
+			}
+		});
+	}
+
+	if (speedResetBtn) {
+		speedResetBtn.addEventListener('click', () => {
+			playbackSpeed = 1.0;
+			updateSpeedDisplay();
+			applySpeed();
+		});
+	}
+
+	function updatePitchDisplay() {
+		const sign = pitchShift > 0 ? '+' : '';
+		pitchDisplay.textContent = `${sign}${pitchShift.toFixed(1)}`;
+	}
+
+	function updateSpeedDisplay() {
+		speedDisplay.textContent = `${playbackSpeed.toFixed(1)}x`;
+	}
+
+	function applyPitchShift() {
+		if (!audio) return;
+
+		if (isUsingTone && pitchShifter && tonePlayer) {
+			// Compensate for pitch change caused by playbackRate
+			const playbackPitchShift = 12 * Math.log2(playbackSpeed);
+			const compensatedPitch = pitchShift - playbackPitchShift;
+			pitchShifter.pitch = compensatedPitch;
+			console.log(`🎵 Pitch: ${pitchShift} semitones (compensated: ${compensatedPitch.toFixed(2)} for speed ${playbackSpeed}x)`);
+		} else {
+			// Fallback to HTML5 audio (pitch affects speed)
+			if (pitchShift === 0) {
+				audio.playbackRate = playbackSpeed;
+				audio.preservesPitch = true;
+			}
+		}
+	}
+
+	function applySpeed() {
+		if (!audio) return;
+
+		if (isUsingTone && tonePlayer && pitchShifter) {
+			// Tone.js: playbackRate affects pitch, so compensate
+			tonePlayer.playbackRate = playbackSpeed;
+			// Calculate pitch shift needed to compensate for playbackRate pitch change
+			const playbackPitchShift = 12 * Math.log2(playbackSpeed);
+			// Compensate by shifting pitch in opposite direction, then add user's desired pitch
+			const compensatedPitch = pitchShift - playbackPitchShift;
+			pitchShifter.pitch = compensatedPitch;
+			console.log(`⚡ Speed: ${playbackSpeed}x, Pitch: ${pitchShift} semitones (compensated: ${compensatedPitch.toFixed(2)})`);
+		} else {
+			// Fallback to HTML5 audio
+			if (pitchShift === 0) {
+				audio.preservesPitch = true;
+				audio.playbackRate = playbackSpeed;
+				console.log(`⚡ Speed: ${playbackSpeed}x (pitch preserved)`);
 			}
 		}
 	}
@@ -1265,69 +1435,118 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	// Play/Pause button
 	playPauseBtn.addEventListener('click', async () => {
-		if (!audio) return;
+		if (!isUsingTone || !tonePlayer || !audio) return;
 
-		if (audio.paused) {
-			audio.play().catch(e => {
-				console.error('Play failed:', e);
-				alert('Could not start playback. Please try again.');
-			});
-		} else {
-			audio.pause();
+		try {
+			if (isPlaying) {
+				tonePlayer.stop();
+				if (rafId) cancelAnimationFrame(rafId);
+				isPlaying = false;
+				console.log('⏸️ Paused at', toneNow.toFixed(2), 's');
+			} else {
+				await tonePlayer.start(0, toneNow);
+				isPlaying = true;
+				startProgressTracking();
+				console.log('▶️ Playing from', toneNow.toFixed(2), 's');
+			}
+		} catch (e) {
+			console.error('Play/pause failed:', e);
 		}
+		updatePlayPauseButton();
 	});
 
 	// Stop button
 	stopBtn.addEventListener('click', () => {
-		if (!audio) return;
-		audio.pause();
-		audio.currentTime = 0;
-		currentTimeDisplay.textContent = '0:00';
-		progressFill.style.width = '0%';
-		seekBar.value = '0';
+		if (!isUsingTone || !tonePlayer) return;
+
+		try {
+			tonePlayer.stop();
+			if (rafId) cancelAnimationFrame(rafId);
+			toneNow = 0;
+			isPlaying = false;
+			currentTimeDisplay.textContent = '0:00';
+			progressFill.style.width = '0%';
+			seekBar.value = '0';
+			if (playheadIndicator) playheadIndicator.style.left = 'calc(0% - 8px)';
+			console.log('⏹️ Stopped');
+		} catch (e) {
+			console.error('Stop failed:', e);
+		}
+		updatePlayPauseButton();
 	});
 
 	// Seek bar
 	seekBar.addEventListener('input', () => {
-		if (!audio) return;
+		if (!isUsingTone || !tonePlayer) return;
 		const newTime = parseFloat(seekBar.value);
-		audio.currentTime = newTime;
+
+		try {
+			toneNow = newTime;
+			if (isPlaying) {
+				tonePlayer.stop();
+				if (rafId) cancelAnimationFrame(rafId);
+				tonePlayer.start(0, newTime);
+				startProgressTracking();
+			}
+			// Update display immediately
+			currentTimeDisplay.textContent = formatTime(newTime);
+			const progress = (newTime / (audio?.duration || 1)) * 100;
+			progressFill.style.width = `${progress}%`;
+			if (playheadIndicator) playheadIndicator.style.left = `calc(${progress}% - 8px)`;
+			console.log('🔍 Seeked to', newTime.toFixed(2), 's');
+		} catch (e) {
+			console.error('Seek failed:', e);
+		}
 	});
 
 	// Volume control
 	volumeControl.addEventListener('input', () => {
-		if (!audio) return;
-		audio.volume = parseInt(volumeControl.value) / 100;
+		if (!isUsingTone || !toneGain) return;
+		const volume = parseInt(volumeControl.value) / 100;
+		toneGain.gain.value = volume;
+		console.log('🔊 Volume:', (volume * 100).toFixed(0) + '%');
 	});
 
-	// Progress update
-	function updateProgress() {
-		if (!audio) return;
+	// Progress tracking with RAF for Tone.js
+	function startProgressTracking() {
+		function updateFrame() {
+			if (!isPlaying || !isUsingTone || !tonePlayer) {
+				rafId = 0;
+				return;
+			}
 
-		const currentTime = audio.currentTime;
-		currentTimeDisplay.textContent = formatTime(currentTime);
-		seekBar.value = currentTime.toString();
+			// Get current playback position from Tone.js
+			const elapsedTime = Tone.Transport.seconds;
+			const loopEnable = document.getElementById('loop-enable') as HTMLInputElement;
+			const loopStartTime = (window as any).loopStartTime || 0;
+			const loopEndTime = (window as any).loopEndTime || audio?.duration || 0;
 
-		const progress = (currentTime / audio.duration) * 100;
-		progressFill.style.width = `${progress}%`;
+			// Calculate display time
+			let displayTime = toneNow + elapsedTime;
 
-		// Update playhead indicator (using cached element)
-		if (playheadIndicator) {
-			playheadIndicator.style.left = `calc(${progress}% - 8px)`;
+			// Auto-loop: Jump from B to A when reaching loop end
+			if (loopEnable?.checked && displayTime >= loopEndTime && loopEndTime > 0) {
+				tonePlayer.stop();
+				toneNow = loopStartTime;
+				tonePlayer.start(0, loopStartTime);
+				console.log(`🔄 Auto-loop: ${loopEndTime.toFixed(2)}s → ${loopStartTime.toFixed(2)}s`);
+				rafId = requestAnimationFrame(updateFrame);
+				return;
+			}
+
+			// Update UI
+			currentTimeDisplay.textContent = formatTime(displayTime);
+			seekBar.value = displayTime.toString();
+			const progress = (displayTime / (audio?.duration || 1)) * 100;
+			progressFill.style.width = `${progress}%`;
+			if (playheadIndicator) playheadIndicator.style.left = `calc(${progress}% - 8px)`;
+
+			// Update lyrics and notation
+			updateLyricsAndNotation(displayTime);
+
+			rafId = requestAnimationFrame(updateFrame);
 		}
-
-		// Auto-loop functionality: Jump from B to A when reaching loop end
-		const loopEnable = document.getElementById('loop-enable') as HTMLInputElement;
-		const loopStartTime = (window as any).loopStartTime || 0;
-		const loopEndTime = (window as any).loopEndTime || audio.duration;
-
-		if (loopEnable?.checked && currentTime >= loopEndTime && audio.duration > 0) {
-			audio.currentTime = loopStartTime;
-			console.log(`🔄 Loop: Jumped from ${loopEndTime.toFixed(2)}s to ${loopStartTime.toFixed(2)}s`);
-		}
-
-		// Update lyrics and notation based on current time
-		updateLyricsAndNotation(currentTime);
+		rafId = requestAnimationFrame(updateFrame);
 	}
 
 	// Make playhead draggable for seeking (with touch support for mobile)
@@ -1339,7 +1558,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	}
 
 	function handlePlayheadDragMove(e: Event) {
-		if (!isDraggingPlayhead || !audio || !progressContainer) return;
+		if (!isDraggingPlayhead || !progressContainer || !isUsingTone) return;
 
 		const clientX = (e as MouseEvent).clientX || (e as TouchEvent).touches?.[0]?.clientX;
 		if (clientX === undefined) return;
@@ -1347,13 +1566,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		const rect = progressContainer.getBoundingClientRect();
 		const x = clientX - rect.left;
 		const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-		const newTime = (percentage / 100) * audio.duration;
+		const newTime = (percentage / 100) * (audio?.duration || 1);
 
-		audio.currentTime = newTime;
+		toneNow = newTime;
 		seekBar.value = newTime.toString();
+		currentTimeDisplay.textContent = formatTime(newTime);
+		progressFill.style.width = `${percentage}%`;
+		if (playheadIndicator) playheadIndicator.style.left = `calc(${percentage}% - 8px)`;
 	}
 
 	function handlePlayheadDragEnd() {
+		if (isDraggingPlayhead && isUsingTone && tonePlayer && isPlaying) {
+			// Resume playback from new position
+			tonePlayer.stop();
+			if (rafId) cancelAnimationFrame(rafId);
+			tonePlayer.start(0, toneNow);
+			startProgressTracking();
+		}
 		isDraggingPlayhead = false;
 	}
 
