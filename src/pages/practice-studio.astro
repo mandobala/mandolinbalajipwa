@@ -66,6 +66,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 							<div id="current-lyric" class="current-lyric-line">
 								Select audio file to begin practice
 							</div>
+							<div id="count-in-countdown" class="count-in-countdown hidden"></div>
 							<div id="upcoming-lyrics" class="upcoming-lyrics-preview">
 								<!-- Upcoming lyrics will appear here -->
 							</div>
@@ -147,7 +148,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 									<rect x="2" y="2" width="20" height="20" fill="none" stroke="currentColor"/>
 								</svg>
 							</button>
-							<span id="count-in-countdown" class="count-in-countdown hidden"></span>
 						</div>
 					</div>
 				</div>
@@ -653,11 +653,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	}
 
 	#count-in-countdown {
-		font-size: 1.8rem;
-		font-weight: bold;
+		font-size: 5rem;
+		font-weight: 900;
 		color: #4ecdc4;
-		min-width: 40px;
 		text-align: center;
+		line-height: 1;
+		margin: 1rem 0;
+		text-shadow: 0 0 20px rgba(78, 205, 196, 0.8);
+		animation: pulse 0.2s ease-out;
+	}
+
+	@keyframes pulse {
+		0% {
+			transform: scale(1.1);
+		}
+		100% {
+			transform: scale(1);
+		}
 	}
 
 	#count-in-countdown.hidden {
@@ -1546,6 +1558,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			console.error('Play/pause failed:', e);
 		}
 		updatePlayPauseButton();
+		updateCountInButtonState();
 	})
 
 	// Stop button
@@ -1567,6 +1580,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			console.error('Stop failed:', e);
 		}
 		updatePlayPauseButton();
+		updateCountInButtonState();
 	});
 
 	// Count-in button
@@ -1583,7 +1597,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 			// Start countdown
 			let currentCount = selectedBeats;
-			const beatDuration = 15; // 15ms per beat
+			const beatDuration = 30; // 30ms per beat
 
 			// Display and play sounds for countdown
 			const countdownInterval = setInterval(async () => {
@@ -1594,7 +1608,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 					// Play wood block sound
 					try {
-						await playClickSound();
+						const synth = new Tone.Synth({
+							oscillator: { type: 'sine' },
+							envelope: {
+								attack: 0.002,
+								decay: 0.05,
+								sustain: 0,
+								release: 0.03
+							}
+						}).toDestination();
+						synth.triggerAttackRelease('C4', '0.1');
 					} catch (e) {
 						// console.log('Click sound failed:', e);
 					}
@@ -1647,13 +1670,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		countInButton.disabled = !canUseCountIn;
 		countInBeatsDropdown.disabled = !canUseCountIn;
 	}
-
-	// Hook into existing play/pause/stop updates
-	const originalUpdatePlayPauseButton = updatePlayPauseButton;
-	updatePlayPauseButton = function() {
-		originalUpdatePlayPauseButton.call(this);
-		updateCountInButtonState();
-	};
 
 	// Seek bar
 	seekBar.addEventListener('input', () => {
