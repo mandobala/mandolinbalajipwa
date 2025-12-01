@@ -874,6 +874,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	let isPlaying = false;
 	let pitchShift = 0; // in semitones
 	let playbackSpeed = 1.0;
+	let isIntentionalStop = false; // Flag to distinguish pause from stop
 
 	// Tone.js nodes for independent pitch and speed
 	let tonePlayer: Tone.Player | null = null;
@@ -1158,12 +1159,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			// Set initial playback rate for speed
 			tonePlayer.playbackRate = playbackSpeed;
 
-			// Set up event handler for playback end
+			// Set up event handler for playback end (only fires on explicit stop)
 			tonePlayer.onstop = () => {
-				isPlaying = false;
-				if (rafId) cancelAnimationFrame(rafId);
-				updatePlayPauseButton();
-				console.log('⏹️ Playback ended');
+				// Only process if this is a true stop (not pause)
+				if (isIntentionalStop) {
+					isIntentionalStop = false; // Reset flag
+					isPlaying = false;
+					if (rafId) cancelAnimationFrame(rafId);
+					console.log('⏹️ Playback stopped');
+				}
+				// Ignore if this is just a pause
 			};
 
 			isUsingTone = true;
@@ -1439,14 +1444,39 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		if (!isUsingTone || !tonePlayer || !audio) return;
 
 		try {
-			if (isPlaying) {
-				tonePlayer.stop();
+			const isPlayerRunning = tonePlayer.state === 'started';
+			
+			if (isPlayerRunning) {
+				// PAUSE: Stop the player completely
+				tonePlayer.stop(0); // Stop immediately with 0 fade
 				if (rafId) cancelAnimationFrame(rafId);
 				isPlaying = false;
 				console.log('⏸️ Paused at', toneNow.toFixed(2), 's');
 			} else {
-				playStartTime = performance.now();
-				await tonePlayer.start(0, toneNow);
+				// RESUME: Restart from paused position using seek (like rehearsal studio)
+				try {
+					if (tonePlayer.state === 'started') {
+						tonePlayer.stop(0);
+					}
+				} catch (e) {
+					// Ignore
+				}
+				
+				// Ensure audio context is running
+				if (Tone.context.state !== 'running') {
+					await Tone.start();
+				}
+				
+				// Start playback then seek to saved position after brief delay
+				tonePlayer.start();
+				setTimeout(() => {
+					if (tonePlayer) {
+						tonePlayer.seek(toneNow);
+						playStartTime = performance.now() - (toneNow * 1000);
+						console.log(`🔍 Seeked to ${toneNow.toFixed(2)}s after starting`);
+					}
+				}, 10);
+				
 				isPlaying = true;
 				startProgressTracking();
 				console.log('▶️ Playing from', toneNow.toFixed(2), 's');
@@ -1455,13 +1485,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			console.error('Play/pause failed:', e);
 		}
 		updatePlayPauseButton();
-	});
+	})
 
 	// Stop button
 	stopBtn.addEventListener('click', () => {
 		if (!isUsingTone || !tonePlayer) return;
 
 		try {
+			isIntentionalStop = true; // Signal that this is a real stop, not pause
 			tonePlayer.stop();
 			if (rafId) cancelAnimationFrame(rafId);
 			toneNow = 0;
@@ -1485,6 +1516,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		try {
 			toneNow = newTime;
 			if (isPlaying) {
+				// Restart playback from new position
 				tonePlayer.stop();
 				if (rafId) cancelAnimationFrame(rafId);
 				playStartTime = performance.now();
@@ -1594,17 +1626,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		isDraggingPlayhead = false;
 	}
 
-	// Attach playhead drag listeners (desktop + mobile)
+	// Attach playhead drag listeners (desktop + mobile) - ONCE
 	if (playheadIndicator && progressContainer) {
 		// Mouse events
 		playheadIndicator.addEventListener('mousedown', handlePlayheadDragStart);
-		document.addEventListener('mousemove', handlePlayheadDragMove);
-		document.addEventListener('mouseup', handlePlayheadDragEnd);
+		window.addEventListener('mousemove', handlePlayheadDragMove);
+		window.addEventListener('mouseup', handlePlayheadDragEnd);
 
 		// Touch events for mobile
 		playheadIndicator.addEventListener('touchstart', handlePlayheadDragStart, { passive: false });
-		document.addEventListener('touchmove', handlePlayheadDragMove, { passive: false });
-		document.addEventListener('touchend', handlePlayheadDragEnd);
+		window.addEventListener('touchmove', handlePlayheadDragMove, { passive: false });
+		window.addEventListener('touchend', handlePlayheadDragEnd);
 	}
 
 	// Loop handle dragging with snap-to-marker functionality
@@ -1728,32 +1760,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		document.querySelectorAll('.loop-marker-line.snapped').forEach(m => m.classList.remove('snapped'));
 	}
 
-	// Attach loop handle drag listeners (desktop + mobile)
+	// Attach loop handle drag listeners (desktop + mobile) - ONCE using window to avoid conflicts
 	const loopStartHandle = document.getElementById('loop-start-handle');
 	const loopEndHandle = document.getElementById('loop-end-handle');
 
 	if (loopStartHandle && progressContainer) {
 		// Mouse events
 		loopStartHandle.addEventListener('mousedown', handleLoopStartDragStart);
-		document.addEventListener('mousemove', handleLoopStartDragMove);
-		document.addEventListener('mouseup', handleLoopStartDragEnd);
+		window.addEventListener('mousemove', handleLoopStartDragMove);
+		window.addEventListener('mouseup', handleLoopStartDragEnd);
 
 		// Touch events for mobile
 		loopStartHandle.addEventListener('touchstart', handleLoopStartDragStart, { passive: false });
-		document.addEventListener('touchmove', handleLoopStartDragMove, { passive: false });
-		document.addEventListener('touchend', handleLoopStartDragEnd);
+		window.addEventListener('touchmove', handleLoopStartDragMove, { passive: false });
+		window.addEventListener('touchend', handleLoopStartDragEnd);
 	}
 
 	if (loopEndHandle && progressContainer) {
 		// Mouse events
 		loopEndHandle.addEventListener('mousedown', handleLoopEndDragStart);
-		document.addEventListener('mousemove', handleLoopEndDragMove);
-		document.addEventListener('mouseup', handleLoopEndDragEnd);
+		window.addEventListener('mousemove', handleLoopEndDragMove);
+		window.addEventListener('mouseup', handleLoopEndDragEnd);
 
 		// Touch events for mobile
 		loopEndHandle.addEventListener('touchstart', handleLoopEndDragStart, { passive: false });
-		document.addEventListener('touchmove', handleLoopEndDragMove, { passive: false });
-		document.addEventListener('touchend', handleLoopEndDragEnd);
+		window.addEventListener('touchmove', handleLoopEndDragMove, { passive: false });
+		window.addEventListener('touchend', handleLoopEndDragEnd);
 	}
 
 	// Format time helper
