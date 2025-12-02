@@ -132,7 +132,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 							<input type="checkbox" id="loop-enable" />
 							<span>A-B</span>
 						</label>
-						
+						<button id="count-in-button" class="transport-button count-in-square" title="Count-in">
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+									<text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="bold">🎵</text>
+									<rect x="2" y="2" width="20" height="20" fill="none" stroke="currentColor"/>
+								</svg>
+							</button>
 					</div>
 				</div>
 			</div>
@@ -152,12 +157,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 								<option value="9">9</option>
 								<option value="10">10</option>
 							</select>
-							<button id="count-in-button" class="transport-button count-in-square" title="Count-in">
-								<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
-									<text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="bold">🎵</text>
-									<rect x="2" y="2" width="20" height="20" fill="none" stroke="currentColor"/>
-								</svg>
-							</button>
+							
 						</div>
 				<!-- File Input Section -->
 				<div id="file-inputs-section" class="control-section file-inputs-section">
@@ -973,7 +973,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	// Count-in state
 	let isCountingIn = false;
 	let countInActive = false;
-	let countInIntervalId: number | null = null;
+	let countInIntervalId: number | undefined = undefined;
 	let beatDurationMs = 0; // Will be set from CSLP edupu, or falls back to this value if not set
 
 	// Tone.js nodes for independent pitch and speed
@@ -1566,17 +1566,35 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	playPauseBtn.addEventListener('click', async () => {
 		if (!isUsingTone || !tonePlayer || !audio) return;
 
+		// If clicking during count-in, cancel the count-in
+		if (isCountingIn) {
+			clearInterval(countInIntervalId);
+			countInIntervalId = undefined;
+			isCountingIn = false;
+			countInActive = false;
+			countInCountdown.classList.add('hidden');
+			updateCountInButtonState();
+			updatePlayPauseButton();
+			return;
+		}
+
 		try {
 			const isPlayerRunning = tonePlayer.state === 'started';
 			
 			if (isPlayerRunning) {
-				// PAUSE: Stop the player completely
+				// PAUSE: Calculate current position and update toneNow
+				const now = performance.now();
+				const elapsedMs = now - playStartTime;
+				const elapsedSeconds = elapsedMs / 1000;
+				toneNow = toneNow + (elapsedSeconds * playbackSpeed);
+				
+				// Stop the player completely
 				tonePlayer.stop(0); // Stop immediately with 0 fade
 				if (rafId) cancelAnimationFrame(rafId);
 				isPlaying = false;
 				// console.log('⏸️ Paused at', toneNow.toFixed(2), 's');
 			} else {
-				// RESUME: Restart from paused position using seek (like rehearsal studio)
+				// RESUME: Restart from paused position
 				try {
 					if (tonePlayer.state === 'started') {
 						tonePlayer.stop(0);
@@ -1590,19 +1608,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					await Tone.start();
 				}
 				
-				// Start playback then seek to saved position after brief delay
-				tonePlayer.start();
-				setTimeout(() => {
-					if (tonePlayer) {
-						tonePlayer.seek(toneNow);
-						playStartTime = performance.now() - (toneNow * 1000);
-						// console.log(`🔍 Seeked to ${toneNow.toFixed(2)}s after starting`);
-					}
-				}, 10);
+				// Start playback from the paused position
+				tonePlayer.start(0, toneNow);
+				playStartTime = performance.now();
 				
 				isPlaying = true;
 				startProgressTracking();
-				// console.log('▶️ Playing from', toneNow.toFixed(2), 's');
+				// console.log('▶️ Resumed from', toneNow.toFixed(2), 's');
 			}
 		} catch (e) {
 			console.error('Play/pause failed:', e);
@@ -1702,13 +1714,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 					if (tonePlayer) {
 						try {
-							tonePlayer.start();
-							setTimeout(() => {
-								if (tonePlayer) {
-									tonePlayer.seek(toneNow);
-									playStartTime = performance.now() - (toneNow * 1000);
-								}
-							}, 10);
+							tonePlayer.start(0, toneNow);
+							playStartTime = performance.now();
 						} catch (e) {
 							// console.log('Play after count-in failed:', e);
 						}
@@ -1719,7 +1726,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				startProgressTracking();
 				updatePlayPauseButton();
 			}
-		}, 10); // Run every 10ms for smooth timing			countInIntervalId = countdownInterval as unknown as number;
+		}, 10); // Run every 10ms for smooth timing			countInIntervalId = countdownInterval;
 		} catch (e) {
 			console.error('Count-in failed:', e);
 			isCountingIn = false;
