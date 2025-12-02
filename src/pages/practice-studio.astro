@@ -1179,7 +1179,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			// console.log('  Talam:', metadata.talam);
 			// console.log('  Timeline entries:', timeline.length);
 		} catch (error) {
-			console.error('Error loading CSLP file:', error);
+			// CSLP file load failed - continue with fallback
 			if (currentLyricDisplay) {
 				currentLyricDisplay.textContent = '🎵 Ready to practice';
 			}
@@ -1213,7 +1213,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 		if (currentEntry) {
 			// Update current lyric
-			currentLyricDisplay.textContent = currentEntry.text || '🎵';
+			if (currentLyricDisplay) {
+				currentLyricDisplay.textContent = currentEntry.text || '🎵';
+			}
 
 			// Update notation
 			const notationDisplay = document.getElementById('current-notation') as HTMLDivElement;
@@ -1221,20 +1223,35 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				notationDisplay.textContent = currentEntry.notation || 'No notation';
 			}
 
-			// Update upcoming lyrics
+			// Update upcoming lyrics - using safe DOM manipulation
 			const upcomingLyricsDiv = document.getElementById('upcoming-lyrics') as HTMLDivElement;
 			if (upcomingLyricsDiv) {
 				const currentIndex = timeline.indexOf(currentEntry);
 				const upcomingEntries = timeline.slice(currentIndex + 1, currentIndex + 4);
 				
-				upcomingLyricsDiv.innerHTML = upcomingEntries
-					.map((entry: any) => `<div class="lyric-line" style="margin: 0.5rem 0; opacity: 0.6;">${entry.text}</div>`)
-					.join('');
+				// Clear existing content
+				upcomingLyricsDiv.textContent = '';
+				
+				// Safely append new elements
+				upcomingEntries.forEach((entry: any) => {
+					try {
+						const div = document.createElement('div');
+						div.className = 'lyric-line';
+						div.style.margin = '0.5rem 0';
+						div.style.opacity = '0.6';
+						div.textContent = entry.text;
+						upcomingLyricsDiv.appendChild(div);
+					} catch (e) {
+						// Continue if element creation fails
+					}
+				});
 			}
 		} else if (timeline.length > 0) {
 			// Before first entry
 			const firstEntry = timeline[0];
-			currentLyricDisplay.textContent = firstEntry.text || '🎵';
+			if (currentLyricDisplay) {
+				currentLyricDisplay.textContent = firstEntry.text || '🎵';
+			}
 			
 			const notationDisplay = document.getElementById('current-notation') as HTMLDivElement;
 			if (notationDisplay) {
@@ -1244,9 +1261,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			const upcomingLyricsDiv = document.getElementById('upcoming-lyrics') as HTMLDivElement;
 			if (upcomingLyricsDiv) {
 				const upcomingEntries = timeline.slice(1, 4);
-				upcomingLyricsDiv.innerHTML = upcomingEntries
-					.map((entry: any) => `<div class="lyric-line" style="margin: 0.5rem 0; opacity: 0.6;">${entry.text}</div>`)
-					.join('');
+				
+				// Clear existing content
+				upcomingLyricsDiv.textContent = '';
+				
+				// Safely append new elements
+				upcomingEntries.forEach((entry: any) => {
+					try {
+						const div = document.createElement('div');
+						div.className = 'lyric-line';
+						div.style.margin = '0.5rem 0';
+						div.style.opacity = '0.6';
+						div.textContent = entry.text;
+						upcomingLyricsDiv.appendChild(div);
+					} catch (e) {
+						// Continue if element creation fails
+					}
+				});
 			}
 		}
 	}
@@ -1298,7 +1329,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			// console.log('✅ Tone.js initialized - independent pitch/speed control enabled');
 
 		} catch (error) {
-			console.error('❌ Tone.js initialization failed:', error);
+			// Tone.js initialization failed - using Web Audio fallback
 			isUsingTone = false;
 			alert('Failed to initialize audio system. Please refresh the page.');
 		}
@@ -1422,7 +1453,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	function generateTimelineMarkers(timeline: any[], duration: number) {
 		const markersContainer = document.getElementById('timeline-markers') as HTMLDivElement;
 		if (!markersContainer) {
-			console.error('❌ timeline-markers container not found');
+			// timeline-markers container not found - skip marker generation
 			return;
 		}
 
@@ -1458,7 +1489,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	function generateLoopMarkers(timeline: any[], duration: number) {
 		const markersContainer = document.getElementById('loop-markers') as HTMLDivElement;
 		if (!markersContainer) {
-			console.error('❌ loop-markers container not found');
+			// loop-markers container not found - skip marker generation
 			return;
 		}
 
@@ -1767,7 +1798,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			if (playheadIndicator) playheadIndicator.style.left = `calc(${progress}% - 8px)`;
 			// console.log('🔍 Seeked to', newTime.toFixed(2), 's');
 		} catch (e) {
-			console.error('Seek failed:', e);
+			// Seek failed - continue anyway
 		}
 	});
 
@@ -1781,46 +1812,110 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	// Progress tracking with RAF for Tone.js
 	function startProgressTracking() {
+		let frameCount = 0;
 		function updateFrame() {
+			frameCount++;
+			
 			if (!isPlaying || !isUsingTone || !tonePlayer) {
 				rafId = 0;
 				return;
 			}
 
-			// Calculate elapsed time from when play started (wall clock time)
-			const now = performance.now();
-			const elapsedMs = now - playStartTime;
-			const elapsedSeconds = elapsedMs / 1000;
-			
-			const loopEnable = document.getElementById('loop-enable') as HTMLInputElement;
-			const loopStartTime = (window as any).loopStartTime || 0;
-			const loopEndTime = (window as any).loopEndTime || audio?.duration || 0;
+			try {
+				// Verify player is still in valid state before proceeding
+				if (tonePlayer.state !== 'started') {
+					// Player stopped unexpectedly
+					isPlaying = false;
+					if (rafId) cancelAnimationFrame(rafId);
+					updatePlayPauseButton();
+					return;
+				}
 
-			// Calculate display time accounting for playback speed
-			let displayTime = toneNow + (elapsedSeconds * playbackSpeed);
+				// Calculate elapsed time from when play started (wall clock time)
+				const now = performance.now();
+				const elapsedMs = now - playStartTime;
+				const elapsedSeconds = elapsedMs / 1000;
+				
+				const loopEnable = document.getElementById('loop-enable') as HTMLInputElement;
+				const loopStartTime = (window as any).loopStartTime || 0;
+				const loopEndTime = (window as any).loopEndTime || audio?.duration || 0;
 
-			// Auto-loop: Jump from B to A when reaching loop end
-			if (loopEnable?.checked && displayTime >= loopEndTime && loopEndTime > 0) {
-				tonePlayer.stop();
-				toneNow = loopStartTime;
-				playStartTime = performance.now();
-				tonePlayer.start(0, loopStartTime);
-				// console.log(`🔄 Auto-loop: ${loopEndTime.toFixed(2)}s → ${loopStartTime.toFixed(2)}s`);
+				// Calculate display time accounting for playback speed
+				let displayTime = toneNow + (elapsedSeconds * playbackSpeed);
+				
+				// Safety check: ensure displayTime is valid (not NaN or Infinity)
+				if (!isFinite(displayTime)) {
+					displayTime = toneNow || 0;
+				}
+
+				// Additional safety: ensure displayTime doesn't go negative or exceed duration
+				if (displayTime < 0) displayTime = 0;
+				if (audio?.duration && displayTime > audio.duration) displayTime = audio.duration;
+
+				// Auto-loop: Jump from B to A when reaching loop end
+				if (loopEnable?.checked && displayTime >= loopEndTime && loopEndTime > 0) {
+					tonePlayer.stop();
+					toneNow = loopStartTime;
+					playStartTime = performance.now();
+					tonePlayer.start(0, loopStartTime);
+					rafId = requestAnimationFrame(updateFrame);
+					return;
+				}
+
+				// Stop at end of track
+				if (displayTime >= (audio?.duration || 0)) {
+					tonePlayer.stop();
+					isPlaying = false;
+					if (rafId) cancelAnimationFrame(rafId);
+					updatePlayPauseButton();
+					return;
+				}
+
+				// Throttle DOM updates to every 6 frames (~100ms at 60fps, ~170ms at 36fps on iOS)
+				// This reduces the frequency of DOM manipulations that might cause crashes
+				if (frameCount % 6 === 0) {
+					// Update UI - with extra null checks
+					try {
+						if (currentTimeDisplay && typeof currentTimeDisplay.textContent !== 'undefined') {
+							currentTimeDisplay.textContent = formatTime(displayTime);
+						}
+					} catch (e) {
+						// Continue if currentTimeDisplay fails
+					}
+
+					try {
+						if (seekBar && typeof seekBar.value !== 'undefined') {
+							seekBar.value = displayTime.toString();
+						}
+					} catch (e) {
+						// Continue if seekBar fails
+					}
+
+					try {
+						if (progressFill && audio?.duration && isFinite(displayTime)) {
+							const progress = Math.max(0, Math.min(100, (displayTime / audio.duration) * 100));
+							if (typeof progressFill.style !== 'undefined') {
+								progressFill.style.width = `${progress}%`;
+							}
+							if (playheadIndicator && typeof playheadIndicator.style !== 'undefined') {
+								playheadIndicator.style.left = `calc(${progress}% - 8px)`;
+							}
+						}
+					} catch (e) {
+						// Continue if progress update fails
+					}
+				}
+
+				// Update lyrics and notation (disabled but still called)
+				updateLyricsAndNotation(displayTime);
+
 				rafId = requestAnimationFrame(updateFrame);
-				return;
+			} catch (e) {
+				// Critical error - stop playback
+				isPlaying = false;
+				if (rafId) cancelAnimationFrame(rafId);
+				updatePlayPauseButton();
 			}
-
-			// Update UI
-			currentTimeDisplay.textContent = formatTime(displayTime);
-			seekBar.value = displayTime.toString();
-			const progress = (displayTime / (audio?.duration || 1)) * 100;
-			progressFill.style.width = `${progress}%`;
-			if (playheadIndicator) playheadIndicator.style.left = `calc(${progress}% - 8px)`;
-
-			// Update lyrics and notation
-			updateLyricsAndNotation(displayTime);
-
-			rafId = requestAnimationFrame(updateFrame);
 		}
 		rafId = requestAnimationFrame(updateFrame);
 	}

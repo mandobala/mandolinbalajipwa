@@ -1,0 +1,310 @@
+{
+  "data": {
+    "metadata": {
+      "title": "BantureethiKolu",
+      "artist": "Balaji",
+      "ragam": "Hamsanadham",
+      "talam": "Adi",
+      "shruti": "C#",
+      "aarohanam": "S R2 M2 P N3 S",
+      "avarohanam": "S N3 P M2 R2 S",
+      "edupu": 3
+    },
+    "mp3FileName": "Bantureethi_Db_minus.mp3",
+    "config": {
+      "offset": 0,
+      "lastPosition": 207.999469
+    },
+    "ulpLines": [
+      "Pallavi",
+      "banTu reeti kOlu viyavaiyya raama",
+      "Interlude",
+      "Filler",
+      "Anupallavi",
+      "tuNTa viNTi vaani modalaina madaa-",
+      "dula goTTi nela goola jEyu nija",
+      "Charanam",
+      "rOmaanca manu ghana kancukamu",
+      "raama bhaktuDanu mudra biLLayu",
+      "raama naama manu vara khaDga mivi",
+      "raajillu naiyya tyaagaraajuni kE"
+    ],
+    "rawText": "Pallavi\nbanTu reeti kOlu viyavaiyya raama \n\nInterlude\nFiller\n\nAnupallavi\n\ntuNTa viNTi vaani modalaina madaa- \ndula goTTi nela goola jEyu nija \n\nCharanam\n\nrOmaanca manu ghana kancukamu \nraama bhaktuDanu mudra biLLayu \nraama naama manu vara khaDga mivi \nraajillu naiyya tyaagaraajuni kE ",
+    "timeline": [
+      {
+        "id": 1764677030640,
+        "time": 0.363615,
+        "text": "banTu reeti kOlu viyavaiyya raama",
+        "notation": "||,,,,|,,p,|p,pm|r,r,|s,r,|s,Ṇ,|s,,p|,,m,|| p,,p|,,",
+        "lineNumber": 0
+      },
+      {
+        "id": 1764677036176,
+        "time": 5.906095,
+        "text": "banTu reeti kOlu viyavaiyya raama",
+        "notation": "p,|p,pm|r,r,|s,r,|s,Ṇ,|s,,p|,,m,|| p,,p|,,",
+        "lineNumber": 1
+      },
+      {
+        "id": 1764677041320,
+        "time": 11.044872,
+        "text": "banTu reeti kOlu viyavaiyya raama",
+        "notation": "pn|pnpm|r,r,|s,r,|s,Ṇ,|s,,p|,,m,|| p,,p|,,",
+        "lineNumber": 2
+      },
+      {
+        "id": 1764677046568,
+        "time": 16.300601,
+        "text": "banTu reeti kOlu viyavaiyya raama",
+        "notation": "pn|pnpm|r,r,|s,r,|s,Ṇ,|s,,p|,,m,|| p,,p|,,",
+        "lineNumber": 3
+      },
+      {
+        "id": 1764677051905,
+        "time": 21.637288,
+        "text": "banTu reeti kOlu viyavaiyya raama",
+        "notation": "pn|Ṡnpm|r,r,|s,r,|s,Ṇ,|s,,p|,,m,|| p,,p|,,",
+        "lineNumber": 4
+      },
+      {
+        "id": 1764677057177,
+        "time": 26.900269,
+        "text": "banTu reeti kOlu viyavaiyya raama",
+        "notation": "pn|Ṡnpm|r,r,|s,r,|s,Ṇ,|s,,p|,,m,|| p,,p|,,",
+        "lineNumber": 5
+      },
+      {
+        "id": 1764677062513,
+        "time": 32.245173,
+        "text": "banTu reeti kOlu viyavaiyya raama",
+        "notation": "pn|Ṡnpm|r,r,|s,r,|s,Ṡ,|Ṡ,,Ṡ|,Ṡ,,|| Ṙ,Ṡ,| n,",
+        "lineNumber": 6
+      },
+      {
+        "id": 1764677067969,
+        "time": 37.697753,
+        "text": "banTu reeti kOlu viyavaiyya raama",
+        "notation": "pn|Ṡnpm|r,r,|s,r,|s,Ṡ,|Ṡ,,Ṡ|,Ṡ,,|| Ṙ,Ṡ,| n,",
+        "lineNumber": 7
+      },
+      {
+        "id": 1764677072305,
+        "time": 42.035985,
+        "text": "banTu reeti kOlu viyavaiyya raama",
+        "notation": "pn|Ṡnpm|r,r,|s,r,|s,Ṡ,|Ṡ,,Ṡ|,Ṡ,,|| Ṙ,Ṡ,| n,",
+        "lineNumber": 8
+      },
+      {
+        "id": 1764677078514,
+        "time": 48.243935,
+        "text": "banTu reeti kOlu viyavaiyya raama",
+        "notation": "pn|Ṡnpm|r,r,|s,r,|s,Ṡn|pmpm|rsṄs||rmpn|ṠṘ",
+        "lineNumber": 9
+      },
+      {
+        "id": 1764677083746,
+        "time": 53.471863,
+        "text": "banTu reeti kOlu viyavaiyya raama",
+        "notation": "pn|Ṡnpm|r,r,|s,r,|s,Ṇ,|s,,p|,,m,|| p,,p|,,",
+        "lineNumber": 10
+      },
+      {
+        "id": 1764679083385,
+        "time": 58.294636,
+        "text": "Interlude",
+        "notation": "",
+        "lineNumber": 11
+      },
+      {
+        "id": 1764687929062,
+        "time": 67.185643,
+        "text": "Filler",
+        "notation": "1,,,|2,,,||1,2,|3,",
+        "lineNumber": 12
+      },
+      {
+        "id": 1764677099618,
+        "time": 69.34,
+        "text": "tuNTa viNTi vaani ",
+        "notation": "p,|n,,Ṡ|,,Ṡ,|Ṙ,Ṡ,|n,,,|,,,,||1,2,|3,",
+        "lineNumber": 13
+      },
+      {
+        "id": 1764677104506,
+        "time": 74.230412,
+        "text": "tuNTa viNTi vaani modalaina madaa-",
+        "notation": "p,|n,,Ṡ|,,Ṡ,|Ṙ,Ṡ,|n,Ṡ,|Ṙ,Ṙ,||Ṡ,Ṙ,|Ṡ,",
+        "lineNumber": 14
+      },
+      {
+        "id": 1764677109954,
+        "time": 79.683591,
+        "text": "tuNTa viNTi vaani modalaina madaa-",
+        "notation": "p,|n,,Ṡ|,,Ṡ,|Ṙ,Ṡ,|n,Ṡ,|Ṙ,Ṙ,||Ṡ,Ṙ,|Ṡ,",
+        "lineNumber": 15
+      },
+      {
+        "id": 1764677115490,
+        "time": 85.217324,
+        "text": "tuNTa viNTi vaani modalaina madaa-",
+        "notation": "p,|n,,Ṡ|,,Ṡ,|Ṙ,Ṡ,|n,Ṡ,|Ṙ,Ṙ,||Ṡ,Ṙ,|Ṁ,",
+        "lineNumber": 16
+      },
+      {
+        "id": 1764677121259,
+        "time": 90.984049,
+        "text": "tuNTa viNTi vaani modalaina madaa-",
+        "notation": "p,|n,,Ṡ|,,Ṡ,|Ṙ,Ṡ,|n,Ṡ,|Ṙ,Ṙ,||Ṡ,Ṙ,|Ṁ,",
+        "lineNumber": 17
+      },
+      {
+        "id": 1764677148052,
+        "time": 95.914106,
+        "text": "dula goTTi nela goola jEyu nija",
+        "notation": "",
+        "lineNumber": 18
+      },
+      {
+        "id": 1764677153316,
+        "time": 101.176736,
+        "text": "tuNTa viNTi vaani modalaina madaa-",
+        "notation": "p,|n,,Ṡ|,,Ṡ,|Ṙ,Ṡ,|n,Ṡ,|Ṙ,Ṙ,||Ṡ,Ṙ,|Ṁ,",
+        "lineNumber": 19
+      },
+      {
+        "id": 1764677158548,
+        "time": 106.405519,
+        "text": "dula goTTi nela goola jEyu nija",
+        "notation": "Ṗ ,|Ṗ ,ṖṀ|Ṙ,Ṙ,|Ṡ,Ṙ,|Ṡ,Ṡ,|Ṡ,,Ṡ|,Ṡ,,||Ṙ,Ṡ,| n,",
+        "lineNumber": 20
+      },
+      {
+        "id": 1764677163988,
+        "time": 111.849965,
+        "text": "banTu reeti kOlu viyavaiyya raama",
+        "notation": "pn|Ṡnpm|r,r,|s,r,|s,Ṡn|pmpm|rsṄs||rmpn|ṠṘ",
+        "lineNumber": 21
+      },
+      {
+        "id": 1764677169148,
+        "time": 117.004919,
+        "text": "banTu reeti kOlu viyavaiyya raama",
+        "notation": "pn|Ṡnpm|r,r,|s,r,|s,Ṇ,|s,,p|,,m,|| p,,p|,,",
+        "lineNumber": 22
+      },
+      {
+        "id": 1764679213045,
+        "time": 121.589028,
+        "text": "Interlude",
+        "notation": "",
+        "lineNumber": 23
+      },
+      {
+        "id": 1764680817074,
+        "time": 127.635697,
+        "text": "Interlude",
+        "notation": "",
+        "lineNumber": 24
+      },
+      {
+        "id": 1764680862986,
+        "time": 133.089799,
+        "text": "rOmaanca manu ghana kancukamu",
+        "notation": ",p,|,p,,|p,m,|p,m,|p,p,|p,m,|r,r,||rsṄs|rm",
+        "lineNumber": 25
+      },
+      {
+        "id": 1764677190629,
+        "time": 138.49515,
+        "text": "rOmaanca manu ghana kancukamu",
+        "notation": ",p,|,p,,|p,m,|p,m,|p,p,|p,m,|r,r,||rsṄs|rm",
+        "lineNumber": 26
+      },
+      {
+        "id": 1764677196085,
+        "time": 143.948007,
+        "text": "rOmaanca manu ghana kancukamu",
+        "notation": ",p,|,p,,|p,m,|p,m,|p,p,|p,m,|r,r,||rsṄs|rm",
+        "lineNumber": 27
+      },
+      {
+        "id": 1764677201445,
+        "time": 149.312134,
+        "text": "raama bhaktuDanu mudra biLLayu",
+        "notation": "p,|p,pm|r,r,|s,r,|s,Ṇ,|s,,p|,,m,|| p,,p|,,",
+        "lineNumber": 28
+      },
+      {
+        "id": 1764677207184,
+        "time": 155.045668,
+        "text": "rOmaanca manu ghana kancukamu",
+        "notation": "p,|p,pm|r,r,|s,r,|s,Ṇ,|s,,p|,,m,|| p,,p|,,",
+        "lineNumber": 29
+      },
+      {
+        "id": 1764677286375,
+        "time": 160.082029,
+        "text": "raama bhaktuDanu mudra biLLayu",
+        "notation": "p,|p,pm|r,r,|s,r,|s,Ṇ,|s,,p|,,m,|| p,,p|,,",
+        "lineNumber": 30
+      },
+      {
+        "id": 1764677291911,
+        "time": 165.615459,
+        "text": "raama naama manu vara khaDga mivi",
+        "notation": "p,|n,,Ṡ|,,Ṡ,|Ṙ,Ṡ,|n,Ṡ,|Ṙ,Ṙ,||Ṡ,Ṙ,|Ṡ,",
+        "lineNumber": 31
+      },
+      {
+        "id": 1764677322296,
+        "time": 170.780838,
+        "text": "Filler",
+        "notation": "",
+        "lineNumber": 32
+      },
+      {
+        "id": 1764677340633,
+        "time": 176.126569,
+        "text": "raama naama manu vara khaDga mivi",
+        "notation": "p,|n,,Ṡ|,,Ṡ,|Ṙ,Ṡ,|n,Ṡ,|Ṙ,Ṙ,||Ṡ,Ṙ,|Ṡ,",
+        "lineNumber": 33
+      },
+      {
+        "id": 1764677378290,
+        "time": 186.893029,
+        "text": "raama naama manu vara khaDga mivi",
+        "notation": "p,|n,,Ṡ|,,Ṡ,|Ṙ,Ṡ,|n,Ṡ,|Ṙ,Ṙ,||Ṡ,Ṙ,|Ṁ,",
+        "lineNumber": 34
+      },
+      {
+        "id": 1764677390867,
+        "time": 192.043936,
+        "text": "raajillu naiyya tyaagaraajuni kE",
+        "notation": "Ṗ ,|Ṗ ,ṖṀ|Ṙ,Ṙ,|Ṡ,Ṙ,|Ṡ,Ṡ,|Ṡ,,Ṡ|,Ṡ,,||Ṙ,Ṡ,| n,",
+        "lineNumber": 35
+      },
+      {
+        "id": 1764677396562,
+        "time": 197.739624,
+        "text": "raama naama manu vara khaDga mivi",
+        "notation": "p,|n,,Ṡ|,,Ṡ,|Ṙ,Ṡ,|n,Ṡ,|Ṙ,Ṙ,||Ṡ,Ṙ,|Ṁ,",
+        "lineNumber": 36
+      },
+      {
+        "id": 1764677401579,
+        "time": 202.75258,
+        "text": "raajillu naiyya tyaagaraajuni kE",
+        "notation": "Ṗ ,|Ṗ ,ṖṀ|Ṙ,Ṙ,|Ṡ,Ṙ,|Ṡ,Ṡ,|Ṡ,,Ṡ|,Ṡ,,||Ṙ,Ṡ,| n,",
+        "lineNumber": 37
+      },
+      {
+        "id": 1764677406827,
+        "time": 207.99,
+        "text": "banTu reeti kOlu viyavaiyya raama",
+        "notation": "p,|p,pm|r,r,|s,r,|s,Ṇ,|s,,p|,,m,|| p,,p|,,",
+        "lineNumber": 38
+      }
+    ]
+  },
+  "integrityHash": "a8f14522914f534e3147bccc76fd8d0a0f577194"
+}
