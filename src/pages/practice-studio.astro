@@ -15,6 +15,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				<div id="song-metadata" class="song-info hidden">
 					<div class="song-title" id="song-title"></div>
 					<div class="song-details">
+						<span class="ragam">
+							<span class="label">Raagam:</span>
+							<span class="value" id="ragam-text"></span>
+						</span>
+						<span class="talam">
+							<span class="label">Taalam:</span>
+							<span class="value" id="talam-text"></span>
+						</span>
+						<span class="shruti">
+							<span class="label">Shruti:</span>
+							<span class="value" id="shruti-text"></span>
+						</span>
+					</div>
+					<div class="song-scales">
 						<span class="arohanam">
 							<span class="label">Aroh:</span>
 							<span class="value" id="arohanam-text"></span>
@@ -1102,18 +1116,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	// Load CSLP file and display data
 	async function loadCSLPData() {
+		console.log(`🔍 currentAudioFileName raw value: "${currentAudioFileName}"`);
+		console.log(`🔍 currentAudioFileName type: ${typeof currentAudioFileName}`);
+		console.log(`🔍 currentAudioFileName length: ${currentAudioFileName.length}`);
+		console.log(`🔍 currentAudioFileName charCodes: ${Array.from(currentAudioFileName).map(c => c.charCodeAt(0)).join(',')}`);
+		
 		const cslpUrl = `/LyricsTagged/${encodeURIComponent(currentAudioFileName)}.cslp`;
+		console.log(`🔍 Audio file name: "${currentAudioFileName}"`);
+		console.log(`🔍 Looking for CSLP file at: ${cslpUrl}`);
 		
 		try {
 			const response = await fetch(cslpUrl);
+			console.log(`   Response status: ${response.status} ${response.statusText}`);
+			
 			if (!response.ok) {
-				// console.log('CSLP file not found, using default display');
+				console.log(`❌ CSLP file not found (${response.status}), using default display`);
 				currentLyricDisplay.textContent = '🎵 Ready to practice';
 				return;
 			}
 
 			cslpData = await response.json();
-			// console.log('📝 CSLP Data loaded:', cslpData);
+			console.log(`✅ CSLP file found and loaded successfully`);
+			console.log('📝 CSLP Data:', cslpData);
 
 			// Extract metadata
 			const metadata = cslpData.data.metadata;
@@ -1124,12 +1148,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			const songTitle = document.getElementById('song-title') as HTMLDivElement;
 			const ragamText = document.getElementById('ragam-text') as HTMLDivElement;
 			const talamText = document.getElementById('talam-text') as HTMLDivElement;
-			const sruthiText = document.getElementById('sruthi-text') as HTMLDivElement;
-
-			// Check if elements exist before using them
-			if (!songTitle || !ragamText || !talamText || !sruthiText) {
-				console.warn(`⚠️ Some metadata elements not found. songTitle=${!!songTitle}, ragamText=${!!ragamText}, talamText=${!!talamText}, sruthiText=${!!sruthiText}`);
-			}
+			const shrutiText = document.getElementById('shruti-text') as HTMLDivElement;
+			const arohanamText = document.getElementById('arohanam-text') as HTMLDivElement;
+			const avarohanamText = document.getElementById('avarohanam-text') as HTMLDivElement;
 
 			if (metadata) {
 				// Limit title to 20 characters
@@ -1137,7 +1158,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				if (songTitle) songTitle.textContent = titleDisplay;
 				if (ragamText) ragamText.textContent = metadata.ragam || '';
 				if (talamText) talamText.textContent = metadata.talam || '';
-				if (sruthiText) sruthiText.textContent = metadata.sruthi || '';
+				if (shrutiText) shrutiText.textContent = metadata.shruti || '';
+				if (arohanamText) arohanamText.textContent = metadata.aarohanam || '';
+				if (avarohanamText) avarohanamText.textContent = metadata.avarohanam || '';
 			
 			// Extract edupu value for count-in beat timing (in milliseconds)
 			// Higher edupu values = slower beats (inverse relationship)
@@ -1179,6 +1202,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			// console.log('  Talam:', metadata.talam);
 			// console.log('  Timeline entries:', timeline.length);
 		} catch (error) {
+			console.error(`⚠️ Error loading CSLP file:`, error);
 			// CSLP file load failed - continue with fallback
 			if (currentLyricDisplay) {
 				currentLyricDisplay.textContent = '🎵 Ready to practice';

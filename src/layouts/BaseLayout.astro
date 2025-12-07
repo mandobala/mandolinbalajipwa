@@ -18,6 +18,15 @@ const { title, description } = Astro.props;
 
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V8L35CMDJY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-V8L35CMDJY');
+    </script>
     <MainHead title={title} description={description} />
     <SEO
       title="Mandolin Balaji"
