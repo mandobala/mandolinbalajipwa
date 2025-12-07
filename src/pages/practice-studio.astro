@@ -1088,15 +1088,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 						initializeLoopHandles(cslpData.data.timeline, audio!.duration);
 					}
 					
-					// Auto-play when loaded from URL parameter
-					await Tone.start();
-					audio!.play().catch(err => console.log('Auto-play blocked:', err));
-					isPlaying = true;
-					updatePlayPauseButton();
-					startProgressTracking();
-					
-					// Automatically navigate to play panel without waiting for button press
-					await activatePlayPanel();
+					// Trigger the load button click automatically
+					loadButton.click();
 				});
 				
 				// Load CSLP data for this song
