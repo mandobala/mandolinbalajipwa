@@ -1024,6 +1024,54 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	const playheadIndicator = document.querySelector('.playhead-indicator') as HTMLElement;
 	const progressContainer = document.querySelector('.progress-container') as HTMLElement;
 
+	// Handle URL parameter for auto-loading song
+	async function loadSongFromParameter() {
+		const urlParams = new URLSearchParams(window.location.search);
+		const songParam = urlParams.get('song');
+		
+		if (songParam) {
+			currentAudioFileName = songParam;
+			// Load from /mysource/{songName}.mp3
+			const audioUrl = `/mysource/${encodeURIComponent(songParam)}.mp3`;
+			
+			try {
+				if (audio) {
+					audio.pause();
+					if (audio.src.startsWith('blob:')) {
+						URL.revokeObjectURL(audio.src);
+					}
+				}
+				
+				audio = new Audio(audioUrl);
+				audio.volume = parseInt(volumeControl.value) / 100;
+				
+				audio.addEventListener('loadedmetadata', () => {
+					if (!audio!.duration || isNaN(audio!.duration) || audio!.duration === Infinity) {
+						alert('Invalid audio file. Unable to read file duration.');
+						return;
+					}
+					
+					durationDisplay.textContent = formatTime(audio!.duration);
+					seekBar.max = audio!.duration.toString();
+					loadButton.disabled = false;
+					
+					// Regenerate markers if CSLP data is already loaded
+					if (cslpData && cslpData.data.timeline) {
+						generateTimelineMarkers(cslpData.data.timeline, audio!.duration);
+						generateLoopMarkers(cslpData.data.timeline, audio!.duration);
+						initializeLoopHandles(cslpData.data.timeline, audio!.duration);
+					}
+				});
+				
+				// Load CSLP data for this song
+				await loadCSLPData();
+			} catch (error) {
+				// console.error('Error loading song from parameter:', error);
+				currentLyricDisplay.textContent = '🎵 Ready to practice';
+			}
+		}
+	}
+
 	// Audio file selection
 	audioFileInput.addEventListener('change', (e) => {
 		const file = (e.target as HTMLInputElement).files?.[0];
@@ -1116,28 +1164,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	// Load CSLP file and display data
 	async function loadCSLPData() {
-		console.log(`🔍 currentAudioFileName raw value: "${currentAudioFileName}"`);
-		console.log(`🔍 currentAudioFileName type: ${typeof currentAudioFileName}`);
-		console.log(`🔍 currentAudioFileName length: ${currentAudioFileName.length}`);
-		console.log(`🔍 currentAudioFileName charCodes: ${Array.from(currentAudioFileName).map(c => c.charCodeAt(0)).join(',')}`);
+		// console.log(`🔍 currentAudioFileName raw value: "${currentAudioFileName}"`);
+		// console.log(`🔍 currentAudioFileName type: ${typeof currentAudioFileName}`);
+		// console.log(`🔍 currentAudioFileName length: ${currentAudioFileName.length}`);
+		// console.log(`🔍 currentAudioFileName charCodes: ${Array.from(currentAudioFileName).map(c => c.charCodeAt(0)).join(',')}`);
 		
 		const cslpUrl = `/LyricsTagged/${encodeURIComponent(currentAudioFileName)}.cslp`;
-		console.log(`🔍 Audio file name: "${currentAudioFileName}"`);
-		console.log(`🔍 Looking for CSLP file at: ${cslpUrl}`);
+		// console.log(`🔍 Audio file name: "${currentAudioFileName}"`);
+		// console.log(`🔍 Looking for CSLP file at: ${cslpUrl}`);
 		
 		try {
 			const response = await fetch(cslpUrl);
-			console.log(`   Response status: ${response.status} ${response.statusText}`);
+			// console.log(`   Response status: ${response.status} ${response.statusText}`);
 			
 			if (!response.ok) {
-				console.log(`❌ CSLP file not found (${response.status}), using default display`);
+				// console.log(`❌ CSLP file not found (${response.status}), using default display`);
 				currentLyricDisplay.textContent = '🎵 Ready to practice';
 				return;
 			}
 
 			cslpData = await response.json();
-			console.log(`✅ CSLP file found and loaded successfully`);
-			console.log('📝 CSLP Data:', cslpData);
+			// console.log(`✅ CSLP file found and loaded successfully`);
+			// console.log('📝 CSLP Data:', cslpData);
 
 			// Extract metadata
 			const metadata = cslpData.data.metadata;
@@ -1202,7 +1250,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			// console.log('  Talam:', metadata.talam);
 			// console.log('  Timeline entries:', timeline.length);
 		} catch (error) {
-			console.error(`⚠️ Error loading CSLP file:`, error);
+			// console.error(`⚠️ Error loading CSLP file:`, error);
 			// CSLP file load failed - continue with fallback
 			if (currentLyricDisplay) {
 				currentLyricDisplay.textContent = '🎵 Ready to practice';
@@ -2167,6 +2215,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	// Panel toggle functionality
 	document.addEventListener('DOMContentLoaded', () => {
+		// Check for URL parameter and load song if present
+		loadSongFromParameter();
+		
 		const panelToggles = document.querySelectorAll('.panel-toggle');
 
 		panelToggles.forEach(toggle => {
