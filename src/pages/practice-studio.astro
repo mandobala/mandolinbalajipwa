@@ -1045,7 +1045,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				audio = new Audio(audioUrl);
 				audio.volume = parseInt(volumeControl.value) / 100;
 				
-				audio.addEventListener('loadedmetadata', () => {
+				audio.addEventListener('loadedmetadata', async () => {
 					if (!audio!.duration || isNaN(audio!.duration) || audio!.duration === Infinity) {
 						alert('Invalid audio file. Unable to read file duration.');
 						return;
@@ -1061,6 +1061,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 						generateLoopMarkers(cslpData.data.timeline, audio!.duration);
 						initializeLoopHandles(cslpData.data.timeline, audio!.duration);
 					}
+					
+					// Auto-play when loaded from URL parameter
+					await Tone.start();
+					audio!.play().catch(err => console.log('Auto-play blocked:', err));
+					isPlaying = true;
+					updatePlayPauseButton();
+					startProgressTracking();
 				});
 				
 				// Load CSLP data for this song
