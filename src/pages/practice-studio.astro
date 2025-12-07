@@ -1025,6 +1025,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	const progressContainer = document.querySelector('.progress-container') as HTMLElement;
 
 	// Handle URL parameter for auto-loading song
+	async function activatePlayPanel() {
+		// Show practice display and controls
+		practiceDisplay.classList.remove('hidden');
+		
+		// Show all new sections
+		const progressSection = document.getElementById('progress-section') as HTMLDivElement;
+		const loopSection = document.getElementById('loop-section') as HTMLDivElement;
+		const playbackControlsSection = document.querySelector('.playback-controls-section') as HTMLDivElement;
+		
+		if (progressSection) progressSection.classList.remove('hidden');
+		if (loopSection) loopSection.classList.remove('hidden');
+		if (playbackControlsSection) playbackControlsSection.classList.remove('hidden');
+		
+		advancedControls.classList.remove('hidden');
+
+		// Hide file input section
+		const fileInputSection = document.getElementById('file-inputs-section') as HTMLDivElement;
+		fileInputSection.classList.add('hidden');
+
+		// Initialize Tone.js for independent pitch and speed control
+		await initializeToneJS();
+
+		// Try to load CSLP file for display
+		await loadCSLPData();
+	}
+
 	async function loadSongFromParameter() {
 		const urlParams = new URLSearchParams(window.location.search);
 		const songParam = urlParams.get('song');
@@ -1068,6 +1094,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					isPlaying = true;
 					updatePlayPauseButton();
 					startProgressTracking();
+					
+					// Automatically navigate to play panel without waiting for button press
+					await activatePlayPanel();
 				});
 				
 				// Load CSLP data for this song
@@ -1138,32 +1167,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	// Load button handler
 	loadButton.addEventListener('click', async () => {
 		if (!audio) return;
-
-		// Show practice display and controls
-		practiceDisplay.classList.remove('hidden');
-		
-		// Show all new sections
-		const progressSection = document.getElementById('progress-section') as HTMLDivElement;
-		const loopSection = document.getElementById('loop-section') as HTMLDivElement;
-		const playbackControlsSection = document.querySelector('.playback-controls-section') as HTMLDivElement;
-		
-		if (progressSection) progressSection.classList.remove('hidden');
-		if (loopSection) loopSection.classList.remove('hidden');
-		if (playbackControlsSection) playbackControlsSection.classList.remove('hidden');
-		
-		advancedControls.classList.remove('hidden');
-
-		// Hide file input section
-		const fileInputSection = document.getElementById('file-inputs-section') as HTMLDivElement;
-		fileInputSection.classList.add('hidden');
-
-		// Initialize Tone.js for independent pitch and speed control
-		await initializeToneJS();
-
-		// Try to load CSLP file for dummy display
-		await loadCSLPData();
-
-		// console.log('Practice studio activated for:', currentAudioFileName);
+		await activatePlayPanel();
 	});
 
 	// State for CSLP data
