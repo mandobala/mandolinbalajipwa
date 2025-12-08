@@ -1059,6 +1059,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			currentAudioFileName = songParam;
 			// Load from GitHub raw URL
 			const audioUrl = `https://raw.githubusercontent.com/mandobala/mandolinbalajipwa/main/public/mysource/${encodeURIComponent(songParam)}.mp3`;
+			console.log('🎵 Loading MP3 from:', audioUrl);
 			
 			try {
 				if (audio) {
