@@ -1057,8 +1057,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		
 		if (songParam) {
 			currentAudioFileName = songParam;
-			// Load from /mysource/{songName}.mp3
-			const audioUrl = `/mysource/${encodeURIComponent(songParam)}.mp3`;
+			// Load from GitHub raw URL
+			const audioUrl = `https://raw.githubusercontent.com/mandobala/mandolinbalajipwa/main/public/mysource/${encodeURIComponent(songParam)}.mp3`;
 			
 			try {
 				if (audio) {
