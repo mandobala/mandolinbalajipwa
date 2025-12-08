@@ -2,12 +2,12 @@
   "data": {
     "metadata": {
       "title": "Devineeye_Db",
-      "artist": "",
-      "ragam": "",
-      "talam": "",
-      "shruti": "",
-      "aarohanam": "",
-      "avarohanam": "",
+      "artist": "Balaji",
+      "ragam": "Keeravani",
+      "talam": "Adi Talam",
+      "shruti": "C#",
+      "aarohanam": "S R2 G2 M1 P D1 N3 Ṡ",
+      "avarohanam": "Ṡ N3 D1 P M1 G2 R2 S",
       "edupu": 60
     },
     "mp3FileName": "Devineeye_Db.mp3",
