@@ -2,12 +2,12 @@
   "data": {
     "metadata": {
       "title": "Devineeye_Db",
-      "artist": "",
+      "artist": "Balaji",
       "ragam": "Keeravani",
       "talam": "Adi Talam",
       "shruti": "C#",
-      "aarohanam": "",
-      "avarohanam": "",
+      "aarohanam": "S R2 G2 M1 P D1 N3 Ṡ",
+      "avarohanam": "Ṡ N3 D1 P M1 G2 R2 S",
       "edupu": 60
     },
     "mp3FileName": "Devineeye_Db.mp3",
@@ -301,5 +301,10 @@
       }
     ]
   },
+<<<<<<< HEAD
   "integrityHash": "hash5v61im"
 }
+=======
+  "integrityHash": "hashyjy2uu"
+}
+>>>>>>> bf24dfb155823ad272a2a5889a89edc5bc2f8bfe
