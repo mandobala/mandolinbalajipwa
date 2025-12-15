@@ -1288,32 +1288,72 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		const timeline = cslpData.data.timeline;
 		const currentEntry = getCurrentTimelineEntry(currentTime);
 
+		// Helper: transform notation HTML by rewriting bare-filename img src to /LyricsImages/<mp3Base>/...
+		function transformNotationHtml(html: string) {
+			if (!html) return '';
+			const wrapper = document.createElement('div');
+			wrapper.innerHTML = html;
+			const imgs = wrapper.querySelectorAll('img');
+			imgs.forEach((img) => {
+				const srcAttr = img.getAttribute('src') || '';
+				if (!/^(?:https?:|\/|data:)/i.test(srcAttr)) {
+					let mp3FileName = (cslpData && cslpData.data && cslpData.data.mp3FileName) ? cslpData.data.mp3FileName : currentAudioFileName || '';
+					if (mp3FileName) {
+						const mp3Base = mp3FileName.replace(/\.[^/.]+$/, '');
+						const localPath = `/LyricsImages/${mp3Base}/${srcAttr}`;
+						img.setAttribute('src', localPath);
+					}
+				}
+				img.onerror = function() {
+					try {
+						this.onerror = null;
+						const parent = this.parentElement;
+						if (parent) parent.textContent = 'notation not found';
+					} catch (e) {}
+				};
+			});
+			return wrapper.innerHTML;
+		}
+
+		function applyNotationHtmlToDisplay(html: string, notationDisplay: HTMLDivElement) {
+			const transformed = transformNotationHtml(html);
+			const temp = document.createElement('div');
+			temp.innerHTML = transformed;
+			const newImg = temp.querySelector('img');
+			const existingImg = notationDisplay.querySelector('img');
+			if (newImg) {
+				if (existingImg) {
+					const newSrc = newImg.getAttribute('src') || '';
+					const existingSrc = existingImg.getAttribute('src') || '';
+					if (newSrc !== existingSrc) {
+						existingImg.setAttribute('src', newSrc);
+						existingImg.onerror = newImg.onerror;
+					}
+					notationDisplay.textContent = '';
+					notationDisplay.appendChild(existingImg);
+				} else {
+					notationDisplay.innerHTML = '';
+					notationDisplay.appendChild(newImg);
+				}
+			} else {
+				notationDisplay.textContent = temp.textContent || 'No notation';
+			}
+		}
+
 		if (currentEntry) {
 			// Update current lyric
 			if (currentLyricDisplay) {
 				currentLyricDisplay.textContent = currentEntry.text || '🎵';
 			}
 
-			// Update notation
+			// Update notation using shared helpers
 			const notationDisplay = document.getElementById('current-notation') as HTMLDivElement;
 			if (notationDisplay) {
-						 if (currentEntry.notation && /<img\b/i.test(currentEntry.notation)) {
-							 // Patch img src if only filename is present
-							 let notationHtml = currentEntry.notation.replace(/<img([^>]*?)src=["']([^"'/][^"']*)["']([^>]*?)>/gi, function(match, pre, src, post) {
-								 // Get mp3FileName from cslpData metadata
-								 let mp3FileName = (cslpData && cslpData.data && cslpData.data.mp3FileName) ? cslpData.data.mp3FileName : '';
-								 if (!mp3FileName) return match;
-								 // Remove extension from mp3FileName
-								 let mp3Base = mp3FileName.replace(/\.[^/.]+$/, '');
-								 // Compose local path
-								 let localPath = `/LyricsImages/${mp3Base}/${src}`;
-								 // Add onerror fallback
-								 return `<img${pre}src="${localPath}"${post} onerror="this.onerror=null;this.src='';this.alt='notation not found';this.style.display='block';this.parentNode.textContent='notation not found';">`;
-							 });
-							 notationDisplay.innerHTML = notationHtml;
-						 } else {
-							 notationDisplay.textContent = currentEntry.notation || 'No notation';
-						 }
+				if (currentEntry.notation && /<img\b/i.test(currentEntry.notation)) {
+					applyNotationHtmlToDisplay(currentEntry.notation, notationDisplay);
+				} else {
+					notationDisplay.textContent = currentEntry.notation || 'No notation';
+				}
 			}
 
 			// Update upcoming lyrics - using safe DOM manipulation
@@ -1349,7 +1389,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			const notationDisplay = document.getElementById('current-notation') as HTMLDivElement;
 			if (notationDisplay) {
 				if (firstEntry.notation && /<img\b/i.test(firstEntry.notation)) {
-					notationDisplay.innerHTML = firstEntry.notation;
+					applyNotationHtmlToDisplay(firstEntry.notation, notationDisplay);
 				} else {
 					notationDisplay.textContent = firstEntry.notation || 'No notation';
 				}
