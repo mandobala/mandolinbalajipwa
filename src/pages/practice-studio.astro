@@ -1307,7 +1307,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 								 let mp3Base = mp3FileName.replace(/\.[^/.]+$/, '');
 								 // Compose local path
 								 let localPath = `/LyricsImages/${mp3Base}/${src}`;
-								 console.log('[PracticeStudio] Notation image local path:', localPath);
 								 // Add onerror fallback
 								 return `<img${pre}src="${localPath}"${post} onerror="this.onerror=null;this.src='';this.alt='notation not found';this.style.display='block';this.parentNode.textContent='notation not found';">`;
 							 });
