@@ -1297,11 +1297,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			// Update notation
 			const notationDisplay = document.getElementById('current-notation') as HTMLDivElement;
 			if (notationDisplay) {
-				if (currentEntry.notation && /<img\b/i.test(currentEntry.notation)) {
-					notationDisplay.innerHTML = currentEntry.notation;
-				} else {
-					notationDisplay.textContent = currentEntry.notation || 'No notation';
-				}
+						 if (currentEntry.notation && /<img\b/i.test(currentEntry.notation)) {
+							 // Patch img src if only filename is present
+							 let notationHtml = currentEntry.notation.replace(/<img([^>]*?)src=["']([^"'/][^"']*)["']([^>]*?)>/gi, function(match, pre, src, post) {
+								 // Get mp3FileName from cslpData metadata
+								 let mp3FileName = (cslpData && cslpData.data && cslpData.data.mp3FileName) ? cslpData.data.mp3FileName : '';
+								 if (!mp3FileName) return match;
+								 // Remove extension from mp3FileName
+								 let mp3Base = mp3FileName.replace(/\.[^/.]+$/, '');
+								 // Compose local path
+								 let localPath = `/LyricsImages/${mp3Base}/${src}`;
+								 console.log('[PracticeStudio] Notation image local path:', localPath);
+								 // Add onerror fallback
+								 return `<img${pre}src="${localPath}"${post} onerror="this.onerror=null;this.src='';this.alt='notation not found';this.style.display='block';this.parentNode.textContent='notation not found';">`;
+							 });
+							 notationDisplay.innerHTML = notationHtml;
+						 } else {
+							 notationDisplay.textContent = currentEntry.notation || 'No notation';
+						 }
 			}
 
 			// Update upcoming lyrics - using safe DOM manipulation
