@@ -1,0 +1,369 @@
+{
+  "data": {
+    "metadata": {
+      "title": "AnupamaGunambudhi",
+      "artist": "Balaji",
+      "ragam": "",
+      "talam": "",
+      "shruti": "Db",
+      "aarohanam": "",
+      "avarohanam": "",
+      "edupu": 60
+    },
+    "mp3FileName": "AnupamaGunambudhi.mp3",
+    "config": {
+      "offset": 0.25,
+      "lastPosition": 115.19
+    },
+    "ulpLines": [
+      "Anupama Gunambudhi",
+      "Anupama Gunambudhi",
+      "Anupama Gunambudhi",
+      "Anupama Gunambudhi",
+      "Anupama Gunambudhi",
+      "Anupama Gunambudhi",
+      "Anupama Gunambudhi",
+      "Anupama Gunambudhi",
+      "Anupama Gunambudhi",
+      "Anupama Gunambudhi",
+      "Yani Ninnu Nera Nammi",
+      "Anusarincina Vaada",
+      "nai iiii iii yaaa",
+      "Anupama Gunambudhi",
+      "interlude",
+      "12345",
+      "12345",
+      "Manupakaye Yunnaavu",
+      "ri ......",
+      "12345",
+      "Manupakaye Yunnaavu",
+      "Manupakaye Yunnaavu",
+      "Manupakaye Yunnaavu",
+      "Manupakaye Yunnaavu",
+      "Manupati! Vraasi Me",
+      "manupa Maa Kevaru Vinu",
+      "maa Dayaraani",
+      "Anupama Gunambudhi",
+      "Yani Ninnu Nera Nammi",
+      "Anusarincina Vaada",
+      "nai iiii iii yaaa",
+      "Anupama Gunambudhi",
+      "12345",
+      "Raajakula Kalashaabdhi",
+      "Raaja! Surapaala! Gaja",
+      "raaja Rakshaka! Tyaaga",
+      "raajavinuta",
+      "Anupama Gunambudhi",
+      "Yani Ninnu Nera Nammi",
+      "Anusarincina Vaada",
+      "nai iiii iii yaaa",
+      "Anupama Gunambudhi",
+      "......"
+    ],
+    "rawText": "Anupama Gunambudhi\nAnupama Gunambudhi\nAnupama Gunambudhi\nAnupama Gunambudhi\nAnupama Gunambudhi\nAnupama Gunambudhi\nAnupama Gunambudhi\nAnupama Gunambudhi\nAnupama Gunambudhi\nAnupama Gunambudhi\nYani Ninnu Nera Nammi\nAnusarincina Vaada\nnai iiii iii yaaa\nAnupama Gunambudhi\ninterlude\n12345\n12345\nManupakaye Yunnaavu\nri ......\n12345\nManupakaye Yunnaavu\nManupakaye Yunnaavu\nManupakaye Yunnaavu\nManupakaye Yunnaavu\nManupati! Vraasi Me\nmanupa Maa Kevaru Vinu\nmaa Dayaraani\nAnupama Gunambudhi\nYani Ninnu Nera Nammi\nAnusarincina Vaada\nnai iiii iii yaaa\nAnupama Gunambudhi\n12345\nRaajakula Kalashaabdhi\nRaaja! Surapaala! Gaja\nraaja Rakshaka! Tyaaga\nraajavinuta\nAnupama Gunambudhi\nYani Ninnu Nera Nammi\nAnusarincina Vaada\nnai iiii iii yaaa\nAnupama Gunambudhi\n......",
+    "timeline": [
+      {
+        "id": 1765790858571,
+        "time": 0.175,
+        "text": "Anupama Gunambudhi",
+        "notation": "<img src=\"https://raw.githubusercontent.com/mandobala/mandolinbalajipwa/main/public/LyricsImages/AnupamaGunambudhi/line_001.png\">",
+        "lineNumber": 0
+      },
+      {
+        "id": 1765790858572,
+        "time": 3.224,
+        "text": "Anupama Gunambudhi",
+        "notation": "<img src=\"https://raw.githubusercontent.com/mandobala/mandolinbalajipwa/main/public/LyricsImages/AnupamaGunambudhi/line_001.png\">",
+        "lineNumber": 1
+      },
+      {
+        "id": 1765790858573,
+        "time": 6.204,
+        "text": "Anupama Gunambudhi",
+        "notation": "<img src=\"https://raw.githubusercontent.com/mandobala/mandolinbalajipwa/main/public/LyricsImages/AnupamaGunambudhi/line_002.png\">",
+        "lineNumber": 2
+      },
+      {
+        "id": 1765790858574,
+        "time": 9.219,
+        "text": "Anupama Gunambudhi",
+        "notation": "Anupama Gunambudhi",
+        "lineNumber": 3
+      },
+      {
+        "id": 1765790858575,
+        "time": 12.247,
+        "text": "Anupama Gunambudhi",
+        "notation": "Anupama Gunambudhi",
+        "lineNumber": 4
+      },
+      {
+        "id": 1765790858576,
+        "time": 15.289,
+        "text": "Anupama Gunambudhi",
+        "notation": "Anupama Gunambudhi",
+        "lineNumber": 5
+      },
+      {
+        "id": 1765790858577,
+        "time": 18.358,
+        "text": "Anupama Gunambudhi",
+        "notation": "Anupama Gunambudhi",
+        "lineNumber": 6
+      },
+      {
+        "id": 1765790858578,
+        "time": 21.395,
+        "text": "Anupama Gunambudhi",
+        "notation": "Anupama Gunambudhi",
+        "lineNumber": 7
+      },
+      {
+        "id": 1765790858579,
+        "time": 24.464,
+        "text": "Anupama Gunambudhi",
+        "notation": "Anupama Gunambudhi",
+        "lineNumber": 8
+      },
+      {
+        "id": 1765790858580,
+        "time": 27.646,
+        "text": "Anupama Gunambudhi",
+        "notation": "Anupama Gunambudhi",
+        "lineNumber": 9
+      },
+      {
+        "id": 1765790858581,
+        "time": 30.637,
+        "text": "Yani Ninnu Nera Nammi",
+        "notation": "Yani Ninnu Nera Nammi",
+        "lineNumber": 10
+      },
+      {
+        "id": 1765790858582,
+        "time": 33.742,
+        "text": "Anusarincina Vaada",
+        "notation": "Anusarincina Vaada",
+        "lineNumber": 11
+      },
+      {
+        "id": 1765790858583,
+        "time": 36.824,
+        "text": "nai iiii iii yaaa",
+        "notation": "nai iiii iii yaaa",
+        "lineNumber": 12
+      },
+      {
+        "id": 1765790858584,
+        "time": 39.844,
+        "text": "Anupama Gunambudhi",
+        "notation": "Anupama Gunambudhi",
+        "lineNumber": 13
+      },
+      {
+        "id": 1765790858585,
+        "time": 42.984,
+        "text": "interlude",
+        "notation": "interlude",
+        "lineNumber": 14
+      },
+      {
+        "id": 1765790858586,
+        "time": 44.623,
+        "text": "12345",
+        "notation": "12345",
+        "lineNumber": 15
+      },
+      {
+        "id": 1765790858587,
+        "time": 46.13,
+        "text": "12345",
+        "notation": "12345",
+        "lineNumber": 16
+      },
+      {
+        "id": 1765790858588,
+        "time": 47.408,
+        "text": "Manupakaye Yunnaavu",
+        "notation": "Manupakaye Yunnaavu",
+        "lineNumber": 17
+      },
+      {
+        "id": 1765790858589,
+        "time": 50.454,
+        "text": "ri ......",
+        "notation": "ri ......",
+        "lineNumber": 18
+      },
+      {
+        "id": 1765790858590,
+        "time": 52.059,
+        "text": "12345",
+        "notation": "12345",
+        "lineNumber": 19
+      },
+      {
+        "id": 1765790858591,
+        "time": 53.595,
+        "text": "Manupakaye Yunnaavu",
+        "notation": "Manupakaye Yunnaavu",
+        "lineNumber": 20
+      },
+      {
+        "id": 1765790858592,
+        "time": 55.11,
+        "text": "Manupakaye Yunnaavu",
+        "notation": "Manupakaye Yunnaavu",
+        "lineNumber": 21
+      },
+      {
+        "id": 1765790858593,
+        "time": 56.6,
+        "text": "Manupakaye Yunnaavu",
+        "notation": "Manupakaye Yunnaavu",
+        "lineNumber": 22
+      },
+      {
+        "id": 1765790858594,
+        "time": 58.075,
+        "text": "Manupakaye Yunnaavu",
+        "notation": "Manupakaye Yunnaavu",
+        "lineNumber": 23
+      },
+      {
+        "id": 1765790858595,
+        "time": 59.503,
+        "text": "Manupati! Vraasi Me",
+        "notation": "Manupati! Vraasi Me",
+        "lineNumber": 24
+      },
+      {
+        "id": 1765790858596,
+        "time": 62.603,
+        "text": "manupa Maa Kevaru Vinu",
+        "notation": "manupa Maa Kevaru Vinu",
+        "lineNumber": 25
+      },
+      {
+        "id": 1765790858597,
+        "time": 65.672,
+        "text": "maa Dayaraani",
+        "notation": "maa Dayaraani",
+        "lineNumber": 26
+      },
+      {
+        "id": 1765790858598,
+        "time": 68.70400000000001,
+        "text": "Anupama Gunambudhi",
+        "notation": "Anupama Gunambudhi",
+        "lineNumber": 27
+      },
+      {
+        "id": 1765790858599,
+        "time": 71.773,
+        "text": "Yani Ninnu Nera Nammi",
+        "notation": "Yani Ninnu Nera Nammi",
+        "lineNumber": 28
+      },
+      {
+        "id": 1765790858600,
+        "time": 74.869,
+        "text": "Anusarincina Vaada",
+        "notation": "Anusarincina Vaada",
+        "lineNumber": 29
+      },
+      {
+        "id": 1765790858601,
+        "time": 77.97800000000001,
+        "text": "nai iiii iii yaaa",
+        "notation": "nai iiii iii yaaa",
+        "lineNumber": 30
+      },
+      {
+        "id": 1765790858602,
+        "time": 80.957,
+        "text": "Anupama Gunambudhi",
+        "notation": "Anupama Gunambudhi",
+        "lineNumber": 31
+      },
+      {
+        "id": 1765790858603,
+        "time": 84.111,
+        "text": "12345",
+        "notation": "12345",
+        "lineNumber": 32
+      },
+      {
+        "id": 1765790858604,
+        "time": 87.094,
+        "text": "Raajakula Kalashaabdhi",
+        "notation": "Raajakula Kalashaabdhi",
+        "lineNumber": 33
+      },
+      {
+        "id": 1765790858605,
+        "time": 90.26599999999999,
+        "text": "Raaja! Surapaala! Gaja",
+        "notation": "Raaja! Surapaala! Gaja",
+        "lineNumber": 34
+      },
+      {
+        "id": 1765790858606,
+        "time": 93.425,
+        "text": "raaja Rakshaka! Tyaaga",
+        "notation": "raaja Rakshaka! Tyaaga",
+        "lineNumber": 35
+      },
+      {
+        "id": 1765790858607,
+        "time": 96.543,
+        "text": "raajavinuta",
+        "notation": "raajavinuta",
+        "lineNumber": 36
+      },
+      {
+        "id": 1765790858608,
+        "time": 99.571,
+        "text": "Anupama Gunambudhi",
+        "notation": "Anupama Gunambudhi",
+        "lineNumber": 37
+      },
+      {
+        "id": 1765790858609,
+        "time": 102.708,
+        "text": "Yani Ninnu Nera Nammi",
+        "notation": "Yani Ninnu Nera Nammi",
+        "lineNumber": 38
+      },
+      {
+        "id": 1765790858610,
+        "time": 105.862,
+        "text": "Anusarincina Vaada",
+        "notation": "Anusarincina Vaada",
+        "lineNumber": 39
+      },
+      {
+        "id": 1765790858611,
+        "time": 108.967,
+        "text": "nai iiii iii yaaa",
+        "notation": "nai iiii iii yaaa",
+        "lineNumber": 40
+      },
+      {
+        "id": 1765790858612,
+        "time": 112.009,
+        "text": "Anupama Gunambudhi",
+        "notation": "Anupama Gunambudhi",
+        "lineNumber": 41
+      },
+      {
+        "id": 1765790858613,
+        "time": 115.19,
+        "text": "......",
+        "notation": "......",
+        "lineNumber": 42
+      }
+    ]
+  },
+  "integrityHash": "hashzzwf3"
+}
