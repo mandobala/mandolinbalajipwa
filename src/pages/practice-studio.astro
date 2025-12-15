@@ -1297,7 +1297,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			// Update notation
 			const notationDisplay = document.getElementById('current-notation') as HTMLDivElement;
 			if (notationDisplay) {
-				notationDisplay.textContent = currentEntry.notation || 'No notation';
+				if (currentEntry.notation && /<img\b/i.test(currentEntry.notation)) {
+					notationDisplay.innerHTML = currentEntry.notation;
+				} else {
+					notationDisplay.textContent = currentEntry.notation || 'No notation';
+				}
 			}
 
 			// Update upcoming lyrics - using safe DOM manipulation
@@ -1332,7 +1336,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			
 			const notationDisplay = document.getElementById('current-notation') as HTMLDivElement;
 			if (notationDisplay) {
-				notationDisplay.textContent = firstEntry.notation || 'No notation';
+				if (firstEntry.notation && /<img\b/i.test(firstEntry.notation)) {
+					notationDisplay.innerHTML = firstEntry.notation;
+				} else {
+					notationDisplay.textContent = firstEntry.notation || 'No notation';
+				}
 			}
 
 			const upcomingLyricsDiv = document.getElementById('upcoming-lyrics') as HTMLDivElement;
