@@ -1,0 +1,169 @@
+{
+  "data": {
+    "metadata": {
+      "title": "Samajavara Gamana",
+      "artist": "Balaji",
+      "ragam": "Hindholam",
+      "talam": "Adhi",
+      "shruti": "C#",
+      "aarohanam": "S G2 M1 D1 N2 S",
+      "avarohanam": "S N2 D1 M1 G2 S",
+      "edupu": 60
+    },
+    "mp3FileName": "samajavaragamana_minus.mp3",
+    "config": {
+      "offset": 0.25,
+      "lastPosition": 142.88850340136054
+    },
+    "ulpLines": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "rawText": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    "timeline": [
+      {
+        "time": 6.0384979248046875,
+        "text": "Saamaja Vara Gamana Saadhu Hrut",
+        "notation": ""
+      },
+      {
+        "time": 12.325804988662131,
+        "text": "Saamaja Vara Gamana Saadhu Hrut",
+        "notation": ""
+      },
+      {
+        "time": 18.637449264526367,
+        "text": "Saamaja Vara Gamana Saadhu Hrut",
+        "notation": ""
+      },
+      {
+        "time": 24.905427932739258,
+        "text": "Saamaja Vara Gamana Saadhu Hrut",
+        "notation": ""
+      },
+      {
+        "time": 31.393888473510742,
+        "text": "Saarasaabja Paala Kaalaateeta Vikhyaata",
+        "notation": ""
+      },
+      {
+        "time": 37.603370666503906,
+        "text": "Saamaja Vara Gamana Saadhu Hrut",
+        "notation": ""
+      },
+      {
+        "time": 44.14934240362812,
+        "text": "Saarasaabja Paala Kaalaateeta Vikhyaata",
+        "notation": ""
+      },
+      {
+        "time": 44.1498888,
+        "text": "Saamaja Vara Gamana Saadhu Hrut",
+        "notation": ""
+      },
+      {
+        "time": 50.01783752441406,
+        "text": "Saarasaabja Paala Kaalaateeta Vikhyaata",
+        "notation": ""
+      },
+      {
+        "time": 56.38930892944336,
+        "text": "Saamaja Vara Gamana Saadhu Hrut",
+        "notation": ""
+      },
+      {
+        "time": 62.74728012084961,
+        "text": "interlude",
+        "notation": ""
+      },
+      {
+        "time": 68.72278594970703,
+        "text": "Saama Nigamaja Sudhaamaya Gaana",
+        "notation": ""
+      },
+      {
+        "time": 75.06725311279297,
+        "text": "Saama Nigamaja Sudhaamaya Gaana",
+        "notation": ""
+      },
+      {
+        "time": 81.2407455444336,
+        "text": "Saama Nigamaja Sudhaamaya Gaana",
+        "notation": ""
+      },
+      {
+        "time": 87.38272857666016,
+        "text": "Vichakshana Gunasheela Dayaalavaala Maam Paalaya",
+        "notation": ""
+      },
+      {
+        "time": 93.51,
+        "text": "Saamaja Vara Gamana Saadhu Hrut",
+        "notation": ""
+      },
+      {
+        "time": 99.5490022675737,
+        "text": "Saarasaabja Paala Kaalaateeta Vikhyaata",
+        "notation": ""
+      },
+      {
+        "time": 105.6737060546875,
+        "text": "Saamaja Vara Gamana ",
+        "notation": ""
+      },
+      {
+        "time": 112.05,
+        "text": "Veda Shiromaatruja Saptasvara",
+        "notation": ",,,s ,mg, m,,, m,,, d,d, dnṡ, ṡnd, n,n,"
+      },
+      {
+        "time": 118.02068328857422,
+        "text": "Naadaachala Deepa Sveekruta",
+        "notation": ""
+      },
+      {
+        "time": 124.32154195011339,
+        "text": "Yaadavakula Murali Vaadana",
+        "notation": ""
+      },
+      {
+        "time": 130.5746307373047,
+        "text": "Yaadavakula Murali Vaadana",
+        "notation": ""
+      },
+      {
+        "time": 136.62448979591838,
+        "text": "Vinoda Mohanakara Tyaagaraaja Vandaneeya",
+        "notation": ""
+      },
+      {
+        "time": 142.88850340136054,
+        "text": "Saamaja Vara Gamana Saadhu Hrut",
+        "notation": ""
+      }
+    ]
+  },
+  "integrityHash": "hash-mj9yb8i4bpm66k3hbam"
+}
