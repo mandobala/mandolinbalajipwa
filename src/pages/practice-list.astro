@@ -75,8 +75,6 @@ const songsData = JSON.parse(readFileSync('./src/content/data/practice-songs.jso
         <div class="song-item">
           <a href="/practice-studio/?song=${song.song}">
             <img src="${song.image}" alt="${song.title}" />
-            <div class="more-info">More Info?</div>
-            <div class="tooltip">Title: ${song.title}<br>Raga: ${song.raga}<br>Thala: ${song.thala}<br>Composer: ${song.composer}</div>
           </a>
         </div>
       `).join('');
@@ -155,37 +153,9 @@ const songsData = JSON.parse(readFileSync('./src/content/data/practice-songs.jso
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);
   }
 
-  .more-info {
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    cursor: help;
-    position: relative;
-  }
-
   .title {
     margin-top: 0.5rem;
     font-weight: bold;
-  }
-
-  .tooltip {
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--bg);
-    border: 1px solid var(--border);
-    padding: 0.5rem;
-    border-radius: 4px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s;
-    z-index: 10;
-  }
-
-  .more-info:hover + .tooltip {
-    opacity: 1;
   }
 
   .pagination {
