@@ -123,34 +123,50 @@ const songsData = JSON.parse(readFileSync('./src/content/data/practice-songs.jso
 
   .filters input, .filters select {
     padding: 0.5rem;
-    border: 1px solid var(--border);
+    border: 1px solid var(--gray-800);
     border-radius: 4px;
   }
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
   }
 
   .song-item {
     position: relative;
     text-align: center;
+    background: var(--gray-0);
+    border-radius: 16px;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border: 2px solid var(--gray-800);
+  }
+
+  .song-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(255, 165, 0, 0.2);
+    border-color: var(--accent-regular);
   }
 
   .song-item img {
     width: 100%;
-    max-width: 200px;
+    max-width: 180px;
     height: auto;
-    border: 3px solid var(--accent);
+    border: 4px solid var(--accent-regular);
     border-radius: 12px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 12px rgba(255, 165, 0, 0.15);
+    transition: all 0.3s ease;
+    background: var(--gray-0);
+    padding: 4px;
   }
 
   .song-item:hover img {
-    transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    transform: scale(1.08);
+    box-shadow: 0 6px 20px rgba(255, 165, 0, 0.3);
+    border-color: var(--accent-dark);
   }
 
   .title {
@@ -167,8 +183,8 @@ const songsData = JSON.parse(readFileSync('./src/content/data/practice-songs.jso
 
   .pagination button {
     padding: 0.5rem 1rem;
-    border: 1px solid var(--border);
-    background: var(--bg);
+    border: 1px solid var(--gray-800);
+    background: var(--gray-999);
     cursor: pointer;
     border-radius: 4px;
   }
@@ -180,7 +196,16 @@ const songsData = JSON.parse(readFileSync('./src/content/data/practice-songs.jso
 
   @media (max-width: 768px) {
     .grid {
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .song-item {
+      padding: 0.75rem;
+    }
+
+    .song-item img {
+      max-width: 140px;
     }
   }
 </style>
