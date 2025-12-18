@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Bantureethi Kolu",
+    "song": "bantureethi",
+    "raga": "Hamsanadham",
+    "thala": "Adi",
+    "composer": "Thyagaraja",
+    "image": "/assets/practice-covers/bantureethi.jpg"
+  },
+  {
+    "title": "Devi Neeye Thunai",
+    "song": "devineeye",
+    "raga": "Mohanam",
+    "thala": "Adi",
+    "composer": "Papanasam Sivan",
+    "image": "/assets/practice-covers/devineeye.jpg"
+  }
+]

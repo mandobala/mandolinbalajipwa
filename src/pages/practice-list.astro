@@ -1,0 +1,216 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { readFileSync } from 'fs';
+
+const songsData = JSON.parse(readFileSync('./src/content/data/practice-songs.json', 'utf-8'));
+---
+
+<BaseLayout title="Practice List" description="Browse and practice carnatic music songs with interactive notation.">
+  <div class="practice-list">
+    <h1>Practice List</h1>
+
+    <div class="filters">
+      <input type="text" id="search" placeholder="Search songs..." />
+      <select id="raga-filter">
+        <option value="">All Ragas</option>
+      </select>
+      <select id="thala-filter">
+        <option value="">All Thalas</option>
+      </select>
+      <select id="composer-filter">
+        <option value="">All Composers</option>
+      </select>
+    </div>
+
+    <div class="grid" id="song-grid"></div>
+
+    <div class="pagination" id="pagination"></div>
+  </div>
+
+  <script define:vars={{ songsData }}>
+    const songs = JSON.parse(localStorage.getItem('practiceSongs')) || songsData;
+    let filteredSongs = [...songs];
+    let currentPage = 1;
+    const itemsPerPage = 16;
+
+    const searchInput = document.getElementById('search');
+    const ragaFilter = document.getElementById('raga-filter');
+    const thalaFilter = document.getElementById('thala-filter');
+    const composerFilter = document.getElementById('composer-filter');
+    const grid = document.getElementById('song-grid');
+    const pagination = document.getElementById('pagination');
+
+    // Populate filters
+    const ragas = [...new Set(songs.map(s => s.raga))];
+    const thalas = [...new Set(songs.map(s => s.thala))];
+    const composers = [...new Set(songs.map(s => s.composer))];
+
+    ragas.forEach(r => ragaFilter.innerHTML += `<option value="${r}">${r}</option>`);
+    thalas.forEach(t => thalaFilter.innerHTML += `<option value="${t}">${t}</option>`);
+    composers.forEach(c => composerFilter.innerHTML += `<option value="${c}">${c}</option>`);
+
+    function filterSongs() {
+      const query = searchInput.value.toLowerCase();
+      const raga = ragaFilter.value;
+      const thala = thalaFilter.value;
+      const composer = composerFilter.value;
+
+      filteredSongs = songs.filter(song =>
+        song.title.toLowerCase().includes(query) &&
+        (!raga || song.raga === raga) &&
+        (!thala || song.thala === thala) &&
+        (!composer || song.composer === composer)
+      );
+      currentPage = 1;
+      renderGrid();
+      renderPagination();
+    }
+
+    function renderGrid() {
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const pageSongs = filteredSongs.slice(start, end);
+
+      grid.innerHTML = pageSongs.map(song => `
+        <div class="song-item">
+          <a href="/practice-studio/?song=${song.song}">
+            <img src="${song.image}" alt="${song.title}" />
+            <div class="more-info">More Info?</div>
+            <div class="tooltip">Title: ${song.title}<br>Raga: ${song.raga}<br>Thala: ${song.thala}<br>Composer: ${song.composer}</div>
+          </a>
+        </div>
+      `).join('');
+    }
+
+    function renderPagination() {
+      const totalPages = Math.ceil(filteredSongs.length / itemsPerPage);
+      pagination.innerHTML = '';
+
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.classList.toggle('active', i === currentPage);
+        btn.addEventListener('click', () => {
+          currentPage = i;
+          renderGrid();
+          renderPagination();
+        });
+        pagination.appendChild(btn);
+      }
+    }
+
+    searchInput.addEventListener('input', filterSongs);
+    ragaFilter.addEventListener('change', filterSongs);
+    thalaFilter.addEventListener('change', filterSongs);
+    composerFilter.addEventListener('change', filterSongs);
+
+    renderGrid();
+    renderPagination();
+  </script>
+</BaseLayout>
+
+<style>
+  .practice-list {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .filters input, .filters select {
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .song-item {
+    position: relative;
+    text-align: center;
+  }
+
+  .song-item img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border: 3px solid var(--accent);
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .song-item:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  }
+
+  .more-info {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    cursor: help;
+    position: relative;
+  }
+
+  .title {
+    margin-top: 0.5rem;
+    font-weight: bold;
+  }
+
+  .tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 0.5rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 10;
+  }
+
+  .more-info:hover + .tooltip {
+    opacity: 1;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+  }
+
+  .pagination button {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .pagination button.active {
+    background: var(--accent);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+  }
+</style>
