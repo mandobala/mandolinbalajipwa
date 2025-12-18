@@ -1,0 +1,227 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Admin - Manage Practice Songs" description="Admin panel for managing practice songs.">
+  <div class="admin">
+    <h1>Admin - Manage Practice Songs</h1>
+
+    <form id="add-form">
+      <input type="text" id="title" placeholder="Title" required />
+      <input type="text" id="song" placeholder="Song Name" required />
+      <input type="text" id="raga" placeholder="Raga" required />
+      <input type="text" id="thala" placeholder="Thala" required />
+      <input type="text" id="composer" placeholder="Composer" required />
+      <input type="file" id="image" accept="image/*" required />
+      <button type="submit">Add Song</button>
+    </form>
+
+    <div id="songs-list"></div>
+
+    <select id="song-select">
+      <option value="">Select a song for post</option>
+    </select>
+    <button id="generate-post">Generate Instagram Post Image</button>
+    <canvas id="post-canvas" style="display:none;"></canvas>
+    <button id="download-post" style="display:none;">Download Post Image</button>
+
+    <pre id="json-output"></pre>
+  </div>
+
+  <script>
+    let songs = JSON.parse(localStorage.getItem('practiceSongs')) || [];
+
+    const form = document.getElementById('add-form');
+    const list = document.getElementById('songs-list');
+    const jsonOutput = document.getElementById('json-output');
+
+    function saveSongs() {
+      localStorage.setItem('practiceSongs', JSON.stringify(songs));
+      updateDisplay();
+    }
+
+    function updateDisplay() {
+      list.innerHTML = songs.map((song, index) => `
+        <div class="song-item">
+          <img src="${song.image}" alt="${song.title}" width="100" />
+          <div>
+            <strong>${song.title}</strong><br>
+            Raga: ${song.raga}, Thala: ${song.thala}, Composer: ${song.composer}
+          </div>
+          <button onclick="editSong(${index})">Edit</button>
+          <button onclick="deleteSong(${index})">Delete</button>
+        </div>
+      `).join('');
+
+      const select = document.getElementById('song-select');
+      select.innerHTML = '<option value="">Select a song for post</option>' + songs.map((song, index) => `<option value="${index}">${song.title}</option>`).join('');
+
+      jsonOutput.textContent = JSON.stringify(songs, null, 2);
+    }
+
+    window.editSong = function(index) {
+      const song = songs[index];
+      document.getElementById('title').value = song.title;
+      document.getElementById('song').value = song.song;
+      document.getElementById('raga').value = song.raga;
+      document.getElementById('thala').value = song.thala;
+      document.getElementById('composer').value = song.composer;
+      // Note: Can't set file input value for security reasons
+      form.onsubmit = (e) => {
+        e.preventDefault();
+        const file = document.getElementById('image').files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            songs[index] = {
+              title: document.getElementById('title').value,
+              song: document.getElementById('song').value,
+              raga: document.getElementById('raga').value,
+              thala: document.getElementById('thala').value,
+              composer: document.getElementById('composer').value,
+              image: reader.result // data URL
+            };
+            saveSongs();
+            form.reset();
+            form.onsubmit = addSong;
+          };
+          reader.readAsDataURL(file);
+        } else {
+          songs[index] = {
+            ...songs[index],
+            title: document.getElementById('title').value,
+            song: document.getElementById('song').value,
+            raga: document.getElementById('raga').value,
+            thala: document.getElementById('thala').value,
+            composer: document.getElementById('composer').value
+          };
+          saveSongs();
+          form.reset();
+          form.onsubmit = addSong;
+        }
+      };
+    };
+
+    window.deleteSong = function(index) {
+      songs.splice(index, 1);
+      saveSongs();
+    };
+
+    function addSong(e) {
+      e.preventDefault();
+      const file = document.getElementById('image').files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          songs.push({
+            title: document.getElementById('title').value,
+            song: document.getElementById('song').value,
+            raga: document.getElementById('raga').value,
+            thala: document.getElementById('thala').value,
+            composer: document.getElementById('composer').value,
+            image: reader.result
+          });
+          saveSongs();
+          form.reset();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    form.onsubmit = addSong;
+    updateDisplay();
+
+    document.getElementById('generate-post').addEventListener('click', () => {
+      const select = document.getElementById('song-select');
+      const index = select.value;
+      if (!index) {
+        alert('Please select a song.');
+        return;
+      }
+      const song = songs[index];
+      const canvas = document.getElementById('post-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = 800;
+      canvas.height = 600;
+
+      // Background
+      ctx.fillStyle = '#f0f0f0';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Load and draw image
+      const img = new Image();
+      img.onload = () => {
+        ctx.drawImage(img, 50, 50, 300, 300);
+        // Text
+        ctx.fillStyle = '#000';
+        ctx.font = '24px Arial';
+        ctx.fillText(`Practice: ${song.title}`, 400, 100);
+        ctx.fillText(`Song: ${song.song}`, 400, 140);
+        ctx.fillText(`Raga: ${song.raga}`, 400, 180);
+        ctx.fillText(`Thala: ${song.thala}`, 400, 220);
+        ctx.fillText(`Composer: ${song.composer}`, 400, 260);
+        ctx.fillText('Visit: mandolinbalaji.com/practice-list/', 50, 400);
+        ctx.fillText('#mandolinbalaji #carnaticmusic', 50, 440);
+
+        // Show download button
+        const downloadBtn = document.getElementById('download-post');
+        downloadBtn.style.display = 'inline';
+        downloadBtn.onclick = () => {
+          canvas.toBlob((blob) => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'instagram-post.png';
+            a.click();
+            URL.revokeObjectURL(url);
+          });
+        };
+      };
+      img.src = song.image;
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  .admin {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  input, button {
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
+  button {
+    background: var(--accent);
+    color: white;
+    cursor: pointer;
+  }
+
+  .song-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+
+  #json-output {
+    background: var(--bg-secondary);
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+  }
+</style>
