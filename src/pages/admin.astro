@@ -12,7 +12,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <input type="text" id="raga" placeholder="Raga" required />
       <input type="text" id="thala" placeholder="Thala" required />
       <input type="text" id="composer" placeholder="Composer" required />
-      <input type="file" id="image" accept="image/*" required />
+      <input type="file" id="image" accept="image/*" />
+      <span id="file-status" style="margin-left: 1rem; font-size: 0.9em; color: var(--text-secondary);">No file chosen</span>
+      <img id="image-preview" style="max-width: 200px; display: none; margin-top: 1rem;" />
       <button type="submit">Add Song</button>
     </form>
 
@@ -66,6 +68,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       document.getElementById('raga').value = song.raga;
       document.getElementById('thala').value = song.thala;
       document.getElementById('composer').value = song.composer;
+      // Show current image
+      const preview = document.getElementById('image-preview');
+      preview.src = song.image;
+      preview.style.display = 'block';
+      const status = song.image.startsWith('/assets/') ? `Current: ${song.image}` : 'Current image loaded';
+      document.getElementById('file-status').textContent = status;
       // Note: Can't set file input value for security reasons
       form.onsubmit = (e) => {
         e.preventDefault();
@@ -79,11 +87,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               raga: document.getElementById('raga').value,
               thala: document.getElementById('thala').value,
               composer: document.getElementById('composer').value,
-              image: reader.result // data URL
+              image: `/assets/practice-covers/${file.name}`
             };
             saveSongs();
             form.reset();
+            preview.style.display = 'none';
             form.onsubmit = addSong;
+            document.getElementById('file-status').textContent = 'No file chosen';
           };
           reader.readAsDataURL(file);
         } else {
@@ -97,7 +107,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           };
           saveSongs();
           form.reset();
+          preview.style.display = 'none';
           form.onsubmit = addSong;
+          document.getElementById('file-status').textContent = 'No file chosen';
         }
       };
     };
@@ -110,6 +122,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     function addSong(e) {
       e.preventDefault();
       const file = document.getElementById('image').files[0];
+      if (!file) {
+        alert('Please select an image file.');
+        return;
+      }
       if (file) {
         const reader = new FileReader();
         reader.onload = () => {
@@ -119,10 +135,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             raga: document.getElementById('raga').value,
             thala: document.getElementById('thala').value,
             composer: document.getElementById('composer').value,
-            image: reader.result
+            image: `/assets/practice-covers/${file.name}`
           });
           saveSongs();
           form.reset();
+          document.getElementById('image-preview').style.display = 'none';
+          document.getElementById('file-status').textContent = 'No file chosen';
         };
         reader.readAsDataURL(file);
       }
@@ -130,6 +148,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     form.onsubmit = addSong;
     updateDisplay();
+
+    document.getElementById('image').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        document.getElementById('file-status').textContent = `Selected: /assets/practice-covers/${file.name}`;
+        const reader = new FileReader();
+        reader.onload = () => {
+          const preview = document.getElementById('image-preview');
+          preview.src = reader.result;
+          preview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      } else {
+        document.getElementById('file-status').textContent = 'No file chosen';
+      }
+    });
 
     document.getElementById('generate-post').addEventListener('click', () => {
       const select = document.getElementById('song-select');
