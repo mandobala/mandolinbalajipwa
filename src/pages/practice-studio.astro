@@ -1301,7 +1301,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					if (mp3FileName) {
 						const mp3Base = mp3FileName.replace(/\.[^/.]+$/, '');
 						const localPath = `/LyricsImages/${mp3Base}/${srcAttr}`;
-						img.setAttribute('src', localPath);
+						img.setAttribute('src', `${localPath}?v=${Date.now()}`);
 					}
 				}
 				img.onerror = function() {
