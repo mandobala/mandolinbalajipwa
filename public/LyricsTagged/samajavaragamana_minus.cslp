@@ -2,12 +2,12 @@
   "data": {
     "metadata": {
       "title": "samajavaragamana",
-      "artist": "",
-      "ragam": "",
-      "talam": "",
-      "shruti": "",
-      "aarohanam": "",
-      "avarohanam": "",
+      "artist": "Balaji",
+      "ragam": "Hindolam",
+      "talam": "Adhi",
+      "shruti": "C#",
+      "aarohanam": "S G2 M1 D1 N2 S",
+      "avarohanam": "S N2 D1 M1 G2 S",
       "edupu": 60
     },
     "mp3FileName": "samajavaragamana.mp3",
