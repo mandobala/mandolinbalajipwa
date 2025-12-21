@@ -1004,6 +1004,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	let toneNow: number = 0;
 	let rafId: number = 0;
 	let playStartTime: number = 0; // Wall clock time when play started
+	let toneStarted = false;
 
 	// DOM elements
 	const audioFileInput = document.getElementById('audio-file') as HTMLInputElement;
@@ -1433,8 +1434,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		if (!audio) return;
 
 		try {
-			// Start Tone.js audio context
-			await Tone.start();
+			// Note: Tone.start() will be called on first play to ensure user gesture
 
 			// Create Tone.js Player
 			tonePlayer = new Tone.Player({
@@ -1471,6 +1471,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				// Ignore if this is just a pause
 			};
 
+			toneStarted = false; // Will be started on first play
 			isUsingTone = true;
 			// console.log('✅ Tone.js initialized - independent pitch/speed control enabled');
 
