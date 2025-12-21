@@ -1,7 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-export const prerender = false;
 ---
 
 <BaseLayout
@@ -1064,6 +1062,9 @@ export const prerender = false;
 		const songParam = urlParams.get('song');
 		
 		if (songParam) {
+			// Show the practice panel immediately
+			await activatePlayPanel();
+			
 			currentAudioFileName = songParam;
 			// Load from GitHub raw URL
 			const audioUrl = `https://raw.githubusercontent.com/mandobala/mandolinbalajipwa/main/public/mysource/${encodeURIComponent(songParam)}.mp3`;
