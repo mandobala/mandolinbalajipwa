@@ -99,6 +99,9 @@ class AudioPitchShifter {
       this.soundtouchNode = new AudioWorkletNode(this.audioCtx, 'soundtouch-processor');
       this.soundtouchNode.connect(this.gainNode);
       
+      // Set outputNode to soundtouchNode for pitch shifting
+      this.outputNode = this.soundtouchNode;
+      
       // Set initial parameters
       this.updateParameters();
       this.hasWorklet = true;
