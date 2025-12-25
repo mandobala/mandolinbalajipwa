@@ -14,6 +14,8 @@ class AudioPitchShifter {
     this.pausedAt = 0;
     this.audioInitialized = false;
     this.hasWorklet = false;
+    this.urlParam = null;
+    this.cslpData = null;
     this.fileTags = {
       title: 'Title',
       artist: 'Artist',
@@ -37,6 +39,15 @@ class AudioPitchShifter {
   init() {
     this.bindElements();
     this.bindEvents();
+    
+    // Check for URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const song = urlParams.get('song');
+    if (song) {
+      this.urlParam = song;
+      console.log('URL parameter song:', song);
+    }
+    
     // Don't setup audio context here - wait for user gesture
   }
 
@@ -46,6 +57,11 @@ class AudioPitchShifter {
     try {
       await this.setupAudioContext();
       this.audioInitialized = true;
+      
+      // Auto-load from URL if parameter present
+      if (this.urlParam) {
+        await this.loadFromUrl(this.urlParam);
+      }
       
       // Hide the start button and show the file input
       const startButton = document.getElementById('start-audio');
@@ -207,6 +223,52 @@ class AudioPitchShifter {
       console.error('Failed to decode audio:', error);
       this.loading = false;
       this.updateUI();
+    }
+  }
+
+  async loadFromUrl(basename) {
+    try {
+      const mp3Url = `/mysource/${basename}.mp3`;
+      const cslpUrl = `/LyricsTagged/${basename}.cslp`;
+      
+      console.log('Looking for MP3 at:', mp3Url);
+      console.log('Looking for CSLP at:', cslpUrl);
+      
+      // Fetch MP3
+      const mp3Response = await fetch(mp3Url);
+      if (!mp3Response.ok) {
+        console.log('MP3 not found at:', mp3Url);
+        throw new Error('MP3 not found');
+      }
+      console.log('MP3 found and loading from:', mp3Url);
+      const mp3Buffer = await mp3Response.arrayBuffer();
+      
+      // Fetch CSLP
+      const cslpResponse = await fetch(cslpUrl);
+      if (cslpResponse.ok) {
+        this.cslpData = await cslpResponse.text();
+        console.log('CSLP found and loaded from:', cslpUrl);
+        console.log('CSLP data:', this.cslpData);
+      } else {
+        console.log('CSLP not found at:', cslpUrl);
+      }
+      
+      // Set dummy metadata
+      this.fileTags = {
+        title: basename,
+        artist: 'Unknown',
+        album: 'Practice Club',
+        year: '2025',
+        cover: '/favicon.svg'
+      };
+      this.updateMetadata();
+      
+      // Decode MP3
+      this.decodeAudio(mp3Buffer);
+      
+    } catch (error) {
+      console.error('Failed to load from URL:', error);
+      this.showError('Failed to load song from URL: ' + basename);
     }
   }
 
