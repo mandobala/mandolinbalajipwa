@@ -63,14 +63,22 @@ class AudioPitchShifter {
         await this.loadFromUrl(this.urlParam);
       }
       
-      // Hide the start button and show the file input
+      // Hide the start button and show the file input (only if no URL param)
       const startButton = document.getElementById('start-audio');
       const setupSection = document.getElementById('audio-setup-section');
       const fileInputLabel = document.getElementById('file-input-label');
+      const fileInput = document.getElementById('file-input');
       
       if (startButton) startButton.style.display = 'none';
       if (setupSection) setupSection.style.display = 'none';
-      if (fileInputLabel) fileInputLabel.style.display = 'block';
+      
+      if (!this.urlParam) {
+        if (fileInputLabel) fileInputLabel.style.display = 'block';
+      } else {
+        // Hide file input when using URL param
+        if (fileInput) fileInput.style.display = 'none';
+        if (fileInputLabel) fileInputLabel.style.display = 'none';
+      }
       
     } catch (error) {
       console.error('Failed to initialize audio:', error);
