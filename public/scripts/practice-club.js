@@ -26,6 +26,8 @@ class AudioPitchShifter {
     this.duration = '0:00';
     this.currentTime = '0:00';
     this.progress = 0;
+    this.lyrics = []; // Array of {time: number, text: string, notation: string}
+    this.currentLyricIndex = -1;
 
     this.init();
   }
@@ -119,6 +121,8 @@ class AudioPitchShifter {
     this.semitoneValue = document.getElementById('semitone-value');
     this.pitchValue = document.getElementById('pitch-value');
     this.tempoValue = document.getElementById('tempo-value');
+    this.currentLyricEl = document.getElementById('current-lyric');
+    this.currentNotationEl = document.getElementById('current-notation');
   }
 
   bindEvents() {
@@ -147,6 +151,8 @@ class AudioPitchShifter {
   async loadFile(file) {
     if (!file) return;
     this.loading = true;
+    this.lyrics = [];
+    this.currentLyricIndex = -1;
     this.updateUI();
 
     // Load metadata
@@ -167,6 +173,11 @@ class AudioPitchShifter {
 
     this.updateMetadata();
 
+    // Load CSLP lyrics if available
+    await this.loadCSLP(file.name);
+    
+    this.updateLyrics(0);
+
     // Load audio
     const reader = new FileReader();
     reader.onload = (e) => this.decodeAudio(e.target.result);
@@ -183,6 +194,55 @@ class AudioPitchShifter {
       console.error('Failed to decode audio:', error);
       this.loading = false;
       this.updateUI();
+    }
+  }
+
+  async loadCSLP(audioFileName) {
+    try {
+      // Extract base name without extension
+      const baseName = audioFileName.replace(/\.[^/.]+$/, '');
+      
+      // Try different variations to find the CSLP file
+      const possibleNames = [
+        `${baseName}.cslp`,
+        `${baseName}_minus.cslp`,
+        `${baseName}_Db_minus.cslp`
+      ];
+      
+      let cslpData = null;
+      for (const name of possibleNames) {
+        try {
+          const response = await fetch(`/LyricsTagged/${name}`);
+          if (response.ok) {
+            cslpData = await response.json();
+            console.log('Found CSLP file:', name);
+            break;
+          }
+        } catch (e) {
+          // Continue to next name
+        }
+      }
+      
+      if (cslpData && cslpData.data && cslpData.data.timeline) {
+        this.lyrics = cslpData.data.timeline.map(item => ({
+          time: item.time,
+          text: item.text || '',
+          notation: item.notation || ''
+        }));
+        console.log('Loaded lyrics:', this.lyrics.length, 'lines');
+        
+        // Update title from CSLP metadata if available
+        if (cslpData.data.metadata && cslpData.data.metadata.title) {
+          this.fileTags.title = cslpData.data.metadata.title;
+          this.updateMetadata();
+        }
+      } else {
+        this.lyrics = [];
+        console.log('No CSLP file found for:', audioFileName);
+      }
+    } catch (error) {
+      console.log('Error loading CSLP:', error);
+      this.lyrics = [];
     }
   }
 
@@ -252,7 +312,9 @@ class AudioPitchShifter {
     this.pausedAt = 0;
     this.currentTime = '0:00';
     this.progress = 0;
+    this.currentLyricIndex = -1;
     this.updateProgress();
+    this.updateLyrics(0);
   }
 
   seek(percent) {
@@ -276,12 +338,39 @@ class AudioPitchShifter {
     this.currentTime = this.formatTime(elapsed);
     this.progress = percent * 100;
     this.updateProgress();
+    this.updateLyrics(elapsed);
     
     if (percent >= 1) {
       this.pause();
       this.pausedAt = 0;
     } else {
       requestAnimationFrame(() => this.trackProgress());
+    }
+  }
+
+  updateLyrics(currentTime) {
+    if (!this.lyrics || this.lyrics.length === 0) return;
+    
+    // Find the current lyric based on time
+    let newIndex = -1;
+    for (let i = 0; i < this.lyrics.length; i++) {
+      if (currentTime >= this.lyrics[i].time) {
+        newIndex = i;
+      } else {
+        break;
+      }
+    }
+    
+    if (newIndex !== this.currentLyricIndex) {
+      this.currentLyricIndex = newIndex;
+      if (newIndex >= 0 && newIndex < this.lyrics.length) {
+        const lyric = this.lyrics[newIndex];
+        this.currentLyricEl.textContent = lyric.text;
+        this.currentNotationEl.innerHTML = lyric.notation;
+      } else {
+        this.currentLyricEl.textContent = 'No lyrics loaded';
+        this.currentNotationEl.innerHTML = '';
+      }
     }
   }
 

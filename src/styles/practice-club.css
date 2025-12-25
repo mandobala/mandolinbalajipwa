@@ -29,6 +29,7 @@
 .artist, .album {
   color: var(--gray-300);
   font-size: 0.9rem;
+  display: none; /* Hide artist and album when lyrics are shown */
 }
 
 .load-button {
@@ -67,6 +68,21 @@
   border-radius: 4px;
   width: 0%;
   transition: width 0.1s;
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background: var(--accent);
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .time {
@@ -212,24 +228,16 @@
 }
 
 .start-button {
-  background: var(--accent);
-  color: white;
+  
   padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
   font-size: 1rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
+  transition: background 0.3s;
 }
 
 .start-button:hover {
   background: var(--accent-dark);
-  transform: translateY(-1px);
-}
-
-.start-button:active {
-  transform: translateY(0);
 }
 
 .setup-message {
@@ -237,6 +245,35 @@
   font-size: 0.9rem;
   text-align: center;
   margin: 0;
+}
+
+.lyrics-display {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  text-align: center;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#current-lyric {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+#current-notation {
+  font-size: 0.9rem;
+  color: var(--gray-300);
+}
+
+#current-notation img {
+  max-height: 40px;
+  vertical-align: middle;
 }
 
 @media (max-width: 768px) {

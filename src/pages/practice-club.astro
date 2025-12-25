@@ -18,6 +18,10 @@ import Hero from '../components/Hero.astro';
               <div class="title" id="song-title">Title</div>
               <div class="artist" id="song-artist">Artist</div>
               <div class="album" id="song-album">Album (Year)</div>
+               <div class="lyrics-display">
+                <div id="current-lyric">No lyrics loaded</div>
+                <div id="current-notation"></div>
+              </div>
             </div>
             <div id="audio-setup-section">
               <button id="start-audio" class="start-button">Start Practicing</button>
@@ -43,6 +47,8 @@ import Hero from '../components/Hero.astro';
             <button id="play-pause" disabled>Play</button>
             <button id="reset" disabled>Reset</button>
           </div>
+
+         
 
           <div class="sliders">
             <div class="slider-group">
