@@ -5,6 +5,7 @@ class AudioPitchShifter {
     this.audioCtx = null;
     this.gainNode = null;
     this.soundtouchNode = null;
+    this.outputNode = null;
     this.sourceNode = null;
     this.playing = false;
     this.loading = false;
@@ -12,6 +13,7 @@ class AudioPitchShifter {
     this.startTime = 0;
     this.pausedAt = 0;
     this.audioInitialized = false;
+    this.hasWorklet = false;
     this.fileTags = {
       title: 'Title',
       artist: 'Artist',
@@ -79,12 +81,17 @@ class AudioPitchShifter {
         await this.audioCtx.resume();
       }
       
+      // Ensure the context is running
+      if (this.audioCtx.state !== 'running') {
+        throw new Error('AudioContext could not be started. Please try refreshing the page or using a different browser.');
+      }
+      
       this.gainNode = this.audioCtx.createGain();
       this.gainNode.connect(this.audioCtx.destination);
       
       // Check if audioWorklet is available on the AudioContext
       if (!this.audioCtx.audioWorklet) {
-        throw new Error('AudioWorklet not available on AudioContext. This might be due to browser security restrictions.');
+        throw new Error('AudioWorklet not available on AudioContext. This might be due to browser security restrictions. Please ensure you\'re using a modern browser (Chrome 66+, Firefox 76+, Safari 14.1+) and the page is loaded over HTTPS or localhost.');
       }
       
       // Register the AudioWorklet
@@ -94,11 +101,14 @@ class AudioPitchShifter {
       
       // Set initial parameters
       this.updateParameters();
+      this.hasWorklet = true;
       console.log('AudioWorklet initialized successfully');
       
     } catch (error) {
       console.error('Failed to setup AudioWorklet:', error);
       this.showError(error.message + ' Audio pitch shifting features will not be available.');
+      this.hasWorklet = false;
+      this.outputNode = this.gainNode;
     }
   }
 
@@ -260,7 +270,7 @@ class AudioPitchShifter {
       return;
     }
     
-    if (!this.soundtouchNode) {
+    if (!this.outputNode) {
       this.showError('Audio processing not available. Please refresh the page and try again.');
       return;
     }
@@ -272,8 +282,8 @@ class AudioPitchShifter {
     this.sourceNode = this.audioCtx.createBufferSource();
     this.sourceNode.buffer = this.audioBuffer;
     
-    // Connect: source -> soundtouch -> gain -> destination
-    this.sourceNode.connect(this.soundtouchNode);
+    // Connect: source -> output (soundtouch or gain)
+    this.sourceNode.connect(this.outputNode);
     
     // Start playback
     const offset = this.pausedAt;
@@ -409,7 +419,7 @@ class AudioPitchShifter {
   }
 
   updateParameters() {
-    if (this.soundtouchNode && this.soundtouchNode.parameters) {
+    if (this.hasWorklet && this.soundtouchNode && this.soundtouchNode.parameters) {
       this.soundtouchNode.parameters.get('pitch').value = this.pitch;
       this.soundtouchNode.parameters.get('pitchSemitones').value = this.semitone;
       this.soundtouchNode.parameters.get('tempo').value = this.tempo;
