@@ -57,6 +57,8 @@ export function getStringUtf16(view, length, offset = 0, bom) {
         offset += 2;
         len -= 2;
     }
+    if (len <= 0 || offset >= view.byteLength) return '';
+    len = Math.min(len, view.byteLength - offset);
     const limit = offset + len;
     for (let i = offset; i < limit; i += 2) {
         let ch = view.getUint16(i, littleEndian);
