@@ -16,6 +16,8 @@ class AudioPitchShifter {
     this.hasWorklet = false;
     this.urlParam = null;
     this.cslpData = null;
+    this.lyrics = [];
+    this.currentLyricIndex = -1;
     this.fileTags = {
       title: 'Title',
       artist: 'Artist',
@@ -257,8 +259,34 @@ class AudioPitchShifter {
         this.cslpData = await cslpResponse.text();
         console.log('CSLP found and loaded from:', cslpUrl);
         console.log('CSLP data:', this.cslpData);
+        
+        // Parse CSLP data
+        try {
+          const parsed = JSON.parse(this.cslpData);
+          if (parsed.data && parsed.data.timeline) {
+            this.lyrics = parsed.data.timeline.map(item => ({
+              time: item.time,
+              text: item.text || '',
+              notation: item.notation || ''
+            }));
+            this.currentLyricIndex = -1;
+            console.log('Parsed lyrics:', this.lyrics.length, 'lines');
+            
+            // Update title from CSLP metadata if available
+            if (parsed.data.metadata && parsed.data.metadata.title) {
+              this.fileTags.title = parsed.data.metadata.title;
+              this.updateMetadata();
+            }
+          } else {
+            this.lyrics = [];
+          }
+        } catch (e) {
+          console.error('Failed to parse CSLP:', e);
+          this.lyrics = [];
+        }
       } else {
         console.log('CSLP not found at:', cslpUrl);
+        this.lyrics = [];
       }
       
       // Set dummy metadata
