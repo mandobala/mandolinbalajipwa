@@ -990,6 +990,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	let playbackSpeed = 1.0;
 	let isIntentionalStop = false; // Flag to distinguish pause from stop
 	
+	// Hidden variable for URL parameter
+	let urlSongParam = '';
+	
 	// Count-in state
 	let isCountingIn = false;
 	let countInActive = false;
@@ -1062,53 +1065,83 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		const urlParams = new URLSearchParams(window.location.search);
 		const songParam = urlParams.get('song');
 		
+		console.log('🔍 URL parameter received:', songParam);
+		
 		if (songParam) {
-			// Show the practice panel immediately
-			await activatePlayPanel();
+			urlSongParam = songParam;
+			console.log('📝 Stored URL param value:', urlSongParam);
+			// Show the file input section but hide the file input label
+			const fileInputSection = document.getElementById('file-inputs-section') as HTMLDivElement;
+			fileInputSection.classList.remove('hidden');
+			const fileInputLabel = document.querySelector('.file-input-label') as HTMLElement;
+			if (fileInputLabel) fileInputLabel.style.display = 'none';
+			// Update button text to indicate it's for URL param
+			const loadButton = document.getElementById('load-button') as HTMLButtonElement;
+			loadButton.textContent = 'Start Practice';
+			loadButton.disabled = false;
+		} else {
+			console.log('❌ No song URL parameter found');
+		}
+	}
+
+	async function loadSongFromUrlParam() {
+		if (!urlSongParam) return;
+		
+		console.log('🎵 Loading song from URL param:', urlSongParam);
+		
+		currentAudioFileName = urlSongParam;
+		// Load from GitHub raw URL
+		const audioUrl = `https://raw.githubusercontent.com/mandobala/mandolinbalajipwa/main/public/mysource/${encodeURIComponent(urlSongParam)}.mp3`;
+		console.log('🎵 Loading MP3 from:', audioUrl);
+		
+		try {
+			if (audio) {
+				audio.pause();
+				if (audio.src.startsWith('blob:')) {
+					URL.revokeObjectURL(audio.src);
+				}
+			}
 			
-			currentAudioFileName = songParam;
-			// Load from GitHub raw URL
-			const audioUrl = `https://raw.githubusercontent.com/mandobala/mandolinbalajipwa/main/public/mysource/${encodeURIComponent(songParam)}.mp3`;
-			// console.log('🎵 Loading MP3 from:', audioUrl);
+			audio = new Audio(audioUrl);
+			audio.volume = parseInt(volumeControl.value) / 100;
 			
-			try {
-				if (audio) {
-					audio.pause();
-					if (audio.src.startsWith('blob:')) {
-						URL.revokeObjectURL(audio.src);
-					}
+			audio.addEventListener('loadedmetadata', async () => {
+				if (!audio!.duration || isNaN(audio!.duration) || audio!.duration === Infinity) {
+					alert('Invalid audio file. Unable to read file duration.');
+					return;
 				}
 				
-				audio = new Audio(audioUrl);
-				audio.volume = parseInt(volumeControl.value) / 100;
+				durationDisplay.textContent = formatTime(audio!.duration);
+				seekBar.max = audio!.duration.toString();
+				loadButton.disabled = false;
 				
-				audio.addEventListener('loadedmetadata', async () => {
-					if (!audio!.duration || isNaN(audio!.duration) || audio!.duration === Infinity) {
-						alert('Invalid audio file. Unable to read file duration.');
-						return;
-					}
-					
-					durationDisplay.textContent = formatTime(audio!.duration);
-					seekBar.max = audio!.duration.toString();
-					loadButton.disabled = false;
-					
-					// Regenerate markers if CSLP data is already loaded
-					if (cslpData && cslpData.data.timeline) {
-						generateTimelineMarkers(cslpData.data.timeline, audio!.duration);
-						generateLoopMarkers(cslpData.data.timeline, audio!.duration);
-						initializeLoopHandles(cslpData.data.timeline, audio!.duration);
-					}
-					
-					// Trigger the load button click automatically
-					loadButton.click();
-				});
-				
-				// Load CSLP data for this song
-				await loadCSLPData();
-			} catch (error) {
-				// console.error('Error loading song from parameter:', error);
-				currentLyricDisplay.textContent = '🎵 Ready to practice';
-			}
+				// Regenerate markers if CSLP data is already loaded
+				if (cslpData && cslpData.data.timeline) {
+					generateTimelineMarkers(cslpData.data.timeline, audio!.duration);
+					generateLoopMarkers(cslpData.data.timeline, audio!.duration);
+					initializeLoopHandles(cslpData.data.timeline, audio!.duration);
+				}
+			});
+			
+			audio.addEventListener('error', (e) => {
+				console.error('Audio loading error:', e);
+				alert('Failed to load audio file. Please check the URL and try again.');
+			});
+			
+			audio.addEventListener('ended', () => {
+				isPlaying = false;
+				updatePlayPauseButton();
+				if (loopEnable && loopEnable.checked) {
+					handleLoopPlayback();
+				}
+			});
+			
+			// Load CSLP data
+			await loadCSLPData();
+			
+		} catch (error) {
+			console.error('Error loading song from URL parameter:', error);
+			alert('Failed to load song from URL parameter.');
 		}
 	}
 
@@ -1170,7 +1203,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	// Load button handler
 	loadButton.addEventListener('click', async () => {
-		if (!audio) return;
+		if (urlSongParam) {
+			// Load from URL parameter
+			await loadSongFromUrlParam();
+		} else if (!audio) {
+			return;
+		}
 		await activatePlayPanel();
 	});
 
