@@ -185,6 +185,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 							<span>Load Audio File</span>
 							<input type="file" id="audio-file" accept="audio/mp3,audio/mpeg" hidden />
 						</label>
+						<select id="song-select">
+							<option value="">Choose a song...</option>
+						</select>
 						<button id="load-button" class="primary-button" disabled>
 							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 								<path d="M5 12h14M12 5l7 7-7 7"/>
@@ -1029,6 +1032,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	const loopControls = document.getElementById('loop-controls') as HTMLDivElement;
 	const speedDisplay = document.getElementById('speed-display') as HTMLSpanElement;
 	const pitchDisplay = document.getElementById('pitch-display') as HTMLSpanElement;
+	const songSelect = document.getElementById('song-select') as HTMLSelectElement;
 
 	// Cache frequently accessed DOM elements
 	const playheadIndicator = document.querySelector('.playhead-indicator') as HTMLElement;
@@ -1070,11 +1074,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		if (songParam) {
 			urlSongParam = songParam;
 			console.log('📝 Stored URL param value:', urlSongParam);
-			// Show the file input section but hide the file input label
+			// Show the file input section
 			const fileInputSection = document.getElementById('file-inputs-section') as HTMLDivElement;
 			fileInputSection.classList.remove('hidden');
-			const fileInputLabel = document.querySelector('.file-input-label') as HTMLElement;
-			if (fileInputLabel) fileInputLabel.style.display = 'none';
 			// Update button text to indicate it's for URL param
 			const loadButton = document.getElementById('load-button') as HTMLButtonElement;
 			loadButton.textContent = 'Start Practice';
@@ -2330,6 +2332,45 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	document.addEventListener('DOMContentLoaded', () => {
 		// Check for URL parameter and load song if present
 		loadSongFromParameter();
+		
+		// Hardcoded songs data
+		const songsData = [
+			{
+				"title": "Bantureethi Koluvu",
+				"song": "Bantureethi_Db_minus",
+				"raga": "Hamsanadam",
+				"thala": "Adhi",
+				"composer": "Thyagaraja",
+				"image": "/assets/practice-covers/Bantureethi.png"
+			},
+			{
+				"title": "Samajavara Gamana",
+				"song": "samajavaragamana_minus",
+				"raga": "Hindolam",
+				"thala": "Adhi",
+				"composer": "Thyagaraja",
+				"image": "/assets/practice-covers/samajavaragamana.png"
+			}
+		];
+		
+		// Populate song select
+		songsData.forEach(song => {
+			const option = document.createElement('option');
+			option.value = song.song;
+			option.textContent = song.title;
+			songSelect.appendChild(option);
+		});
+
+		// Handle song selection
+		songSelect.addEventListener('change', () => {
+			const selectedSong = songSelect.value;
+			if (selectedSong) {
+				urlSongParam = selectedSong;
+				// Enable load button
+				loadButton.disabled = false;
+				loadButton.textContent = 'Start Practice';
+			}
+		});
 		
 		const panelToggles = document.querySelectorAll('.panel-toggle');
 
