@@ -1077,6 +1077,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			// Show the file input section
 			const fileInputSection = document.getElementById('file-inputs-section') as HTMLDivElement;
 			fileInputSection.classList.remove('hidden');
+			// Set the dropdown to the selected song if it exists
+			songSelect.value = songParam;
 			// Update button text to indicate it's for URL param
 			const loadButton = document.getElementById('load-button') as HTMLButtonElement;
 			loadButton.textContent = 'Start Practice';
