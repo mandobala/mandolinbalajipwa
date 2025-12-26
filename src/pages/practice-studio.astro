@@ -196,6 +196,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 						</button>
 					</div>
 					
+					<!-- Song Gallery -->
+					<div id="song-gallery" class="song-gallery">
+						<h3>Choose from Gallery</h3>
+						<div id="gallery-grid" class="gallery-grid">
+							<!-- Thumbnails will be populated by JavaScript -->
+						</div>
+					</div>
+					
 					<!-- Error Message -->
 					<div id="error-message" class="error-message hidden">
 						<div class="error-content">
@@ -616,6 +624,70 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	select option:checked {
 		background: #4ecdc4 !important;
 		color: #1a1a1a !important;
+	}
+
+	/* Song Gallery Styles */
+	.song-gallery {
+		margin-top: 1.5rem;
+	}
+
+	.song-gallery h3 {
+		font-size: 1.1rem;
+		margin-bottom: 1rem;
+		color: #ffffff;
+		font-weight: 600;
+	}
+
+	.gallery-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+		gap: 1rem;
+	}
+
+	.gallery-item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		border-radius: 8px;
+		padding: 0.75rem;
+		background: rgba(255, 255, 255, 0.05);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.gallery-item:hover {
+		background: rgba(255, 255, 255, 0.1);
+		border-color: rgba(255, 255, 255, 0.2);
+		transform: translateY(-2px);
+	}
+
+	.gallery-item.selected {
+		background: rgba(78, 205, 196, 0.2);
+		border-color: #4ecdc4;
+	}
+
+	.gallery-thumbnail {
+		width: 80px;
+		height: 80px;
+		border-radius: 6px;
+		object-fit: cover;
+		margin-bottom: 0.5rem;
+	}
+
+	.gallery-title {
+		font-size: 0.85rem;
+		font-weight: 500;
+		color: #ffffff;
+		text-align: center;
+		line-height: 1.2;
+		margin-bottom: 0.25rem;
+	}
+
+	.gallery-details {
+		font-size: 0.75rem;
+		color: rgba(255, 255, 255, 0.7);
+		text-align: center;
 	}
 
 	/* Transport Controls */
@@ -2475,26 +2547,34 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	}
 
 	// Panel toggle functionality
-	document.addEventListener('DOMContentLoaded', () => {
-		// Hardcoded songs data
-		const songsData = [
-			{
-				"title": "Bantureethi Koluvu",
-				"song": "Bantureethi_Db_minus",
-				"raga": "Hamsanadam",
-				"thala": "Adhi",
-				"composer": "Thyagaraja",
-				"image": "/assets/practice-covers/Bantureethi.png"
-			},
-			{
-				"title": "Samajavara Gamana",
-				"song": "samajavaragamana_minus",
-				"raga": "Hindolam",
-				"thala": "Adhi",
-				"composer": "Thyagaraja",
-				"image": "/assets/practice-covers/samajavaragamana.png"
-			}
-		];
+	document.addEventListener('DOMContentLoaded', async () => {
+		// Load songs data from JSON file
+		let songsData = [];
+		try {
+			const response = await fetch('/src/content/data/practice-songs.json');
+			songsData = await response.json();
+		} catch (error) {
+			console.error('Failed to load practice songs data:', error);
+			// Fallback to hardcoded data
+			songsData = [
+				{
+					"title": "Bantureethi Koluvu",
+					"song": "Bantureethi_Db_minus",
+					"raga": "Hamsanadam",
+					"thala": "Adhi",
+					"composer": "Thyagaraja",
+					"image": "/assets/practice-covers/Bantureethi.png"
+				},
+				{
+					"title": "Samajavara Gamana",
+					"song": "samajavaragamana_minus",
+					"raga": "Hindolam",
+					"thala": "Adhi",
+					"composer": "Thyagaraja",
+					"image": "/assets/practice-covers/samajavaragamana.png"
+				}
+			];
+		}
 		
 		// Populate song select
 		songsData.forEach(song => {
@@ -2502,6 +2582,40 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			option.value = song.song;
 			option.textContent = song.title;
 			songSelect.appendChild(option);
+		});
+
+		// Populate song gallery
+		const galleryGrid = document.getElementById('gallery-grid');
+		songsData.forEach(song => {
+			const galleryItem = document.createElement('div');
+			galleryItem.className = 'gallery-item';
+			galleryItem.setAttribute('data-song', song.song);
+			
+			galleryItem.innerHTML = `
+				<img src="${song.image}" alt="${song.title}" class="gallery-thumbnail" loading="lazy">
+				<div class="gallery-title">${song.title}</div>
+				<div class="gallery-details">${song.raga} • ${song.thala}</div>
+			`;
+			
+			galleryItem.addEventListener('click', () => {
+				// Update select dropdown
+				songSelect.value = song.song;
+				
+				// Update selected state in gallery
+				document.querySelectorAll('.gallery-item').forEach(item => {
+					item.classList.remove('selected');
+				});
+				galleryItem.classList.add('selected');
+				
+				// Enable load button
+				loadButton.disabled = false;
+				loadButton.textContent = 'Start Practice';
+				
+				// Hide error message if visible
+				hideErrorMessage();
+			});
+			
+			galleryGrid.appendChild(galleryItem);
 		});
 
 		// Check for URL parameter and load song if present
@@ -2515,6 +2629,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				// Enable load button
 				loadButton.disabled = false;
 				loadButton.textContent = 'Start Practice';
+				
+				// Update gallery selection
+				document.querySelectorAll('.gallery-item').forEach(item => {
+					item.classList.remove('selected');
+				});
+				const selectedGalleryItem = document.querySelector(`.gallery-item[data-song="${selectedSong}"]`);
+				if (selectedGalleryItem) {
+					selectedGalleryItem.classList.add('selected');
+				}
+				
+				// Hide error message if visible
+				hideErrorMessage();
 			}
 		});
 		
