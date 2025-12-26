@@ -474,6 +474,56 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		cursor: not-allowed;
 	}
 
+	/* Select Dropdown Styles */
+	select {
+		font-size: 16px;
+		padding: 0.75rem 1rem;
+		background: rgba(26, 26, 26, 0.9) !important;
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		border-radius: 8px;
+		color: #ffffff;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		min-width: 200px;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+	}
+
+	select:hover {
+		background: rgba(26, 26, 26, 0.95) !important;
+		border-color: rgba(255, 255, 255, 0.3);
+	}
+
+	select:focus {
+		outline: none;
+		border-color: #4ecdc4;
+		box-shadow: 0 0 0 2px rgba(78, 205, 196, 0.2);
+	}
+
+	select option {
+		background: #1a1a1a !important;
+		color: #ffffff !important;
+		padding: 0.75rem 1rem;
+		font-size: 16px;
+		border: none;
+	}
+
+	/* Ensure dropdown list background is dark */
+	select {
+		background-color: rgba(26, 26, 26, 0.9) !important;
+	}
+
+	/* Webkit-specific dropdown styling */
+	select {
+		background: #1a1a1a !important;
+	}
+
+	select option:checked {
+		background: #4ecdc4 !important;
+		color: #1a1a1a !important;
+	}
+
 	/* Transport Controls */
 	.transport-controls {
 		display: flex;
@@ -2332,9 +2382,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	// Panel toggle functionality
 	document.addEventListener('DOMContentLoaded', () => {
-		// Check for URL parameter and load song if present
-		loadSongFromParameter();
-		
 		// Hardcoded songs data
 		const songsData = [
 			{
@@ -2362,6 +2409,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			option.textContent = song.title;
 			songSelect.appendChild(option);
 		});
+
+		// Check for URL parameter and load song if present
+		loadSongFromParameter();
 
 		// Handle song selection
 		songSelect.addEventListener('change', () => {
