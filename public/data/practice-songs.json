@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Bantureethi Koluvu",
+    "song": "Bantureethi_Db_minus",
+    "raga": "Hamsanadam",
+    "thala": "Adhi",
+    "composer": "Thyagaraja",
+    "image": "/assets/practice-covers/Bantureethi.png"
+  },
+  {
+    "title": "Samajavara Gamana",
+    "song": "samajavaragamana_minus",
+    "raga": "Hindolam",
+    "thala": "Adhi",
+    "composer": "Thyagaraja",
+    "image": "/assets/practice-covers/samajavaragamana.png"
+  }
+]

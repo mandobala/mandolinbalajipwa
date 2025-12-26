@@ -198,7 +198,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					
 					<!-- Song Gallery -->
 					<div id="song-gallery" class="song-gallery">
-						<h3>Choose from Gallery</h3>
+						<h3>Choose from Dropdown. Following Songs are available</h3>
 						<div id="gallery-grid" class="gallery-grid">
 							<!-- Thumbnails will be populated by JavaScript -->
 						</div>
@@ -579,7 +579,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	/* Select Dropdown Styles */
 	select {
 		font-size: 14px;
-		padding: 0.75rem 1rem;
+		padding: 0.75rem 2.5rem 0.75rem 1rem;
 		background: rgba(26, 26, 26, 0.9) !important;
 		border: 1px solid rgba(255, 255, 255, 0.2);
 		border-radius: 8px;
@@ -590,6 +590,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		appearance: none;
+		position: relative;
+	}
+
+	/* Custom dropdown arrow */
+	select::after {
+		content: '';
+		position: absolute;
+		right: 12px;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 0;
+		height: 0;
+		border-left: 5px solid transparent;
+		border-right: 5px solid transparent;
+		border-top: 5px solid #ffffff;
+		pointer-events: none;
 	}
 
 	select:hover {
@@ -648,23 +664,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		cursor: pointer;
-		transition: all 0.2s ease;
 		border-radius: 8px;
 		padding: 0.75rem;
 		background: rgba(255, 255, 255, 0.05);
 		border: 1px solid rgba(255, 255, 255, 0.1);
-	}
-
-	.gallery-item:hover {
-		background: rgba(255, 255, 255, 0.1);
-		border-color: rgba(255, 255, 255, 0.2);
-		transform: translateY(-2px);
-	}
-
-	.gallery-item.selected {
-		background: rgba(78, 205, 196, 0.2);
-		border-color: #4ecdc4;
 	}
 
 	.gallery-thumbnail {
@@ -1296,7 +1299,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			// Set the dropdown to the selected song if it exists
 			songSelect.value = songParam;
 			// Update button text to indicate it's for URL param
-			const loadButton = document.getElementById('load-button') as HTMLButtonElement;
 			loadButton.textContent = 'Start Practice';
 			loadButton.disabled = false;
 		} else {
@@ -1423,12 +1425,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	// Load button handler
 	loadButton.addEventListener('click', async () => {
+		console.log('Button clicked, urlSongParam:', urlSongParam, 'audio:', audio);
 		if (urlSongParam) {
 			// Load from URL parameter
+			console.log('Loading from URL param');
 			await loadSongFromUrlParam();
 		} else if (!audio) {
+			console.log('No audio and no URL param, returning');
 			return;
 		}
+		console.log('Activating play panel');
 		await activatePlayPanel();
 	});
 
@@ -2551,7 +2557,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		// Load songs data from JSON file
 		let songsData = [];
 		try {
-			const response = await fetch('/src/content/data/practice-songs.json');
+			const response = await fetch('/data/practice-songs.json');
 			songsData = await response.json();
 		} catch (error) {
 			console.error('Failed to load practice songs data:', error);
@@ -2597,24 +2603,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				<div class="gallery-details">${song.raga} • ${song.thala}</div>
 			`;
 			
-			galleryItem.addEventListener('click', () => {
-				// Update select dropdown
-				songSelect.value = song.song;
-				
-				// Update selected state in gallery
-				document.querySelectorAll('.gallery-item').forEach(item => {
-					item.classList.remove('selected');
-				});
-				galleryItem.classList.add('selected');
-				
-				// Enable load button
-				loadButton.disabled = false;
-				loadButton.textContent = 'Start Practice';
-				
-				// Hide error message if visible
-				hideErrorMessage();
-			});
-			
 			galleryGrid.appendChild(galleryItem);
 		});
 
@@ -2629,15 +2617,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				// Enable load button
 				loadButton.disabled = false;
 				loadButton.textContent = 'Start Practice';
-				
-				// Update gallery selection
-				document.querySelectorAll('.gallery-item').forEach(item => {
-					item.classList.remove('selected');
-				});
-				const selectedGalleryItem = document.querySelector(`.gallery-item[data-song="${selectedSong}"]`);
-				if (selectedGalleryItem) {
-					selectedGalleryItem.classList.add('selected');
-				}
 				
 				// Hide error message if visible
 				hideErrorMessage();
