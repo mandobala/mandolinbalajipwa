@@ -195,6 +195,39 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 							Start Practice
 						</button>
 					</div>
+					
+					<!-- Error Message -->
+					<div id="error-message" class="error-message hidden">
+						<div class="error-content">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<circle cx="12" cy="12" r="10"></circle>
+								<line x1="15" y1="9" x2="9" y2="15"></line>
+								<line x1="9" y1="9" x2="15" y2="15"></line>
+							</svg>
+							<div class="error-text">
+								<h4>Song Not Found</h4>
+								<p>The selected song could not be loaded. Try refreshing the page or clearing your browser cache.</p>
+								<div class="error-actions">
+									<button id="refresh-btn" class="secondary-button">
+										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+											<polyline points="23 4 23 10 17 10"></polyline>
+											<polyline points="1 20 1 14 7 14"></polyline>
+											<path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+										</svg>
+										Refresh Page
+									</button>
+									<button id="clear-cache-btn" class="secondary-button">
+										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+											<path d="M3 6h18"></path>
+											<path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+											<path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+										</svg>
+										Clear Cache
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 
 				<!-- Advanced Controls -->
@@ -472,6 +505,67 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	.primary-button:disabled {
 		opacity: 0.5;
 		cursor: not-allowed;
+	}
+
+	/* Error Message Styles */
+	.error-message {
+		margin-top: 1rem;
+		padding: 1rem;
+		background: rgba(255, 107, 107, 0.1);
+		border: 1px solid rgba(255, 107, 107, 0.3);
+		border-radius: 8px;
+	}
+
+	.error-content {
+		display: flex;
+		align-items: flex-start;
+		gap: 1rem;
+	}
+
+	.error-content svg {
+		color: #ff6b6b;
+		flex-shrink: 0;
+		margin-top: 0.25rem;
+	}
+
+	.error-text h4 {
+		margin: 0 0 0.5rem 0;
+		color: #ff6b6b;
+		font-size: 1.1rem;
+		font-weight: 600;
+	}
+
+	.error-text p {
+		margin: 0 0 1rem 0;
+		color: #ffffff;
+		line-height: 1.5;
+	}
+
+	.error-actions {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+
+	.secondary-button {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem 1rem;
+		background: rgba(255, 255, 255, 0.1);
+		color: #ffffff;
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		border-radius: 6px;
+		font-size: 0.9rem;
+		font-weight: 500;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	.secondary-button:hover {
+		background: rgba(255, 255, 255, 0.15);
+		border-color: rgba(255, 255, 255, 0.3);
+		transform: translateY(-1px);
 	}
 
 	/* Select Dropdown Styles */
@@ -1179,7 +1273,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			
 			audio.addEventListener('error', (e) => {
 				console.error('Audio loading error:', e);
-				alert('Failed to load audio file. Please check the URL and try again.');
+				showErrorMessage('Failed to load audio file. Please check the URL and try again.');
 			});
 			
 			audio.addEventListener('ended', () => {
@@ -1195,7 +1289,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			
 		} catch (error) {
 			console.error('Error loading song from URL parameter:', error);
-			alert('Failed to load song from URL parameter.');
+			showErrorMessage('Failed to load song from URL parameter.');
 		}
 	}
 
@@ -2547,6 +2641,58 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				audio.playbackRate = pitchRatio;
 			}
 		}
+
+		// Error handling functions
+		function showErrorMessage(message: string) {
+			const errorMessage = document.getElementById('error-message') as HTMLDivElement;
+			const errorText = errorMessage.querySelector('.error-text p') as HTMLParagraphElement;
+			errorText.textContent = message;
+			errorMessage.classList.remove('hidden');
+		}
+
+		function hideErrorMessage() {
+			const errorMessage = document.getElementById('error-message') as HTMLDivElement;
+			errorMessage.classList.add('hidden');
+		}
+
+		// Error action buttons
+		const refreshBtn = document.getElementById('refresh-btn') as HTMLButtonElement;
+		const clearCacheBtn = document.getElementById('clear-cache-btn') as HTMLButtonElement;
+
+		refreshBtn?.addEventListener('click', () => {
+			window.location.reload();
+		});
+
+		clearCacheBtn?.addEventListener('click', async () => {
+			try {
+				// Clear cache for the current origin
+				if ('caches' in window) {
+					const cacheNames = await caches.keys();
+					await Promise.all(
+						cacheNames.map(cacheName => caches.delete(cacheName))
+					);
+				}
+				// Also try to clear service worker cache
+				if ('serviceWorker' in navigator) {
+					const registrations = await navigator.serviceWorker.getRegistrations();
+					await Promise.all(
+						registrations.map(registration => registration.unregister())
+					);
+				}
+				// Reload the page
+				window.location.reload();
+			} catch (error) {
+				console.error('Error clearing cache:', error);
+				alert('Unable to clear cache automatically. Please clear your browser cache manually.');
+			}
+		});
+
+		// Hide error message when song selection changes
+		songSelect.addEventListener('change', () => {
+			if (songSelect.value) {
+				hideErrorMessage();
+			}
+		});
 
 		// console.log('Practice Studio fully initialized');
 	});
