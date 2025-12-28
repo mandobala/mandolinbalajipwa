@@ -14,5 +14,13 @@
     "thala": "Adhi",
     "composer": "Thyagaraja",
     "image": "/assets/practice-covers/samajavaragamana.png"
+  },
+  {
+    "title": "Devi Neeye Thunai",
+    "song": "DeviNeeye_Db_Minus",
+    "raga": "Keeravani",
+    "thala": "Adhi",
+    "composer": "Papanasam Sivan",
+    "image": "/assets/practice-covers/DeviNeeyeThunai.png"
   }
 ]
