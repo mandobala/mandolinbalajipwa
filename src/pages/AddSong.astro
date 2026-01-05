@@ -32,6 +32,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   <script>
     let songs = JSON.parse(localStorage.getItem('practiceSongs')) || [];
+    console.log('Initial songs length:', songs.length);
+
+    // If no songs in localStorage, try to load from practice-songs.json
+    if (songs.length === 0) {
+      console.log('Fetching practice-songs.json');
+      fetch('/data/practice-songs.json')
+        .then(response => {
+          console.log('Fetch response status:', response.status);
+          return response.json();
+        })
+        .then(data => {
+          songs = data;
+          localStorage.setItem('practiceSongs', JSON.stringify(songs));
+          console.log(`Loaded ${songs.length} songs from practice-songs.json`);
+          updateDisplay();
+        })
+        .catch(error => {
+          console.error('Failed to load practice songs:', error);
+        });
+    } else {
+      console.log('Songs already in localStorage, skipping fetch');
+    }
 
     const form = document.getElementById('add-form');
     const list = document.getElementById('songs-list');
@@ -194,7 +216,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         ctx.fillText(`Raga: ${song.raga}`, 400, 180);
         ctx.fillText(`Thala: ${song.thala}`, 400, 220);
         ctx.fillText(`Composer: ${song.composer}`, 400, 260);
-        ctx.fillText('Visit: mandolinbalaji.com/practice-list/', 50, 400);
+        ctx.fillText('Visit: mandolinbalaji.com -> Pracitce', 50, 400);
         ctx.fillText('#mandolinbalaji #carnaticmusic', 50, 440);
 
         // Show download button

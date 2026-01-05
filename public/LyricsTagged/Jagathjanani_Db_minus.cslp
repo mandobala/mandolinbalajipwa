@@ -1,0 +1,253 @@
+{
+  "data": {
+    "metadata": {
+      "title": "Jagathjanani",
+      "artist": "",
+      "ragam": "Rathipathipriya",
+      "talam": "Adhi",
+      "shruti": "C#",
+      "aarohanam": "S R2 G2 P N2 S",
+      "avarohanam": "S N2 P G2 R2 S",
+      "edupu": 60
+    },
+    "mp3FileName": "Jagathjanani_Db.mp3",
+    "config": {
+      "offset": 0.25,
+      "lastPosition": 217.732947845805
+    },
+    "ulpLines": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "rawText": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    "timeline": [
+      {
+        "time": 0,
+        "text": "jagajjananI sukhapANI kalyANI",
+        "notation": ",,pṡ ,,np g,,, ,,rg s,,, r,g, p,,, p,,,"
+      },
+      {
+        "time": 5.201914310455322,
+        "text": "jagajjananI sukhapANI kalyANI",
+        "notation": ",,pṡ ,,np g,,, ,,rg s,,, r,g, p,,, p,,,"
+      },
+      {
+        "time": 11.055510204081633,
+        "text": "jagajjananI sukhapANI kalyANI",
+        "notation": ",,nṡ ,,np g,,, ,,rg s,,, r,g, p,,, p,,,"
+      },
+      {
+        "time": 16.901721954345703,
+        "text": "jagajjananI sukhapANI kalyANI",
+        "notation": ",,ns ,,np g,,, ,,rg s,,, r,g, p,,, p,,,"
+      },
+      {
+        "time": 22.549129486083984,
+        "text": "jagajjananI sukhapANI kalyANI",
+        "notation": ",,ġṡ ,,np g,,, ,,rg s,,, r,g, p,,, p,,,"
+      },
+      {
+        "time": 28.51603126525879,
+        "text": "jagajjananI sukhapANI kalyANI",
+        "notation": ",,ġṡ ,,np g,,, ,,rg s,,, r,g, p,,, p,,,"
+      },
+      {
+        "time": 34.36643990929705,
+        "text": "jagajjananI sukhapANI kalyANI",
+        "notation": ",,ġṡ ,,np g,,, ,,rg s,,, r,g, p,,, p,,,"
+      },
+      {
+        "time": 40.24310657596372,
+        "text": "jagajjananI ",
+        "notation": ",,pṡ ,,np g,,, ,,,, ,,,, ,,,, ,,,, ,,,,"
+      },
+      {
+        "time": 46.00997732426304,
+        "text": "interlude",
+        "notation": "interlude"
+      },
+      {
+        "time": 51.74014663696289,
+        "text": "interlude",
+        "notation": "interlude"
+      },
+      {
+        "time": 57.49285714285714,
+        "text": "sukha svarUpiNI madhuravANI",
+        "notation": ",,ṡ, ṡ,ṡ, n,,, p,n, ,,pn ,,ṡġ n,,, ṙ,ṡ,"
+      },
+      {
+        "time": 63.431179138321994,
+        "text": "sukha svarUpiNI madhuravANI ",
+        "notation": ",,ṡ, ṡ,ṡ, n,,, p,n, ,,pn ,,ṡġ n,,, ṙ,ṡ,"
+      },
+      {
+        "time": 68.97868480725623,
+        "text": "sukha svarUpiNI madhuravANI ",
+        "notation": ",,ṡ, ṡ,ṡ, n,,, p,n, ,,pn ,,ṡġ n,,, ṙ,ṡ,"
+      },
+      {
+        "time": 74.93455782312925,
+        "text": "sukha svarUpiNI madhuravANI ",
+        "notation": ",,ṡ, ṡ,ṡ, n,,, p,n, ,,pn ,,ṡġ n,,, ṙ,ṡ,"
+      },
+      {
+        "time": 80.87269841269841,
+        "text": "sukha svarUpiNI madhuravANI ",
+        "notation": ",,ṡ, ṡ,ṡ, n,,, p,n, ,,pn ,,ṡġ n,,, ṙ,ṡ,"
+      },
+      {
+        "time": 86.91015873015873,
+        "text": "shokkanAthar manam makilum meenakshi",
+        "notation": ",,n, n,n, ,,n, nṡnṡ g,ṡġ ṡ,n, p,,p nṡṙġ"
+      },
+      {
+        "time": 92.92873015873016,
+        "text": "sukha svarUpiNI madhuravANI ",
+        "notation": ",,ṡ, ṡ,ṡ, n,,, p,n, ,,pn ,,ṡġ n,,, ṙ,ṡ,"
+      },
+      {
+        "time": 98.7792290249433,
+        "text": "shokkanAthar manam makilum meenakshi",
+        "notation": ",,n, n,n, ,,n, nṡnṡ g,ṡġ ṡ,n, p,,p nṡṙġ"
+      },
+      {
+        "time": 104.89789115646259,
+        "text": "jagajjananI sukhapANI kalyANI",
+        "notation": ",,ġṡ ,,np g,,, ,,rg s,,, r,g, p,,, p,,,"
+      },
+      {
+        "time": 110.7715873015873,
+        "text": "interlude",
+        "notation": "interlude"
+      },
+      {
+        "time": 116.46907029478459,
+        "text": "interlude",
+        "notation": "interlude"
+      },
+      {
+        "time": 122.13045351473923,
+        "text": "pANDyakumAri bhavAni ambA shiva ",
+        "notation": ",,,r ,g,p g,,, r,r, grrs s,s,  r,,, g,r,"
+      },
+      {
+        "time": 128.35108843537415,
+        "text": "pANDyakumAri bhavAni ambA shiva ",
+        "notation": ",,,r ,g,p g,,, r,r, grrs s,s,  r,,, g,r,"
+      },
+      {
+        "time": 134.41809523809525,
+        "text": "pANDyakumAri bhavAni ambA shiva ",
+        "notation": ",,,r ,,g, p,,, r,g, p,,, ,,g, p,,, ,,,,"
+      },
+      {
+        "time": 140.46281179138322,
+        "text": "pANDyakumAri bhavAni ambA shiva ",
+        "notation": ",,,r ,g,p g,,, r,r, grrs s,s,  r,,, g,r,"
+      },
+      {
+        "time": 146.6061224489796,
+        "text": "pANDyakumAri bhavAni ambA shiva ",
+        "notation": ",,,r ,,g, p,,, r,g, p,,, ,,g, p,,, ,,,,"
+      },
+      {
+        "time": 152.62913832199547,
+        "text": "vENDum varam tara innum manam illaiyO ",
+        "notation": ",,ṡ, ṡ,ṡ, n,,, p,n, ,,pn ,,ṡġ n,,, ṙ,ṡ,"
+      },
+      {
+        "time": 158.68401360544217,
+        "text": ".....",
+        "notation": "....."
+      },
+      {
+        "time": 164.63419501133788,
+        "text": "vENDum varam tara innum manam illaiyO ",
+        "notation": ",,ṡ, ṡ,ṡ, n,,, p,n, ,,pn ,,ṡġ n,,, ṙ,ṡ,"
+      },
+      {
+        "time": 170.5446485260771,
+        "text": "vENDum varam tara innum manam illaiyO ",
+        "notation": ",,ṡ, ṡ,ṡ, n,,, p,n, ,,pn ,,ṡġ n,,, ṙ,ṡ,"
+      },
+      {
+        "time": 176.69156462585033,
+        "text": "vEda vEdAnta nAda svarUpiNI",
+        "notation": ",,n, n,n, ,,n, nṡnṡ g,ṡġ ṡ,n, p,,p nṡṙġ"
+      },
+      {
+        "time": 182.73845804988662,
+        "text": "vEda vEdAnta nAda svarUpiNI",
+        "notation": ",,n, n,n, ,,n, nṡnṡ g,ṡġ ṡ,n, p,,p nṡṙġ"
+      },
+      {
+        "time": 188.59487528344673,
+        "text": "jagajjananI sukhapANI kalyANI",
+        "notation": ",,ġṡ ,,np g,,, ,,rg s,,, r,g, p,,, p,,,"
+      },
+      {
+        "time": 194.67963718820863,
+        "text": "jagajjananI sukhapANI kalyANI",
+        "notation": ",,ġṡ ,,np g,,, ,,rg s,,, r,g, p,,, p,,,"
+      },
+      {
+        "time": 200.46609977324263,
+        "text": "jagajjananI sukhapANI kalyANI",
+        "notation": ",,ġṡ ,,np g,,, ,,rg s,,, r,g, p,,, p,,,"
+      },
+      {
+        "time": 206.23009070294785,
+        "text": "jagajjananI ",
+        "notation": ",,ġṡ ,,np g,,, ,,,, ,,,, ,,,, ,,,, ,,,,"
+      },
+      {
+        "time": 212.00913832199547,
+        "text": "",
+        "notation": ",,,, ,,,, ,,,, ,,,, ,,,, ,,,, ,,,, ,,,,"
+      },
+      {
+        "time": 217.732947845805,
+        "text": "jagajjananI ",
+        "notation": ""
+      }
+    ]
+  },
+  "integrityHash": "hash-mjzyn0fkthsub18bm2"
+}
