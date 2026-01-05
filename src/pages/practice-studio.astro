@@ -2530,10 +2530,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		// Load songs data from JSON file
 		let songsData = [];
 		try {
-			const response = await fetch('/data/practice-songs.json');
+			const cacheBust = Date.now() + Math.random();
+			console.log('🔍 Fetching practice songs from: /data/practice-songs.json?v=' + cacheBust);
+			const response = await fetch('/data/practice-songs.json?v=' + cacheBust, {
+				method: 'GET',
+				cache: 'no-store',
+				headers: {
+					'Cache-Control': 'no-cache, no-store, must-revalidate',
+					'Pragma': 'no-cache',
+					'Expires': '0'
+				}
+			});
+			console.log('📡 Fetch response status:', response.status);
+			console.log('📡 Response headers:', Object.fromEntries(response.headers.entries()));
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
 			songsData = await response.json();
+			console.log('📋 Loaded songs data:', songsData);
+			console.log('🎵 Number of songs loaded:', songsData.length);
 		} catch (error) {
-			console.error('Failed to load practice songs data:', error);
+			console.error('❌ Failed to load practice songs data:', error);
+			console.log('⚠️ Falling back to hardcoded data');
 			// Fallback to hardcoded data
 			songsData = [
 				{
@@ -2553,19 +2573,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					"image": "/assets/practice-covers/samajavaragamana.png"
 				}
 			];
+			console.log('📋 Fallback data loaded:', songsData);
 		}
 		
 		// Populate song select
+		console.log('🎛️ Populating song select dropdown...');
 		songsData.forEach(song => {
+			console.log('➕ Adding song to dropdown:', song.title, '->', song.song);
 			const option = document.createElement('option');
 			option.value = song.song;
 			option.textContent = song.title;
 			songSelect.appendChild(option);
 		});
+		console.log('✅ Song select populated with', songsData.length, 'songs');
 
 		// Populate song gallery
+		console.log('🖼️ Populating song gallery...');
 		const galleryGrid = document.getElementById('gallery-grid');
 		songsData.forEach(song => {
+			console.log('🖼️ Adding song to gallery:', song.title, 'with image:', song.image);
 			const galleryItem = document.createElement('div');
 			galleryItem.className = 'gallery-item';
 			galleryItem.setAttribute('data-song', song.song);
@@ -2578,6 +2604,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			
 			galleryGrid.appendChild(galleryItem);
 		});
+		console.log('✅ Song gallery populated with', songsData.length, 'songs');
 
 		// Check for URL parameter and load song if present
 		loadSongFromParameter();
