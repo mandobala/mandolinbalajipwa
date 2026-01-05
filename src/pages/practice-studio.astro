@@ -50,11 +50,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				<div id="notation-panel" class="panel notation-panel hidden">
 					<div class="panel-header">
 						<h3>Musical Notation</h3>
-						<button class="panel-toggle" data-panel="notation">
-							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-								<polyline points="18,15 12,9 6,15"></polyline>
-							</svg>
-						</button>
 					</div>
 					<div class="panel-content">
 						<div id="current-notation" class="notation-content">
@@ -67,13 +62,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				<div id="lyrics-panel" class="panel lyrics-panel">
 					<div class="panel-header">
 						<h3>Lyrics & Timing</h3>
-						<div class="panel-controls">
-							<button class="panel-toggle" data-panel="lyrics">
-								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-									<polyline points="6,9 12,15 18,9"></polyline>
-								</svg>
-							</button>
-						</div>
 					</div>
 					<div class="panel-content">
 						<div class="lyrics-content">
@@ -395,21 +383,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		font-size: 1.1rem;
 		font-weight: 600;
 		color: #4ecdc4;
-	}
-
-	.panel-toggle {
-		background: none;
-		border: none;
-		color: rgba(255, 255, 255, 0.6);
-		cursor: pointer;
-		padding: 0.5rem;
-		border-radius: 6px;
-		transition: all 0.2s ease;
-	}
-
-	.panel-toggle:hover {
-		background: rgba(255, 255, 255, 0.1);
-		color: #ffffff;
 	}
 
 	.panel-content {
@@ -2625,34 +2598,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		
 		const panelToggles = document.querySelectorAll('.panel-toggle');
 
-		panelToggles.forEach(toggle => {
-			toggle.addEventListener('click', () => {
-				const panelType = (toggle as HTMLElement).dataset.panel;
-				const panel = document.getElementById(`${panelType}-panel`);
-
-				if (panel) {
-					const isHidden = panel.classList.contains('hidden');
-					if (isHidden) {
-						panel.classList.remove('hidden');
-						toggle.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18,15 12,9 6,15"></polyline></svg>';
-					} else {
-						panel.classList.add('hidden');
-						toggle.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"></polyline></svg>';
-					}
-				}
-			});
-		});
+		// Panel toggles removed - panels are now always visible
 
 		// Show notation panel by default when CSLP data loads
 		const showNotationPanel = () => {
 			const notationPanel = document.getElementById('notation-panel') as HTMLDivElement;
 			if (notationPanel) {
 				notationPanel.classList.remove('hidden');
-				// Set toggle to show down arrow (open state)
-				const toggle = notationPanel.querySelector('.panel-toggle') as HTMLElement;
-				if (toggle) {
-					toggle.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18,15 12,9 6,15"></polyline></svg>';
-				}
 			}
 		};
 
