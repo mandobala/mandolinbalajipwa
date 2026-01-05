@@ -11,7 +11,11 @@ import playformInline from '@playform/inline';
 export default defineConfig({
   server: {
     port: 7777,
-    host: true
+    host: true,
+    https: {
+      key: './key.pem',
+      cert: './cert.pem'
+    }
   },
   build: {
     format: 'directory', // Ensures proper fallback support
