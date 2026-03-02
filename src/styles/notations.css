@@ -8,33 +8,69 @@
 }
 
 .notation-item {
-  background: var(--gray-999);
-  border: 1px solid var(--gray-800);
-  border-radius: 0.75rem;
+  background: linear-gradient(135deg, var(--gray-900) 0%, var(--gray-800) 100%);
+  border: 2px solid var(--gray-700);
+  border-radius: 1rem;
   overflow: hidden;
-  transition: box-shadow var(--theme-transition);
+  transition: all var(--theme-transition);
   aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .notation-item:hover {
-  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  border-color: var(--accent);
+}
+
+.notation-item:nth-child(4n+1) {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.notation-item:nth-child(4n+2) {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.notation-item:nth-child(4n+3) {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.notation-item:nth-child(4n+4) {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
 }
 
 .notation-cover {
   text-align: center;
-  padding: 1rem;
+  padding: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.notation-cover::before {
+  content: "♪";
+  font-size: 2rem;
+  color: rgba(255, 255, 255, 0.3);
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
 }
 
 .notation-title {
-  font-size: var(--text-md);
-  font-weight: 600;
+  font-size: 1.75rem;
+  font-weight: 800;
   color: var(--gray-0);
   margin: 0;
   word-wrap: break-word;
   hyphens: auto;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.7);
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  text-transform: capitalize;
 }
 
 /* Responsive */
