@@ -15,10 +15,11 @@
   transition: all var(--theme-transition);
   aspect-ratio: 1;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
   position: relative;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  padding-bottom: 2rem;
 }
 
 .notation-item:hover {
@@ -240,4 +241,29 @@
   padding: 1rem;
   border-radius: 0.5rem;
   border: 1px solid var(--gray-700);
+}
+
+/* Detailed View Link */
+.detailed-view-link {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--gray-200);
+  text-decoration: none;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 0.5rem;
+  border: 1px solid var(--gray-600);
+  transition: all var(--theme-transition);
+  z-index: 2;
+}
+
+.detailed-view-link:hover {
+  color: var(--gray-0);
+  background: rgba(0, 0, 0, 0.8);
+  border-color: var(--accent);
+  text-decoration: none;
 }
