@@ -64,13 +64,19 @@
   font-weight: 800;
   color: var(--gray-0);
   margin: 0;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
   hyphens: auto;
   text-shadow: 0 3px 6px rgba(0, 0, 0, 0.7);
   line-height: 1.1;
   letter-spacing: 0.5px;
   font-family: 'Georgia', 'Times New Roman', serif;
   text-transform: capitalize;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: 5.85rem; /* 3 lines * 1.1 line-height * 1.75rem font-size */
 }
 
 /* Responsive */
