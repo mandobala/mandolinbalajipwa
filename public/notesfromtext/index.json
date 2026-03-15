@@ -1,4 +1,41 @@
 [
-  "MakelaraVicharamu",
-  "Raguvamsasudha"
+  {
+    "name": "MakelaraVicharamu",
+    "raga": "Ravichandrika",
+    "tala": "Adi",
+    "beats": "8",
+    "arohana": "S R2 G3 M1 D2 Ṡ",
+    "avarohana": "",
+    "composer": "Thyagaraja",
+    "song": "Makelara",
+    "allMetadata": {
+      "Song": "Makelara",
+      "Raga": "Ravichandrika",
+      "Composer": "Thyagaraja",
+      "Tala": "Adi",
+      "Arohana": "S R2 G3 M1 D2 Ṡ",
+      "Rāga": "",
+      "Tāḷa": "",
+      "Ārō": "",
+      "Avarō": ""
+    }
+  },
+  {
+    "name": "Raguvamsasudha",
+    "raga": "Kadanakutuhalam",
+    "tala": "Adi",
+    "beats": "8",
+    "arohana": "S R² M¹ D² N³ G P Ṡ",
+    "avarohana": "Ṡ N³ D² P M¹ G³ R² S",
+    "composer": "Patnam Subramania Iyer",
+    "song": "Raguvamsasudha",
+    "allMetadata": {
+      "Rāga": "Kadanakutuhalam",
+      "Tāḷa": "Adi",
+      "Ārō": "S R² M¹ D² N³ G P Ṡ",
+      "Avarō": "Ṡ N³ D² P M¹ G³ R² S",
+      "Higher": "\"Ṡ\", \"Ṙ\", \"Ġ\", \"Ṁ\", \"Ṗ\", \"Ḋ\", \"Ṅ\" \"ṡ\", \"ṙ\", \"ġ\", \"ṁ\", \"ṗ\", \"ḋ\", \"ṅ\"",
+      "Lower": "\"Ṣ\", \"Ṛ\", \"G̣\", \"Ṃ\", \"P̣\", \"Ḍ\", \"Ṇ\" \"ṣ\", \"ṛ\", \"g̣\", \"ṃ\", \"p̣\", \"ḍ\", \"ṇ\""
+    }
+  }
 ]

@@ -128,10 +128,23 @@ const itemsPerPage = 16;
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const songs = await response.json();
-        allNotations = songs.map(name => ({
-          name: name,
-          url: `/notesfromtext/${name}.txt`
-        }));
+        allNotations = songs.map(item => {
+          // Handle both old format (string) and new format (object with metadata)
+          if (typeof item === 'string') {
+            return { name: item, url: `/notesfromtext/${item}.txt` };
+          } else {
+            return {
+              name: item.name,
+              url: `/notesfromtext/${item.name}.txt`,
+              raga: item.raga || '',
+              tala: item.tala || '',
+              arohana: item.arohana || '',
+              avarohana: item.avarohana || '',
+              composer: item.composer || '',
+              song: item.song || item.name
+            };
+          }
+        });
         filteredNotations = [...allNotations];
         renderPage();
       } catch (error) {
@@ -268,13 +281,43 @@ const itemsPerPage = 16;
         if (metaMatch) {
           const metaContent = metaMatch[1].trim();
           const metaItems = metaContent.split('|').map(item => item.trim());
-          metadataHTML = '<div class="metadata-box">';
+          
+          // Normalize metadata keys and values
+          const normalizeKey = (key) => {
+            // Remove diacritical marks and convert to lowercase
+            const normalized = key.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+            if (normalized.includes('aro') && !normalized.includes('avaro')) return 'Aro';
+            if (normalized.includes('avaro')) return 'Ava';
+            if (normalized.includes('rag')) return 'Raga';
+            if (normalized.includes('tal')) return 'Thala';
+            if (normalized.includes('compos')) return 'Composer';
+            if (normalized.includes('song')) return 'Song';
+            return null; // Don't include other fields
+          };
+          
+          // Collect normalized metadata
+          const normalizedMeta = {};
+          const orderKeys = ['Raga', 'Song', 'Composer', 'Thala', 'Aro', 'Ava'];
+          
           metaItems.forEach(item => {
             if (item) {
-              const [key, value] = item.split(':').map(s => s.trim());
-              if (key && value) {
-                metadataHTML += `<div class="meta-item"><span class="meta-key">${key}:</span> <span class="meta-value">${value}</span></div>`;
+              const colonIndex = item.indexOf(':');
+              if (colonIndex > -1) {
+                const key = item.substring(0, colonIndex).trim();
+                const value = item.substring(colonIndex + 1).trim();
+                const normalizedKey = normalizeKey(key);
+                if (normalizedKey && value) {
+                  normalizedMeta[normalizedKey] = value;
+                }
               }
+            }
+          });
+          
+          // Display metadata in standardized order
+          metadataHTML = '<div class="metadata-box">';
+          orderKeys.forEach(key => {
+            if (normalizedMeta[key]) {
+              metadataHTML += `<div class="meta-item"><span class="meta-key">${key}:</span> <span class="meta-value">${normalizedMeta[key]}</span></div>`;
             }
           });
           metadataHTML += '</div>';
@@ -311,7 +354,7 @@ const itemsPerPage = 16;
               sectionContent += `[${lineNumber}] ${lineContent}\n`;
             } else if (line.startsWith('LR:')) {
               const lrContent = line.replace(/^LR:\s*/, '').trim();
-              sectionContent += `    ${lrContent}\n`;
+              sectionContent += `    <span class="lr-content">${lrContent}</span>\n`;
             } else {
               sectionContent += line + '\n';
             }
@@ -356,9 +399,17 @@ const itemsPerPage = 16;
     // Handle search
     function handleSearch() {
       const query = searchInput.value.toLowerCase().trim();
-      filteredNotations = allNotations.filter(notation =>
-        notation.name.toLowerCase().includes(query)
-      );
+      filteredNotations = allNotations.filter(notation => {
+        // Search in name, song title, raga, tala, and composer
+        const searchFields = [
+          notation.name || '',
+          notation.song || '',
+          notation.raga || '',
+          notation.tala || '',
+          notation.composer || ''
+        ];
+        return searchFields.some(field => field.toLowerCase().includes(query));
+      });
       currentPage = 1;
       renderPage();
     }

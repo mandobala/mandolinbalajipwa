@@ -1,4 +1,4 @@
-MetaS: Rāga: Kadanakutuhalam | Tāḷa: Adi | Ārō: S R² M¹ D² N³ G P Ṡ | Avarō: Ṡ N³ D² P M¹ G³ R² S MetaE:
+MetaS: Song: Raguvamsasudha|Rāga: Kadanakutuhalam | Composer: Patnam Subramanya iyer |Tāḷa: Adi | Ārō: S R² M¹ D² N³ G P Ṡ | Avarō: Ṡ N³ D² P M¹ G³ R² S MetaE:
 
 
 
@@ -35,16 +35,16 @@ Line: , , m, | , , g, | p, , Ṡ, | ,,Ṡ, | Ṡ, , ,| , , nṠ | nd pd | pd n�
 LR:
 
 
-Line: nd pd | pd g, | p, , Ṡ, | ,,Ṡ, | Ṡ, , ,| , , g, | psn, | d, g, |
+Line: nd pd | pd g, | p, , Ṡ, | ,,Ṡ, | Ṡ, , ,| , , g, | pṠn, | d, g, |
 LR:
 
-Line: pn d, | p, g, | p, , Ṡ, | ,,Ṡ, | Ṡ, , ,| , , r, | s, , n, | , , d, |
+Line: pn d, | p, g, | p, , Ṡ, | ,,Ṡ, | Ṡ, , ,| , , r, | Ṡ, , n, | , , d, |
 LR:
 
-Line: pdnp | dp s, | s, sn | d, n, | m, , d|, , n, | g, p, | , , gp |
+Line: pdnp | dp Ṡ, | Ṡ, Ṡn | d, n, | m, , d|, , n, | g, p, | , , gp |
 LR:
 
-Line: sgps | gp s, | s, sn | d, n, | md md | md md | gp gp | gp gp |
+Line: sgps | gp Ṡ, | Ṡ, Ṡn | d, n, | md md | md md | gp gp | gp gp |
 LR:
 
 Line: sgps | gp s, | s, sn | d, n, | {md md | md md} | {gp gp | gp sn} |
@@ -70,7 +70,7 @@ Charanam:
 Line: , , , , | , , p, | p, p, | , , p, | m, ,m| ,,r, | m, g, | , , r, |
 LR:
 
-Line: s, r, | s, sr | sr sn | d, p, | s, , | , , r, | m, , | g, , | r, |
+Line: s, r, | s, sr | sr sṆ | d, p, | s, , | , , r, | m, , | g, , | r, |
 LR:
 
 Line: s, r, | s, [Anupallavi]

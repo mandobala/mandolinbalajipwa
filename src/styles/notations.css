@@ -231,6 +231,7 @@
   margin: 0;
   background: white;
   overflow-x: auto;
+  text-transform: uppercase;
 }
 
 /* Line number styling in section content */
@@ -240,6 +241,12 @@
 
 .section-content {
   position: relative;
+}
+
+/* LR (Lyrics Romanized) styling */
+.lr-content {
+  color: #3b82f6;
+  font-weight: 600;
 }
 
 /* Grid Layout */

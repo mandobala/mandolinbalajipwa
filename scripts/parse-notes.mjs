@@ -118,9 +118,68 @@ function parseText(text) {
 
 function main() {
   const files = fs.readdirSync(notesDir).filter(f => f.endsWith('.txt'));
-  const songs = files.map(f => f.replace('.txt', ''));
+  
+  const songs = files.map(f => {
+    const filename = f.replace('.txt', '');
+    const filepath = path.join(notesDir, f);
+    const content = fs.readFileSync(filepath, 'utf8');
+    const parsed = parseText(content);
+    
+    // Normalize metadata keys to handle all variations
+    const normalizeKey = (key) => {
+      // Remove diacritical marks and convert to lowercase
+      const normalized = key.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+      // Arohana variations: Aroh, Aro, Arohana, Ārō, Ārō
+      if (normalized.includes('aro') && !normalized.includes('avaro')) {
+        return 'arohana';
+      }
+      // Avarohana variations: Ava, Avaro, Avarohana, Avarō, Avarō
+      if (normalized.includes('avaro')) {
+        return 'avarohana';
+      }
+      // Raga variations: Raga, Rāga, Rāga
+      if (normalized.includes('rag')) {
+        return 'raga';
+      }
+      // Tala variations: Tala, Tāḷa, Tāḷa
+      if (normalized.includes('tal')) {
+        return 'tala';
+      }
+      // Composer
+      if (normalized.includes('compos')) {
+        return 'composer';
+      }
+      // Song
+      if (normalized.includes('song')) {
+        return 'song';
+      }
+      return normalized;
+    };
+    
+    // Create normalized metadata object
+    const metadata = {};
+    Object.keys(parsed.metatags).forEach(key => {
+      const normalizedKey = normalizeKey(key);
+      // Only set if not already set (keep first occurrence)
+      if (!metadata[normalizedKey]) {
+        metadata[normalizedKey] = parsed.metatags[key];
+      }
+    });
+    
+    return {
+      name: filename,
+      raga: metadata.raga || '',
+      tala: metadata.tala || '',
+      arohana: metadata.arohana || '',
+      avarohana: metadata.avarohana || '',
+      composer: metadata.composer || '',
+      song: metadata.song || filename,
+      allMetadata: parsed.metatags
+    };
+  });
+  
   fs.writeFileSync(path.join(notesDir, 'index.json'), JSON.stringify(songs, null, 2));
-  console.log(`Generated index.json with ${songs.length} songs`);
+  console.log(`Generated index.json with ${songs.length} songs and normalized metadata`);
 }
 
 main();
