@@ -1,4 +1,4 @@
 @echo off
-cd /d "C:\balajiwebsite"
-npm.cmd run preview
+cd /d "C:\iCloudDrive\BalajiWebsite\mandolinbalajipwa"
+npm.cmd run dev
 pause
