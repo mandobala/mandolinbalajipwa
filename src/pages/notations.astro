@@ -21,8 +21,8 @@ const itemsPerPage = 16;
         align="center"
       />
 
-      <!-- Search and Pagination Controls -->
-      <div class="controls">
+      <!-- Controls and Search -->
+      <div class="controls" id="searchControls">
         <div class="search-form">
           <div class="search-wrapper">
             <input
@@ -55,8 +55,34 @@ const itemsPerPage = 16;
         <p class="results-count" style="display: none;"></p>
       </div>
 
+      <!-- Detail view with back button -->
+      <div id="detailView" style="display: none;">
+        <button id="backButton" class="back-button">← Back to Notations</button>
+        <h2 id="detailTitle"></h2>
+        
+        <!-- Font controls -->
+        <div class="font-controls">
+          <div class="control-group">
+            <label for="fontFamily">Font:</label>
+            <select id="fontFamily" class="font-select">
+              <option value="'Courier New', monospace">Courier New</option>
+              <option value="'Monaco', monospace">Monaco</option>
+              <option value="'Consolas', monospace">Consolas</option>
+              <option value="'Liberation Mono', monospace">Liberation Mono</option>
+              <option value="monospace">Monospace (Default)</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label for="fontSize">Size: <span id="fontSizeValue">0.95</span>rem</label>
+            <input type="range" id="fontSize" class="font-slider" min="0.7" max="1.5" step="0.05" value="0.95">
+          </div>
+        </div>
+
+        <div id="detailContent"></div>
+      </div>
+
       <!-- Pagination controls at the top -->
-      <div class="pagination">
+      <div class="pagination" id="paginationControls">
         <div id="paginationContainer"></div>
       </div>
 
@@ -66,19 +92,11 @@ const itemsPerPage = 16;
       </div>
 
       <!-- Pagination controls at the bottom -->
-      <div class="pagination">
+      <div class="pagination" id="paginationControlsBottom">
         <div id="paginationContainerBottom"></div>
       </div>
     </main>
     <ContactCTA />
-    
-    <!-- Modal for displaying notation content -->
-    <div id="notationModal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <div id="notationContent"></div>
-      </div>
-    </div>
   </div>
 </BaseLayout>
 
@@ -97,30 +115,28 @@ const itemsPerPage = 16;
     let allNotations = [];
     let filteredNotations = [];
 
-    // Modal elements
-    const modal = document.getElementById('notationModal');
-    const modalContent = document.getElementById('notationContent');
-    const closeBtn = document.querySelector('.close');
-
-    // Fetch notations from GitHub
+    // Fetch notations from local notesfromtext folder
     async function fetchNotations() {
       try {
-        const response = await fetch('https://api.github.com/repos/mandolinbalaji/contenttools/contents/music-scans/songs');
+        const response = await fetch('/notesfromtext/index.json?t=' + Date.now(), {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate'
+          }
+        });
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const data = await response.json();
-        allNotations = data
-          .filter(item => item.type === 'file' && item.name.endsWith('.txt'))
-          .map(item => ({
-            name: item.name.replace('.txt', ''),
-            url: item.download_url
-          }));
+        const songs = await response.json();
+        allNotations = songs.map(name => ({
+          name: name,
+          url: `/notesfromtext/${name}.txt`
+        }));
         filteredNotations = [...allNotations];
         renderPage();
       } catch (error) {
         console.error('Error fetching notations:', error);
-        notationsContainer.innerHTML = '<p>Error loading notations. The repository may be private or the path may be incorrect.</p>';
+        notationsContainer.innerHTML = '<p>Error loading notations. The notesfromtext folder may be inaccessible.</p>';
       }
     }
 
@@ -205,40 +221,136 @@ const itemsPerPage = 16;
       }
     }
 
-    // Modal functions
-    function openModal(content) {
-      modalContent.innerHTML = content;
-      modal.style.display = 'block';
+    // Detail view elements
+    const detailView = document.getElementById('detailView');
+    const searchControls = document.getElementById('searchControls');
+    const paginationControls = document.getElementById('paginationControls');
+    const paginationControlsBottom = document.getElementById('paginationControlsBottom');
+    const detailTitle = document.getElementById('detailTitle');
+    const detailContent = document.getElementById('detailContent');
+    const backButton = document.getElementById('backButton');
+
+    // Show list view
+    function showListView() {
+      detailView.style.display = 'none';
+      searchControls.style.display = 'flex';
+      paginationControls.style.display = 'block';
+      paginationControlsBottom.style.display = 'block';
+      notationsContainer.style.display = 'grid';
     }
 
-    function closeModal() {
-      modal.style.display = 'none';
-    }
-
-    // Handle notation click
-    async function handleNotationClick(event) {
-      const item = event.target.closest('.notation-item');
-      if (item) {
-        const url = item.dataset.url;
-        if (url) {
-          try {
-            const response = await fetch(url);
-            if (!response.ok) throw new Error('Failed to load content');
-            const text = await response.text();
-            const formattedContent = formatNotationContent(text);
-            openModal(formattedContent);
-          } catch (error) {
-            console.error('Error loading notation:', error);
-            openModal('<p>Error loading notation content.</p>');
+    // Show detail view
+    async function showDetailView(name, url) {
+      try {
+        const response = await fetch(url + '?t=' + Date.now(), {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate'
           }
+        });
+        if (!response.ok) throw new Error('Failed to load content');
+        const text = await response.text();
+        
+        // Extract metadata - try both MetaS/MetaE and infoS/infoE formats
+        let metadataHTML = '';
+        let contentText = text;
+        
+        // Try MetaS/MetaE format first
+        let metaRegex = /MetaS:\s*(.*?)\s*MetaE:/s;
+        let metaMatch = text.match(metaRegex);
+        
+        // If not found, try infoS/infoE format
+        if (!metaMatch) {
+          metaRegex = /infoS:\s*(.*?)\s*infoE:/s;
+          metaMatch = text.match(metaRegex);
         }
+        
+        if (metaMatch) {
+          const metaContent = metaMatch[1].trim();
+          const metaItems = metaContent.split('|').map(item => item.trim());
+          metadataHTML = '<div class="metadata-box">';
+          metaItems.forEach(item => {
+            if (item) {
+              const [key, value] = item.split(':').map(s => s.trim());
+              if (key && value) {
+                metadataHTML += `<div class="meta-item"><span class="meta-key">${key}:</span> <span class="meta-value">${value}</span></div>`;
+              }
+            }
+          });
+          metadataHTML += '</div>';
+        }
+
+        // Remove metadata from text for section parsing - handle both formats
+        contentText = text.replace(/MetaS:.*?MetaE:/s, '').replace(/infoS:.*?infoE:/s, '').trim();
+        
+        // Parse sections with line numbering
+        const lines = contentText.split('\n');
+        let sectionsHTML = '';
+        let currentSection = null;
+        let sectionContent = '';
+        let lineNumber = 0;
+
+        lines.forEach(line => {
+          line = line.trim();
+          if (!line) return;
+
+          // Check if line is a section header (ends with colon and not Line: or LR:)
+          if (line.endsWith(':') && !line.startsWith('Line:') && !line.startsWith('LR:')) {
+            // Save previous section
+            if (currentSection) {
+              sectionsHTML += `<div class="section-box"><h3 class="section-heading">${currentSection}</h3><pre class="section-content">${sectionContent.trim()}</pre></div>`;
+            }
+            currentSection = line.slice(0, -1); // Remove the colon
+            sectionContent = '';
+            lineNumber = 0; // Reset line number for new section
+          } else if (currentSection) {
+            // Count Line: and LR: pairs
+            if (line.startsWith('Line:')) {
+              lineNumber++;
+              const lineContent = line.replace(/^Line:\s*/, '').trim();
+              sectionContent += `[${lineNumber}] ${lineContent}\n`;
+            } else if (line.startsWith('LR:')) {
+              const lrContent = line.replace(/^LR:\s*/, '').trim();
+              sectionContent += `    ${lrContent}\n`;
+            } else {
+              sectionContent += line + '\n';
+            }
+          }
+        });
+
+        // Save last section
+        if (currentSection) {
+          sectionsHTML += `<div class="section-box"><h3 class="section-heading">${currentSection}</h3><pre class="section-content">${sectionContent.trim()}</pre></div>`;
+        }
+
+        detailTitle.textContent = name;
+        detailContent.innerHTML = metadataHTML + (sectionsHTML || `<pre class="notation-text">${text}</pre>`);
+        
+        searchControls.style.display = 'none';
+        paginationControls.style.display = 'none';
+        paginationControlsBottom.style.display = 'none';
+        notationsContainer.style.display = 'none';
+        detailView.style.display = 'block';
+        
+        // Scroll to top
+        window.scrollTo(0, 0);
+      } catch (error) {
+        console.error('Error loading notation:', error);
+        detailTitle.textContent = 'Error';
+        detailContent.innerHTML = '<p>Error loading notation content.</p>';
       }
     }
 
-    // Format notation content as HTML
-    function formatNotationContent(text) {
-      // Split by lines and wrap in pre for monospace
-      return `<pre class="notation-text">${text}</pre>`;
+    // Handle notation click
+    function handleNotationClick(event) {
+      const item = event.target.closest('.notation-item');
+      if (item) {
+        const name = item.querySelector('.notation-title').textContent;
+        const url = item.dataset.url;
+        if (url) {
+          showDetailView(name, url);
+        }
+      }
     }
 
     // Handle search
@@ -259,16 +371,49 @@ const itemsPerPage = 16;
     });
     searchInput.addEventListener('input', handleSearch);
 
-    // Modal event listeners
-    closeBtn.addEventListener('click', closeModal);
-    window.addEventListener('click', (event) => {
-      if (event.target === modal) {
-        closeModal();
-      }
-    });
+    // Back button listener
+    backButton.addEventListener('click', showListView);
 
     // Notation click listener (delegated)
     notationsContainer.addEventListener('click', handleNotationClick);
+
+    // Font family control
+    const fontFamilySelect = document.getElementById('fontFamily');
+    fontFamilySelect.addEventListener('change', (e) => {
+      document.querySelectorAll('.section-content').forEach(el => {
+        el.style.fontFamily = e.target.value;
+      });
+      localStorage.setItem('notationFontFamily', e.target.value);
+    });
+
+    // Font size control
+    const fontSizeSlider = document.getElementById('fontSize');
+    const fontSizeValue = document.getElementById('fontSizeValue');
+    fontSizeSlider.addEventListener('input', (e) => {
+      const size = e.target.value;
+      fontSizeValue.textContent = size;
+      document.querySelectorAll('.section-content').forEach(el => {
+        el.style.fontSize = size + 'rem';
+      });
+      localStorage.setItem('notationFontSize', size);
+    });
+
+    // Load saved font preferences
+    const savedFontFamily = localStorage.getItem('notationFontFamily');
+    const savedFontSize = localStorage.getItem('notationFontSize');
+    if (savedFontFamily) {
+      fontFamilySelect.value = savedFontFamily;
+      document.querySelectorAll('.section-content').forEach(el => {
+        el.style.fontFamily = savedFontFamily;
+      });
+    }
+    if (savedFontSize) {
+      fontSizeSlider.value = savedFontSize;
+      fontSizeValue.textContent = savedFontSize;
+      document.querySelectorAll('.section-content').forEach(el => {
+        el.style.fontSize = savedFontSize + 'rem';
+      });
+    }
 
     // Initial load
     await fetchNotations();

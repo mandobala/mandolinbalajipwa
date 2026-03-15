@@ -1,0 +1,105 @@
+
+infoS: Song: Makelara| Raga: Ravichandrika | Composer: Thyagaraja|Tala: Adi | Arohana: S R2 G3 M1 D2 Ṡ | 
+Avarohana: Ṡ N2 D2  M1 G3 R2 S infoE:
+
+Pallavi:
+
+Line: , , , , | , , *M, |,, G,| ,, M, | G, ,,| ,,  GR | GRS,| ,, R, || 
+
+LR:   mu              mā     kē     la             rā        vi   cā      ra 
+
+
+Line: G, ,, |,, * M,| ,, D, |,, M, | G, ,,| ,,  RG | MG GR|S, R, || 
+
+LR:   mu          mā     kē     la   rā        vi   cā      ra 
+
+
+
+Line: G, ,, |,, *M, |, ,D,|,,N,  | NDDM |,  ,G M | G M GR|S, R, ||
+
+LR:   mu        mā     kē     la       rā       vi   cā      ra 
+
+
+
+Line:  G, ,,| ,, *M, |,, D, |,, Ṡ,  | {DṠṘĠMĠ} ṘṠ   | NDM MGR SR ||
+
+LR:   mu         mā     kē     la     rā        vi   cā      ra 
+
+
+
+Line:  G, ,,| ,, *M, |M, D, |,, N,   | NDD,| ,,  D,  | Ṡ, Ṡ,| ṠND, ||
+
+LR:   mu          ma ru gan na śrī     rā        ma   can         dra
+
+
+
+Line:  {ṠṠNNDD,} *M, |,, D, |,, Ṡ,    | {DṠṘĠMĠ} ṘṠ   | NDM M|GR SR || 
+
+LR:   mu          mā     kē     la      rā        vi   cā      ra 
+
+
+
+Line: G, ,,| ,, *MGM, |D, ,,| ṠN    | NDD, ,,  D,  | Ṡ, Ṡ, ṠNND || 
+
+LR:   mu        ma ru gan na śrī      rā        ma   can         
+
+
+
+Line: {MDN DṘṠN} *M, ,, G, ,, M, | G, ,, ,,  ,, | ,,,, ,, ,, || 
+
+LR:    dra           mā     kē     la   rā       
+
+
+
+Anupallavi:
+
+Line: , , , ,| , , *M, |N, NDD, D, | Ṡ, ,,| ,,  Ṙ Ġ | {Ṁ Ġ Ṙ},, ,, Ġ M ||
+
+LR:               sā     kē     ta   rā        ja        ku mā      
+
+
+
+Line:  Ġ R Ṡ, |,, *D, |Ṡ, {ṠNN,} D,            | M, ,,| D, ,, N | ,, {ṠNN,} D, || 
+
+LR:   ra           sad    bha    kta            man    dā     rā   śrī    ka   ra
+
+
+
+Line: {ṠNNDD,} *DṠ, N NDD, D,              | Ṡ, MDṠ, Ṙ Ġ  | {ṀĠṘ} Ṙ, Ṙ Ġ ||
+
+LR:   sā     kē ta rā              ja        ku   mā        
+
+
+
+Line:  {ṀĠṘ} Ṡ, ,, *D, Ṙ Ṡ, {ṠNN,} D,           | DM, D, ,, N   | {D, ṘṠ ṠNND} || 
+
+LR:   ra           sad    bha   ktaman          dā        rā   śrī      ka 
+
+Line: {ṠNND,} D, *
+LR:    ra
+
+Charanam:
+
+Line: , , , , , , *M, M, M, ,, M, | M G G, ,,  G, | M, D, ,, Ṡ N ||
+
+LR:               ja ta gūrc ci     nā    ta     ka sū     tra mu 
+
+
+
+Line:  N D D, ,, *D, ṠN NDD, M,               | {GMGRS,} MG     | M D, ,, Ṡ N ||
+
+LR:   nu ja ga mel   la                mec     ca ga  kā     ra mu na ni  
+
+
+
+Line:  ND, D, ,, *, , , , , , *M, N, NDD, D, | Ṡ, ,, ,,  Ṙ Ġ | {Ṁ Ġ Ṙ},, ,, Ġ M ||
+
+LR:    ḍi                     ga ti tap  pa     kā       ḍiñ    cē       vu sum 
+
+
+Line:  Ġ R Ṡ, ,, *D, Ṡ, {ṠNN,} D,            | M, ,, D, ,, N | ,, {ṠNN,} D, || 
+
+LR:    mi na      ta tyā  ga                rā   ja  gi    rī   śa    vi nu   
+
+Line: {ṠNNDD,} *
+LR:    ta
