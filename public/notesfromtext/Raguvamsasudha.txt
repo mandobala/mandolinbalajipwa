@@ -49,7 +49,7 @@ LR:
 Line: sgps | gp Ṡ, | Ṡ, Ṡn | d, n, | md md | md md | gp gp | gp gp |
 LR:
 
-Line: sgps | gp s, | s, sn | d, n, | {md md | md md} | {gp gp | gp sn} |
+Line: sgps | gp s, | s, sn | d, n, | md md | md md | gp gp | gp sn |
 LR:
 
 Line: dpmg | rs

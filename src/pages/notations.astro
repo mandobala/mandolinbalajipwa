@@ -252,7 +252,7 @@ const itemsPerPage = 16;
       notationsContainer.style.display = 'grid';
     }
 
-    // Color dotted notes - blue for higher register, red for lower register
+    // Color dotted notes and underline bracketed notes
     function colorDottedNotes(element) {
       // Define dotted notes with their Unicode characters
       const higherDotted = new Set(['Ṡ', 'Ṙ', 'Ġ', 'Ṁ', 'Ṗ', 'Ḋ', 'Ṅ', 'ṡ', 'ṙ', 'ġ', 'ṁ', 'ṗ', 'ḋ', 'ṅ']);
@@ -269,6 +269,20 @@ const itemsPerPage = 16;
         
         while (i < text.length) {
           const char = text[i];
+          
+          // Check if we're at the start of a bracketed section
+          if (char === '{') {
+            // Find the closing bracket
+            let closingIndex = text.indexOf('}', i);
+            if (closingIndex !== -1) {
+              // Extract content between brackets
+              const bracketContent = text.substring(i + 1, closingIndex);
+              // Add with orange underline instead of brackets
+              coloredHTML += `<span style="border-bottom: 3px solid #ff8c00; padding-bottom: 2px;">${bracketContent}</span>`;
+              i = closingIndex + 1;
+              continue;
+            }
+          }
           
           if (higherDotted.has(char)) {
             // Higher register = blue
@@ -305,6 +319,7 @@ const itemsPerPage = 16;
         
         // Extract metadata - try both MetaS/MetaE and infoS/infoE formats
         let metadataHTML = '';
+        let footnoteHTML = '';
         let contentText = text;
         
         // Try MetaS/MetaE format first
@@ -362,6 +377,14 @@ const itemsPerPage = 16;
           metadataHTML += '</div>';
         }
 
+        // Extract footnote content (infoS/infoE)
+        const footnoteRegex = /infoS:\s*(.*?)\s*infoE:/s;
+        const footnoteMatch = text.match(footnoteRegex);
+        if (footnoteMatch) {
+          const footnoteContent = footnoteMatch[1].trim();
+          footnoteHTML = `<div class="footnote-box"><h4 class="footnote-title">Reference</h4><div class="footnote-content"><pre>${footnoteContent}</pre></div></div>`;
+        }
+
         // Remove metadata from text for section parsing - handle both formats
         contentText = text.replace(/MetaS:.*?MetaE:/s, '').replace(/infoS:.*?infoE:/s, '').trim();
         
@@ -406,7 +429,7 @@ const itemsPerPage = 16;
         }
 
         detailTitle.textContent = name;
-        detailContent.innerHTML = metadataHTML + (sectionsHTML || `<pre class="notation-text">${text}</pre>`);
+        detailContent.innerHTML = metadataHTML + (sectionsHTML || `<pre class="notation-text">${text}</pre>`) + footnoteHTML;
         
         // Color dotted notes after content is loaded
         colorDottedNotes(detailView);
