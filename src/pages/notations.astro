@@ -73,8 +73,8 @@ const itemsPerPage = 16;
             </select>
           </div>
           <div class="control-group">
-            <label for="fontSize">Size: <span id="fontSizeValue">0.95</span>rem</label>
-            <input type="range" id="fontSize" class="font-slider" min="0.7" max="1.5" step="0.05" value="0.95">
+            <label for="fontSize">Size: <span id="fontSizeValue">1.4</span>rem</label>
+            <input type="range" id="fontSize" class="font-slider" min="0.7" max="1.5" step="0.05" value="1.4">
           </div>
         </div>
 
@@ -252,6 +252,45 @@ const itemsPerPage = 16;
       notationsContainer.style.display = 'grid';
     }
 
+    // Color dotted notes - blue for higher register, red for lower register
+    function colorDottedNotes(element) {
+      // Define dotted notes with their Unicode characters
+      const higherDotted = new Set(['Ṡ', 'Ṙ', 'Ġ', 'Ṁ', 'Ṗ', 'Ḋ', 'Ṅ', 'ṡ', 'ṙ', 'ġ', 'ṁ', 'ṗ', 'ḋ', 'ṅ']);
+      const lowerDotted = new Set(['Ṣ', 'Ṛ', 'G̣', 'Ṃ', 'P̣', 'Ḍ', 'Ṇ', 'ṣ', 'ṛ', 'g̣', 'ṃ', 'p̣', 'ḍ', 'ṇ']);
+      
+      // This function processes the notation content and colors dotted notes
+      const contentElements = element.querySelectorAll('.section-content');
+      
+      contentElements.forEach(section => {
+        // Get the text content
+        const text = section.textContent;
+        let coloredHTML = '';
+        let i = 0;
+        
+        while (i < text.length) {
+          const char = text[i];
+          
+          if (higherDotted.has(char)) {
+            // Higher register = blue
+            coloredHTML += `<span style="color: #4da6ff; font-weight: bold;">${char}</span>`;
+            i++;
+          } else if (lowerDotted.has(char)) {
+            // Lower register = red
+            coloredHTML += `<span style="color: #ff4d4d; font-weight: bold;">${char}</span>`;
+            i++;
+          } else {
+            coloredHTML += char;
+            i++;
+          }
+        }
+        
+        // Replace the text content with colored HTML
+        if (coloredHTML !== text) {
+          section.innerHTML = coloredHTML;
+        }
+      });
+    }
+
     // Show detail view
     async function showDetailView(name, url) {
       try {
@@ -368,6 +407,9 @@ const itemsPerPage = 16;
 
         detailTitle.textContent = name;
         detailContent.innerHTML = metadataHTML + (sectionsHTML || `<pre class="notation-text">${text}</pre>`);
+        
+        // Color dotted notes after content is loaded
+        colorDottedNotes(detailView);
         
         searchControls.style.display = 'none';
         paginationControls.style.display = 'none';

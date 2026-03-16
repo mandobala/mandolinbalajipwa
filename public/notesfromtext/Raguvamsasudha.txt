@@ -1,21 +1,23 @@
-MetaS: Song: Raguvamsasudha|Rāga: Kadanakutuhalam | Composer: Patnam Subramanya iyer |Tāḷa: Adi | Ārō: S R² M¹ D² N³ G P Ṡ | Avarō: Ṡ N³ D² P M¹ G³ R² S MetaE:
+MetaS: Song: Raguvamsasudha|Rāga: Kadanakutuhalam | 
+Composer: Patnam Subramanya iyer |Tāḷa: Adi | Ārō: S R² M¹ D² N³ G P Ṡ 
+| Avarō: Ṡ N³ D² P M¹ G³ R² S | Beats:8 MetaE:
 
 
 
 Pallavi:
-Line: , , , , | , , s, | r, m, | , , m, | g, , r, | , , s, | s, sn | d, p, |
+Line: , , , , | , , s, | r, m, | , , m, | g, , r, | , , s, | s, sṇ | d, p, |
 LR:
 
-Line: s, , , | , , s, | r, p, | , , m, | g, , r, | , , s, | s, sn | d, p, |
+Line: s, , , | , , s, | r, p, | , , m, | g, , r, | , , s, | s, sṇ | d, p, |
 LR:
 
-Line: s, , , | , , s, | r, mp | d, m, | g, , r, | , , s, | s, sn | d, p, |
+Line: s, , , | , , s, | r, mp | d, m, | g, , r, | , , s, | s, sṇ | d, p, |
 LR:
 
-Line: s, , , | , , s, | r, mp | sndp,,m, | g, , r, | , , sr | srsn | d, p, |
+Line: s, , , | , , s, | r, mp | sndp,,m, | g, , r, | , , sr | srsṇ | d, p, |
 LR:
 
-Line: s, , , | , , r, | m, , d, | , , n, | g, p, | , , s, | , , sn | d, p, |
+Line: s, , , | , , r, | m, , d, | , , n, | g, p, | , , s, | , , sṇ | d, p, |
 LR:
 
 Line: pmgr | sn R, | m, d, | , , n, | g, p, | , , sr | pm {gmg,} | {rgr, srs,}|
