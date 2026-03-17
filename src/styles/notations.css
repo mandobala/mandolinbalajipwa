@@ -71,6 +71,41 @@
   white-space: nowrap;
 }
 
+.control-group.file-info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.timestamp {
+  font-size: var(--text-sm);
+  color: var(--gray-400);
+  font-weight: 500;
+}
+
+.download-link {
+  padding: 0.4rem 0.8rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: var(--gray-0);
+  border: none;
+  border-radius: 0.4rem;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--theme-transition);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.download-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
 .font-select {
   padding: 0.5rem 1rem;
   background: var(--gray-700);
@@ -148,6 +183,12 @@
 
   .control-group {
     width: 100%;
+  }
+
+  .control-group.file-info {
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-between;
   }
 
   .font-select {
@@ -369,8 +410,27 @@
 }
 
 @media (max-width: 480px) {
-  .notations-grid {
-    grid-template-columns: 1fr;
+  .font-controls {
+    padding: 1rem;
+  }
+
+  .control-group {
+    width: 100%;
+  }
+
+  .control-group.file-info {
+    width: 100%;
+    gap: 0.75rem;
+    margin-left: 0;
+  }
+
+  .timestamp {
+    font-size: 0.7rem;
+  }
+
+  .download-link {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
   }
 
   #detailTitle {
@@ -419,6 +479,29 @@
   .back-button {
     padding: 0.5rem 1rem;
     font-size: var(--text-sm);
+  }
+
+  .font-controls {
+    padding: 1rem;
+  }
+
+  .control-group {
+    width: 100%;
+  }
+
+  .control-group.file-info {
+    width: 100%;
+    gap: 0.75rem;
+    margin-left: 0;
+  }
+
+  .timestamp {
+    font-size: 0.7rem;
+  }
+
+  .download-link {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
   }
 }
 

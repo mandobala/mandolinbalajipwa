@@ -1,5 +1,5 @@
 
-MetaS: Song: Makelara| Raga: Ravichandrika | Composer: Thyagaraja|Tala: Adi | Arohana: S R2 G3 M1 D2 Ṡ | 
+MetaS: Song: Makelara| Raga: Ravichandrika | Composer: Thyagaraja|Tala: Adi |Beats:8| Arohana: S R2 G3 M1 D2 Ṡ | 
 Avarohana: Ṡ N2 D2  M1 G3 R2 S MetaE:
 
 Pallavi:
@@ -21,7 +21,7 @@ LR:   mu        mā     kē     la       rā       vi   cā      ra
 
 
 
-Line:  G, ,,| ,, *M, |,, D, |,, Ṡ,  | {DṠṘĠMĠ} ṘṠ   | NDM MGR SR |
+Line:  G, ,,| ,, *M, |,, D, |,, Ṡ,  | DṠṘĠ | MĠ ṘṠ   | NDM M | GR SR |
 
 LR:   mu         mā     kē     la     rā        vi   cā      ra 
 
@@ -45,7 +45,7 @@ LR:   mu        ma ru    gan na śrī      rā        ma   can
 
 
 
-Line: MDNṘ|ṠN *M,| ,, G, |,, M, | G, ,, ,,  ,, | ,,,, ,, ,, | 
+Line: MDNṘ|ṠN *M,| ,, G, |,, M, | G, ,, |  ,,  ,, | ,,,, |  ,, ,, | 
 
 LR:    dra           mā     kē     la   rā       
 

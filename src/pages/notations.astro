@@ -76,6 +76,10 @@ const itemsPerPage = 16;
             <label for="fontSize">Size: <span id="fontSizeValue">1.4</span>rem</label>
             <input type="range" id="fontSize" class="font-slider" min="0.7" max="1.5" step="0.05" value="1.4">
           </div>
+          <div class="control-group file-info">
+            <span id="lastUpdated" class="timestamp"></span>
+            <a id="downloadLink" class="download-link" download>Download</a>
+          </div>
         </div>
 
         <div id="detailContent"></div>
@@ -252,56 +256,76 @@ const itemsPerPage = 16;
       notationsContainer.style.display = 'grid';
     }
 
-    // Color dotted notes and underline bracketed notes
+    // Color dotted notes and underline bracketed notes while preserving HTML structure
     function colorDottedNotes(element) {
       // Define dotted notes with their Unicode characters
       const higherDotted = new Set(['Ṡ', 'Ṙ', 'Ġ', 'Ṁ', 'Ṗ', 'Ḋ', 'Ṅ', 'ṡ', 'ṙ', 'ġ', 'ṁ', 'ṗ', 'ḋ', 'ṅ']);
       const lowerDotted = new Set(['Ṣ', 'Ṛ', 'G̣', 'Ṃ', 'P̣', 'Ḍ', 'Ṇ', 'ṣ', 'ṛ', 'g̣', 'ṃ', 'p̣', 'ḍ', 'ṇ']);
       
-      // This function processes the notation content and colors dotted notes
-      const contentElements = element.querySelectorAll('.section-content');
-      
-      contentElements.forEach(section => {
-        // Get the text content
-        const text = section.textContent;
-        let coloredHTML = '';
-        let i = 0;
-        
-        while (i < text.length) {
-          const char = text[i];
+      // Process text nodes while preserving HTML structure
+      function processNode(node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          const text = node.textContent;
+          let processedHTML = '';
+          let i = 0;
           
-          // Check if we're at the start of a bracketed section
-          if (char === '{') {
-            // Find the closing bracket
-            let closingIndex = text.indexOf('}', i);
-            if (closingIndex !== -1) {
-              // Extract content between brackets
-              const bracketContent = text.substring(i + 1, closingIndex);
-              // Add with orange underline instead of brackets
-              coloredHTML += `<span style="border-bottom: 3px solid #ff8c00; padding-bottom: 2px;">${bracketContent}</span>`;
-              i = closingIndex + 1;
-              continue;
+          while (i < text.length) {
+            const char = text[i];
+            
+            // Check if we're at the start of a bracketed section
+            if (char === '{') {
+              let closingIndex = text.indexOf('}', i);
+              if (closingIndex !== -1) {
+                const bracketContent = text.substring(i + 1, closingIndex);
+                processedHTML += `<span style="border-bottom: 3px solid #ff8c00; padding-bottom: 2px;">${escapeHtml(bracketContent)}</span>`;
+                i = closingIndex + 1;
+                continue;
+              }
+            }
+            
+            if (higherDotted.has(char)) {
+              processedHTML += `<span style="color: #4da6ff; font-weight: bold;">${char}</span>`;
+              i++;
+            } else if (lowerDotted.has(char)) {
+              processedHTML += `<span style="color: #ff4d4d; font-weight: bold;">${char}</span>`;
+              i++;
+            } else {
+              processedHTML += escapeHtml(char);
+              i++;
             }
           }
           
-          if (higherDotted.has(char)) {
-            // Higher register = blue
-            coloredHTML += `<span style="color: #4da6ff; font-weight: bold;">${char}</span>`;
-            i++;
-          } else if (lowerDotted.has(char)) {
-            // Lower register = red
-            coloredHTML += `<span style="color: #ff4d4d; font-weight: bold;">${char}</span>`;
-            i++;
-          } else {
-            coloredHTML += char;
-            i++;
+          if (processedHTML !== text) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = processedHTML;
+            while (tempDiv.firstChild) {
+              node.parentNode.insertBefore(tempDiv.firstChild, node);
+            }
+            node.parentNode.removeChild(node);
           }
+        } else if (node.nodeType === Node.ELEMENT_NODE && node.className !== 'lr-content') {
+          // Process child nodes but skip lr-content spans as they don't contain text to color
+          const children = Array.from(node.childNodes);
+          children.forEach(processNode);
         }
-        
-        // Replace the text content with colored HTML
-        if (coloredHTML !== text) {
-          section.innerHTML = coloredHTML;
-        }
+      }
+      
+      // Helper function to escape HTML
+      function escapeHtml(text) {
+        const map = {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, m => map[m]);
+      }
+      
+      const contentElements = element.querySelectorAll('.section-content');
+      contentElements.forEach(section => {
+        const children = Array.from(section.childNodes);
+        children.forEach(processNode);
       });
     }
 
@@ -399,8 +423,8 @@ const itemsPerPage = 16;
           line = line.trim();
           if (!line) return;
 
-          // Check if line is a section header (ends with colon and not Line: or LR:)
-          if (line.endsWith(':') && !line.startsWith('Line:') && !line.startsWith('LR:')) {
+          // Check if line is a section header (ends with colon and not Line:, LR:, infoS:, infoE:, MetaS:, or MetaE:)
+          if (line.endsWith(':') && !line.startsWith('Line:') && !line.startsWith('LR:') && !line.startsWith('infoS:') && !line.startsWith('infoE:') && !line.startsWith('MetaS:') && !line.startsWith('MetaE:')) {
             // Save previous section
             if (currentSection) {
               sectionsHTML += `<div class="section-box"><h3 class="section-heading">${currentSection}</h3><pre class="section-content">${sectionContent.trim()}</pre></div>`;
@@ -430,6 +454,32 @@ const itemsPerPage = 16;
 
         detailTitle.textContent = name;
         detailContent.innerHTML = metadataHTML + (sectionsHTML || `<pre class="notation-text">${text}</pre>`) + footnoteHTML;
+        
+        // Get file information and setup download
+        const lastUpdatedElement = document.getElementById('lastUpdated');
+        const downloadLink = document.getElementById('downloadLink');
+        
+        // Fetch file headers to get last modified date
+        fetch(url, { method: 'HEAD' })
+          .then(response => {
+            const lastModified = response.headers.get('last-modified');
+            if (lastModified) {
+              const date = new Date(lastModified);
+              const formattedDate = date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              });
+              lastUpdatedElement.textContent = `Last updated: ${formattedDate}`;
+            }
+          })
+          .catch(err => console.log('Could not fetch file metadata:', err));
+        
+        // Setup download link
+        downloadLink.href = url;
+        downloadLink.download = `${name}.txt`;
         
         // Color dotted notes after content is loaded
         colorDottedNotes(detailView);
