@@ -321,6 +321,11 @@ const itemsPerPage = 16;
         };
         return text.replace(/[&<>"']/g, m => map[m]);
       }
+
+      // Helper function to remove diacritical marks
+      function removeDiacritics(text) {
+        return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      }
       
       const contentElements = element.querySelectorAll('.section-content');
       contentElements.forEach(section => {
@@ -440,7 +445,8 @@ const itemsPerPage = 16;
               sectionContent += `[${lineNumber}] ${lineContent}\n`;
             } else if (line.startsWith('LR:')) {
               const lrContent = line.replace(/^LR:\s*/, '').trim();
-              sectionContent += `    <span class="lr-content">${lrContent}</span>\n`;
+              const cleanedLrContent = removeDiacritics(lrContent);
+              sectionContent += `    <span class="lr-content">${cleanedLrContent}</span>\n`;
             } else {
               sectionContent += line + '\n';
             }

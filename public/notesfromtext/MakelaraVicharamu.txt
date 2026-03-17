@@ -4,48 +4,47 @@ Avarohana: Ṡ N2 D2  M1 G3 R2 S MetaE:
 
 Pallavi:
 
-Line: , , , , | , , *M, |,, G,| ,, M, | G, ,,| ,,  GR | GRS,| ,, R, | 
+Line: |, , , , | , , *M, |,, G,| ,, M, | G, ,,| ,,  GR | GRS,| ,, R, 
 
 LR:   mu            mā     kē     la    rā        vi   cā      ra 
 
 
-Line: G, ,, |,, * M,| ,, D, |,, M, | G, ,,| ,,  RG | MG GR|S, R, | 
+Line: |G, ,, |,, * M,| ,, D, |,, M, | G, ,,| ,,  RG | MG GR|S, R,  
 
 LR:   mu          mā     kē     la   rā        vi   cā      ra 
 
 
 
-Line: G, ,, |,, *M, |, ,D,|,,N,  | NDDM |,  ,G M | G M GR|S, R, |
+Line: |G, ,, |,, *M, |, ,D,|,,N,  | NDDM |,  ,G M | G M GR|S, R, 
 
 LR:   mu        mā     kē     la       rā       vi   cā      ra 
 
 
 
-Line:  G, ,,| ,, *M, |,, D, |,, Ṡ,  | DṠṘĠ | MĠ ṘṠ   | NDM M | GR SR |
+Line:  |G, ,,| ,, *M, |,, D, |,, Ṡ,  | DṠṘĠ | MĠ ṘṠ   | NDM G | RS,R 
 
 LR:   mu         mā     kē     la     rā        vi   cā      ra 
 
 
 
-Line:  G, ,,| ,, *M, |M, D, |,, N,   | NDD,| ,,  D,  | Ṡ, Ṡ,| ṠND, |
+Line:  |G, ,,| ,, *M, |M, D, |,, N,   | NDD,| ,,  D,  | Ṡ, ṠN| ND,, 
 
-LR:   mu          ma ru gan na śrī     rā        ma   can         dra
-
-
-
-Line:  ṠṠNN|DD, *M, |,, D, |,, Ṡ,    | DṠṘĠ|MĠ ṘṠ   | NDM M|GR SR | 
-
-LR:   mu          mā     kē     la      rā        vi   cā      ra 
+LR:   mu          ma ru gan na          śrī     rā     ma   can         
 
 
+Line:  |ṠNND|,, *M, |,, D, |,, Ṡ,    | DṠṘĠ|MĠ ṘṠ   | NDM M|GR SR  
 
-Line: G, ,,| ,, *{MG}M, |D, ,,| ṠN    | NDD,| ,, D,  |, Ṡ, Ṡ, |ṠNND | 
-
-LR:   mu        ma ru    gan na śrī      rā        ma   can         
+LR:   dra         mu          mā     kē     la      rā        vi   cā     
 
 
 
-Line: MDNṘ|ṠN *M,| ,, G, |,, M, | G, ,, |  ,,  ,, | ,,,, |  ,, ,, | 
+Line: |G, ,,| ,, *{MG}M, |D, ,,| ṠN    | NDD,| ,, D,  |, Ṡ, Ṡ, |ṠNND  
+
+LR:    ra     mu        ma ru    gan na śrī      rā        ma   can         
+
+
+
+Line: |MDNṘ|ṠN *M,| ,, G, |,, M, | G, ,, |  ,,  ,, | ,,,, |  ,, ,,  
 
 LR:    dra           mā     kē     la   rā       
 
@@ -53,55 +52,55 @@ LR:    dra           mā     kē     la   rā
 
 Anupallavi:
 
-Line: , , , ,| , , *M, |N, NDD, D, | Ṡ, ,,| ,,  Ṙ Ġ | {Ṁ Ġ Ṙ},, ,, Ġ M |
+Line: |, , , ,| , , *M, |N, ND | D, D, | Ṡ, ,,| ,,  Ṙ Ġ | {Ṁ Ġ Ṙ},,  | ,, Ġ M 
 
 LR:               sā     kē     ta   rā        ja        ku mā      
 
 
 
-Line:  Ġ R Ṡ, |,, *D, |Ṡ, {ṠNN,} D,            | M, ,,| D, ,, N | ,, {ṠNN,} D, | 
+Line:  |Ġ R Ṡ, |,, *D, |Ṡ, ṠN|N,D,            | M, ,| ,D,, | N,, | {ṠNN,} D,  
 
-LR:   ra           sad    bha    kta            man    dā     rā   śrī    ka   ra
-
-
-
-Line: {ṠNNDD,} *DṠ, N NDD, D,              | Ṡ, MDṠ, Ṙ Ġ  | {ṀĠṘ} Ṙ, Ṙ Ġ |
-
-LR:   sā     kē ta rā              ja        ku   mā        
+LR:   ra           sad    bha    kta            man    dā     rā   śrī    ka   
 
 
 
-Line:  {ṀĠṘ} Ṡ, ,, *D, Ṙ Ṡ, {ṠNN,} D,           | DM, D, ,, N   | {D, ṘṠ ṠNND} | 
+Line: {ṠNND}D,|,,*DṠ, |N, ND | D, D,   | Ṡ, MDṠ, Ṙ Ġ  | {ṀĠṘ} Ṙ, Ṙ Ġ 
+
+LR:   ra      sā     kē ta rā           ja        ku   mā        
+
+
+
+Line:  |{ṀĠṘ,} Ṡ,| ,, *D, |Ṙ Ṡ, {ṠNN,} |D,           | DM, ,D,, | N,, | {ṠNN,} D,   
 
 LR:   ra           sad    bha   ktaman          dā        rā   śrī      ka 
 
-Line: {ṠNND,} D, *
+Line: |{ṠNND,} D, *
 LR:    ra
 
 Charanam:
 
-Line: , , , , , , *M, M, M, ,, M, | M G G, ,,  G, | M, D, ,, Ṡ N |
+Line: |, , , , , , *M, M, M, ,, M, | M G G, ,,  G, | M, D, ,, Ṡ N 
 
 LR:               ja ta gūrc ci     nā    ta     ka sū     tra mu 
 
 
 
-Line:  N D D, ,, *D, ṠN NDD, M,               | {GMGRS,} MG     | M D, ,, Ṡ N |
+Line:  |N D D, ,, *D, ṠN NDD, M,               | {GMGRS,} MG     | M D, ,, Ṡ N 
 
 LR:   nu ja ga mel   la                mec     ca ga  kā     ra mu na ni  
 
 
 
-Line:  ND, D, ,, *, , , , , , *M, N, NDD, D, | Ṡ, ,, ,,  Ṙ Ġ | {Ṁ Ġ Ṙ},, ,, Ġ M |
+Line:  |ND, D, ,, *, , , , , , *M, N, NDD, D, | Ṡ, ,, ,,  Ṙ Ġ | {Ṁ Ġ Ṙ},, ,, Ġ M 
 
 LR:    ḍi                     ga ti tap  pa     kā       ḍiñ    cē       vu sum 
 
 
-Line:  Ġ R Ṡ, ,, *D, Ṡ, {ṠNN,} D,            | M, ,, D, ,, N | ,, {ṠNN,} D, | 
+Line:  |Ġ R Ṡ, ,, *D, Ṡ, {ṠNN,} D,            | M, ,, D, ,, N | ,, {ṠNN,} D,  
 
 LR:    mi na      ta tyā  ga                rā   ja  gi    rī   śa    vi nu   
 
-Line: {ṠNNDD,} *
+Line: |{ṠNNDD,} *
 LR:    ta
 
 
