@@ -52,7 +52,7 @@ LR:
 Line: sgps | gp s, | s, sn | d, n, | md md | md md | gp gp | gp sn |
 LR:
 
-Line: dpmg | rs
+Line: dpmg | rs,, | , , , , | , , , ,| , , , ,| , , , ,| , , , ,| , , , ,| , , , ,
 LR:
 
 Chittai Swaram:
@@ -65,17 +65,17 @@ LR:
 Line: mg pm | gr sr | rm md | dn gp | p Ṡ Ṡ Ṙ| Ṙ Ṁ Ṁ Ġ| Ġ Ṙ ṘṠ | Ṡ N ND|
 LR:
 
-Line: dpp m | gr [Pallavi]
+Line: dpp m | gr,, | , , , , | , , , ,| , , , ,| , , , ,| , , , ,| , , , ,| , , , ,
 LR:
 
 Charanam:
-Line: , , , , | , , p, | p, p, | , , p, | m, ,m| ,,r, | m, g, | , , r, |
+Line: |, , , , | , , p, | p, p, | , , p, | m, ,m| ,,r, | m, g, | , , r, 
 LR:
 
-Line: s, r, | s, sr | sr sṆ | d, p, | s, , | , , r, | m, , | g, , | r, |
+Line: |s, r, | s, sr | sr sṆ | d, p, | s, , , | , , r, | m, ,g | ,,r,  
 LR:
 
-Line: s, r, | s, [Anupallavi]
+Line: s, r, | s, ,, | , , , , | , , , ,| , , , ,| , , , ,| , , , ,| , , , ,| , , , ,
 LR:
 
 infoS:
