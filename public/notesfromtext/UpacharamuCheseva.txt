@@ -1,0 +1,34 @@
+MetaS: Raga: Bhairavi | Taḷa: Rūpaka (3x4) |Beats:3 | Aro: S R² G² M¹ P D² N² Ṡ | Avaro: Ṡ N² D² M¹ G² R² S MetaE:
+
+Pallavi:
+Line: ,, R M RG, R R,S, | R, ,, R, G, GRR, | ,,RGM, P, PNDP | MGPM DP PMGR R, 
+LR:      u pa cā ra mu   cē    sē     vā   runnā     ra ni   ma ra va ku rā
+
+Line: *RP PMG, R, S,           | R, ,, {R,PMG,} GRR, | RG MPDP ṠNDP     | MGPMDP PMGR MG 
+LR:   u pa cā   ra mu           cē    sē        vā   run nā     ra ni   ma ra va ku rā
+
+Line: *RP PMG, R, S,           | R, ,, {R,PMG,} GRR, | MGRS RGMP DNṠṘ | {ĠṘṠNDP MNDPMG} 
+LR:   u pa cā   ra mu           cē    sē        vā   run nā     ra ni   ma ra va ku rā
+
+Line: *RP PMG, R, S,           | GGRS RGMPDNṠṘ   | {ĠṀĠṘ ṠNDP MPDN} | {ṠṘṠṘṠNDP MPDP MG} 
+LR:   u pa cā   ra mu           cē    sē     vā   run nā        ra ni   ma ra va ku rā
+
+Line: *RP PMG, R, S,           | GGRS NNDP MṀĠṘ | {ṠNDP MPDN ṠṘṠṘ} | {ṠNDP MP MPDP MGRS} 
+LR:   u pa cā   ra mu           run nā     ra ni   ma ra va        ku rā
+
+Anupallavi:
+Line: *D N, Ṡ, Ṡ, Ṡ,           | {ṠNṠN ṘṠN, D,DP} | D DN ṠṘ ṀĠṘ | ṠNṠṘ ṠṘṠN DP ||
+LR:   kr̥pa kā va le           na ni nē    nī    ni   kr̥ pa kā  va  le  na ni nē   nī
+
+Line: *ĠṘ, Ṡ, Ṡ, ṠN           | {NṠṘ, ṘṠ NNDP}   | MPDNṠ, {Ṡ,ṘṠN DP,} | {ṠNDP MG MPM RGG} 
+LR:   kr̥pa kā va le           na ni nē    nī    ni   bal  ku  cu  nuñ    da ga
+
+Charanam:
+Line: *PD,ND,P, ,,              | MP,MMG, ,,       | ND N, ,, NDN, | {ṠNṠ PDP MG MGPMG} 
+LR:   vā kī ta nē             pa di la mu gā   vā ḷā   tma ju   ḍun nā     ḍa ni
+
+Line: *RG,MP, PNDP             | MGPM DP {PMGR R,} | ND N, ,, NDN, | {DNṠṘ ṠṘṠN DP,} 
+LR:   śrī ka ru ḍa ku           ni  tam mu lu     jē  ri yun      nā  ḍa ni
+
+Line: *ND N, ,, NDN,           | {DNṠN ṘṠND D, P,} | PD,N D PNDP | {MPDN, D N ṠṘṠ,} 
+LR:   ē kān ta mu               na nu jā     na ki   ē  pa di  yun   nā  ḍa ni
