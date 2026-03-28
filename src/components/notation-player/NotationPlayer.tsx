@@ -1,0 +1,427 @@
+import React, { useState, useRef, useEffect } from 'react';
+import {
+  Plus,
+  Minus,
+  Play,
+  Square,
+  Save,
+  Music,
+  Upload,
+  Download
+} from 'lucide-react';
+import './notation-player.css';
+import { audioEngine } from './lib/audio';
+import type { MetaData } from './types';
+import {
+  DOT_ABOVE_MAP,
+  DOT_BELOW_MAP,
+  getSemitones
+} from './lib/music';
+import { exportMidi } from './lib/midi';
+
+export default function NotationPlayer() {
+  const [notes, setNotes] = useState('');
+  const [meta, setMeta] = useState<MetaData>({
+    song: 'Varnam',
+    raga: 'Mayamalavagowla',
+    scale: 'R1 G3 M1 D1 N3',
+    beats: 8,
+    nadai: 4,
+    sruthi: 'C#',
+    bpm: 80,
+    thala: '',
+    edam: '',
+    tags: ''
+  });
+  const [isPlaying, setIsPlaying] = useState(false);
+  const playbackRef = useRef<number | null>(null);
+  const highlightRef = useRef<HTMLDivElement>(null);
+  const [activeLineIdx, setActiveLineIdx] = useState<number | null>(null);
+  const isPlayingRef = useRef(isPlaying);
+  const isLoopingRef = useRef(false);
+
+  useEffect(() => {
+    isPlayingRef.current = isPlaying;
+  }, [isPlaying]);
+
+  useEffect(() => {
+    return () => {
+      if (playbackRef.current) clearTimeout(playbackRef.current);
+    };
+  }, []);
+
+  const importFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const content = event.target?.result as string;
+      if (!content) return;
+
+      const metaMatch = content.match(/MetaS:\s*(.*?)\s*MetaE:/s);
+      if (metaMatch) {
+        const metaStr = metaMatch[1];
+        const parts = metaStr.split(/\s*\|\s*/);
+        const newMeta = { ...meta };
+        parts.forEach(part => {
+          const colonIndex = part.indexOf(':');
+          if (colonIndex === -1) return;
+          const key = part.substring(0, colonIndex).trim();
+          const value = part.substring(colonIndex + 1).trim();
+          if (key === 'Song') newMeta.song = value;
+          if (key === 'Raga') newMeta.raga = value;
+          if (key === 'Scale' || key === 'RagaNotes') newMeta.scale = value;
+          if (key === 'Beats') newMeta.beats = parseInt(value) || 8;
+          if (key === 'Nadai') newMeta.nadai = parseInt(value) || 4;
+          if (key === 'Sruthi') newMeta.sruthi = value;
+          if (key === 'BPM') newMeta.bpm = parseInt(value) || 80;
+          if (key === 'Thala') newMeta.thala = value;
+          if (key === 'Edam') newMeta.edam = value;
+          if (key === 'Tags') newMeta.tags = value;
+        });
+        setMeta(newMeta);
+
+        const partsAfterMeta = content.split(/MetaE:\s*/);
+        if (partsAfterMeta.length > 1) {
+          let notationContent = partsAfterMeta[1];
+          if (notationContent.startsWith('\n')) notationContent = notationContent.substring(1);
+          setNotes(notationContent.toUpperCase());
+        }
+      } else {
+        setNotes(content.toUpperCase());
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  };
+
+  const saveFile = () => {
+    const content = `MetaS: Song: ${meta.song} | Raga: ${meta.raga} | Scale: ${meta.scale} | Beats: ${meta.beats} | Nadai: ${meta.nadai} | Sruthi: ${meta.sruthi} | BPM: ${meta.bpm} | Thala: ${meta.thala} | Edam: ${meta.edam} | Tags: ${meta.tags} | MetaE:\n${notes}`;
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${meta.song || 'Song'}_${meta.raga || 'Raga'}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const playNotation = async (customNotes?: string | React.MouseEvent, loopOverride?: boolean, customLineIdx?: number) => {
+    if (isPlaying) {
+      setIsPlaying(false);
+      isPlayingRef.current = false;
+      if (playbackRef.current) clearTimeout(playbackRef.current);
+      setActiveLineIdx(null);
+      return;
+    }
+
+    const notesToPlay = (typeof customNotes === 'string' ? customNotes : notes) || '';
+    if (!notesToPlay.trim()) return;
+
+    isLoopingRef.current = loopOverride !== undefined ? loopOverride : (typeof customNotes === 'string');
+
+    await audioEngine.playClick(0.01);
+    setIsPlaying(true);
+    isPlayingRef.current = true;
+
+    const playableUnits: { char: string; duration: number; lineIdx: number; unitIdx: number }[] = [];
+
+    const beatDuration = (60 / meta.bpm) * 1000;
+    const baseNoteDuration = beatDuration / meta.nadai;
+
+    let speedMultiplier = 1;
+    let nadaiOverride: number | null = null;
+
+    if (typeof customNotes === 'string' && customLineIdx !== undefined) {
+      const rawUnits = customNotes.match(/([A-Za-z0-9 ]+:|[SRGMPDN][123]?\u0323?|Ṡ|Ṙ|Ġ|Ṁ|Ṗ|Ḋ|Ṅ|Ṣ|Ṛ|Ṃ|Ḍ|Ṇ|,|\||\{|\}|\[\d+:|\]|-)/gi) || [];
+      rawUnits.forEach((u, unitIdx) => {
+        if (u === '{') { speedMultiplier = 0.5; return; }
+        if (u === '}') { speedMultiplier = 1; return; }
+        if (u.startsWith('[')) { nadaiOverride = parseInt(u.match(/\d+/)![0]); return; }
+        if (u === ']') { nadaiOverride = null; return; }
+        if (u === '-') return;
+        if (u !== '|' && !u.endsWith(':') && u !== ' ') {
+          let duration = baseNoteDuration * speedMultiplier;
+          if (nadaiOverride) duration = beatDuration / nadaiOverride;
+          playableUnits.push({ char: u, duration, lineIdx: customLineIdx, unitIdx });
+        }
+      });
+    } else {
+      const lines = notes.split('\n');
+      lines.forEach((line, lineIdx) => {
+        const rawUnits = line.match(/([A-Za-z0-9 ]+:|[SRGMPDN][123]?\u0323?|Ṡ|Ṙ|Ġ|Ṁ|Ṗ|Ḋ|Ṅ|Ṣ|Ṛ|Ṃ|Ḍ|Ṇ|,|\||\{|\}|\[\d+:|\]|-)/gi) || [];
+        speedMultiplier = 1;
+        nadaiOverride = null;
+        rawUnits.forEach((u, unitIdx) => {
+          if (u === '{') { speedMultiplier = 0.5; return; }
+          if (u === '}') { speedMultiplier = 1; return; }
+          if (u.startsWith('[')) { nadaiOverride = parseInt(u.match(/\d+/)![0]); return; }
+          if (u === ']') { nadaiOverride = null; return; }
+          if (u === '-') return;
+          if (u !== '|' && !u.endsWith(':') && u !== ' ') {
+            let duration = baseNoteDuration * speedMultiplier;
+            if (nadaiOverride) duration = beatDuration / nadaiOverride;
+            playableUnits.push({ char: u, duration, lineIdx, unitIdx });
+          }
+        });
+      });
+    }
+
+    let currentIndex = 0;
+    let totalElapsedBeats = 0;
+
+    const playNext = async () => {
+      if (!isPlayingRef.current) {
+        setActiveLineIdx(null);
+        return;
+      }
+
+      if (currentIndex >= playableUnits.length) {
+        if (isLoopingRef.current) {
+          currentIndex = 0;
+          totalElapsedBeats = 0;
+          playNext();
+          return;
+        }
+        setIsPlaying(false);
+        isPlayingRef.current = false;
+        setActiveLineIdx(null);
+        return;
+      }
+
+      const unit = playableUnits[currentIndex];
+      const char = unit.char;
+      const currentNoteDuration = unit.duration;
+
+      setActiveLineIdx(unit.lineIdx);
+
+      const currentBeatVal = currentNoteDuration / beatDuration;
+
+      if (currentIndex === 0 || Math.floor(totalElapsedBeats + 0.001) > Math.floor(totalElapsedBeats - (playableUnits[currentIndex - 1]?.duration / beatDuration) + 0.001)) {
+        audioEngine.playClick();
+      }
+
+      if (char !== ',') {
+        const semitones = getSemitones(char, meta.scale);
+        audioEngine.playNote(semitones, meta.sruthi, currentNoteDuration / 1000);
+      }
+
+      totalElapsedBeats += currentBeatVal;
+      currentIndex++;
+      playbackRef.current = window.setTimeout(playNext, currentNoteDuration);
+    };
+
+    playNext();
+  };
+
+  const renderHighlightedNotes = () => {
+    const lines = notes.split('\n');
+
+    return lines.map((line, lineIdx) => {
+      const units = line.match(/([A-Za-z0-9 ]+:|[SRGMPDN][123]?\u0323?|Ṡ|Ṙ|Ġ|Ṁ|Ṗ|Ḋ|Ṅ|Ṣ|Ṛ|Ṃ|Ḍ|Ṇ|,|\|| |\{|\}|\[\d+:|\]|-)/gi) || [];
+
+      let currentBrace: { startIdx: number; count: number } | null = null;
+      let currentNadaiBlock: { startIdx: number; nadai: number } | null = null;
+
+      return (
+        <div key={lineIdx} className={`relative flex items-start gap-3 leading-relaxed min-h-[1.625rem] group transition-colors duration-200 p-1 ${activeLineIdx === lineIdx ? 'bg-yellow-100/50 rounded-md ring-1 ring-yellow-200' : ''}`}>
+          <button
+            onClick={() => playNotation(line, true, lineIdx)}
+            className={`mt-1 p-1 rounded-md transition-all ${activeLineIdx === lineIdx ? 'bg-black text-white' : 'bg-gray-200 text-gray-600 opacity-0 group-hover:opacity-100'}`}
+            title="Play line in loop"
+          >
+            {activeLineIdx === lineIdx ? <Square className="w-3 h-3 fill-current" /> : <Play className="w-3 h-3 fill-current" />}
+          </button>
+          <div className="inline flex-1">
+            {units.map((char, i) => {
+              let color = 'text-gray-800';
+
+              if (char === '-') {
+                return <span key={i} className="text-gray-300 mx-0.5 font-bold">{char}</span>;
+              }
+
+              if (char === '{') {
+                currentBrace = { startIdx: i, count: 0 };
+                let j = i + 1;
+                while (j < units.length && units[j] !== '}') {
+                  const isPlayable = /[SRGMPDN]|Ṡ|Ṙ|Ġ|Ṁ|Ṗ|Ḋ|Ṅ|Ṣ|Ṛ|Ṃ|Ḍ|Ṇ|,/i.test(units[j]) && !units[j].endsWith(':');
+                  if (isPlayable) currentBrace.count++;
+                  j++;
+                }
+                const isOdd = currentBrace.count % 2 !== 0;
+                return <span key={i} className={`font-bold ${isOdd ? 'text-red-600' : 'text-red-400'}`}>{char}</span>;
+              }
+
+              if (char === '}') {
+                const isOdd = currentBrace ? currentBrace.count % 2 !== 0 : false;
+                currentBrace = null;
+                return <span key={i} className={`font-bold ${isOdd ? 'text-red-600' : 'text-red-400'}`}>{char}</span>;
+              }
+
+              if (char.startsWith('[')) {
+                const n = parseInt(char.match(/\d+/)![0]);
+                currentNadaiBlock = { startIdx: i, nadai: n };
+                return (
+                  <span key={i} className="relative font-bold text-purple-400">
+                    <span className="absolute -top-3 left-0 text-[8px] text-purple-600">{n}</span>
+                    {char}
+                  </span>
+                );
+              }
+
+              if (char === ']') {
+                currentNadaiBlock = null;
+                return <span key={i} className="font-bold text-purple-400">{char}</span>;
+              }
+
+              if (char.endsWith(':')) {
+                return <span key={i} className="text-gray-400 font-bold italic mr-2">{char}</span>;
+              }
+
+              const isAbove = Object.values(DOT_ABOVE_MAP).some(v => char.startsWith(v));
+              const isBelow = Object.values(DOT_BELOW_MAP).some(v => char.startsWith(v)) || char.includes('\u0323');
+
+              if (isAbove) color = 'text-red-600';
+              if (isBelow) color = 'text-blue-600';
+
+              if (currentBrace && currentBrace.count % 2 !== 0) {
+                color = 'text-red-600 underline decoration-dotted';
+              } else if (currentBrace) {
+                color += ' border-t border-red-300';
+              } else if (currentNadaiBlock) {
+                color += ' border-t border-purple-300';
+              }
+
+              return (
+                <span key={i} className={`${color} font-mono text-[16px] pointer-events-none`}>
+                  {char}
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      );
+    });
+  };
+
+  return (
+    <div className="min-h-screen bg-[#F5F2ED] text-[#1A1A1A] p-4 md:p-8 font-sans">
+      <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-200">
+        {/* Header / Meta Section */}
+        <div className="p-4 border-b border-gray-100 bg-gray-50/50">
+          <div className="flex flex-col mb-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-black rounded-lg">
+                <Music className="w-6 h-6 text-white" />
+              </div>
+              <h1 className="text-2xl font-serif italic font-bold tracking-tight">Carnatic Notation Player</h1>
+            </div>
+            <p className="text-sm text-gray-500 font-serif italic ml-11">
+              {meta.song} — {meta.raga}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-8 gap-2">
+            <div className="flex flex-col gap-1 col-span-2 md:col-span-1">
+              <label className="text-[9px] uppercase tracking-widest font-bold text-gray-400">Scale</label>
+              <input type="text" value={meta.scale} readOnly className="bg-gray-50 border border-gray-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none" />
+            </div>
+            <div className="flex flex-col gap-1 col-span-2 md:col-span-1">
+              <label className="text-[9px] uppercase tracking-widest font-bold text-gray-400">Thala</label>
+              <input type="text" value={meta.thala} readOnly className="bg-gray-50 border border-gray-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none" />
+            </div>
+            <div className="flex flex-col gap-1 col-span-2 md:col-span-1">
+              <label className="text-[9px] uppercase tracking-widest font-bold text-gray-400">Edam</label>
+              <input type="text" value={meta.edam} readOnly className="bg-gray-50 border border-gray-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-[9px] uppercase tracking-widest font-bold text-gray-400">Beats</label>
+              <input type="number" value={meta.beats} readOnly className="w-full text-center text-xs focus:outline-none py-1.5 bg-gray-50 border border-gray-200 rounded-lg" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-[9px] uppercase tracking-widest font-bold text-gray-400">Nadai</label>
+              <input type="number" value={meta.nadai} readOnly className="w-full text-center text-xs focus:outline-none py-1.5 bg-gray-50 border border-gray-200 rounded-lg" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-[9px] uppercase tracking-widest font-bold text-gray-400">Sruthi</label>
+              <select
+                value={meta.sruthi}
+                onChange={e => setMeta({ ...meta, sruthi: e.target.value })}
+                className="bg-white border border-gray-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none"
+              >
+                {['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'].map(s => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-col gap-1 col-span-2 md:col-span-2">
+              <label className="text-[9px] uppercase tracking-widest font-bold text-gray-400">BPM</label>
+              <div className="flex items-center bg-white border border-gray-200 rounded-lg overflow-hidden">
+                <button onClick={() => setMeta({ ...meta, bpm: Math.max(20, meta.bpm - 5) })} className="p-1.5 hover:bg-gray-50"><Minus className="w-2.5 h-2.5" /></button>
+                <input type="number" value={meta.bpm} readOnly className="w-full text-center text-xs focus:outline-none" />
+                <button onClick={() => setMeta({ ...meta, bpm: Math.min(300, meta.bpm + 5) })} className="p-1.5 hover:bg-gray-50"><Plus className="w-2.5 h-2.5" /></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Notation Display */}
+        <div className="p-6 relative">
+          <div className="relative h-[700px] bg-gray-50 rounded-xl border border-gray-200 font-mono text-[16px] leading-relaxed overflow-hidden">
+            <div
+              ref={highlightRef}
+              style={{ scrollbarGutter: 'stable' }}
+              className="absolute inset-0 p-4 pl-10 whitespace-pre-wrap break-all z-30 font-mono text-[16px] leading-relaxed overflow-y-auto"
+            >
+              {renderHighlightedNotes()}
+            </div>
+          </div>
+        </div>
+
+        {/* Controls */}
+        <div className="p-6 bg-gray-50 border-t border-gray-100">
+          <div className="flex flex-wrap gap-4 justify-center items-center">
+            <button
+              onClick={() => playNotation()}
+              className={`flex items-center gap-2 px-8 py-3 rounded-full font-bold transition-all ${isPlaying ? 'bg-red-500 text-white shadow-red-200' : 'bg-black text-white shadow-gray-200'} shadow-lg active:scale-95 text-sm`}
+            >
+              {isPlaying ? <Square className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current" />}
+              <span>{isPlaying ? 'Stop Playback' : 'Start Playback'}</span>
+            </button>
+
+            <div className="h-8 w-[1px] bg-gray-300 mx-2" />
+
+            <label className="flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-gray-200 font-bold hover:bg-gray-50 transition-all active:scale-95 text-sm cursor-pointer shadow-sm">
+              <Upload className="w-4 h-4" />
+              <span>Import Notation</span>
+              <input type="file" accept=".txt" onChange={importFile} className="hidden" />
+            </label>
+
+            <button
+              onClick={saveFile}
+              className="flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-gray-200 font-bold hover:bg-gray-50 transition-all active:scale-95 text-sm shadow-sm"
+            >
+              <Save className="w-4 h-4" />
+              <span>Save</span>
+            </button>
+
+            <button
+              onClick={() => exportMidi(notes, meta)}
+              className="flex items-center gap-2 px-6 py-3 rounded-full bg-blue-50 border border-blue-200 text-blue-700 font-bold hover:bg-blue-100 transition-all active:scale-95 text-sm shadow-sm"
+            >
+              <Download className="w-4 h-4" />
+              <span>MIDI</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto mt-8 text-center">
+        <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-400">
+          Monospaced 16px · Red: Upper Octave · Blue: Lower Octave
+        </p>
+      </div>
+    </div>
+  );
+}

@@ -5,6 +5,8 @@ import spotlightjs from '@spotlightjs/astro';
 import node from "@astrojs/node";
 import playformCompress from '@playform/compress';
 import playformInline from '@playform/inline';
+import react from '@astrojs/react';
+import tailwindcss from '@tailwindcss/vite';
 
 
 // https://astro.build/config
@@ -16,7 +18,10 @@ export default defineConfig({
   build: {
     format: 'directory', // Ensures proper fallback support
   },
-  integrations: [spotlightjs(), AstroPWA({
+  vite: {
+    plugins: [tailwindcss()],
+  },
+  integrations: [react(), spotlightjs(), AstroPWA({
     mode: 'production',
     includeAssets: ['favicon.svg'],
     registerType: 'autoUpdate',
