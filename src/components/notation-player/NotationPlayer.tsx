@@ -7,7 +7,9 @@ import {
   Save,
   Music,
   Upload,
-  Download
+  Download,
+  X,
+  ChevronRight
 } from 'lucide-react';
 import './notation-player.css';
 import { audioEngine } from './lib/audio';
@@ -39,6 +41,8 @@ export default function NotationPlayer() {
   const [activeLineIdx, setActiveLineIdx] = useState<number | null>(null);
   const isPlayingRef = useRef(isPlaying);
   const isLoopingRef = useRef(false);
+  const [showPicker, setShowPicker] = useState(false);
+  const [songList, setSongList] = useState<{ name: string; song: string; raga: string }[]>([]);
 
   useEffect(() => {
     isPlayingRef.current = isPlaying;
@@ -50,50 +54,54 @@ export default function NotationPlayer() {
     };
   }, []);
 
-  const importFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const content = event.target?.result as string;
-      if (!content) return;
-
-      const metaMatch = content.match(/MetaS:\s*(.*?)\s*MetaE:/s);
-      if (metaMatch) {
-        const metaStr = metaMatch[1];
-        const parts = metaStr.split(/\s*\|\s*/);
-        const newMeta = { ...meta };
-        parts.forEach(part => {
-          const colonIndex = part.indexOf(':');
-          if (colonIndex === -1) return;
-          const key = part.substring(0, colonIndex).trim();
-          const value = part.substring(colonIndex + 1).trim();
-          if (key === 'Song') newMeta.song = value;
-          if (key === 'Raga') newMeta.raga = value;
-          if (key === 'Scale' || key === 'RagaNotes') newMeta.scale = value;
-          if (key === 'Beats') newMeta.beats = parseInt(value) || 8;
-          if (key === 'Nadai') newMeta.nadai = parseInt(value) || 4;
-          if (key === 'Sruthi') newMeta.sruthi = value;
-          if (key === 'BPM') newMeta.bpm = parseInt(value) || 80;
-          if (key === 'Thala') newMeta.thala = value;
-          if (key === 'Edam') newMeta.edam = value;
-          if (key === 'Tags') newMeta.tags = value;
-        });
-        setMeta(newMeta);
-
-        const partsAfterMeta = content.split(/MetaE:\s*/);
-        if (partsAfterMeta.length > 1) {
-          let notationContent = partsAfterMeta[1];
-          if (notationContent.startsWith('\n')) notationContent = notationContent.substring(1);
-          setNotes(notationContent.toUpperCase());
-        }
-      } else {
-        setNotes(content.toUpperCase());
+  const parseContent = (content: string) => {
+    const metaMatch = content.match(/MetaS:\s*(.*?)\s*MetaE:/s);
+    if (metaMatch) {
+      const metaStr = metaMatch[1];
+      const parts = metaStr.split(/\s*\|\s*/);
+      const newMeta = { ...meta };
+      parts.forEach(part => {
+        const colonIndex = part.indexOf(':');
+        if (colonIndex === -1) return;
+        const key = part.substring(0, colonIndex).trim();
+        const value = part.substring(colonIndex + 1).trim();
+        if (key === 'Song') newMeta.song = value;
+        if (key === 'Raga') newMeta.raga = value;
+        if (key === 'Scale' || key === 'RagaNotes') newMeta.scale = value;
+        if (key === 'Beats') newMeta.beats = parseInt(value) || 8;
+        if (key === 'Nadai') newMeta.nadai = parseInt(value) || 4;
+        if (key === 'Sruthi') newMeta.sruthi = value;
+        if (key === 'BPM') newMeta.bpm = parseInt(value) || 80;
+        if (key === 'Thala') newMeta.thala = value;
+        if (key === 'Edam') newMeta.edam = value;
+        if (key === 'Tags') newMeta.tags = value;
+      });
+      setMeta(newMeta);
+      const partsAfterMeta = content.split(/MetaE:\s*/);
+      if (partsAfterMeta.length > 1) {
+        let notationContent = partsAfterMeta[1];
+        if (notationContent.startsWith('\n')) notationContent = notationContent.substring(1);
+        setNotes(notationContent.toUpperCase());
       }
-    };
-    reader.readAsText(file);
-    e.target.value = '';
+    } else {
+      setNotes(content.toUpperCase());
+    }
+  };
+
+  const openPicker = async () => {
+    if (songList.length === 0) {
+      const res = await fetch('/notesfromtext/index.json');
+      const data = await res.json();
+      setSongList(data);
+    }
+    setShowPicker(true);
+  };
+
+  const loadSong = async (name: string) => {
+    const res = await fetch(`/notesfromtext/${name}.txt`);
+    const text = await res.text();
+    parseContent(text);
+    setShowPicker(false);
   };
 
   const saveFile = () => {
@@ -392,11 +400,13 @@ export default function NotationPlayer() {
 
             <div className="h-8 w-[1px] bg-gray-300 mx-2" />
 
-            <label className="flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-gray-200 font-bold hover:bg-gray-50 transition-all active:scale-95 text-sm cursor-pointer shadow-sm">
+            <button
+              onClick={openPicker}
+              className="flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-gray-200 font-bold hover:bg-gray-50 transition-all active:scale-95 text-sm cursor-pointer shadow-sm"
+            >
               <Upload className="w-4 h-4" />
               <span>Import Notation</span>
-              <input type="file" accept=".txt" onChange={importFile} className="hidden" />
-            </label>
+            </button>
 
             <button
               onClick={saveFile}
@@ -422,6 +432,36 @@ export default function NotationPlayer() {
           Monospaced 16px · Red: Upper Octave · Blue: Lower Octave
         </p>
       </div>
+
+      {/* Song Picker Modal */}
+      {showPicker && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowPicker(false)}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between p-5 border-b border-gray-100">
+              <h2 className="text-lg font-bold font-serif italic">Choose a Notation</h2>
+              <button onClick={() => setShowPicker(false)} className="p-1 rounded-lg hover:bg-gray-100 transition-colors">
+                <X className="w-5 h-5 text-gray-500" />
+              </button>
+            </div>
+            <ul className="divide-y divide-gray-100 max-h-80 overflow-y-auto">
+              {songList.map(s => (
+                <li key={s.name}>
+                  <button
+                    onClick={() => loadSong(s.name)}
+                    className="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors text-left"
+                  >
+                    <div>
+                      <p className="font-semibold text-sm text-gray-900">{s.song || s.name}</p>
+                      <p className="text-xs text-gray-500 mt-0.5">{s.raga}</p>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-gray-400 shrink-0" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
