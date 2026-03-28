@@ -1,41 +1,32 @@
 [
   {
-    "name": "MakelaraVicharamu",
-    "raga": "Ravichandrika",
-    "tala": "Adi",
+    "name": "Raguvamsasudha",
+    "song": "Raguvamsasudha",
+    "composer": "PATNAM Subramanya iyer",
+    "raga": "Kadanakuthuhalam",
+    "tala": "",
     "beats": "8",
-    "arohana": "S R2 G3 M1 D2 Ṡ",
-    "avarohana": "",
-    "composer": "Thyagaraja",
-    "song": "Makelara",
-    "allMetadata": {
-      "Song": "Makelara",
-      "Raga": "Ravichandrika",
-      "Composer": "Thyagaraja",
-      "Tala": "Adi",
-      "Arohana": "S R2 G3 M1 D2 Ṡ",
-      "Rāga": "",
-      "Tāḷa": "",
-      "Ārō": "",
-      "Avarō": ""
-    }
+    "arohana": "S R M D N G P S",
+    "avarohana": "S N D P M G R S ",
+    "scale": "R2 g3 m1 d2 n3",
+    "sruthi": "C#",
+    "edam": "7",
+    "tags": "Patnam",
+    "file": "Raguvamsasudha_Kadanakuthuhalam.txt"
   },
   {
-    "name": "Raguvamsasudha",
-    "raga": "Kadanakutuhalam",
-    "tala": "Adi",
+    "name": "Makelara",
+    "song": "Makelara",
+    "composer": "Thyagaraja",
+    "raga": "Ravichandrika",
+    "tala": "",
     "beats": "8",
-    "arohana": "S R² M¹ D² N³ G P Ṡ",
-    "avarohana": "Ṡ N³ D² P M¹ G³ R² S",
-    "composer": "Patnam Subramania Iyer",
-    "song": "Raguvamsasudha",
-    "allMetadata": {
-      "Rāga": "Kadanakutuhalam",
-      "Tāḷa": "Adi",
-      "Ārō": "S R² M¹ D² N³ G P Ṡ",
-      "Avarō": "Ṡ N³ D² P M¹ G³ R² S",
-      "Higher": "\"Ṡ\", \"Ṙ\", \"Ġ\", \"Ṁ\", \"Ṗ\", \"Ḋ\", \"Ṅ\" \"ṡ\", \"ṙ\", \"ġ\", \"ṁ\", \"ṗ\", \"ḋ\", \"ṅ\"",
-      "Lower": "\"Ṣ\", \"Ṛ\", \"G̣\", \"Ṃ\", \"P̣\", \"Ḍ\", \"Ṇ\" \"ṣ\", \"ṛ\", \"g̣\", \"ṃ\", \"p̣\", \"ḍ\", \"ṇ\""
-    }
+    "arohana": "S R2 G3 M1 D2 Ṡ",
+    "avarohana": "Ṡ N2 D2  M1 G3 R2 S",
+    "scale": "R2 G3 M1 D2 N2",
+    "sruthi": "C#",
+    "edam": "",
+    "tags": "",
+    "file": "Makelara_Ravichandrika.txt"
   }
 ]

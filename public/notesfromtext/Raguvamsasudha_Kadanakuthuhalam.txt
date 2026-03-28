@@ -1,4 +1,4 @@
-MetaS: Song: Raguvamsasudha | Raga: Kadanakuthuhalam | Scale: R2 g3 m1 d2 n3 | Beats: 8 | Nadai: 4 | Sruthi: C# | BPM: 80 | Thala:  | Edam:  | Tags:  | MetaE:
+MetaS: Song: Raguvamsasudha | Composer: PATNAM Subramanya iyer | Raga: Kadanakuthuhalam | Arohana: S R M D N G P S | Avarohana: S N D P M G R S  | Scale: R2 g3 m1 d2 n3 | Beats: 8 | Nadai: 4 | Sruthi: C# | BPM: 80 | Thala:  | Edam: 7 | Tags: Patnam | MetaE:
 PALLAVI:
 
 , , , ,|, , S ,|R , M ,|, , M ,|G , , R|, , S ,|S , S Ṇ|Ḍ , P̣ ,|

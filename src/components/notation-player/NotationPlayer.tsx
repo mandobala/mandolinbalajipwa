@@ -25,7 +25,10 @@ export default function NotationPlayer() {
   const [notes, setNotes] = useState('');
   const [meta, setMeta] = useState<MetaData>({
     song: 'Varnam',
+    composer: '',
     raga: 'Mayamalavagowla',
+    arohana: '',
+    avarohana: '',
     scale: 'R1 G3 M1 D1 N3',
     beats: 8,
     nadai: 4,
@@ -42,7 +45,7 @@ export default function NotationPlayer() {
   const isPlayingRef = useRef(isPlaying);
   const isLoopingRef = useRef(false);
   const [showPicker, setShowPicker] = useState(false);
-  const [songList, setSongList] = useState<{ name: string; song: string; raga: string }[]>([]);
+  const [songList, setSongList] = useState<{ name: string; song: string; raga: string; file?: string }[]>([]);
 
   useEffect(() => {
     isPlayingRef.current = isPlaying;
@@ -66,7 +69,10 @@ export default function NotationPlayer() {
         const key = part.substring(0, colonIndex).trim();
         const value = part.substring(colonIndex + 1).trim();
         if (key === 'Song') newMeta.song = value;
+        if (key === 'Composer') newMeta.composer = value;
         if (key === 'Raga') newMeta.raga = value;
+        if (key === 'Arohana') newMeta.arohana = value;
+        if (key === 'Avarohana') newMeta.avarohana = value;
         if (key === 'Scale' || key === 'RagaNotes') newMeta.scale = value;
         if (key === 'Beats') newMeta.beats = parseInt(value) || 8;
         if (key === 'Nadai') newMeta.nadai = parseInt(value) || 4;
@@ -83,8 +89,6 @@ export default function NotationPlayer() {
         if (notationContent.startsWith('\n')) notationContent = notationContent.substring(1);
         setNotes(notationContent.toUpperCase());
       }
-    } else {
-      setNotes(content.toUpperCase());
     }
   };
 
@@ -97,15 +101,17 @@ export default function NotationPlayer() {
     setShowPicker(true);
   };
 
-  const loadSong = async (name: string) => {
-    const res = await fetch(`/notesfromtext/${name}.txt`);
+  const loadSong = async (s: { name: string; file?: string }) => {
+    const filename = s.file ?? `${s.name}.txt`;
+    const res = await fetch(`/notesfromtext/${filename}`);
+    if (!res.ok) return;
     const text = await res.text();
     parseContent(text);
     setShowPicker(false);
   };
 
   const saveFile = () => {
-    const content = `MetaS: Song: ${meta.song} | Raga: ${meta.raga} | Scale: ${meta.scale} | Beats: ${meta.beats} | Nadai: ${meta.nadai} | Sruthi: ${meta.sruthi} | BPM: ${meta.bpm} | Thala: ${meta.thala} | Edam: ${meta.edam} | Tags: ${meta.tags} | MetaE:\n${notes}`;
+    const content = `MetaS: Song: ${meta.song} | Composer: ${meta.composer} | Raga: ${meta.raga} | Arohana: ${meta.arohana} | Avarohana: ${meta.avarohana} | Scale: ${meta.scale} | Beats: ${meta.beats} | Nadai: ${meta.nadai} | Sruthi: ${meta.sruthi} | BPM: ${meta.bpm} | Thala: ${meta.thala} | Edam: ${meta.edam} | Tags: ${meta.tags} | MetaE:\n${notes}`;
     const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -158,6 +164,9 @@ export default function NotationPlayer() {
     } else {
       const lines = notes.split('\n');
       lines.forEach((line, lineIdx) => {
+        if (/^TAGS\b/i.test(line.trim())) return;
+        if (/^LR:/i.test(line.trim())) return;
+        if (/^[A-Za-z][A-Za-z0-9 ]*:$/.test(line.trim())) return;
         const rawUnits = line.match(/([A-Za-z0-9 ]+:|[SRGMPDN][123]?\u0323?|Ṡ|Ṙ|Ġ|Ṁ|Ṗ|Ḋ|Ṅ|Ṣ|Ṛ|Ṃ|Ḍ|Ṇ|,|\||\{|\}|\[\d+:|\]|-)/gi) || [];
         speedMultiplier = 1;
         nadaiOverride = null;
@@ -227,6 +236,29 @@ export default function NotationPlayer() {
     const lines = notes.split('\n');
 
     return lines.map((line, lineIdx) => {
+      if (/^TAGS\b/i.test(line.trim())) return null;
+
+      if (/^LR:/i.test(line.trim())) {
+        const lyric = line.replace(/^LR:\s*/i, '');
+        return (
+          <div key={lineIdx} className="relative flex items-start gap-3 leading-relaxed min-h-[1.625rem] p-1">
+            <div className="w-6 shrink-0" />
+            <div className="flex-1 italic text-gray-400 font-sans text-sm">{lyric}</div>
+          </div>
+        );
+      }
+
+      if (/^[A-Za-z][A-Za-z0-9 ]*:$/.test(line.trim())) {
+        const label = line.trim().slice(0, -1);
+        return (
+          <div key={lineIdx} className="flex items-center gap-3 mt-3 mb-1 px-1">
+            <div className="w-6 shrink-0" />
+            <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">{label}</span>
+            <div className="flex-1 border-t border-gray-200" />
+          </div>
+        );
+      }
+
       const units = line.match(/([A-Za-z0-9 ]+:|[SRGMPDN][123]?\u0323?|Ṡ|Ṙ|Ġ|Ṁ|Ṗ|Ḋ|Ṅ|Ṣ|Ṛ|Ṃ|Ḍ|Ṇ|,|\|| |\{|\}|\[\d+:|\]|-)/gi) || [];
 
       let currentBrace: { startIdx: number; count: number } | null = null;
@@ -326,7 +358,7 @@ export default function NotationPlayer() {
               <h1 className="text-2xl font-serif italic font-bold tracking-tight">Carnatic Notation Player</h1>
             </div>
             <p className="text-sm text-gray-500 font-serif italic ml-11">
-              {meta.song} — {meta.raga}
+              {meta.song} — {meta.raga}{meta.composer ? ` · ${meta.composer}` : ''}
             </p>
           </div>
 
@@ -447,7 +479,7 @@ export default function NotationPlayer() {
               {songList.map(s => (
                 <li key={s.name}>
                   <button
-                    onClick={() => loadSong(s.name)}
+                    onClick={() => loadSong(s)}
                     className="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors text-left"
                   >
                     <div>
