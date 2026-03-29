@@ -409,19 +409,6 @@ export default function NotationPlayer() {
           </div>
         </div>
 
-        {/* Notation Display */}
-        <div className="p-6 relative">
-          <div className="relative h-[700px] bg-gray-50 rounded-xl border border-gray-200 font-mono text-[16px] leading-relaxed overflow-hidden">
-            <div
-              ref={highlightRef}
-              style={{ scrollbarGutter: 'stable' }}
-              className="absolute inset-0 p-4 pl-10 whitespace-pre-wrap break-all z-30 font-mono text-[16px] leading-relaxed overflow-y-auto"
-            >
-              {renderHighlightedNotes()}
-            </div>
-          </div>
-        </div>
-
         {/* Controls */}
         <div className="p-6 bg-gray-50 border-t border-gray-100">
           <div className="flex flex-wrap gap-4 justify-center items-center">
@@ -458,6 +445,19 @@ export default function NotationPlayer() {
               <Download className="w-4 h-4" />
               <span>MIDI</span>
             </button>
+          </div>
+        </div>
+
+        {/* Notation Display */}
+        <div className="p-6 relative">
+          <div className="relative h-[700px] bg-gray-50 rounded-xl border border-gray-200 font-mono text-[16px] leading-relaxed overflow-hidden">
+            <div
+              ref={highlightRef}
+              style={{ scrollbarGutter: 'stable' }}
+              className="absolute inset-0 p-4 pl-10 whitespace-pre-wrap break-all z-30 font-mono text-[16px] leading-relaxed overflow-y-auto"
+            >
+              {renderHighlightedNotes()}
+            </div>
           </div>
         </div>
       </div>
