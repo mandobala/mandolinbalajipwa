@@ -46,6 +46,9 @@ export default function NotationPlayer() {
   const isLoopingRef = useRef(false);
   const [showPicker, setShowPicker] = useState(false);
   const [songList, setSongList] = useState<{ name: string; song: string; raga: string; file?: string }[]>([]);
+  // MIDI modal state
+  const [showMidiModal, setShowMidiModal] = useState(false);
+  const [midiList, setMidiList] = useState<{ name: string; song: string; raga: string; midiFile: string }[]>([]);
 
   useEffect(() => {
     isPlayingRef.current = isPlaying;
@@ -108,6 +111,27 @@ export default function NotationPlayer() {
     const text = await res.text();
     parseContent(text);
     setShowPicker(false);
+  };
+
+  // Download MIDI modal logic
+  const openMidiModal = async () => {
+    if (midiList.length === 0) {
+      const res = await fetch('/notesfromtext/index.json');
+      const data = await res.json();
+      const midiEntries = data.filter((entry: any) => entry.midiFile);
+      setMidiList(midiEntries);
+    }
+    setShowMidiModal(true);
+  };
+
+  const downloadMidi = (midiFile: string, song: string, raga: string) => {
+    const link = document.createElement('a');
+    link.href = `/notesfromtext/${midiFile}`;
+    link.download = `${song || 'Song'}-${raga || 'Raga'}.mid`.toLowerCase().replace(/\s+/g, '-');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setShowMidiModal(false);
   };
 
   const saveFile = () => {
@@ -438,13 +462,56 @@ export default function NotationPlayer() {
               <span>Save</span>
             </button>
 
+            {/* Hide the original MIDI button by commenting it out */}
+            {false && (
+              <button
+                onClick={() => exportMidi(notes, meta)}
+                className="flex items-center gap-2 px-6 py-3 rounded-full bg-blue-50 border border-blue-200 text-blue-700 font-bold hover:bg-blue-100 transition-all active:scale-95 text-sm shadow-sm"
+              >
+                <Download className="w-4 h-4" />
+                <span>MIDI</span>
+              </button>
+            )}
+            {/* New Download MIDI button */}
             <button
-              onClick={() => exportMidi(notes, meta)}
+              onClick={openMidiModal}
               className="flex items-center gap-2 px-6 py-3 rounded-full bg-blue-50 border border-blue-200 text-blue-700 font-bold hover:bg-blue-100 transition-all active:scale-95 text-sm shadow-sm"
             >
               <Download className="w-4 h-4" />
-              <span>MIDI</span>
+              <span>Download MIDI</span>
             </button>
+                {/* MIDI Download Modal */}
+                {showMidiModal && (
+                  <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowMidiModal(false)}>
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden" onClick={e => e.stopPropagation()}>
+                      <div className="flex items-center justify-between p-5 border-b border-gray-100">
+                        <h2 className="text-lg font-bold font-serif italic">Download MIDI File</h2>
+                        <button onClick={() => setShowMidiModal(false)} className="p-1 rounded-lg hover:bg-gray-100 transition-colors">
+                          <X className="w-5 h-5 text-gray-500" />
+                        </button>
+                      </div>
+                      <ul className="divide-y divide-gray-100 max-h-80 overflow-y-auto">
+                        {midiList.length === 0 && (
+                          <li className="px-5 py-4 text-gray-500 text-center">No MIDI files available.</li>
+                        )}
+                        {midiList.map((m) => (
+                          <li key={m.midiFile}>
+                            <button
+                              onClick={() => downloadMidi(m.midiFile, m.song, m.raga)}
+                              className="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors text-left"
+                            >
+                              <div>
+                                <p className="font-semibold text-sm text-gray-900">{m.song || m.name}</p>
+                                <p className="text-xs text-gray-500 mt-0.5">{m.raga}</p>
+                              </div>
+                              <Download className="w-4 h-4 text-gray-400 shrink-0" />
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
           </div>
         </div>
 
