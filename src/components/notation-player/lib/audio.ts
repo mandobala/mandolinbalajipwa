@@ -22,6 +22,21 @@ class AudioEngine {
     }
   }
 
+  // Must be called synchronously within a user gesture (e.g. click handler) to
+  // unlock audio on iOS, which requires AudioContext creation + resume() to happen
+  // in the synchronous call stack of the gesture — before any await.
+  public unlock(): void {
+    if (!this.audioCtx) {
+      this.audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      this.masterGain = this.audioCtx.createGain();
+      this.masterGain.connect(this.audioCtx.destination);
+      this.masterGain.gain.value = 0.5;
+    }
+    if (this.audioCtx.state === 'suspended') {
+      void this.audioCtx.resume();
+    }
+  }
+
   public async playNote(semitones: number, sruthi: string, duration: number) {
     await this.init();
     if (!this.audioCtx || !this.masterGain) return;

@@ -130,6 +130,9 @@ export default function NotationPlayer() {
       return;
     }
 
+    // Unlock AudioContext synchronously within the user gesture (required for iOS).
+    audioEngine.unlock();
+
     const notesToPlay = (typeof customNotes === 'string' ? customNotes : notes) || '';
     if (!notesToPlay.trim()) return;
 
