@@ -1,1 +1,3 @@
-MetaS: Song: Threes | Composer: Balaji | Raga: Mayamalavagowla | Arohana: S R1 G3 M1 P D1 N3 S | Avarohana: S N3 D1 P M1 G3 R1 S | Scale: R1 G3 M1 D1 N3 | Beats: 8 | Nadai: 4 | Sruthi: C# | BPM: 80 | Thala: Adhi | Edam: 1 | Tags: Threes  | MetaE:
+MetaS: Song: Threes | Composer: Balaji | Raga: Mayamalavagowla | Arohana: S R1 G3 M1 P D1 N3 S | Avarohana: S N3 D1 P M1 G3 R1 S | Scale: R1 G3 M1 D1 N3 | Beats: 1 | Nadai: 3 | Sruthi: C# | BPM: 80 | Thala: Adhi | Edam: 1 | Tags: Threes | MetaE:
+S R G|R G M|G M P|M P D|P D N|D N Ṡ|N Ṡ Ṙ|Ṡ Ṙ Ġ|
+Ġ Ṙ Ṡ|Ṙ Ṡ N|Ṡ N D|N D P|D P M|P M G|M G R|G R S|
