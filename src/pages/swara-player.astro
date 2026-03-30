@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SwaraPlayerComponent from '../components/swara-player/SwaraPlayer';
+---
+
+<BaseLayout
+  title="Swara Player | Mandolin Balaji"
+  description="Interactive Carnatic music notation composer — type, edit, and play Carnatic notation with tala map, octave controls, and MIDI export."
+>
+  <SwaraPlayerComponent client:only="react" />
+</BaseLayout>
