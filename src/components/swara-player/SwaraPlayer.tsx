@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import './swara-player.css';
 import {
   ChevronUp,
   ChevronDown,
