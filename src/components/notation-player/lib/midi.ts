@@ -2,9 +2,13 @@ import MidiWriter from 'midi-writer-js';
 import type { MetaData } from '../types';
 import { getMidiNote } from './music';
 
+
 export const exportMidi = (notes: string, meta: MetaData) => {
   const track = new MidiWriter.Track();
   track.setTempo(meta.bpm);
+  // Set time signature based on meta.beats (default denominator 4)
+  const beats = typeof meta.beats === 'number' && meta.beats > 0 ? meta.beats : 4;
+  track.setTimeSignature(beats, 4);
   track.addEvent(new MidiWriter.ProgramChangeEvent({ instrument: 1 }));
 
   const lines = notes.split('\n');
@@ -52,9 +56,10 @@ export const exportMidi = (notes: string, meta: MetaData) => {
           velocity: 100
         }));
         currentWait = 0;
-      } else if (isComma || isHyphen) {
+      } else if (isComma) {
         currentWait += durationTicks;
       }
+      // Hyphens are ignored for MIDI export (no pause)
     });
   });
 

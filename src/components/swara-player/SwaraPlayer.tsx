@@ -1,3 +1,21 @@
+// Independent function to normalize scale notes (e.g., R1 G3 M2 D N3 -> R G M D N)
+// Normalize notes in a string using the scale as reference (replace R1, G3, etc. with R, G, etc. if present in scale)
+function normalizeNotesWithScale(notes: string, scale: string): string {
+  // Build a set of all variant notes from the scale (e.g., R1, G3, M2)
+  const variantNotes = new Set(
+    scale.split(/\s+/)
+      .filter(n => /^[SRGMPDN][1-9]$/i.test(n))
+  );
+  // Map variant notes to their base notes
+  const variantToBase: Record<string, string> = {};
+  variantNotes.forEach(n => {
+    variantToBase[n.toUpperCase()] = n[0].toUpperCase();
+  });
+  // Replace all occurrences in the notes area
+  return notes.replace(/([SRGMPDN][1-9])/gi, (m) => {
+    return variantToBase[m.toUpperCase()] || m;
+  });
+}
 import React, { useState, useRef, useEffect } from 'react';
 import './swara-player.css';
 import {
@@ -792,7 +810,9 @@ export default function SwaraPlayer() {
             <div className="w-px h-6 bg-gray-200 mx-1 self-center" />
             <button
               onClick={() => {
-                const allLines = notes.split('\n');
+                // Normalize notes in the notes area using the scale as reference
+                const normalizedNotes = normalizeNotesWithScale(notes, meta.scale);
+                const allLines = normalizedNotes.split('\n');
                 setNotes(allLines.map(l => formatLine(l)).join('\n'));
               }}
               className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-600 text-white rounded-md text-xs font-bold hover:bg-purple-700 transition-colors shadow-sm"
