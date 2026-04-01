@@ -331,7 +331,7 @@ export default function SwaraPlayer() {
     e.target.value = '';
   };
 
-  const saveFile = () => {
+  const saveFile = async () => {
     const fileName = `${meta.song || 'Song'}_${meta.raga || 'Raga'}.txt`;
     const content = `MetaS: Song: ${meta.song} | Composer: ${meta.composer} | Raga: ${meta.raga} | Arohana: ${meta.arohana} | Avarohana: ${meta.avarohana} | Scale: ${meta.scale} | Beats: ${meta.beats} | Nadai: ${meta.nadai} | Sruthi: ${meta.sruthi} | BPM: ${meta.bpm} | Thala: ${meta.thala} | Edam: ${meta.edam} | Tags: ${meta.tags} | MetaE:\n${notes}`;
     const blob = new Blob([content], { type: 'text/plain' });
@@ -341,6 +341,32 @@ export default function SwaraPlayer() {
     a.download = fileName;
     a.click();
     URL.revokeObjectURL(url);
+
+    // Update index.json entry on the server
+    const indexEntry = {
+      name: meta.song || 'Song',
+      song: meta.song || 'Song',
+      composer: meta.composer || '',
+      raga: meta.raga || 'Raga',
+      tala: meta.thala || '',
+      beats: String(meta.beats),
+      arohana: meta.arohana || '',
+      avarohana: meta.avarohana || '',
+      scale: meta.scale || '',
+      sruthi: meta.sruthi || '',
+      edam: meta.edam || '',
+      tags: meta.tags || '',
+      file: fileName,
+    };
+    try {
+      await fetch('/api/update-notation-index', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(indexEntry),
+      });
+    } catch {
+      // Non-critical — file was already downloaded
+    }
   };
 
   const playNotation = async (customNotes?: string | React.MouseEvent, loopOverride?: boolean, customLineIdx?: number) => {
