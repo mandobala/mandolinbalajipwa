@@ -72,7 +72,6 @@ export default function SwaraPlayer() {
   const highlightRef = useRef<HTMLDivElement>(null);
   const isPlayingRef = useRef(isPlaying);
   const isLoopingRef = useRef(false);
-  const livePlayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     isPlayingRef.current = isPlaying;
@@ -222,19 +221,6 @@ export default function SwaraPlayer() {
       setIsPlaying(false);
       isPlayingRef.current = false;
       if (playbackRef.current) clearTimeout(playbackRef.current);
-    }
-
-    if (livePlayTimeoutRef.current) clearTimeout(livePlayTimeoutRef.current);
-
-    const lines = newValue.split('\n');
-    const linesBefore = newValue.substring(0, start).split('\n');
-    const currentLineIdx = linesBefore.length - 1;
-    const currentLine = lines[currentLineIdx];
-
-    if (currentLine && currentLine.trim() && !/^TAGS\b/i.test(currentLine.trim()) && !/^LR:/i.test(currentLine.trim())) {
-      livePlayTimeoutRef.current = setTimeout(() => {
-        playNotation(currentLine, false);
-      }, 800);
     }
 
     if (newValue.length === notes.length + 1) {
