@@ -59,5 +59,20 @@
     "edam": "",
     "tags": "",
     "file": "Varnam_Mayamalavagowla.txt"
+  },
+  {
+    "name": "KuraiOndrumillai",
+    "song": "KuraiOndrumillai",
+    "composer": "",
+    "raga": "Sivaranjani",
+    "tala": "",
+    "beats": "8",
+    "arohana": "",
+    "avarohana": "",
+    "scale": "R2 G2  D2",
+    "sruthi": "C#",
+    "edam": "",
+    "tags": "",
+    "file": "KuraiOndrumillai_Sivaranjani.txt"
   }
 ]
