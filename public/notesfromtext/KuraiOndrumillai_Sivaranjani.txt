@@ -1,8 +1,18 @@
 MetaS: Song: KuraiOndrumillai | Composer:  | Raga: Sivaranjani | Arohana:  | Avarohana:  | Scale: R2 G2  D2 | Beats: 8 | Nadai: 4 | Sruthi: C# | BPM: 80 | Thala:  | Edam:  | Tags:  | MetaE:
-GG,G|,,G,|G,,,|G,,,|GPGP|D,,P|G,,,|G,,,|
-RGS,|,,R,|Ḍ,,S|,,G,|R,,,|,,,,|GRRS|ḌSḌP|
-P̣ḌS,|,,R,|GP,G|RS,D|S,,,|S,,,|,,,,|,,,,|
-,,,P|,,PP|DPP,|,P,,|P,P,|G,,,|,,D,|P,,,|
-,,,P|,,PP|DṠP,|,P,,|G,,G|,,R,|S,G,|R,,,|
-GPD,|,,S,|R,,,|R,,,|ḌS,Ḍ|SG,R|Ḍ,,,|S,,,|
-,,,P|,,PP|P,,D|,DD,|G,,G|P,,P|DPṠ,|,Ṡ,,|
+PALLAVI:
+
+G G , G|, , G ,|G , , ,|G , , ,|G P G P|D , , P|G , , ,|G , , ,|
+R G S ,|, , R ,|Ḍ , , S|, , G ,|R , , ,|, , , ,|G R R S|Ḍ S Ḍ P|
+P̣ Ḍ S ,|, , R ,|G P , G|R S , D|S , , ,|S , , ,|, , , ,|, , , ,|
+, , , P|, , P P|D P P ,|, P , ,|P , P ,|G , , ,|, , D ,|P , , ,|
+, , , P|, , P P|D Ṡ P ,|, P , ,|G , , G|, , R ,|S , G ,|R , , ,|
+G P D ,|, , S ,|R , , ,|R , , ,|Ḍ S , Ḍ|S G , R|Ḍ , , ,|S , , ,|
+, , , P|, , P P|P , , D|, D D ,|G , , G|P , , P|D P Ṡ ,|, Ṡ , ,|
+, , , Ṡ|, Ṡ Ṡ ,|D Ṡ Ṙ Ṡ|D P G ,|G P , D|Ṙ , , Ṙ|Ġ Ṙ Ṡ D|P G R S|
+G , , G|, , R G|P , , P|, , D P|Ṡ , , Ṡ|, , Ġ Ṙ|Ṡ , , ,|Ṡ , , ,|
+
+ANUPALLAVI:
+{S R S ,}P ,|, , P ,|M N P G|, , R ,|M , M ,|P , , ,|, , , ,|P N S R|
+{Ġ Ṙ N ,}P ,|, , P ,|M N P G|, , R ,|M , M ,|P , , ,|Ṡ , , ,|P , P M|
+G G G ,|, , G ,|S G{M N}P|G , , ,|G , G ,|R M G R|S , Ṇ ,|S , , ,|
+Ṇ Ṇ Ṇ ,|, , S ,|G G G ,|, , G ,|M N P G|, , R ,|S , G ,|R , , ,|
