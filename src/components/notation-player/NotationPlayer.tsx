@@ -22,6 +22,33 @@ import {
 import { exportMidi } from './lib/midi';
 
 export default function NotationPlayer() {
+    // Helper to get query param from URL
+    function getQueryParam(name: string): string | null {
+      if (typeof window === 'undefined') return null;
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+
+    // On mount, check for file param and load if present
+    useEffect(() => {
+      const fileParam = getQueryParam('file');
+      if (fileParam) {
+        // Sanitize: allow only safe base names
+        const safeBase = fileParam.replace(/[^\w\-]/g, '');
+        const filename = `${safeBase}.txt`;
+        fetch(`/notesfromtext/${filename}`)
+          .then(res => {
+            if (!res.ok) throw new Error('File not found');
+            return res.text();
+          })
+          .then(text => {
+            parseContent(text);
+          })
+          .catch(() => {
+            setNotes('Error: Notation file not found.');
+          });
+      }
+    }, []);
   const [notes, setNotes] = useState('');
   const [meta, setMeta] = useState<MetaData>({
     song: 'Varnam',

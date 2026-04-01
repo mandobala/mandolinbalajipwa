@@ -135,11 +135,14 @@ const itemsPerPage = 16;
         allNotations = songs.map(item => {
           // Handle both old format (string) and new format (object with metadata)
           if (typeof item === 'string') {
-            return { name: item, url: `/notesfromtext/${item}.txt` };
+            return { name: item, fileKey: item, url: `/notesfromtext/${item}.txt` };
           } else {
+            // Remove .txt extension from file key for navigation
+            const fileKey = item.file ? item.file.replace(/\.txt$/i, '') : item.name;
             return {
               name: item.name,
-              url: `/notesfromtext/${item.name}.txt`,
+              fileKey,
+              url: `/notesfromtext/${item.file || item.name + '.txt'}`,
               raga: item.raga || '',
               tala: item.tala || '',
               arohana: item.arohana || '',
@@ -164,7 +167,7 @@ const itemsPerPage = 16;
       const pageNotations = filteredNotations.slice(startIndex, endIndex);
 
       notationsContainer.innerHTML = pageNotations.map(notation => `
-        <div class="notation-item" data-url="${notation.url}" style="cursor: pointer;">
+        <div class="notation-item" data-filekey="${notation.fileKey}" style="cursor: pointer;">
           <div class="notation-cover">
             <h3 class="notation-title">${notation.name}</h3>
           </div>
@@ -509,10 +512,9 @@ const itemsPerPage = 16;
     function handleNotationClick(event) {
       const item = event.target.closest('.notation-item');
       if (item) {
-        const name = item.querySelector('.notation-title').textContent;
-        const url = item.dataset.url;
-        if (url) {
-          showDetailView(name, url);
+        const fileKey = item.getAttribute('data-filekey');
+        if (fileKey) {
+          window.location.href = `/notation-player?file=${encodeURIComponent(fileKey)}`;
         }
       }
     }
