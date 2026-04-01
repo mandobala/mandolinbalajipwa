@@ -12,7 +12,9 @@ G P D ,|, , S ,|R , , ,|R , , ,|Ḍ S , Ḍ|S G , R|Ḍ , , ,|S , , ,|
 G , , G|, , R G|P , , P|, , D P|Ṡ , , Ṡ|, , Ġ Ṙ|Ṡ , , ,|Ṡ , , ,|
 
 ANUPALLAVI:
-{S R S ,}P ,|, , P ,|M N P G|, , R ,|M , M ,|P , , ,|, , , ,|P N S R|
+{Ṡ Ṙ Ṡ ,}P ,|, , P ,|M N P G|, , R ,|M , M ,|P , , ,|, , , ,|P N Ṡ Ṙ|
 {Ġ Ṙ N ,}P ,|, , P ,|M N P G|, , R ,|M , M ,|P , , ,|Ṡ , , ,|P , P M|
 G G G ,|, , G ,|S G{M N}P|G , , ,|G , G ,|R M G R|S , Ṇ ,|S , , ,|
 Ṇ Ṇ Ṇ ,|, , S ,|G G G ,|, , G ,|M N P G|, , R ,|S , G ,|R , , ,|
+R M P ,|, , P ,|N N M ,|, , P ,|M P N ,|, , N ,|Ṡ , , ,|Ṡ , , ,|
+N , Ṡ ,|N S Ġ ,|Ġ , , Ġ|, , Ġ ,|, , R M|G R Ṡ N|Ṡ , Ġ ,|Ṙ , , ,|
