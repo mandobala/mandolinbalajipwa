@@ -1,0 +1,8 @@
+MetaS: Song: KuraiOndrumillai | Composer:  | Raga: Sivaranjani | Arohana:  | Avarohana:  | Scale: R2 G2  D2 | Beats: 8 | Nadai: 4 | Sruthi: C# | BPM: 80 | Thala:  | Edam:  | Tags:  | MetaE:
+GG,G|,,G,|G,,,|G,,,|GPGP|D,,P|G,,,|G,,,|
+RGS,|,,R,|Ḍ,,S|,,G,|R,,,|,,,,|GRRS|ḌSḌP|
+P̣ḌS,|,,R,|GP,G|RS,D|S,,,|S,,,|,,,,|,,,,|
+,,,P|,,PP|DPP,|,P,,|P,P,|G,,,|,,D,|P,,,|
+,,,P|,,PP|DṠP,|,P,,|G,,G|,,R,|S,G,|R,,,|
+GPD,|,,S,|R,,,|R,,,|ḌS,Ḍ|SG,R|Ḍ,,,|S,,,|
+,,,P|,,PP|P,,D|,DD,|G,,G|P,,P|DPṠ,|,Ṡ,,|
