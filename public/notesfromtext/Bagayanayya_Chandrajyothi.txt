@@ -9,13 +9,13 @@ LR:   BĀ    GĀ      YE | NAYYA      NĪ | MĀYA    LEN | TŌ
 G , , M|, , P ,|, D P M|G , G ,|R , ,{R S}|S , R S|S D , S|, , S ,|
 LR:   BĀ    GĀ      YE | NAYYA      NĪ   | MĀYA    LEN | TŌ
 
-R S , R|, , G ,|M , P ,|, P , D|P , D ,|, D , ,|, Ṡ D D|P P ,
+R S , R|, , G ,|M , P ,|, P , D|P , D ,|, D , ,|, , Ṡ D|D P P ,|
 LR:   BRAHMA KAI NAGO | NI   YĀ    | DA TA RA MĀ  |
 
-M P D ,|, Ṡ{D P M G}|, R , ,|R , R ,|,{R S S}, D ,{R S}S D , S , , S ,{D S R|S}, , R , ,
+M P D ,|, Ṡ D P|M G , R|, , R ,|R , ,{R S}|S ,{D , R S}|S D , S|, , S ,|
 LR:   BĀ      GĀ    YE | NAYYA      NĪ      | MĀYA    LEN | TŌ
 
-LINE: {GMGM}, P, , P, | {DPMPD}, {ṠṘ} | {ṠṘ ṠDDP}, || {MPD P,DṠ D,ṠD}
+LINE: {D S R S , ,}R|, , G M|G M , P|, , P ,|D P M P|D , Ṙ Ṡ|Ṙ Ṡ Ṡ D|D P P ,|{M , P D P , D Ṡ|D , Ṡ D}
 LR:   BRAH MA KAI NAGO | NI       YĀ   | DA   TA      | RA      MĀ
 
 ANUPALLAVI:
