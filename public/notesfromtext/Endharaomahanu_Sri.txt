@@ -1,0 +1,40 @@
+MetaS: Song: Endharaomahanu | Composer: Thyagaraja | Raga: Sri | Arohana: S R2 M1 P N2 S | Avarohana: S N2 P M1 R2 S | Scale: R2 G2  M1 N2 | Beats: 8 | Nadai: 4 | Sruthi: C# | BPM: 80 | Thala:  | Edam:  | Tags:  | MetaE:
+
+
+PALLAVI:
+LINE: , , , , | S , R , | R , G R | S , , , | , , S N | S N P , | P , S N | S , , ,
+LR:           EN      | DA      | RO      | MA      | NU      | BHA     | VU    | LU
+
+LINE: {NS, N} | S , R , | {RGR}, S, | {NSRGR}, | {SSN} | {SNP}, | {PSN} | S , , ,
+LR:   EN      | DA      | RO        | MA       | NU    | BHA    | VU    | LU
+
+LINE: {NS, N} | S , R , | {PMR}, , , | {GR} | S , S N | {RSNP} | P , S N | S , , ,
+LR:   EN      | DA      | RO         | MA   | NU      | BHA    | VU      | LU
+
+LINE: {NS, N} | S , S , | {R , M ,} | {R M P}, , | P M | {P M R}, | R , G , | {RGR, SRS,}
+LR:   EN      | DA      | RO        | MA         | NU  | BHA      | VU      | LU
+
+LINE: {NS, N} | S , S , | {R , M ,} | {RMPM} | {PNPN} | {SNSR} | {SRS, NSN,} | {PNP, MPM,}
+LR:   EN      | DA      | RO        | MA     | NU     | BHA    | VU          | LU
+
+ANUPALLAVI:
+LINE: , , , , | P , M , | P , , , | R , M , | R M P , | M , , | P M P , | P , , ,
+LR:           CHAN    | DU      | RU      | VA      | DHA     | NU    | NI      |
+
+LINE: {NNPM} | P , M , | P , , , | R , M , | R M P , | M , , | N , P , | N , , ,
+LR:   CHAN   | DU      | RU      | VA      | DHA     | NU    | NI      |
+
+LINE: {SNPM} | P , M , | P , , , | R , M , | R M P , | M , , , | M , N , | P , S ,
+LR:   CHAN   | DU      | RU      | VA      | DHA     | NU      | NI      |
+
+LINE: {SNPM} | P , M , | P , , , | R , M , | R M P , | M , , , | N G , | {RGRS Ṡ,}
+LR:   CHAN   | DU      | RU      | VA      | DHA     | NU      | NI    |
+
+LINE: {NSRM} | {PNPM} | {RGRS} | {SNS} | {R , M ,} | {RMP} | {PNPN} | {P , P ,}
+LR:   AN     | DHA    | CHAN   | DA    | MU        | NU    | HRI    | DHA
+
+LINE: , , P P | Ṙ , Ṙ , | {ṘGRS} | {NSGR Ṙ} | {S , SN} | {SNP ,} | P S N | Ṡ , , ,
+LR:           | YA      | RA     | VIN      | DA       | MU      | NA    | JOO
+
+LINE: , , , , | Ṙ , Ṡ , | {Ṡ , ṘṠ N ,} | {N , SN P ,} | {P , NP M ,} | {M , PM R ,} | {SNPM} | {RGRS}
+LR:           | CHI     | BRAH         | MA           | NAN          | DA           | MU     | NU
