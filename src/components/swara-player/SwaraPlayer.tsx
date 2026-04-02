@@ -66,6 +66,10 @@ export default function SwaraPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeLineIdx, setActiveLineIdx] = useState<number | null>(null);
   const [showOctaveToast, setShowOctaveToast] = useState(false);
+  const [loopEnabled, setLoopEnabled] = useState(false);
+  const [loopStart, setLoopStart] = useState<{ lineIdx: number; noteIdx: number } | null>(null);
+  const [loopEnd, setLoopEnd] = useState<{ lineIdx: number; noteIdx: number } | null>(null);
+  const [settingMarker, setSettingMarker] = useState<'start' | 'end' | null>(null);
 
   const playbackRef = useRef<number | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -369,7 +373,7 @@ export default function SwaraPlayer() {
     const notesToPlay = (typeof customNotes === 'string' ? customNotes : notes) || '';
     if (!notesToPlay.trim()) return;
 
-    isLoopingRef.current = loopOverride !== undefined ? loopOverride : (typeof customNotes === 'string');
+    isLoopingRef.current = loopOverride !== undefined ? loopOverride : (typeof customNotes === 'string') || (loopEnabled && !!(loopStart && loopEnd));
 
     await audioEngine.playClick(0.01);
     setIsPlaying(true);
@@ -397,11 +401,24 @@ export default function SwaraPlayer() {
       });
     } else {
       const lines = notes.split('\n');
+
+      // Normalize loop range so start <= end
+      let effectiveStart = loopStart;
+      let effectiveEnd = loopEnd;
+      if (loopEnabled && loopStart && loopEnd) {
+        const startBefore = loopStart.lineIdx < loopEnd.lineIdx ||
+          (loopStart.lineIdx === loopEnd.lineIdx && loopStart.noteIdx <= loopEnd.noteIdx);
+        if (!startBefore) { effectiveStart = loopEnd; effectiveEnd = loopStart; }
+      }
+      const useLoop = loopEnabled && !!(effectiveStart && effectiveEnd);
+
       lines.forEach((line, lineIdx) => {
         if (/^TAGS\b/i.test(line.trim()) || /^LR:/i.test(line.trim())) return;
+        if (useLoop && (lineIdx < effectiveStart!.lineIdx || lineIdx > effectiveEnd!.lineIdx)) return;
         const rawUnits = line.match(/([A-Za-z0-9 ]+:|[SRGMPDN][123]?\u0323?|Ṡ|Ṙ|Ġ|Ṁ|Ṗ|Ḋ|Ṅ|Ṣ|Ṛ|Ṃ|Ḍ|Ṇ|,|\||\{|\}|\[\d+:|\]|-)/gi) || [];
         speedMultiplier = 1;
         nadaiOverride = null;
+        let linePlayableIdx = 0;
         rawUnits.forEach((u, unitIdx) => {
           if (u === '{') { speedMultiplier = 0.5; return; }
           if (u === '}') { speedMultiplier = 1; return; }
@@ -409,6 +426,11 @@ export default function SwaraPlayer() {
           if (u === ']') { nadaiOverride = null; return; }
           if (u === '-') return;
           if (u !== '|' && !u.endsWith(':') && u !== ' ') {
+            const currentNoteIdx = linePlayableIdx++;
+            if (useLoop) {
+              if (lineIdx === effectiveStart!.lineIdx && currentNoteIdx < effectiveStart!.noteIdx) return;
+              if (lineIdx === effectiveEnd!.lineIdx && currentNoteIdx > effectiveEnd!.noteIdx) return;
+            }
             let duration = baseNoteDuration * speedMultiplier;
             if (nadaiOverride) duration = beatDuration / nadaiOverride;
             playableUnits.push({ char: u, duration, lineIdx, unitIdx });
@@ -569,6 +591,7 @@ export default function SwaraPlayer() {
       const units = line.match(/([A-Za-z0-9 ]+:|[SRGMPDN][123]?\u0323?|Ṡ|Ṙ|Ġ|Ṁ|Ṗ|Ḋ|Ṅ|Ṣ|Ṛ|Ṃ|Ḍ|Ṇ|,|\|| |\{|\}|\[\d+:|\]|-)/gi) || [];
       let currentBrace: { count: number } | null = null;
       let currentNadaiBlock: { nadai: number } | null = null;
+      let playableNoteIdx = 0;
 
       return (
         <div key={lineIdx} className={`relative leading-relaxed min-h-[1.625rem] group transition-colors duration-200 ${activeLineIdx === lineIdx ? 'bg-yellow-100/50 rounded-md ring-1 ring-yellow-200' : ''}`}>
@@ -641,7 +664,18 @@ export default function SwaraPlayer() {
               else if (currentBrace) color += ' border-t border-red-300';
               else if (currentNadaiBlock) color += ' border-t border-purple-300';
 
+              const thisNoteIdx = playableNoteIdx++;
+              const isStartMarker = loopEnabled && loopStart?.lineIdx === lineIdx && loopStart?.noteIdx === thisNoteIdx;
+              const isEndMarker = loopEnabled && loopEnd?.lineIdx === lineIdx && loopEnd?.noteIdx === thisNoteIdx;
+
               const handleClick = (e: React.MouseEvent) => {
+                if (settingMarker) {
+                  e.stopPropagation();
+                  if (settingMarker === 'start') setLoopStart({ lineIdx, noteIdx: thisNoteIdx });
+                  else setLoopEnd({ lineIdx, noteIdx: thisNoteIdx });
+                  setSettingMarker(null);
+                  return;
+                }
                 if (octave === 'normal') return;
                 e.stopPropagation();
                 const baseMatch = char.match(/[SRGMPDN]/i);
@@ -657,14 +691,31 @@ export default function SwaraPlayer() {
                 setNotes(allLines.join('\n'));
               };
 
+              const isInteractive = settingMarker !== null || (octave !== 'normal' && /[SRGMPDN]/i.test(char));
+
               return (
-                <span
-                  key={i}
-                  onClick={handleClick}
-                  className={`${color} font-mono text-[16px] ${octave !== 'normal' && /[SRGMPDN]/i.test(char) ? 'pointer-events-auto cursor-pointer hover:bg-black/5 rounded px-0.5' : 'pointer-events-none'}`}
-                >
-                  {char}
-                </span>
+                <React.Fragment key={i}>
+                  {isStartMarker && (
+                    <span
+                      className="inline-block w-0.5 h-[1.2em] bg-green-500 mx-0.5 align-middle pointer-events-auto cursor-pointer"
+                      onClick={() => setSettingMarker('start')}
+                      title="Loop start — click to reposition"
+                    />
+                  )}
+                  {isEndMarker && (
+                    <span
+                      className="inline-block w-0.5 h-[1.2em] bg-red-500 mx-0.5 align-middle pointer-events-auto cursor-pointer"
+                      onClick={() => setSettingMarker('end')}
+                      title="Loop end — click to reposition"
+                    />
+                  )}
+                  <span
+                    onClick={handleClick}
+                    className={`${color} font-mono text-[16px] ${isInteractive ? `pointer-events-auto cursor-pointer ${settingMarker ? 'hover:bg-green-100/60 rounded px-0.5' : 'hover:bg-black/5 rounded px-0.5'}` : 'pointer-events-none'}`}
+                  >
+                    {char}
+                  </span>
+                </React.Fragment>
               );
             })}
           </div>
@@ -703,17 +754,15 @@ export default function SwaraPlayer() {
       <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-200">
         {/* Header / Meta */}
         <div className="p-4 border-b border-gray-100 bg-gray-50/50">
-          <div className="flex items-center gap-3 mb-4">
+          <div className="flex items-center gap-3 mb-2">
             <div className="p-2 bg-black rounded-lg">
               <Music className="w-6 h-6 text-white" />
             </div>
-            <div>
-              <h1 className="text-2xl font-serif italic font-bold tracking-tight">Carnatic Notation Composer</h1>
-              <p className="text-sm text-gray-500 font-serif italic">
-                {meta.song} — {meta.raga}{meta.composer ? ` · ${meta.composer}` : ''}
-              </p>
-            </div>
+            <h1 className="text-2xl font-serif italic font-bold tracking-tight">Carnatic Notation Composer</h1>
           </div>
+          <p className="text-sm text-gray-500 font-serif italic ml-11 mb-4">
+            {meta.song} — {meta.raga}{meta.composer ? ` · ${meta.composer}` : ''}
+          </p>
 
           <div className="flex flex-wrap gap-2">
             {(['song', 'composer', 'raga', 'arohana', 'avarohana', 'scale', 'thala', 'edam', 'tags'] as const).map(field => (
@@ -770,6 +819,92 @@ export default function SwaraPlayer() {
         {/* Editor Section */}
         <div className="p-6 relative">
           {getTalaMap()}
+
+          {/* Playback + File Controls */}
+          <div className="flex flex-wrap gap-2 items-center mb-3">
+            <button
+              onClick={() => setOctave(octave === 'above' ? 'normal' : 'above')}
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-full border transition-all ${octave === 'above' ? 'bg-red-500 text-white border-red-600 shadow-lg' : 'bg-white text-gray-600 border-gray-200 hover:border-red-300'}`}
+            >
+              <ChevronUp className="w-3 h-3" />
+              <span className="text-[10px] font-bold uppercase tracking-wider">Dot Above</span>
+            </button>
+            <button
+              onClick={() => setOctave(octave === 'below' ? 'normal' : 'below')}
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-full border transition-all ${octave === 'below' ? 'bg-blue-500 text-white border-blue-600 shadow-lg' : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300'}`}
+            >
+              <ChevronDown className="w-3 h-3" />
+              <span className="text-[10px] font-bold uppercase tracking-wider">Dot Below</span>
+            </button>
+            <div className="h-6 w-[1px] bg-gray-300 mx-1" />
+            <button
+              onClick={() => playNotation()}
+              className={`flex items-center gap-2 px-5 py-2 rounded-full font-bold transition-all ${isPlaying ? 'bg-red-500 text-white' : 'bg-black text-white'} shadow-lg active:scale-95 text-xs`}
+            >
+              {isPlaying ? <Square className="w-3 h-3 fill-current" /> : <Play className="w-3 h-3 fill-current" />}
+              <span>{isPlaying ? 'Stop' : 'Play'}</span>
+            </button>
+            <div className="h-6 w-[1px] bg-gray-300 mx-1" />
+            {/* Loop Controls */}
+            <label className="flex items-center gap-1.5 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={loopEnabled}
+                onChange={e => {
+                  setLoopEnabled(e.target.checked);
+                  if (!e.target.checked) { setLoopStart(null); setLoopEnd(null); setSettingMarker(null); }
+                }}
+                className="accent-black"
+              />
+              <span className="text-xs font-bold text-gray-700">Loop</span>
+            </label>
+            {loopEnabled && (
+              <>
+                <button
+                  onClick={() => setSettingMarker(settingMarker === 'start' ? null : 'start')}
+                  className={`flex items-center gap-1 px-3 py-1 rounded-full border text-xs font-bold transition-colors ${settingMarker === 'start' ? 'bg-green-500 text-white border-green-600 shadow' : loopStart ? 'bg-green-50 text-green-700 border-green-300' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}`}
+                  title="Click then click a note to set loop start"
+                >
+                  ▸| Start{loopStart ? ` (L${loopStart.lineIdx + 1} · ${loopStart.noteIdx + 1})` : ''}
+                </button>
+                <button
+                  onClick={() => setSettingMarker(settingMarker === 'end' ? null : 'end')}
+                  className={`flex items-center gap-1 px-3 py-1 rounded-full border text-xs font-bold transition-colors ${settingMarker === 'end' ? 'bg-red-500 text-white border-red-600 shadow' : loopEnd ? 'bg-red-50 text-red-700 border-red-300' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}`}
+                  title="Click then click a note to set loop end"
+                >
+                  |◂ End{loopEnd ? ` (L${loopEnd.lineIdx + 1} · ${loopEnd.noteIdx + 1})` : ''}
+                </button>
+                {settingMarker && (
+                  <span className="text-xs text-gray-500 italic">
+                    Click a note to set {settingMarker === 'start' ? 'start' : 'end'} marker…
+                  </span>
+                )}
+                {loopStart && loopEnd && !settingMarker && (
+                  <span className="text-xs text-gray-400">↺ Looping marked region</span>
+                )}
+              </>
+            )}
+            <div className="h-6 w-[1px] bg-gray-300 mx-1" />
+            <button
+              onClick={saveFile}
+              className="flex items-center gap-2 px-5 py-2 rounded-full font-bold transition-all active:scale-95 text-xs border bg-white border-gray-200 hover:bg-gray-50"
+            >
+              <Save className="w-3 h-3" />
+              <span>Save File</span>
+            </button>
+            <button
+              onClick={() => exportMidi(notes, meta)}
+              className="flex items-center gap-2 px-5 py-2 rounded-full bg-blue-50 border border-blue-200 text-blue-700 font-bold hover:bg-blue-100 transition-all active:scale-95 text-xs"
+            >
+              <Download className="w-3 h-3" />
+              <span>Export MIDI</span>
+            </button>
+            <label className="flex items-center gap-2 px-5 py-2 rounded-full bg-white border border-gray-200 font-bold hover:bg-gray-50 transition-all active:scale-95 text-xs cursor-pointer">
+              <Upload className="w-3 h-3" />
+              <span>Import File</span>
+              <input type="file" accept=".txt" onChange={importFile} className="hidden" />
+            </label>
+          </div>
 
           <label className="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-2 block">
             {octave !== 'normal'
@@ -866,55 +1001,6 @@ export default function SwaraPlayer() {
 
         {/* Keyboard + Controls */}
         <div className="p-6 bg-gray-50 border-t border-gray-100">
-          <div className="flex flex-wrap gap-2 justify-center items-center mb-6">
-            <button
-              onClick={() => setOctave(octave === 'above' ? 'normal' : 'above')}
-              className={`flex items-center gap-1 px-3 py-1.5 rounded-full border transition-all ${octave === 'above' ? 'bg-red-500 text-white border-red-600 shadow-lg' : 'bg-white text-gray-600 border-gray-200 hover:border-red-300'}`}
-            >
-              <ChevronUp className="w-3 h-3" />
-              <span className="text-[10px] font-bold uppercase tracking-wider">Dot Above</span>
-            </button>
-            <button
-              onClick={() => setOctave(octave === 'below' ? 'normal' : 'below')}
-              className={`flex items-center gap-1 px-3 py-1.5 rounded-full border transition-all ${octave === 'below' ? 'bg-blue-500 text-white border-blue-600 shadow-lg' : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300'}`}
-            >
-              <ChevronDown className="w-3 h-3" />
-              <span className="text-[10px] font-bold uppercase tracking-wider">Dot Below</span>
-            </button>
-
-            <div className="h-6 w-[1px] bg-gray-300 mx-2" />
-
-            <button
-              onClick={() => playNotation()}
-              className={`flex items-center gap-2 px-5 py-2 rounded-full font-bold transition-all ${isPlaying ? 'bg-red-500 text-white' : 'bg-black text-white'} shadow-lg active:scale-95 text-xs`}
-            >
-              {isPlaying ? <Square className="w-3 h-3 fill-current" /> : <Play className="w-3 h-3 fill-current" />}
-              <span>{isPlaying ? 'Stop' : 'Play'}</span>
-            </button>
-
-            <button
-              onClick={saveFile}
-              className="flex items-center gap-2 px-5 py-2 rounded-full font-bold transition-all active:scale-95 text-xs border bg-white border-gray-200 hover:bg-gray-50"
-            >
-              <Save className="w-3 h-3" />
-              <span>Save File</span>
-            </button>
-
-            <button
-              onClick={() => exportMidi(notes, meta)}
-              className="flex items-center gap-2 px-5 py-2 rounded-full bg-blue-50 border border-blue-200 text-blue-700 font-bold hover:bg-blue-100 transition-all active:scale-95 text-xs"
-            >
-              <Download className="w-3 h-3" />
-              <span>Export MIDI</span>
-            </button>
-
-            <label className="flex items-center gap-2 px-5 py-2 rounded-full bg-white border border-gray-200 font-bold hover:bg-gray-50 transition-all active:scale-95 text-xs cursor-pointer">
-              <Upload className="w-3 h-3" />
-              <span>Import File</span>
-              <input type="file" accept=".txt" onChange={importFile} className="hidden" />
-            </label>
-          </div>
-
           {/* Virtual Keyboard */}
           <div className="grid grid-cols-4 sm:grid-cols-7 md:grid-cols-11 gap-2">
             {['S', 'R', 'G', 'M', 'P', 'D', 'N', ',', '|'].map(note => (

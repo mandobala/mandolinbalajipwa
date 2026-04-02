@@ -59,5 +59,20 @@
     "edam": "",
     "tags": "",
     "file": "KuraiOndrumillai_Sivaranjani.txt"
+  },
+  {
+    "name": "Bagayanayya",
+    "song": "Bagayanayya",
+    "composer": "Thyagaraja",
+    "raga": "Chandrajyothi",
+    "tala": "Adhi",
+    "beats": "8",
+    "arohana": "S R1 G1 M2 P D2 S",
+    "avarohana": "S D2 P M2 G1 R1 S",
+    "scale": "R1 G1 M2 D2",
+    "sruthi": "C#",
+    "edam": "7",
+    "tags": "",
+    "file": "Bagayanayya_Chandrajyothi.txt"
   }
 ]
