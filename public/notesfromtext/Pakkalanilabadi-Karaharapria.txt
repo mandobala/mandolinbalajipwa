@@ -1,0 +1,16 @@
+MetaS: Raga: Karaharapria | Song: Pakkalanilabadi | Beats: 7 | Nadai: 2 | Thala:  | Edam: 4 | Scale:  | Tags:  MetaE:
+
+Line 1:
+, , | g r | s n | d r | s n | d p | s n
+d p | m , | , , | , , | , , | , , | , ,
+
+Line 2:
+, , | , , | , , | , , | , , | , , | g r
+s n | d s | , r | s n | d p | d , | s n
+d p | m , | , , | , , | , , | , , | , ,
+
+Line 3:
+, , | , , | , , | , , | g r | s n | d s
+, s | , r | s n | d p | d , | d , | s n
+d p | m , | , , | , , | , , | , , | , ,
+
