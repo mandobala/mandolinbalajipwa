@@ -71,6 +71,10 @@ export default function NotationPlayer() {
   const [activeLineIdx, setActiveLineIdx] = useState<number | null>(null);
   const isPlayingRef = useRef(isPlaying);
   const isLoopingRef = useRef(false);
+  const [loopEnabled, setLoopEnabled] = useState(false);
+  const [loopStart, setLoopStart] = useState<{ lineIdx: number; noteIdx: number } | null>(null);
+  const [loopEnd, setLoopEnd] = useState<{ lineIdx: number; noteIdx: number } | null>(null);
+  const [settingMarker, setSettingMarker] = useState<'start' | 'end' | null>(null);
   const [showPicker, setShowPicker] = useState(false);
   const [songList, setSongList] = useState<{ name: string; song: string; raga: string; file?: string }[]>([]);
   // MIDI modal state
@@ -187,7 +191,7 @@ export default function NotationPlayer() {
     const notesToPlay = (typeof customNotes === 'string' ? customNotes : notes) || '';
     if (!notesToPlay.trim()) return;
 
-    isLoopingRef.current = loopOverride !== undefined ? loopOverride : (typeof customNotes === 'string');
+    isLoopingRef.current = loopOverride !== undefined ? loopOverride : (typeof customNotes === 'string') || (loopEnabled && !!(loopStart && loopEnd));
 
     await audioEngine.playClick(0.01);
     setIsPlaying(true);
@@ -217,13 +221,26 @@ export default function NotationPlayer() {
       });
     } else {
       const lines = notes.split('\n');
+
+      // Normalize loop range so start <= end
+      let effectiveStart = loopStart;
+      let effectiveEnd = loopEnd;
+      if (loopEnabled && loopStart && loopEnd) {
+        const startBefore = loopStart.lineIdx < loopEnd.lineIdx ||
+          (loopStart.lineIdx === loopEnd.lineIdx && loopStart.noteIdx <= loopEnd.noteIdx);
+        if (!startBefore) { effectiveStart = loopEnd; effectiveEnd = loopStart; }
+      }
+      const useLoop = loopEnabled && !!(effectiveStart && effectiveEnd);
+
       lines.forEach((line, lineIdx) => {
         if (/^TAGS\b/i.test(line.trim())) return;
         if (/^LR:/i.test(line.trim())) return;
         if (/^[A-Za-z][A-Za-z0-9 ]*:$/.test(line.trim())) return;
+        if (useLoop && (lineIdx < effectiveStart!.lineIdx || lineIdx > effectiveEnd!.lineIdx)) return;
         const rawUnits = line.match(/([A-Za-z0-9 ]+:|[SRGMPDN][123]?\u0323?|Ṡ|Ṙ|Ġ|Ṁ|Ṗ|Ḋ|Ṅ|Ṣ|Ṛ|Ṃ|Ḍ|Ṇ|,|\||\{|\}|\[\d+:|\]|-)/gi) || [];
         speedMultiplier = 1;
         nadaiOverride = null;
+        let linePlayableIdx = 0;
         rawUnits.forEach((u, unitIdx) => {
           if (u === '{') { speedMultiplier = 0.5; return; }
           if (u === '}') { speedMultiplier = 1; return; }
@@ -231,6 +248,11 @@ export default function NotationPlayer() {
           if (u === ']') { nadaiOverride = null; return; }
           if (u === '-') return;
           if (u !== '|' && !u.endsWith(':') && u !== ' ') {
+            const currentNoteIdx = linePlayableIdx++;
+            if (useLoop) {
+              if (lineIdx === effectiveStart!.lineIdx && currentNoteIdx < effectiveStart!.noteIdx) return;
+              if (lineIdx === effectiveEnd!.lineIdx && currentNoteIdx > effectiveEnd!.noteIdx) return;
+            }
             let duration = baseNoteDuration * speedMultiplier;
             if (nadaiOverride) duration = beatDuration / nadaiOverride;
             playableUnits.push({ char: u, duration, lineIdx, unitIdx });
@@ -317,6 +339,7 @@ export default function NotationPlayer() {
 
       let currentBrace: { startIdx: number; count: number } | null = null;
       let currentNadaiBlock: { startIdx: number; nadai: number } | null = null;
+      let playableNoteIdx = 0;
 
       return (
         <div key={lineIdx} className={`relative flex items-start gap-3 leading-relaxed min-h-[1.625rem] group transition-colors duration-200 p-1 ${activeLineIdx === lineIdx ? 'bg-yellow-100/50 rounded-md ring-1 ring-yellow-200' : ''}`}>
@@ -385,6 +408,44 @@ export default function NotationPlayer() {
                 color += ' border-t border-red-300';
               } else if (currentNadaiBlock) {
                 color += ' border-t border-purple-300';
+              }
+
+              const isPlayableNote = /^([SRGMPDN][123]?\u0323?|Ṡ|Ṙ|Ġ|Ṁ|Ṗ|Ḋ|Ṅ|Ṣ|Ṛ|Ṃ|Ḍ|Ṇ|,)$/i.test(char);
+              if (isPlayableNote) {
+                const thisNoteIdx = playableNoteIdx++;
+                const isStartMarker = loopEnabled && loopStart?.lineIdx === lineIdx && loopStart?.noteIdx === thisNoteIdx;
+                const isEndMarker = loopEnabled && loopEnd?.lineIdx === lineIdx && loopEnd?.noteIdx === thisNoteIdx;
+                const handleNoteClick = (e: React.MouseEvent) => {
+                  if (!settingMarker) return;
+                  e.stopPropagation();
+                  if (settingMarker === 'start') setLoopStart({ lineIdx, noteIdx: thisNoteIdx });
+                  else setLoopEnd({ lineIdx, noteIdx: thisNoteIdx });
+                  setSettingMarker(null);
+                };
+                return (
+                  <span key={i} className="inline-flex items-center">
+                    {isStartMarker && (
+                      <span
+                        className="inline-block w-0.5 h-[1.2em] bg-green-500 mx-0.5 align-middle pointer-events-auto cursor-pointer"
+                        onClick={() => setSettingMarker('start')}
+                        title="Loop start — click to reposition"
+                      />
+                    )}
+                    <span
+                      onClick={handleNoteClick}
+                      className={`${color} font-mono text-[16px] ${settingMarker ? 'pointer-events-auto cursor-crosshair' : 'pointer-events-none'}`}
+                    >
+                      {char}
+                    </span>
+                    {isEndMarker && (
+                      <span
+                        className="inline-block w-0.5 h-[1.2em] bg-red-500 mx-0.5 align-middle pointer-events-auto cursor-pointer"
+                        onClick={() => setSettingMarker('end')}
+                        title="Loop end — click to reposition"
+                      />
+                    )}
+                  </span>
+                );
               }
 
               return (
@@ -470,6 +531,48 @@ export default function NotationPlayer() {
               {isPlaying ? <Square className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current" />}
               <span>{isPlaying ? 'Stop Playback' : 'Start Playback'}</span>
             </button>
+
+            <div className="h-8 w-[1px] bg-gray-300 mx-2" />
+
+            <label className="flex items-center gap-1.5 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={loopEnabled}
+                onChange={e => {
+                  setLoopEnabled(e.target.checked);
+                  if (!e.target.checked) { setLoopStart(null); setLoopEnd(null); setSettingMarker(null); }
+                }}
+                className="accent-black"
+              />
+              <span className="text-xs font-bold text-gray-700">Loop</span>
+            </label>
+
+            {loopEnabled && (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setSettingMarker(settingMarker === 'start' ? null : 'start')}
+                  className={`flex items-center gap-1 px-3 py-1 rounded-full border text-xs font-bold transition-colors ${settingMarker === 'start' ? 'bg-green-500 text-white border-green-600 shadow' : loopStart ? 'bg-green-50 text-green-700 border-green-300' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}`}
+                  title="Click then click a note to set loop start"
+                >
+                  ▸| Start{loopStart ? ` (L${loopStart.lineIdx + 1}·${loopStart.noteIdx + 1})` : ''}
+                </button>
+                <button
+                  onClick={() => setSettingMarker(settingMarker === 'end' ? null : 'end')}
+                  className={`flex items-center gap-1 px-3 py-1 rounded-full border text-xs font-bold transition-colors ${settingMarker === 'end' ? 'bg-red-500 text-white border-red-600 shadow' : loopEnd ? 'bg-red-50 text-red-700 border-red-300' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}`}
+                  title="Click then click a note to set loop end"
+                >
+                  |◂ End{loopEnd ? ` (L${loopEnd.lineIdx + 1}·${loopEnd.noteIdx + 1})` : ''}
+                </button>
+                {settingMarker && (
+                  <span className="text-xs text-gray-500 italic">
+                    Click a note to set {settingMarker === 'start' ? 'start' : 'end'} marker…
+                  </span>
+                )}
+                {loopStart && loopEnd && !settingMarker && (
+                  <span className="text-xs text-gray-400">↺ Looping marked region</span>
+                )}
+              </div>
+            )}
 
             <div className="h-8 w-[1px] bg-gray-300 mx-2" />
 

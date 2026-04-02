@@ -1,45 +1,47 @@
-MetaS: Song: Bagayanayya | Composer: Thyagaraja | Raga: Chandrajyothi | Arohana: S R1 G1 M2 P D2 S | Avarohana: S D2 P M2 G1 R1 S | Scale: R1 G1 M2 D2 | Beats: 8 | Nadai: 4 | Sruthi: C# | BPM: 80 | Thala: Adhi | Edam: 7 | Tags:  | MetaE:
+MetaS: Song: Bagayanayya | Composer: Thyagaraja | Raga: Chandrajyothi | Arohana: S R1 G1 M2 P D2 S | Avarohana: S D2 P M2 G1 R1 S | Scale: R1 G1 M2 D2 | Beats: 8 | Nadai: 4 | Sruthi: C# | BPM: 55 | Thala: Adhi | Edam: 7 | Tags:  | MetaE:
 PALLAVI:
 , , , ,|, , G ,|, R , ,|, R , S|, , S ,|, R S S|D , S ,|, , S ,|
-LR:        BĀ     GĀ      YE | NAYYA   NĪ | MĀYA    LEN | TŌ
+LR:        BĀ     GĀ      YE | NAYYA   NĪ | MĀYA   
 
 S R S R|, , M ,|, , G ,|, , G ,|R , ,{R S}|S , R S|S D , S|, , S R|
-LR:   BĀ    GĀ      YE | NAYYA      NĪ | MĀYA    LEN | TŌ
+LR:   LEN | TŌ BĀ    GĀ      YE | NAYYA      NĪ | MĀYA    
 
 G , , M|, , P ,|, D P M|G , G ,|R , ,{R S}|S , R S|S D , S|, , S ,|
-LR:   BĀ    GĀ      YE | NAYYA      NĪ   | MĀYA    LEN | TŌ
+LR:  LEN | TŌ BĀ    GĀ      YE | NAYYA      NĪ   | MĀYA    
 
 R S , R|, , G ,|M , P ,|, P , D|P , D ,|, D , ,|, , Ṡ D|D P P ,|
-LR:   BRAHMA KAI NAGO | NI   YĀ    | DA TA RA MĀ  |
+LR:  LEN | TŌ BRAHMA KAI NAGO | NI   YĀ    | DA TA RA MĀ  |
 
 M P D ,|, Ṡ D P|M G , R|, , R ,|R , ,{R S}|S ,{D , R S}|S D , S|, , S ,|
-LR:   BĀ      GĀ    YE | NAYYA      NĪ      | MĀYA    LEN | TŌ
+LR:   BĀ      GĀ    YE | NAYYA      NĪ      | MĀYA    
 
 {D S R S , ,}R|, , G M|G M , P|, , P ,|D P M P|D , Ṙ Ṡ|Ṙ Ṡ Ṡ D|D P P ,|
-LR:   BRAH MA KAI NAGO | NI       YĀ   | DA   TA      | RA      MĀ
+LR:   LEN | TŌBRAH MA KAI NAGO | NI       YĀ   | DA   TA      | RA      MĀ
 {M , P D P , D Ṡ|D , Ṡ D},, ,,,, ,,,, ,,,, ,,,, ,,,, ,,,,
 ANUPALLAVI:
-, , , ,|, , D ,|,, Ṡ , ,| Ṡ , Ṙ|Ṡ , Ṙ ,|, Ġ , Ġ|Ṙ Ṙ , Ṙ|, Ṙ Ṡ Ṡ|
-LR:               I     GĀ      RU | DAMUNU   YO | NA RIÑ CU | CU NU
+, , , ,|, , D ,|,, Ṡ , ,|, Ṡ , Ṙ|Ṡ , Ṙ ,|, Ġ , Ġ,|ĠṘ Ṙ , Ṙ|, 
+LR:               I     GĀ      RU | DAMUNU   YO | NA RIÑ CU | 
 
-, , ,{Ṡ Ṙ D P M}{P D P|D}, Ṡ D , Ṡ Ṙ ,{Ġ|Ṁ}{P M Ġ}, ,|Ṙ , Ṡ Ṙ|, Ṡ , ,|
-LR:   I       GĀ      | RU DAMUNU   YO | NA  RIÑ CU | CU NU
+Ṙ Ṡ Ṡ, , ,Ṙ Ṡ D P MP D P|D, Ṡ D , Ṡ Ṙ ,Ġ|ṀP M Ġ, ,,|Ṙ , 
+LR:  CU NU I       GĀ      | RU DAMUNU   YO | NA  RIÑ CU | 
 
-Ṙ , ,{Ṡ ,|Ṙ Ṡ}Ṡ D D|, Ṡ D ,|Ṡ , , Ṙ|Ṡ D , Ṡ|D , P M|P{D , Ṙ Ṡ Ṡ}, D , P
-LR:   NĒ  GĀ      DA  | NU CU  BAL   | GĒ  DI YU  NU | BĀ     GĀ
+Ṡ Ṙ , Ṡ|, , Ṙ ,|, ,{Ṡ , Ṙ Ṡ}|Ṡ D D ,|Ṡ D , Ṡ|, , Ṙ Ṡ|, D Ṡ D|, P M P|
+LR:   CU NUNĒ  GĀ      DA  | NU CU  BAL   | GĒ  DI 
 
-{M P D P M G}R|, , R ,|S , , S|, ,
-LR:   YENAY    YA
+{D , Ṙ Ṡ Ṡ ,}D|, P{M P D P}|M G R ,|, , R ,|S , , S|, , , ,|, , , ,|
+LR:  YU  NU | BĀ     GĀYENAY    YA
 
 CHARANAM:
-P , P ,|P , , P|,{M P D P D}, P D{P M G|M P M G}, ,|R , ,{R S|S},
-LR:   A LANĀ DU     | KAU  RA VU LA | NA NA CA     | MA MA NA
+, , , ,|, , P ,|P , P ,|, , P ,|{M P D P D}, P D P M G M P M G ,
+LR:   A LANĀ DU     | KAU  RA VU LA | NA NA CA      
 
-{M P}, M G|, , R ,|{R S D}S , , R S R , G , M , P ,{D , Ṡ|D , , D P P}
-LR:   A LA RI DŌ SA | MA  NĒ NARUNI | JŪ CI PĀ     | PA
+R , ,{R S}|S , M P|, M G ,|, , R ,|R S D S|, , R S|, R G ,|M , P ,|
+LR:   MA NA A LA RI DŌ SA | MA  NĒ NARUNI | JŪ CI 
 
-Ṡ D P M|, P , ,|D , Ṡ D|, S , ,|Ṙ Ṡ Ṙ Ṡ|Ṙ Ṡ Ṙ ,|Ṙ , Ṡ Ṙ|,{Ġ Ṁ},
-LR:   PHALAMU NĪ KU | TANA KU LĒ DA | NI CAK KA GA | PĀ
+{D , Ṡ D , ,}{D P}|P , Ṡ D|P M , P|, , D ,|Ṡ D , Ṡ|, , Ṙ Ṡ|Ṙ Ṡ Ṙ Ṡ|Ṙ , Ṙ ,|
+LR:   PĀ  PA PHALAMU NĪ KU | TANA KU LĒ DA | NI CAK KA 
 
-Ṙ Ṙ , R|{Ṡ , Ṙ Ṡ}Ṡ D|D , Ṡ D|, Ṡ , ,|Ṙ Ṡ D ,|Ṡ D , P|M P{D , Ṙ Ṡ|Ṡ}, D , P
-LR:   LANAMUSĒ  YA      | LĒ  DĀ      | TYĀ GA RĀ    | JA NU TA
+Ṡ Ṙ , Ġ|Ṁ , Ṙ Ṙ|, R{Ṡ , Ṙ Ṡ}|Ṡ D D ,|Ṡ D , Ṡ|, , Ṙ Ṡ|D , Ṡ D|, P M P|
+LR:   GA  PĀ LANAMUSĒ  YA      | LĒ  DĀ      | TYĀ GA RĀ    | JA NU 
+{D , Ṙ Ṡ Ṡ ,}D|, P , ,|, , , ,|, , , ,|, , , ,|, , , ,|, , , ,|, , , ,|
+TA
