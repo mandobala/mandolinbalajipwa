@@ -15,31 +15,31 @@ LR:   BRAHMA KAI NAGO | NI   YĀ    | DA TA RA MĀ  |
 M P D ,|, Ṡ D P|M G , R|, , R ,|R , ,{R S}|S ,{D , R S}|S D , S|, , S ,|
 LR:   BĀ      GĀ    YE | NAYYA      NĪ      | MĀYA    LEN | TŌ
 
-LINE: {D S R S , ,}R|, , G M|G M , P|, , P ,|D P M P|D , Ṙ Ṡ|Ṙ Ṡ Ṡ D|D P P ,|{M , P D P , D Ṡ|D , Ṡ D}
+{D S R S , ,}R|, , G M|G M , P|, , P ,|D P M P|D , Ṙ Ṡ|Ṙ Ṡ Ṡ D|D P P ,|
 LR:   BRAH MA KAI NAGO | NI       YĀ   | DA   TA      | RA      MĀ
-
+{M , P D P , D Ṡ|D , Ṡ D},, ,,,, ,,,, ,,,, ,,,, ,,,, ,,,,
 ANUPALLAVI:
-LINE: , , , ,|, , D ,|, Ṡ , ,|, Ṡ , Ṙ|Ṡ , Ṙ ,|, Ġ , Ġ|Ṙ Ṙ , Ṙ|, Ṙ Ṡ Ṡ|, , ,
+, , , ,|, , D ,|,, Ṡ , ,| Ṡ , Ṙ|Ṡ , Ṙ ,|, Ġ , Ġ|Ṙ Ṙ , Ṙ|, Ṙ Ṡ Ṡ|
 LR:               I     GĀ      RU | DAMUNU   YO | NA RIÑ CU | CU NU
 
-LINE: {Ṡ Ṙ D P M}{P D P|D}, Ṡ D , Ṡ Ṙ ,{Ġ|Ṁ}{P M Ġ}, ,|Ṙ , Ṡ Ṙ|, Ṡ , ,|
+, , ,{Ṡ Ṙ D P M}{P D P|D}, Ṡ D , Ṡ Ṙ ,{Ġ|Ṁ}{P M Ġ}, ,|Ṙ , Ṡ Ṙ|, Ṡ , ,|
 LR:   I       GĀ      | RU DAMUNU   YO | NA  RIÑ CU | CU NU
 
-LINE: Ṙ , ,{Ṡ ,|Ṙ Ṡ}Ṡ D D|, Ṡ D ,|Ṡ , , Ṙ|Ṡ D , Ṡ|D , P M|P{D , Ṙ Ṡ Ṡ}, D , P
+Ṙ , ,{Ṡ ,|Ṙ Ṡ}Ṡ D D|, Ṡ D ,|Ṡ , , Ṙ|Ṡ D , Ṡ|D , P M|P{D , Ṙ Ṡ Ṡ}, D , P
 LR:   NĒ  GĀ      DA  | NU CU  BAL   | GĒ  DI YU  NU | BĀ     GĀ
 
-LINE: {M P D P M G}R|, , R ,|S , , S|, ,
+{M P D P M G}R|, , R ,|S , , S|, ,
 LR:   YENAY    YA
 
 CHARANAM:
-LINE: P , P ,|P , , P|,{M P D P D}, P D{P M G|M P M G}, ,|R , ,{R S|S},
+P , P ,|P , , P|,{M P D P D}, P D{P M G|M P M G}, ,|R , ,{R S|S},
 LR:   A LANĀ DU     | KAU  RA VU LA | NA NA CA     | MA MA NA
 
-LINE: {M P}, M G|, , R ,|{R S D}S , , R S R , G , M , P ,{D , Ṡ|D , , D P P}
+{M P}, M G|, , R ,|{R S D}S , , R S R , G , M , P ,{D , Ṡ|D , , D P P}
 LR:   A LA RI DŌ SA | MA  NĒ NARUNI | JŪ CI PĀ     | PA
 
-LINE: Ṡ D P M|, P , ,|D , Ṡ D|, S , ,|Ṙ Ṡ Ṙ Ṡ|Ṙ Ṡ Ṙ ,|Ṙ , Ṡ Ṙ|,{Ġ Ṁ},
+Ṡ D P M|, P , ,|D , Ṡ D|, S , ,|Ṙ Ṡ Ṙ Ṡ|Ṙ Ṡ Ṙ ,|Ṙ , Ṡ Ṙ|,{Ġ Ṁ},
 LR:   PHALAMU NĪ KU | TANA KU LĒ DA | NI CAK KA GA | PĀ
 
-LINE: Ṙ Ṙ , R|{Ṡ , Ṙ Ṡ}Ṡ D|D , Ṡ D|, Ṡ , ,|Ṙ Ṡ D ,|Ṡ D , P|M P{D , Ṙ Ṡ|Ṡ}, D , P
+Ṙ Ṙ , R|{Ṡ , Ṙ Ṡ}Ṡ D|D , Ṡ D|, Ṡ , ,|Ṙ Ṡ D ,|Ṡ D , P|M P{D , Ṙ Ṡ|Ṡ}, D , P
 LR:   LANAMUSĒ  YA      | LĒ  DĀ      | TYĀ GA RĀ    | JA NU TA
