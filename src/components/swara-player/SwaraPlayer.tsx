@@ -33,8 +33,10 @@ import {
   Download,
   Wand2,
   Zap,
-  Hash
+  Hash,
+  LogOut
 } from 'lucide-react';
+import type { User } from 'firebase/auth';
 import { audioEngine } from '../notation-player/lib/audio';
 import { exportMidi } from '../notation-player/lib/midi';
 import type { MetaData, Octave } from '../notation-player/types';
@@ -45,7 +47,12 @@ import {
   getSemitones
 } from '../notation-player/lib/music';
 
-export default function SwaraPlayer() {
+interface Props {
+  user: User;
+  onSignOut: () => void;
+}
+
+export default function SwaraPlayer({ user, onSignOut }: Props) {
   const [notes, setNotes] = useState('');
   const [meta, setMeta] = useState<MetaData>({
     song: 'Varnam',
@@ -754,11 +761,21 @@ export default function SwaraPlayer() {
       <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-200">
         {/* Header / Meta */}
         <div className="p-4 border-b border-gray-100 bg-gray-50/50">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-black rounded-lg">
-              <Music className="w-6 h-6 text-white" />
+          <div className="flex items-center justify-between gap-3 mb-2">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-black rounded-lg">
+                <Music className="w-6 h-6 text-white" />
+              </div>
+              <h1 className="text-2xl font-serif italic font-bold tracking-tight">Carnatic Notation Composer</h1>
             </div>
-            <h1 className="text-2xl font-serif italic font-bold tracking-tight">Carnatic Notation Composer</h1>
+            <button
+              onClick={onSignOut}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 text-xs text-gray-500 hover:bg-gray-50 transition-all"
+              title={`Signed in as ${user.email}`}
+            >
+              <LogOut className="w-3 h-3" />
+              Sign out
+            </button>
           </div>
           <p className="text-sm text-gray-500 font-serif italic ml-11 mb-4">
             {meta.song} — {meta.raga}{meta.composer ? ` · ${meta.composer}` : ''}

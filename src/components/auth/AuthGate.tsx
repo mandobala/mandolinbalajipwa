@@ -10,6 +10,11 @@ import { Music } from 'lucide-react';
 import { auth } from '../../lib/firebase';
 import { logActivity } from '../../lib/activity';
 import NotationPlayer from '../notation-player/NotationPlayer';
+import SwaraPlayer from '../swara-player/SwaraPlayer';
+
+interface AuthGateProps {
+  player?: 'notation' | 'swara';
+}
 
 function GoogleIcon() {
   return (
@@ -22,7 +27,7 @@ function GoogleIcon() {
   );
 }
 
-export default function AuthGate() {
+export default function AuthGate({ player = 'notation' }: AuthGateProps) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [signingIn, setSigningIn] = useState(false);
@@ -93,5 +98,6 @@ export default function AuthGate() {
     );
   }
 
+  if (player === 'swara') return <SwaraPlayer user={user} onSignOut={handleSignOut} />;
   return <NotationPlayer user={user} onSignOut={handleSignOut} />;
 }
