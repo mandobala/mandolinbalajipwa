@@ -1,11 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import NotationPlayerComponent from '../components/notation-player/NotationPlayer';
+import AuthGate from '../components/auth/AuthGate';
 ---
 
 <BaseLayout
   title="Notation Player | Mandolin Balaji"
   description="Interactive Carnatic music notation player — import, play, and export notation files with sruthi, BPM, and nadai controls."
 >
-  <NotationPlayerComponent client:only="react" />
+  <AuthGate client:only="react" />
 </BaseLayout>

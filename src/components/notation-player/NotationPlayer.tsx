@@ -9,8 +9,10 @@ import {
   Upload,
   Download,
   X,
-  ChevronRight
+  ChevronRight,
+  LogOut
 } from 'lucide-react';
+import type { User } from 'firebase/auth';
 import './notation-player.css';
 import { audioEngine } from './lib/audio';
 import type { MetaData } from './types';
@@ -20,8 +22,14 @@ import {
   getSemitones
 } from './lib/music';
 import { exportMidi } from './lib/midi';
+import { logActivity } from '../../lib/activity';
 
-export default function NotationPlayer() {
+interface Props {
+  user: User;
+  onSignOut: () => void;
+}
+
+export default function NotationPlayer({ user, onSignOut }: Props) {
     // Helper to get query param from URL
     function getQueryParam(name: string): string | null {
       if (typeof window === 'undefined') return null;
@@ -135,13 +143,14 @@ export default function NotationPlayer() {
     setShowPicker(true);
   };
 
-  const loadSong = async (s: { name: string; file?: string }) => {
+  const loadSong = async (s: { name: string; song?: string; raga?: string; file?: string }) => {
     const filename = s.file ?? `${s.name}.txt`;
     const res = await fetch(`/notesfromtext/${filename}`);
     if (!res.ok) return;
     const text = await res.text();
     parseContent(text);
     setShowPicker(false);
+    logActivity(user, 'song_loaded', { song: s.song ?? s.name, raga: s.raga ?? '', file: filename });
   };
 
   // Download MIDI modal logic
@@ -190,6 +199,10 @@ export default function NotationPlayer() {
 
     const notesToPlay = (typeof customNotes === 'string' ? customNotes : notes) || '';
     if (!notesToPlay.trim()) return;
+
+    if (typeof customNotes !== 'string') {
+      logActivity(user, 'song_played', { song: meta.song, raga: meta.raga });
+    }
 
     isLoopingRef.current = loopOverride !== undefined ? loopOverride : (typeof customNotes === 'string') || (loopEnabled && !!(loopStart && loopEnd));
 
@@ -466,11 +479,21 @@ export default function NotationPlayer() {
         {/* Header / Meta Section */}
         <div className="p-4 border-b border-gray-100 bg-gray-50/50">
           <div className="flex flex-col mb-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-black rounded-lg">
-                <Music className="w-6 h-6 text-white" />
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-black rounded-lg">
+                  <Music className="w-6 h-6 text-white" />
+                </div>
+                <h1 className="text-2xl font-serif italic font-bold tracking-tight">Carnatic Notation Player</h1>
               </div>
-              <h1 className="text-2xl font-serif italic font-bold tracking-tight">Carnatic Notation Player</h1>
+              <button
+                onClick={onSignOut}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 text-xs text-gray-500 hover:bg-gray-50 transition-all"
+                title={`Signed in as ${user.email}`}
+              >
+                <LogOut className="w-3 h-3" />
+                Sign out
+              </button>
             </div>
             <p className="text-sm text-gray-500 font-serif italic ml-11">
               {meta.song} — {meta.raga}{meta.composer ? ` · ${meta.composer}` : ''}
