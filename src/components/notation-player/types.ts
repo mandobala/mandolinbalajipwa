@@ -14,6 +14,7 @@ export interface MetaData {
   thala: string;
   edam: string;
   tags: string;
+  gistId?: string;
 }
 
 export const SWARASTHANA_OFFSETS: Record<string, number> = {

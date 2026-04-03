@@ -28,7 +28,8 @@
     "sruthi": "C#",
     "edam": "",
     "tags": "",
-    "file": "Makelara_Ravichandrika.txt"
+    "file": "Makelara_Ravichandrika.txt",
+    "url": "https://gist.githubusercontent.com/mandolinbalaji/358a1038996046cc1f3eeb35f39cbb0b/raw/Makelara_Ravichandrika.txt"
   },
   {
     "name": "Threes",
@@ -58,7 +59,8 @@
     "sruthi": "C#",
     "edam": "",
     "tags": "",
-    "file": "KuraiOndrumillai_Sivaranjani.txt"
+    "file": "KuraiOndrumillai_Sivaranjani.txt",
+    "url": "https://gist.githubusercontent.com/mandolinbalaji/ae31190cea2d2f4c9d9c76469130fd2c/raw/7b34704d0faea1890ff42a56a4812a54f6a2b56e/KuraiOndrumillai_Sivaranjani.txt"
   },
   {
     "name": "Bagayanayya",
@@ -90,5 +92,21 @@
     "tags": "",
     "file": "Endharaomahanu_Sri.txt",
     "url": "https://gist.githubusercontent.com/mandolinbalaji/9abd2bada912527dda4e494a106c9de3/raw/Endharaomahanu_Sri.txt"
+  },
+  {
+    "name": "Varnam",
+    "song": "Varnam",
+    "composer": "",
+    "raga": "Mohanam",
+    "tala": "",
+    "beats": "8",
+    "arohana": "",
+    "avarohana": "",
+    "scale": "R1 G3 M1 D1 N3",
+    "sruthi": "C#",
+    "edam": "",
+    "tags": "",
+    "file": "Varnam_Mohanam.txt",
+    "url": "https://gist.githubusercontent.com/mandolinbalaji/4ed23d7fc6638c78f679fedd5efdeeb1/raw/Varnam_Mohanam.txt"
   }
 ]

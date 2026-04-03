@@ -67,8 +67,13 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
     bpm: 80,
     thala: '',
     edam: '',
-    tags: ''
+    tags: '',
+    gistId: ''
   });
+  const [githubToken, setGithubToken] = useState<string>(
+    () => (typeof localStorage !== 'undefined' ? localStorage.getItem('gh_gist_token') ?? '' : '')
+  );
+  const [gistStatus, setGistStatus] = useState<string>('');
   const [octave, setOctave] = useState<Octave>('normal');
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeLineIdx, setActiveLineIdx] = useState<number | null>(null);
@@ -312,6 +317,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
           if (key === 'Thala') newMeta.thala = value;
           if (key === 'Edam') newMeta.edam = value;
           if (key === 'Tags') newMeta.tags = value;
+          if (key === 'GistId') newMeta.gistId = value;
         });
         setMeta(newMeta);
         const partsAfterMeta = content.split(/MetaE:\s*/);
@@ -330,7 +336,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
 
   const saveFile = async () => {
     const fileName = `${meta.song || 'Song'}_${meta.raga || 'Raga'}.txt`;
-    const content = `MetaS: Song: ${meta.song} | Composer: ${meta.composer} | Raga: ${meta.raga} | Arohana: ${meta.arohana} | Avarohana: ${meta.avarohana} | Scale: ${meta.scale} | Beats: ${meta.beats} | Nadai: ${meta.nadai} | Sruthi: ${meta.sruthi} | BPM: ${meta.bpm} | Thala: ${meta.thala} | Edam: ${meta.edam} | Tags: ${meta.tags} | MetaE:\n${notes}`;
+    const content = `MetaS: Song: ${meta.song} | Composer: ${meta.composer} | Raga: ${meta.raga} | Arohana: ${meta.arohana} | Avarohana: ${meta.avarohana} | Scale: ${meta.scale} | Beats: ${meta.beats} | Nadai: ${meta.nadai} | Sruthi: ${meta.sruthi} | BPM: ${meta.bpm} | Thala: ${meta.thala} | Edam: ${meta.edam} | Tags: ${meta.tags} | GistId: ${meta.gistId || ''} | MetaE:\n${notes}`;
     const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -363,6 +369,55 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
       });
     } catch {
       // Non-critical — file was already downloaded
+    }
+  };
+
+  const saveToGist = async () => {
+    if (!githubToken) { setGistStatus('Enter GitHub token first'); return; }
+    const fileName = `${meta.song || 'Song'}_${meta.raga || 'Raga'}.txt`;
+    const content = `MetaS: Song: ${meta.song} | Composer: ${meta.composer} | Raga: ${meta.raga} | Arohana: ${meta.arohana} | Avarohana: ${meta.avarohana} | Scale: ${meta.scale} | Beats: ${meta.beats} | Nadai: ${meta.nadai} | Sruthi: ${meta.sruthi} | BPM: ${meta.bpm} | Thala: ${meta.thala} | Edam: ${meta.edam} | Tags: ${meta.tags} | GistId: ${meta.gistId || ''} | MetaE:\n${notes}`;
+    const body = { files: { [fileName]: { content } }, public: true };
+    let gistId = meta.gistId;
+    try {
+      setGistStatus('Saving...');
+      let res: Response;
+      if (gistId) {
+        res = await fetch(`https://api.github.com/gists/${gistId}`, {
+          method: 'PATCH',
+          headers: { Authorization: `token ${githubToken}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+      } else {
+        res = await fetch('https://api.github.com/gists', {
+          method: 'POST',
+          headers: { Authorization: `token ${githubToken}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...body, description: `${meta.song} - ${meta.raga}` }),
+        });
+      }
+      if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+      const data = await res.json();
+      gistId = data.id;
+      const gistUrl = `https://gist.githubusercontent.com/${data.owner.login}/${gistId}/raw/${fileName}`;
+      setMeta(m => ({ ...m, gistId }));
+      setGistStatus('Saved to Gist!');
+      setTimeout(() => setGistStatus(''), 3000);
+      const indexEntry = {
+        name: meta.song || 'Song', song: meta.song || 'Song',
+        composer: meta.composer || '', raga: meta.raga || 'Raga',
+        tala: meta.thala || '', beats: String(meta.beats),
+        arohana: meta.arohana || '', avarohana: meta.avarohana || '',
+        scale: meta.scale || '', sruthi: meta.sruthi || '',
+        edam: meta.edam || '', tags: meta.tags || '',
+        file: fileName, url: gistUrl,
+      };
+      try {
+        await fetch('/api/update-notation-index', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(indexEntry),
+        });
+      } catch { /* Non-critical */ }
+    } catch (e: any) {
+      setGistStatus(`Error: ${e.message}`);
     }
   };
 
@@ -921,6 +976,22 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
               <span>Import File</span>
               <input type="file" accept=".txt" onChange={importFile} className="hidden" />
             </label>
+            <div className="h-6 w-[1px] bg-gray-300 mx-1" />
+            <input
+              type="password"
+              placeholder="GitHub token (gist scope)"
+              value={githubToken}
+              onChange={e => { setGithubToken(e.target.value); localStorage.setItem('gh_gist_token', e.target.value); }}
+              className="text-xs border border-gray-200 rounded-full px-3 py-1.5 w-44 outline-none focus:border-gray-400"
+            />
+            <button
+              onClick={saveToGist}
+              className="flex items-center gap-2 px-5 py-2 rounded-full bg-green-50 border border-green-200 text-green-700 font-bold hover:bg-green-100 transition-all active:scale-95 text-xs"
+            >
+              <Save className="w-3 h-3" />
+              <span>{meta.gistId ? 'Update Gist' : 'Save to Gist'}</span>
+            </button>
+            {gistStatus && <span className="text-xs text-green-600 font-medium">{gistStatus}</span>}
           </div>
 
           <label className="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-2 block">
