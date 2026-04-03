@@ -21,6 +21,7 @@ import './swara-player.css';
 import {
   ChevronUp,
   ChevronDown,
+  ChevronRight,
   Plus,
   Minus,
   Play,
@@ -34,7 +35,8 @@ import {
   Wand2,
   Zap,
   Hash,
-  LogOut
+  LogOut,
+  X
 } from 'lucide-react';
 import type { User } from 'firebase/auth';
 import { audioEngine } from '../notation-player/lib/audio';
@@ -82,6 +84,8 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
   const [loopStart, setLoopStart] = useState<{ lineIdx: number; noteIdx: number } | null>(null);
   const [loopEnd, setLoopEnd] = useState<{ lineIdx: number; noteIdx: number } | null>(null);
   const [settingMarker, setSettingMarker] = useState<'start' | 'end' | null>(null);
+  const [showPicker, setShowPicker] = useState(false);
+  const [songList, setSongList] = useState<{ name: string; song?: string; raga?: string; file?: string; url?: string; gistId?: string }[]>([]);
 
   const playbackRef = useRef<number | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -287,6 +291,44 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
     if (confirm('Clear all notes?')) setNotes('');
   };
 
+  const parseContent = (content: string) => {
+    const metaMatch = content.match(/MetaS:\s*(.*?)\s*MetaE:/s);
+    if (metaMatch) {
+      const metaStr = metaMatch[1];
+      const parts = metaStr.split(/\s*\|\s*/);
+      const newMeta = { ...meta };
+      parts.forEach(part => {
+        const colonIndex = part.indexOf(':');
+        if (colonIndex === -1) return;
+        const key = part.substring(0, colonIndex).trim();
+        const value = part.substring(colonIndex + 1).trim();
+        if (key === 'Song') newMeta.song = value;
+        if (key === 'Composer') newMeta.composer = value;
+        if (key === 'Raga') newMeta.raga = value;
+        if (key === 'Arohana') newMeta.arohana = value;
+        if (key === 'Avarohana') newMeta.avarohana = value;
+        if (key === 'Scale' || key === 'RagaNotes') newMeta.scale = value;
+        if (key === 'Beats') newMeta.beats = parseInt(value) || 8;
+        if (key === 'Nadai') newMeta.nadai = parseInt(value) || 4;
+        if (key === 'Sruthi') newMeta.sruthi = value;
+        if (key === 'BPM') newMeta.bpm = parseInt(value) || 80;
+        if (key === 'Thala') newMeta.thala = value;
+        if (key === 'Edam') newMeta.edam = value;
+        if (key === 'Tags') newMeta.tags = value;
+        if (key === 'GistId') newMeta.gistId = value;
+      });
+      setMeta(newMeta);
+      const partsAfterMeta = content.split(/MetaE:\s*/);
+      if (partsAfterMeta.length > 1) {
+        let notationContent = partsAfterMeta[1];
+        if (notationContent.startsWith('\n')) notationContent = notationContent.substring(1);
+        setNotes(notationContent.toUpperCase());
+      }
+    } else {
+      setNotes(content.toUpperCase());
+    }
+  };
+
   const importFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -294,44 +336,28 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
     reader.onload = (event) => {
       const content = event.target?.result as string;
       if (!content) return;
-      const metaMatch = content.match(/MetaS:\s*(.*?)\s*MetaE:/s);
-      if (metaMatch) {
-        const metaStr = metaMatch[1];
-        const parts = metaStr.split(/\s*\|\s*/);
-        const newMeta = { ...meta };
-        parts.forEach(part => {
-          const colonIndex = part.indexOf(':');
-          if (colonIndex === -1) return;
-          const key = part.substring(0, colonIndex).trim();
-          const value = part.substring(colonIndex + 1).trim();
-          if (key === 'Song') newMeta.song = value;
-          if (key === 'Composer') newMeta.composer = value;
-          if (key === 'Raga') newMeta.raga = value;
-          if (key === 'Arohana') newMeta.arohana = value;
-          if (key === 'Avarohana') newMeta.avarohana = value;
-          if (key === 'Scale' || key === 'RagaNotes') newMeta.scale = value;
-          if (key === 'Beats') newMeta.beats = parseInt(value) || 8;
-          if (key === 'Nadai') newMeta.nadai = parseInt(value) || 4;
-          if (key === 'Sruthi') newMeta.sruthi = value;
-          if (key === 'BPM') newMeta.bpm = parseInt(value) || 80;
-          if (key === 'Thala') newMeta.thala = value;
-          if (key === 'Edam') newMeta.edam = value;
-          if (key === 'Tags') newMeta.tags = value;
-          if (key === 'GistId') newMeta.gistId = value;
-        });
-        setMeta(newMeta);
-        const partsAfterMeta = content.split(/MetaE:\s*/);
-        if (partsAfterMeta.length > 1) {
-          let notationContent = partsAfterMeta[1];
-          if (notationContent.startsWith('\n')) notationContent = notationContent.substring(1);
-          setNotes(notationContent.toUpperCase());
-        }
-      } else {
-        setNotes(content.toUpperCase());
-      }
+      parseContent(content);
     };
     reader.readAsText(file);
     e.target.value = '';
+  };
+
+  const openPicker = async () => {
+    if (songList.length === 0) {
+      const res = await fetch('https://gist.githubusercontent.com/mandolinbalaji/2cccf69f0afcc5eb83099ab2f449edc9/raw/index.json');
+      const data = await res.json();
+      setSongList(data);
+    }
+    setShowPicker(true);
+  };
+
+  const loadFromGist = async (s: { name: string; song?: string; raga?: string; file?: string; url?: string; gistId?: string }) => {
+    const fetchUrl = s.url ?? `/notesfromtext/${s.file ?? `${s.name}.txt`}`;
+    const res = await fetch(fetchUrl);
+    if (!res.ok) return;
+    const text = await res.text();
+    parseContent(text);
+    setShowPicker(false);
   };
 
   const saveFile = async () => {
@@ -988,6 +1014,13 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
               <span>Import File</span>
               <input type="file" accept=".txt" onChange={importFile} className="hidden" />
             </label>
+            <button
+              onClick={openPicker}
+              className="flex items-center gap-2 px-5 py-2 rounded-full bg-white border border-gray-200 font-bold hover:bg-gray-50 transition-all active:scale-95 text-xs"
+            >
+              <Music className="w-3 h-3" />
+              <span>Open from Gist</span>
+            </button>
             <div className="h-6 w-[1px] bg-gray-300 mx-1" />
             <input
               type="password"
@@ -1137,6 +1170,36 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
           Monospaced 16px · Red: Upper Octave · Blue: Lower Octave · Alt+U/D/N to switch octave
         </p>
       </div>
+
+      {/* Gist Song Picker Modal */}
+      {showPicker && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowPicker(false)}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between p-5 border-b border-gray-100">
+              <h2 className="text-lg font-bold font-serif italic">Open from Gist</h2>
+              <button onClick={() => setShowPicker(false)} className="p-1 rounded-lg hover:bg-gray-100 transition-colors">
+                <X className="w-5 h-5 text-gray-500" />
+              </button>
+            </div>
+            <ul className="divide-y divide-gray-100 max-h-80 overflow-y-auto">
+              {songList.map(s => (
+                <li key={s.name}>
+                  <button
+                    onClick={() => loadFromGist(s)}
+                    className="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors text-left"
+                  >
+                    <div>
+                      <p className="font-semibold text-sm text-gray-900">{s.song || s.name}</p>
+                      <p className="text-xs text-gray-500 mt-0.5">{s.raga}</p>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-gray-400 shrink-0" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
