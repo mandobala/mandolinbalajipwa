@@ -325,7 +325,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
 
   const openPicker = async () => {
     if (songList.length === 0) {
-      const res = await fetch('https://gist.githubusercontent.com/mandolinbalaji/2cccf69f0afcc5eb83099ab2f449edc9/raw/index.json');
+      const res = await fetch('/api/gist-index');
       const data = await res.json();
       setSongList(data);
     }
