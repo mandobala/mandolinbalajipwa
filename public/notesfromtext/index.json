@@ -74,5 +74,21 @@
     "edam": "7",
     "tags": "",
     "file": "Bagayanayya_Chandrajyothi.txt"
+  },
+  {
+    "name": "Endharaomahanu",
+    "song": "Endharaomahanu",
+    "composer": "Thyagaraja",
+    "raga": "Sri",
+    "tala": "",
+    "beats": "8",
+    "arohana": "S R2 M1 P N2 S",
+    "avarohana": "S N2 P M1 R2 S",
+    "scale": "R2 G2  M1 N2",
+    "sruthi": "C#",
+    "edam": "",
+    "tags": "",
+    "file": "Endharaomahanu_Sri.txt",
+    "url": "https://gist.githubusercontent.com/mandolinbalaji/9abd2bada912527dda4e494a106c9de3/raw/Endharaomahanu_Sri.txt"
   }
 ]

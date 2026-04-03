@@ -143,9 +143,9 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
     setShowPicker(true);
   };
 
-  const loadSong = async (s: { name: string; song?: string; raga?: string; file?: string }) => {
-    const filename = s.file ?? `${s.name}.txt`;
-    const res = await fetch(`/notesfromtext/${filename}`);
+  const loadSong = async (s: { name: string; song?: string; raga?: string; file?: string; url?: string }) => {
+    const fetchUrl = s.url ?? `/notesfromtext/${s.file ?? `${s.name}.txt`}`;
+    const res = await fetch(fetchUrl);
     if (!res.ok) return;
     const text = await res.text();
     parseContent(text);
