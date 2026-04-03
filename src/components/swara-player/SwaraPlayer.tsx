@@ -411,9 +411,21 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
         file: fileName, url: gistUrl,
       };
       try {
-        await fetch('/api/update-notation-index', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(indexEntry),
+        const indexGistId = '2cccf69f0afcc5eb83099ab2f449edc9';
+        const idxRes = await fetch(`https://gist.githubusercontent.com/mandolinbalaji/${indexGistId}/raw/index.json`);
+        const indexData: Record<string, unknown>[] = await idxRes.json();
+        const existingIdx = indexData.findIndex((e: any) => e.file === fileName);
+        if (existingIdx >= 0) {
+          const existing = indexData[existingIdx];
+          indexData[existingIdx] = { ...indexEntry };
+          if ((existing as any).midiFile) (indexData[existingIdx] as any).midiFile = (existing as any).midiFile;
+        } else {
+          indexData.push(indexEntry);
+        }
+        await fetch(`https://api.github.com/gists/${indexGistId}`, {
+          method: 'PATCH',
+          headers: { Authorization: `token ${githubToken}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ files: { 'index.json': { content: JSON.stringify(indexData, null, 2) } } }),
         });
       } catch { /* Non-critical */ }
     } catch (e: any) {
