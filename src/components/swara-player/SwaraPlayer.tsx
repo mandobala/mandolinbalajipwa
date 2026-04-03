@@ -16,7 +16,7 @@ function normalizeNotesWithScale(notes: string, scale: string): string {
     return variantToBase[m.toUpperCase()] || m;
   });
 }
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import './swara-player.css';
 import {
   ChevronUp,
@@ -55,7 +55,10 @@ interface Props {
 }
 
 export default function SwaraPlayer({ user, onSignOut }: Props) {
-  const [notes, setNotes] = useState('');
+  const [editor, setEditor] = useState({ notes: '', cursorStart: 0, cursorEnd: 0 });
+  const { notes } = editor;
+  const applyEdit = (notes: string, cursorStart: number, cursorEnd: number = cursorStart) =>
+    setEditor({ notes, cursorStart, cursorEnd });
   const [meta, setMeta] = useState<MetaData>({
     song: 'Varnam',
     composer: '',
@@ -129,6 +132,13 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Single source of truth for cursor: fires after React commits, before browser paints
+  useLayoutEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.setSelectionRange(editor.cursorStart, editor.cursorEnd);
+    }
+  }, [editor.cursorStart, editor.cursorEnd]);
+
   // Sync highlight scroll with textarea scroll
   useEffect(() => {
     if (textareaRef.current && highlightRef.current) {
@@ -136,11 +146,6 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
     }
   }, [notes]);
 
-  const insertNote = (charToAdd: string, start: number, end: number) => {
-    const newNotes = notes.substring(0, start) + charToAdd + notes.substring(end);
-    setNotes(newNotes);
-    return charToAdd.length;
-  };
 
   const formatLine = (line: string) => {
     if (/^TAGS\b/i.test(line.trim()) || /^LR:/i.test(line.trim())) return line;
@@ -223,14 +228,10 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
 
     const start = textareaRef.current?.selectionStart ?? notes.length;
     const end = textareaRef.current?.selectionEnd ?? notes.length;
-    const cursorOffset = insertNote(charToAdd, start, end);
-
-    setTimeout(() => {
-      if (textareaRef.current) {
-        textareaRef.current.focus();
-        textareaRef.current.setSelectionRange(start + cursorOffset, start + cursorOffset);
-      }
-    }, 0);
+    const newNotes = notes.substring(0, start) + charToAdd + notes.substring(end);
+    const newCursor = start + charToAdd.length;
+    textareaRef.current?.focus();
+    applyEdit(newNotes, newCursor);
   };
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -245,50 +246,30 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
 
     if (newValue.length === notes.length + 1) {
       const charAdded = newValue[start - 1];
-
       if (['S', 'R', 'G', 'M', 'P', 'D', 'N'].includes(charAdded) ||
         Object.values(DOT_ABOVE_MAP).includes(charAdded) ||
         Object.values(DOT_BELOW_MAP).includes(charAdded)) {
         const semitones = getSemitones(charAdded, meta.scale);
         audioEngine.playNote(semitones, meta.sruthi, 0.3);
       }
-
-      const cursorOffset = insertNote(charAdded, start - 1, start - 1);
-      setTimeout(() => {
-        if (textareaRef.current) {
-          textareaRef.current.setSelectionRange(start + cursorOffset, start + cursorOffset);
-        }
-      }, 0);
-    } else {
-      setNotes(newValue);
-      setTimeout(() => {
-        if (textareaRef.current) {
-          textareaRef.current.setSelectionRange(start, start);
-        }
-      }, 0);
     }
+
+    applyEdit(newValue, start);
   };
 
   const handleBackspace = () => {
     const start = textareaRef.current?.selectionStart || 0;
     const end = textareaRef.current?.selectionEnd || 0;
+    textareaRef.current?.focus();
     if (start === end && start > 0) {
-      setNotes(notes.substring(0, start - 1) + notes.substring(end));
-      setTimeout(() => {
-        textareaRef.current?.setSelectionRange(start - 1, start - 1);
-        textareaRef.current?.focus();
-      }, 0);
+      applyEdit(notes.substring(0, start - 1) + notes.substring(end), start - 1);
     } else {
-      setNotes(notes.substring(0, start) + notes.substring(end));
-      setTimeout(() => {
-        textareaRef.current?.setSelectionRange(start, start);
-        textareaRef.current?.focus();
-      }, 0);
+      applyEdit(notes.substring(0, start) + notes.substring(end), start);
     }
   };
 
   const handleClear = () => {
-    if (confirm('Clear all notes?')) setNotes('');
+    if (confirm('Clear all notes?')) applyEdit('', 0);
   };
 
   const parseContent = (content: string) => {
@@ -322,10 +303,10 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
       if (partsAfterMeta.length > 1) {
         let notationContent = partsAfterMeta[1];
         if (notationContent.startsWith('\n')) notationContent = notationContent.substring(1);
-        setNotes(notationContent.toUpperCase());
+        applyEdit(notationContent.toUpperCase(), 0);
       }
     } else {
-      setNotes(content.toUpperCase());
+      applyEdit(content.toUpperCase(), 0);
     }
   };
 
@@ -578,28 +559,17 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
     const start = textareaRef.current.selectionStart;
     const end = textareaRef.current.selectionEnd;
 
+    textareaRef.current.focus();
     if (start === end && replacement) {
       const newText = notes.substring(0, start) + replacement + notes.substring(end);
-      setNotes(newText);
-      setTimeout(() => {
-        if (textareaRef.current) {
-          textareaRef.current.focus();
-          textareaRef.current.setSelectionRange(start + replacement.length, start + replacement.length);
-        }
-      }, 0);
+      applyEdit(newText, start + replacement.length);
       return;
     }
     if (start === end) return;
 
     const selectedText = notes.substring(start, end);
     const newText = notes.substring(0, start) + prefix + selectedText + suffix + notes.substring(end);
-    setNotes(newText);
-    setTimeout(() => {
-      if (textareaRef.current) {
-        textareaRef.current.focus();
-        textareaRef.current.setSelectionRange(start, start + prefix.length + selectedText.length + suffix.length);
-      }
-    }, 0);
+    applyEdit(newText, start, start + prefix.length + selectedText.length + suffix.length);
   };
 
   const getTalaMap = () => {
@@ -701,7 +671,9 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
                 const formatted = formatLine(line);
                 const allLines = notes.split('\n');
                 allLines[lineIdx] = formatted;
-                setNotes(allLines.join('\n'));
+                const cs = textareaRef.current?.selectionStart ?? 0;
+                const ce = textareaRef.current?.selectionEnd ?? 0;
+                applyEdit(allLines.join('\n'), cs, ce);
               }}
               className="p-1.5 rounded-full bg-gray-100 hover:bg-purple-600 text-gray-400 hover:text-white transition-all shadow-sm"
               title="Format this line"
@@ -788,7 +760,9 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
                 const lineUnits = [...units];
                 lineUnits[i] = newChar;
                 allLines[lineIdx] = lineUnits.join('');
-                setNotes(allLines.join('\n'));
+                const cs = textareaRef.current?.selectionStart ?? 0;
+                const ce = textareaRef.current?.selectionEnd ?? 0;
+                applyEdit(allLines.join('\n'), cs, ce);
               };
 
               const isInteractive = settingMarker !== null || (octave !== 'normal' && /[SRGMPDN]/i.test(char));
@@ -1093,7 +1067,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
                 // Normalize notes in the notes area using the scale as reference
                 const normalizedNotes = normalizeNotesWithScale(notes, meta.scale);
                 const allLines = normalizedNotes.split('\n');
-                setNotes(allLines.map(l => formatLine(l)).join('\n'));
+                applyEdit(allLines.map(l => formatLine(l)).join('\n'), 0);
               }}
               className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-600 text-white rounded-md text-xs font-bold hover:bg-purple-700 transition-colors shadow-sm"
               title="Format all lines"
