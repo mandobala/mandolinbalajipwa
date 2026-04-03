@@ -683,7 +683,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
         return (
           <div key={lineIdx} className="relative leading-relaxed min-h-[1.625rem]">
             <span className="text-transparent select-none">{prefix}</span>
-            <span className="text-gray-400 italic font-sans text-[15px]">{lyrics}</span>
+            <span className="text-gray-400 italic">{lyrics}</span>
           </div>
         );
       }
