@@ -2,106 +2,73 @@ MetaS: Song: Endharaomahanu | Composer: Thyagaraja | Raga: Sri | Arohana: S R2 M
 
 
 PALLAVI:
-LINE: , , , , | S , R , | R , G R | S , , , | , , S N | S N P , | P , S N | S , , ,
+LINE: , , , , | S , R , | R , G R | S , , , | , , S N | S N P , | P , S N | S , , , | NS, N 
 LR:           EN      | DA      | RO      | MA      | NU      | BHA     | VU    | LU
 
-LINE: NS, N | S , R , | {RGR,} S, | NS{RGR}, | {SSN} | {SNP}, | {PSN} | S , , ,
-LR:             EN      | DA      | RO        | MA       | NU    | BHA    | VU    | LU
+ S , R , | {RGR,} S, | NS{RGR}, | {SSN} | {SNP}, | {PSN} | S , , , |NS, N |
 
-LINE: NS, N | S , R , | {PMR}, , , | {GR} | S , S N | {RSNP} | P , S N | S , , ,
-LR:             EN      | DA      | RO         | MA   | NU      | BHA    | VU      | LU
+LINE:  S , R , | {PMR}, , , | {GR} | S , S N | {RSNP} | P , S N | S , , , |NS, N |
 
-LINE: NS, N | S , S , | R , M , | R M P , | P M | P M R, | R , G , | {RGR, SRS,}
-LR:             EN      | DA      | RO        | MA         | NU  | BHA      | VU      | LU
+LINE:  S , S , | R , M , | R M P , | P M | P M R, | R , G , | {RGR, SRS,}|NS, N |
 
-LINE: NS, N | S , S , | {R , M ,} | {RMPM} | {PNPN} | {SNSR} | {SRS, NSN,} | {PNP, MPM,}
-LR:           EN      | DA      | RO        | MA     | NU     | BHA    | VU          | LU
+LINE:  S , S , | {R , M ,} | {RMPM} | {PNPN} | {SNSR} | {SRS, NSN,} | {PNP, MPM,}
 
 ANUPALLAVI:
 LINE: , , , , | P , M , | P , , , | R , M , | R M P , | M , , | P M P , | P , , ,
-LR:           CHAN    | DU      | RU      | VA      | DHA     | NU    | NI      |
 
 LINE: {NNPM} | P , M , | P , , , | R , M , | R M P , | M , , | N , P , | N , , ,
-LR:   CHAN   | DU      | RU      | VA      | DHA     | NU    | NI      |
 
 LINE: {SNPM} | P , M , | P , , , | R , M , | R M P , | M , , , | M , N , | P , S ,
-LR:   CHAN   | DU      | RU      | VA      | DHA     | NU      | NI      |
 
 LINE: {SNPM} | P , M , | P , , , | R , M , | R M P , | M , , , | N G , | {RGRS Ṡ,}
-LR:   CHAN   | DU      | RU      | VA      | DHA     | NU      | NI    |
 
 LINE: {NSRM} | {PNPM} | {RGRS} | {SNS} | {R , M ,} | {RMP} | {PNPN} | {P , P ,}
-LR:   AN     | DHA    | CHAN   | DA    | MU        | NU    | HRI    | DHA
 
 LINE: , , P P | Ṙ , Ṙ , | {ṘGRS} | {NSGR Ṙ} | {S , SN} | {SNP ,} | P S N | Ṡ , , ,
-LR:           | YA      | RA     | VIN      | DA       | MU      | NA    | JOO
 
 LINE: , , , , | Ṙ , Ṡ , | {Ṡ , ṘṠ N ,} | {N , SN P ,} | {P , NP M ,} | {M , PM R ,} | {SNPM} | {RGRS}
-LR:           | CHI     | BRAH         | MA           | NAN          | DA           | MU     | NU
 
 Charanam:
 Line: 1. S , , , | , , , , | S , S , | {S N N S} | {N N S N} | P , , , | , , , , | {M P N Ṡ}
-LR:      Sā        ma        gā        na          lo          la
 
 Line:    Ṙ , , , | , , , , | Ṙ , Ṙ , | {Ġ Ṙ Ṙ Ġ} | {Ṙ Ṙ Ġ Ṙ} | {Ṙ Ġ M Ṙ} | Ṡ , , , | , , Ġ Ṙ | {Ṡ N P}
-LR:      va        ra        gu        ṇa          lo          la          va        ra      na
 
 Line: 2. Ṙ , Ġ Ṙ | {Ṙ Ġ Ṙ Ṙ} | {S N S ,} | S , Ṙ S | {Ṡ Ṙ Ṡ Ṡ} | {N P Ġ ,} | {Ġ Ṙ Ṡ Ṙ} | Ġ Ṙ , , | {Ṡ N P}
-LR:      Mā        na          sa          va        na          cha         ra          lu
 
 Line: 3. P P M Ṙ | Ṙ , P P | M Ṙ P , | {P M Ṙ} | N P , N | {P M M P} | {P M Ṙ} | Ṙ Ġ , Ġ | {Ṙ Ṙ Ṡ N}
-LR:      Pā        pa        ga        ja        nri       sim         ha          va        ra
 
 Line: 4. S S N P | , R S N P | P , G R | S N P | M P , P | N Ṡ Ṙ | , Ġ Ṙ Ṡ | R M P | {P N Ṡ}
-LR:      Ja        ta        gu        ṇa        rā        dhi       ka          re        nu
 
 Line:    , | P P , M | {Ṙ M P N} | P , Ṡ N | P , Ṙ Ṡ | {N P , Ġ} | Ṙ , Ṡ N | {P M Ṙ Ġ} | {Ṙ Ṡ N}
-LR:        va        ra          nu        ta        sa          ra        na
 
 Line: 5. P M M P | Ṙ Ṙ Ġ Ṙ | {N Ṡ Ṙ Ġ} | {Ṙ Ṡ N} | {P N Ṡ Ṙ} | , Ṙ Ṙ | {Ṙ Ġ Ṙ Ṡ} | {Ṙ M P}
-LR:      Śrī       bhā       ga        va        ta        ra        ma        na
 
 Line:    {P N Ṡ Ṙ} | , Ṙ M P | N , M P | N Ṡ , Ṙ | {Ġ Ṙ Ṙ} | {Ġ Ṙ Ṡ} | {Ṡ N P} | {M Ṙ Ġ} | {Ṙ Ṡ N}
-LR:      va          ra        na        mu        ni        va        ra        na
 
 Line: 6. P N Ṡ P | , N M P | N , Ṙ M | P N P M | Ṙ Ṙ , Ġ | {Ṡ N P} | {N Ġ Ṙ Ṡ} | {N P N Ṡ}
-LR:      Cha       ra        na        pa        lla       va        re        nu
 
 Line:    Ṙ , M Ṙ | {M P ,} | N , M P | N Ṡ , Ṙ | {Ġ Ṙ} | {Ṡ N P} | N | {P M Ṙ} | {P M P Ṙ} | {Ġ Ṙ Ṡ N}
-LR:      sa        ra        na        mu        ni        va        ra        na
 
 Line: 7. Ṙ M P N | M P N | Ṙ , , M | P N P M | Ṙ Ṙ , Ġ Ṙ | {Ṡ N P ,} | {M P N N} | {Ṡ , , ,}
-LR:      Ka        ru        na        lo        la          va        ra          na
 
 Line:    P P , N | Ṡ Ṙ Ṙ , , | Ġ Ṙ Ṡ | Ṙ M P N | P N M P | Ṙ Ġ Ṙ Ṡ | Ṙ M P M | P , , ,
-LR:      vi        ma          la        da        ya        ni        dhe
 
 Line:    N P N M | P Ṙ , | M P , N | M P N Ṡ | {Ṙ Ṙ , Ġ} | {Ṡ N P} | {M P N N} | {Ṡ , , ,}
-LR:      ka        ru        na        ni        dhe         va        ra        na
 
 Line:    Ṙ Ġ Ṙ Ṙ | Ġ Ṙ Ṡ | N Ṡ Ṙ Ṡ | , Ṡ N P | M P Ṙ M | {Ṙ P M N} | {P Ṡ , N} | {P M Ṙ Ġ} | {Ṙ Ṡ N}
-LR:      su        ra        na        mu        ni        va          ra          na
 
 Line: 8. P , , , | , , Ṙ N | P Ṙ , M | Ṙ M P | M P , Ṙ | {Ġ Ṙ Ṙ ,} | Ġ Ṙ Ṡ | {N P N Ṡ}
-LR:      Pa        ra        ma        bhā       ga        va          ta        ra
 
 Line:    {P N Ṡ P} | P Ṙ , | {Ġ Ṙ Ṡ P} | P M Ṙ | {M P N Ṙ} | M P N | {Ṡ Ṙ M P} | N , P N
-LR:      na          mu        ni          va        ra          na        mu          ni
 
 Line:    {Ṡ N Ṡ ,} | {N Ṡ Ṙ Ṙ} | {Ṙ Ġ Ṙ Ṙ} | Ġ Ṙ | {Ṙ Ġ Ṙ Ṙ} | Ġ | {Ṙ Ṡ Ṙ} | {Ṡ N Ṡ N} | {P N Ṡ Ṙ}
-LR:      va          ra          na          mu        ni          va        ra          na
 
 Line:    {Ġ Ṙ , Ṙ} | {Ṡ , Ṡ N} | N P M | {Ṙ M P N} | Ṡ , , N | {P , , M} | {Ṙ , , Ġ} | {Ṡ N Ṡ N}
-LR:      sa          ra          na        mu          ni        va          ra          na
 
 Line: 9. Ṙ , , , | , , P N | Ṡ Ṙ , N | {Ṡ Ṙ Ġ Ṙ} | Ṙ , Ṡ Ṡ | N P M | {P , Ṙ Ṡ} | Ṙ , P N
-LR:      Nē        ma        ta        nu          re          nu        va          ra
 
 Line:    {P , Ṡ Ṙ} | Ṙ , Ġ Ṙ | {Ṡ N Ṡ} | {Ṙ M P N} | {P , P M} | Ṙ , P , | {P M Ṙ} | N P P ,
-LR:      na          mu        ni          va          ra          na        mu        ni
 
 Line:    {Ṡ N P} | {Ġ Ṙ , Ṡ} | {N P P} | P , {Ġ Ṙ} | {Ṙ Ġ Ṙ Ṙ} | Ṙ Ṙ , | {Ġ Ṙ Ṙ Ġ} | {Ṙ Ṙ , Ṙ}
-LR:      va        ra          na        mu          ni          va        ra          na
 
 Line:    Ṡ , Ṡ , | P P , Ṙ | Ṙ , Ġ Ṙ | {Ṡ P N Ṡ} | {Ṡ Ṙ Ṡ Ṡ} | Ṡ , P | , P P , | Ṙ , | {Ṙ Ṙ ,} | {Ġ Ṙ Ṡ N}
-LR:      va        ra        na        mu          ni          va        ra          na
