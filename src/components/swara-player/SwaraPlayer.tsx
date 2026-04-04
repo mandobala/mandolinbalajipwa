@@ -235,7 +235,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
   };
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newValue = e.target.value.toUpperCase();
+    const newValue = e.target.value.toUpperCase().normalize('NFC');
     const start = e.target.selectionStart || 0;
 
     if (isPlayingRef.current) {
@@ -303,10 +303,10 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
       if (partsAfterMeta.length > 1) {
         let notationContent = partsAfterMeta[1];
         if (notationContent.startsWith('\n')) notationContent = notationContent.substring(1);
-        applyEdit(notationContent.toUpperCase(), 0);
+        applyEdit(notationContent.toUpperCase().normalize('NFC'), 0);
       }
     } else {
-      applyEdit(content.toUpperCase(), 0);
+      applyEdit(content.toUpperCase().normalize('NFC'), 0);
     }
   };
 
