@@ -89,6 +89,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
   const [settingMarker, setSettingMarker] = useState<'start' | 'end' | null>(null);
   const [showPicker, setShowPicker] = useState(false);
   const [songList, setSongList] = useState<{ name: string; song?: string; raga?: string; file?: string; url?: string; gistId?: string }[]>([]);
+  const [edamMarked, setEdamMarked] = useState(false);
 
   const playbackRef = useRef<number | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -237,6 +238,8 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = e.target.value.toUpperCase().normalize('NFC');
     const start = e.target.selectionStart || 0;
+
+    if (edamMarked) setEdamMarked(false);
 
     if (isPlayingRef.current) {
       setIsPlaying(false);
@@ -635,6 +638,18 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
   const renderHighlightedNotes = () => {
     const lines = notes.split('\n');
 
+    const edamNoteIdx = edamMarked && meta.edam ? parseInt(meta.edam) - 1 : -1;
+    let firstContentLineIdx = -1;
+    if (edamNoteIdx >= 0) {
+      for (let i = 0; i < lines.length; i++) {
+        const t = lines[i].trim();
+        if (t.length > 0 && !/^TAGS\b/i.test(t) && !/^LR:/i.test(t)) {
+          firstContentLineIdx = i;
+          break;
+        }
+      }
+    }
+
     return lines.map((line, lineIdx) => {
       const trimmed = line.trim();
 
@@ -737,6 +752,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
               else if (currentNadaiBlock) color += ' border-t border-purple-300';
 
               const thisNoteIdx = playableNoteIdx++;
+              const isEdamMarker = lineIdx === firstContentLineIdx && thisNoteIdx === edamNoteIdx;
               const isStartMarker = loopEnabled && loopStart?.lineIdx === lineIdx && loopStart?.noteIdx === thisNoteIdx;
               const isEndMarker = loopEnabled && loopEnd?.lineIdx === lineIdx && loopEnd?.noteIdx === thisNoteIdx;
 
@@ -785,8 +801,11 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
                   )}
                   <span
                     onClick={handleClick}
-                    className={`${color} font-mono text-[16px] ${isInteractive ? `pointer-events-auto cursor-pointer ${settingMarker ? 'hover:bg-green-100/60 rounded px-0.5' : 'hover:bg-black/5 rounded px-0.5'}` : 'pointer-events-none'}`}
+                    className={`relative ${color} font-mono text-[16px] ${isInteractive ? `pointer-events-auto cursor-pointer ${settingMarker ? 'hover:bg-green-100/60 rounded px-0.5' : 'hover:bg-black/5 rounded px-0.5'}` : 'pointer-events-none'}`}
                   >
+                    {isEdamMarker && (
+                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[9px] text-orange-500 font-bold leading-none pointer-events-none select-none">*</span>
+                    )}
                     {char}
                   </span>
                 </React.Fragment>
@@ -1068,6 +1087,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
                 const normalizedNotes = normalizeNotesWithScale(notes, meta.scale);
                 const allLines = normalizedNotes.split('\n');
                 applyEdit(allLines.map(l => formatLine(l)).join('\n'), 0);
+                if (meta.edam) setEdamMarked(true);
               }}
               className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-600 text-white rounded-md text-xs font-bold hover:bg-purple-700 transition-colors shadow-sm"
               title="Format all lines"

@@ -477,14 +477,13 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
     <div className="min-h-screen bg-[#F5F2ED] text-[#1A1A1A] p-4 md:p-8 font-sans">
       <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-200">
         {/* Header / Meta Section */}
-        <div className="p-4 border-b border-gray-100 bg-gray-50/50">
+        <div className="p-4 border-b border-gray-100">
           <div className="flex flex-col mb-4">
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-black rounded-lg">
                   <Music className="w-6 h-6 text-white" />
                 </div>
-                <h1 className="text-2xl font-serif italic font-bold tracking-tight">Carnatic Notation Player</h1>
               </div>
               <button
                 onClick={onSignOut}
@@ -498,6 +497,13 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
             <p className="text-sm text-gray-500 font-serif italic ml-11">
               {meta.song} — {meta.raga}{meta.composer ? ` · ${meta.composer}` : ''}
             </p>
+            {(meta.arohana || meta.avarohana) && (
+              <p className="text-xs text-gray-400 font-mono ml-11 mt-0.5">
+                {meta.arohana && <span>↑ {meta.arohana}</span>}
+                {meta.arohana && meta.avarohana && <span className="mx-2">·</span>}
+                {meta.avarohana && <span>↓ {meta.avarohana}</span>}
+              </p>
+            )}
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-8 gap-2">
