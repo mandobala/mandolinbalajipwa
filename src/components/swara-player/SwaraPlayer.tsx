@@ -585,7 +585,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
 
     if (/^TAGS\b/i.test(currentLine.trim()) || /^LR:/i.test(currentLine.trim())) return null;
 
-    const units = currentLine.match(/([A-Za-z0-9 ]+:|[SRGMPDN][123]?\u0323?|Ṡ|Ṙ|Ġ|Ṁ|Ṗ|Ḋ|Ṅ|Ṣ|Ṛ|Ṃ|Ḍ|Ṇ|,|\|| |\{|\}|\[\d+:|\]|-)/gi) || [];
+    const units = currentLine.match(/([A-Za-z0-9 ]+:|[SRGMPDN][123]?\u0323?|(?:Ṡ|Ṙ|Ġ|Ṁ|Ṗ|Ḋ|Ṅ|Ṣ|Ṛ|Ṃ|Ḍ|Ṇ)[123]?|,|\|| |\{|\}|\[\d+:|\]|-)/gi) || [];
 
     let beatProgress = 0;
     let speedMultiplier = 1;
@@ -673,7 +673,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
         );
       }
 
-      const units = line.match(/([A-Za-z0-9 ]+:|[SRGMPDN][123]?\u0323?|Ṡ|Ṙ|Ġ|Ṁ|Ṗ|Ḋ|Ṅ|Ṣ|Ṛ|Ṃ|Ḍ|Ṇ|,|\|| |\{|\}|\[\d+:|\]|-)/gi) || [];
+      const units = line.match(/([A-Za-z0-9 ]+:|[SRGMPDN][123]?\u0323?|(?:Ṡ|Ṙ|Ġ|Ṁ|Ṗ|Ḋ|Ṅ|Ṣ|Ṛ|Ṃ|Ḍ|Ṇ)[123]?|,|\|| |\{|\}|\[\d+:|\]|-)/gi) || [];
       let currentBrace: { count: number } | null = null;
       let currentNadaiBlock: { nadai: number } | null = null;
       let playableNoteIdx = 0;
@@ -769,9 +769,10 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
                 const baseMatch = char.match(/[SRGMPDN]/i);
                 if (!baseMatch) return;
                 const baseNote = baseMatch[0].toUpperCase();
+                const variantNum = char.match(/[123]/)?.[0] ?? '';
                 let newChar = char;
-                if (octave === 'above') newChar = DOT_ABOVE_MAP[baseNote] || baseNote;
-                else if (octave === 'below') newChar = DOT_BELOW_MAP[baseNote] || baseNote;
+                if (octave === 'above') newChar = (DOT_ABOVE_MAP[baseNote] || baseNote) + variantNum;
+                else if (octave === 'below') newChar = (DOT_BELOW_MAP[baseNote] || baseNote) + variantNum;
                 const allLines = [...lines];
                 const lineUnits = [...units];
                 lineUnits[i] = newChar;

@@ -31,15 +31,35 @@ export const getSemitones = (note: string, scale: string) => {
 
   let base = note[0].toUpperCase();
   let octaveOffset = 0;
+  let explicitVariant = '';
 
-  if (Object.values(DOT_ABOVE_MAP).includes(note)) {
-    base = REVERSE_MAP[note];
+  // Use startsWith so dotted notes with a trailing variant number (e.g. Ġ3) are detected correctly
+  const dotAboveEntry = Object.entries(DOT_ABOVE_MAP).find(([, v]) => note.startsWith(v));
+  if (dotAboveEntry) {
+    base = dotAboveEntry[0];
     octaveOffset = 12;
-  } else if (Object.values(DOT_BELOW_MAP).includes(note) || note.includes('\u0323')) {
-    base = REVERSE_MAP[note] || note.replace('\u0323', '');
-    octaveOffset = -12;
+    explicitVariant = note.slice(dotAboveEntry[1].length).match(/^[123]/)?.[0] ?? '';
+  } else {
+    const dotBelowEntry = Object.entries(DOT_BELOW_MAP).find(([, v]) => note.startsWith(v));
+    if (dotBelowEntry) {
+      base = dotBelowEntry[0];
+      octaveOffset = -12;
+      explicitVariant = note.slice(dotBelowEntry[1].length).match(/^[123]/)?.[0] ?? '';
+    } else if (note.includes('\u0323')) {
+      base = (note.replace('\u0323', '')[0] ?? note[0]).toUpperCase();
+      octaveOffset = -12;
+    }
   }
 
+  // Explicit variant on a dotted note (e.g. Ġ3 → G3 + upper octave offset)
+  if (explicitVariant) {
+    const variantKey = base + explicitVariant;
+    if (SWARASTHANA_OFFSETS[variantKey] !== undefined) {
+      return SWARASTHANA_OFFSETS[variantKey] + octaveOffset;
+    }
+  }
+
+  // Explicit variant on a plain note (e.g. G3)
   const swaraMatch = note.match(/[SRGMPDN][123]/i);
   if (swaraMatch) {
     return (SWARASTHANA_OFFSETS[swaraMatch[0].toUpperCase()] ?? 0) + octaveOffset;
