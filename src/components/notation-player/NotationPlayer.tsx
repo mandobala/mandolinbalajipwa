@@ -150,7 +150,7 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
     const text = await res.text();
     parseContent(text);
     setShowPicker(false);
-    logActivity(user, 'song_loaded', { song: s.song ?? s.name, raga: s.raga ?? '', file: filename });
+    logActivity(user, 'song_loaded', { song: s.song ?? s.name, raga: s.raga ?? '', file: s.file ?? `${s.name}.txt` });
   };
 
   // Download MIDI modal logic
