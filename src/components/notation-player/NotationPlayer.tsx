@@ -358,7 +358,7 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
         <div key={lineIdx} className={`relative flex items-start gap-3 leading-relaxed min-h-[1.625rem] group transition-colors duration-200 p-1 ${activeLineIdx === lineIdx ? 'bg-yellow-100/50 rounded-md ring-1 ring-yellow-200' : ''}`}>
           <button
             onClick={() => playNotation(line, true, lineIdx)}
-            className={`mt-1 p-1 rounded-md transition-all ${activeLineIdx === lineIdx ? 'bg-black text-white' : 'bg-gray-200 text-gray-600 opacity-0 group-hover:opacity-100'}`}
+            className={`mt-1 p-1 rounded-md transition-all ${activeLineIdx === lineIdx ? 'bg-black text-white' : 'bg-gray-200 text-gray-600 opacity-40 group-hover:opacity-100'}`}
             title="Play line in loop"
           >
             {activeLineIdx === lineIdx ? <Square className="w-3 h-3 fill-current" /> : <Play className="w-3 h-3 fill-current" />}
