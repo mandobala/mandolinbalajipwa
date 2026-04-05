@@ -332,7 +332,7 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
         return (
           <div key={lineIdx} className="relative flex items-start gap-3 leading-relaxed min-h-[1.625rem] p-1">
             <div className="w-6 shrink-0" />
-            <div className="flex-1 italic text-gray-400 font-sans text-sm">{lyric}</div>
+            <div className="flex-1 italic text-black font-sans text-sm">{lyric}</div>
           </div>
         );
       }
@@ -494,11 +494,11 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
                 Sign out
               </button>
             </div>
-            <p className="text-sm text-gray-500 font-serif italic ml-11">
+            <p className="text-sm text-black font-serif italic ml-11">
               {meta.song} — {meta.raga}{meta.composer ? ` · ${meta.composer}` : ''}
             </p>
             {(meta.arohana || meta.avarohana) && (
-              <p className="text-xs text-gray-400 font-mono ml-11 mt-0.5">
+              <p className="text-xs text-black font-mono ml-11 mt-0.5">
                 {meta.arohana && <span>↑ {meta.arohana}</span>}
                 {meta.arohana && meta.avarohana && <span className="mx-2">·</span>}
                 {meta.avarohana && <span>↓ {meta.avarohana}</span>}
