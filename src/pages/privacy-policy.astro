@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+---
+
+<BaseLayout title="Privacy Policy | Mandolin Balaji" description="Privacy Policy for Mandolin Balaji's Carnatic Notation Player">
+	<div class="stack gap-20">
+		<main class="wrapper privacy">
+			<Hero
+				title="Privacy Policy"
+				tagline="Last updated: 5 April 2025"
+			/>
+
+			<section>
+				<div class="content">
+
+					<h2>1. Who we are</h2>
+					<p>
+						This website is operated by Mandolin Balaji, based in the United Kingdom. It provides a Carnatic music notation player and related resources for students and music enthusiasts.
+					</p>
+					<p>
+						For the purposes of UK data protection law (UK GDPR and the Data Protection Act 2018), Mandolin Balaji is the data controller. You can contact us at: <a href="/contact">mandolinbalaji.com/contact</a>.
+					</p>
+
+					<h2>2. What personal data we collect</h2>
+					<p>When you sign in with Google, we receive the following information from your Google account:</p>
+					<ul>
+						<li>Your display name</li>
+						<li>Your email address</li>
+						<li>A unique user identifier (UID) assigned by Google Firebase</li>
+					</ul>
+					<p>We also collect activity data each time you use the player:</p>
+					<ul>
+						<li>Sign-in events (date and time)</li>
+						<li>Songs you load or play (song name, raga, file name)</li>
+					</ul>
+					<p>We do not collect payment information, location data, or any other personal data beyond the above.</p>
+
+					<h2>3. Why we collect this data and our legal basis</h2>
+					<p>We collect and process your data on the basis of <strong>legitimate interests</strong> (UK GDPR Article 6(1)(f)) to:</p>
+					<ul>
+						<li>Restrict access to the notation player to registered users only</li>
+						<li>Understand how the tool is used so we can improve it</li>
+						<li>Monitor for misuse or abuse of the service</li>
+					</ul>
+					<p>
+						We have balanced these interests against your privacy rights. Because the data collected is limited in scope, not used for profiling or advertising, and you can withdraw by signing out and requesting deletion, we consider our legitimate interests not to override your rights.
+					</p>
+
+					<h2>4. How we store your data</h2>
+					<p>
+						Your data is stored in <strong>Google Firebase</strong> (Firestore and Firebase Authentication), which is operated by Google LLC. Firebase infrastructure used for this service is based in the EU/EEA. Google Firebase complies with UK GDPR data transfer requirements via Standard Contractual Clauses.
+					</p>
+					<p>
+						We retain activity logs for as long as the service is active. If you request deletion of your data, we will remove it promptly (see Your Rights below).
+					</p>
+
+					<h2>5. Who we share your data with</h2>
+					<p>We do not sell, rent, or share your personal data with third parties for marketing purposes. The only third-party service that processes your data is:</p>
+					<ul>
+						<li><strong>Google Firebase</strong> — for authentication and activity log storage. Google's privacy policy: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">policies.google.com/privacy</a></li>
+					</ul>
+
+					<h2>6. Cookies and tracking</h2>
+					<p>
+						Firebase Authentication uses browser local storage and session cookies to keep you signed in. These are strictly necessary for the service to function and do not require separate consent under UK law.
+					</p>
+					<p>
+						We do not use advertising cookies, third-party analytics, or tracking pixels.
+					</p>
+
+					<h2>7. Your rights</h2>
+					<p>Under UK GDPR, you have the following rights regarding your personal data:</p>
+					<ul>
+						<li><strong>Right of access</strong> — request a copy of the data we hold about you</li>
+						<li><strong>Right to rectification</strong> — ask us to correct inaccurate data</li>
+						<li><strong>Right to erasure</strong> — request deletion of your data</li>
+						<li><strong>Right to restriction</strong> — ask us to limit how we use your data</li>
+						<li><strong>Right to object</strong> — object to processing based on legitimate interests</li>
+						<li><strong>Right to data portability</strong> — receive your data in a machine-readable format</li>
+					</ul>
+					<p>
+						To exercise any of these rights, please contact us via <a href="/contact">mandolinbalaji.com/contact</a>. We will respond within one calendar month.
+					</p>
+
+					<h2>8. Right to complain</h2>
+					<p>
+						If you are unhappy with how we handle your data, you have the right to lodge a complaint with the UK's supervisory authority:
+					</p>
+					<p>
+						<strong>Information Commissioner's Office (ICO)</strong><br />
+						Website: <a href="https://ico.org.uk" target="_blank" rel="noopener noreferrer">ico.org.uk</a><br />
+						Helpline: 0303 123 1113
+					</p>
+
+					<h2>9. Children's privacy</h2>
+					<p>
+						This service is not directed at children under 13. We do not knowingly collect personal data from children. If you believe a child has provided us with personal data, please contact us and we will delete it.
+					</p>
+
+					<h2>10. Changes to this policy</h2>
+					<p>
+						We may update this privacy policy from time to time. The "last updated" date at the top of this page will reflect any changes. Continued use of the service after changes are posted constitutes acceptance of the updated policy.
+					</p>
+
+				</div>
+			</section>
+		</main>
+	</div>
+</BaseLayout>
+
+<style>
+	.privacy {
+		display: flex;
+		flex-direction: column;
+		gap: 3.5rem;
+	}
+
+	section {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		color: var(--gray-200);
+	}
+
+	.content {
+		grid-column: 2 / 3;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	h2 {
+		margin-top: 2rem;
+		font-size: var(--text-xl);
+		color: var(--gray-0);
+	}
+
+	ul {
+		padding-left: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+	}
+
+	p, li {
+		line-height: 1.7;
+	}
+
+	.content :global(a) {
+		text-decoration: 1px solid underline transparent;
+		text-underline-offset: 0.25em;
+		transition: text-decoration-color var(--theme-transition);
+	}
+
+	.content :global(a:hover),
+	.content :global(a:focus) {
+		text-decoration-color: currentColor;
+	}
+
+	@media (min-width: 50em) {
+		.privacy {
+			display: grid;
+			grid-template-columns: 1fr 60% 1fr;
+		}
+
+		.privacy > :global(:first-child) {
+			grid-column-start: 2;
+		}
+
+		section {
+			display: contents;
+			font-size: var(--text-lg);
+		}
+	}
+</style>
