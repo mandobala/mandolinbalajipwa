@@ -1149,7 +1149,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
                 if (highlightRef.current) highlightRef.current.scrollTop = (e.target as HTMLTextAreaElement).scrollTop;
               }}
               style={{ scrollbarGutter: 'stable' }}
-              className="absolute inset-0 w-full h-full p-4 pl-20 bg-transparent text-transparent caret-black focus:outline-none resize-none whitespace-pre-wrap break-all z-10 font-mono text-[16px] leading-relaxed border-none shadow-none ring-0 overflow-y-auto"
+              className="absolute inset-0 w-full h-full p-4 pl-20 bg-transparent text-transparent caret-black focus:outline-none resize-none whitespace-pre-wrap break-all z-10 font-mono text-[16px] leading-relaxed border-none shadow-none ring-0 overflow-y-auto [&::selection]:text-transparent [&::selection]:bg-blue-200/40"
               spellCheck={false}
               placeholder="Type S R G M P D N..."
             />
