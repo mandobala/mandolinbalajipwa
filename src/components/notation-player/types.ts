@@ -15,6 +15,7 @@ export interface MetaData {
   edam: string;
   tags: string;
   gistId?: string;
+  private?: boolean;
 }
 
 export const SWARASTHANA_OFFSETS: Record<string, number> = {

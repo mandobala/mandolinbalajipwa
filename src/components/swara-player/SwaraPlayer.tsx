@@ -88,8 +88,9 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
   const [loopEnd, setLoopEnd] = useState<{ lineIdx: number; noteIdx: number } | null>(null);
   const [settingMarker, setSettingMarker] = useState<'start' | 'end' | null>(null);
   const [showPicker, setShowPicker] = useState(false);
-  const [songList, setSongList] = useState<{ name: string; song?: string; raga?: string; file?: string; url?: string; gistId?: string }[]>([]);
+  const [songList, setSongList] = useState<{ name: string; song?: string; raga?: string; file?: string; url?: string; gistId?: string; private?: boolean }[]>([]);
   const [edamMarked, setEdamMarked] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(false);
 
   const playbackRef = useRef<number | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -328,19 +329,20 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
 
   const openPicker = async () => {
     if (songList.length === 0) {
-      const res = await fetch('https://gist.githubusercontent.com/mandolinbalaji/2cccf69f0afcc5eb83099ab2f449edc9/raw/index.json');
+      const res = await fetch('/api/notation-index?all=true');
       const data = await res.json();
       setSongList(data);
     }
     setShowPicker(true);
   };
 
-  const loadFromGist = async (s: { name: string; song?: string; raga?: string; file?: string; url?: string; gistId?: string }) => {
+  const loadFromGist = async (s: { name: string; song?: string; raga?: string; file?: string; url?: string; gistId?: string; private?: boolean }) => {
     const fetchUrl = s.url ?? `/notesfromtext/${s.file ?? `${s.name}.txt`}`;
     const res = await fetch(fetchUrl);
     if (!res.ok) return;
     const text = await res.text();
     parseContent(text);
+    setIsPrivate(s.private || false);
     setShowPicker(false);
   };
 
@@ -419,6 +421,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
         scale: meta.scale || '', sruthi: meta.sruthi || '',
         edam: meta.edam || '', tags: meta.tags || '',
         file: fileName, url: gistUrl,
+        private: isPrivate || false,
       };
       try {
         const indexGistId = '2cccf69f0afcc5eb83099ab2f449edc9';
@@ -1030,6 +1033,15 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
               <Save className="w-3 h-3" />
               <span>{meta.gistId ? 'Update Gist' : 'Save to Gist'}</span>
             </button>
+            <label className="flex items-center gap-1 text-xs cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={isPrivate}
+                onChange={e => setIsPrivate(e.target.checked)}
+                className="accent-black"
+              />
+              <span className="font-medium text-gray-600">Private</span>
+            </label>
             {gistStatus && <span className="text-xs text-green-600 font-medium">{gistStatus}</span>}
           </div>
 
