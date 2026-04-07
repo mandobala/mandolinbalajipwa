@@ -91,6 +91,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
   const [songList, setSongList] = useState<{ name: string; song?: string; raga?: string; file?: string; url?: string; gistId?: string; private?: boolean }[]>([]);
   const [edamMarked, setEdamMarked] = useState(false);
   const [isPrivate, setIsPrivate] = useState(false);
+  const [lyrics, setLyrics] = useState<string>('');
 
   const playbackRef = useRef<number | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -276,6 +277,14 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
     if (confirm('Clear all notes?')) applyEdit('', 0);
   };
 
+  const normaliseLyrics = (text: string): string =>
+    text
+      .replace(/[Ṡ]/g, 'S').replace(/[Ṙ]/g, 'R').replace(/[Ġ]/g, 'G')
+      .replace(/[Ṁ]/g, 'M').replace(/[Ṗ]/g, 'P').replace(/[Ḋ]/g, 'D').replace(/[Ṅ]/g, 'N')
+      .replace(/[Ṣ]/g, 'S').replace(/[Ṛ]/g, 'R').replace(/[Ṃ]/g, 'M')
+      .replace(/[Ḍ]/g, 'D').replace(/[Ṇ]/g, 'N')
+      .replace(/[GP]\u0323/g, c => c[0]);
+
   const parseContent = (content: string) => {
     const metaMatch = content.match(/MetaS:\s*(.*?)\s*MetaE:/s);
     if (metaMatch) {
@@ -312,6 +321,8 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
     } else {
       applyEdit(content.toUpperCase().normalize('NFC'), 0);
     }
+    const lyricsMatch = content.match(/LyricsS:\s*([\s\S]*?)\s*LyricsE:/i);
+    setLyrics(lyricsMatch ? normaliseLyrics(lyricsMatch[1].trim()) : '');
   };
 
   const importFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -1110,6 +1121,12 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
             </button>
           </div>
 
+          {lyrics && (
+            <div className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-5 py-4">
+              <span className="block text-[10px] font-bold uppercase tracking-widest text-amber-500 mb-2">Lyrics</span>
+              <p className="whitespace-pre-wrap font-serif text-[15px] leading-relaxed text-gray-700">{lyrics}</p>
+            </div>
+          )}
           {/* Editor with highlight overlay */}
           <div className="relative h-[700px] bg-gray-50 rounded-xl border border-gray-200 font-mono text-[16px] leading-relaxed overflow-hidden">
             {showOctaveToast && (

@@ -88,6 +88,7 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
   // MIDI modal state
   const [showMidiModal, setShowMidiModal] = useState(false);
   const [midiList, setMidiList] = useState<{ name: string; song: string; raga: string; midiFile: string }[]>([]);
+  const [lyrics, setLyrics] = useState<string>('');
 
   useEffect(() => {
     isPlayingRef.current = isPlaying;
@@ -98,6 +99,14 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
       if (playbackRef.current) clearTimeout(playbackRef.current);
     };
   }, []);
+
+  const normaliseLyrics = (text: string): string =>
+    text
+      .replace(/[Ṡ]/g, 'S').replace(/[Ṙ]/g, 'R').replace(/[Ġ]/g, 'G')
+      .replace(/[Ṁ]/g, 'M').replace(/[Ṗ]/g, 'P').replace(/[Ḋ]/g, 'D').replace(/[Ṅ]/g, 'N')
+      .replace(/[Ṣ]/g, 'S').replace(/[Ṛ]/g, 'R').replace(/[Ṃ]/g, 'M')
+      .replace(/[Ḍ]/g, 'D').replace(/[Ṇ]/g, 'N')
+      .replace(/[GP]\u0323/g, c => c[0]);
 
   const parseContent = (content: string) => {
     const metaMatch = content.match(/MetaS:\s*(.*?)\s*MetaE:/s);
@@ -132,6 +141,8 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
         setNotes(notationContent.toUpperCase());
       }
     }
+    const lyricsMatch = content.match(/LyricsS:\s*([\s\S]*?)\s*LyricsE:/i);
+    setLyrics(lyricsMatch ? normaliseLyrics(lyricsMatch[1].trim()) : '');
   };
 
   const openPicker = async () => {
@@ -676,6 +687,12 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
 
         {/* Notation Display */}
         <div className="p-6 relative">
+          {lyrics && (
+            <div className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-5 py-4">
+              <span className="block text-[10px] font-bold uppercase tracking-widest text-amber-500 mb-2">Lyrics</span>
+              <p className="whitespace-pre-wrap font-serif text-[15px] leading-relaxed text-gray-700">{lyrics}</p>
+            </div>
+          )}
           <div className="relative h-[700px] bg-gray-50 rounded-xl border border-gray-200 font-mono text-[16px] leading-relaxed overflow-hidden">
             <div
               ref={highlightRef}
