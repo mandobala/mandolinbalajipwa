@@ -138,6 +138,7 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
       if (partsAfterMeta.length > 1) {
         let notationContent = partsAfterMeta[1];
         if (notationContent.startsWith('\n')) notationContent = notationContent.substring(1);
+        notationContent = notationContent.replace(/LyricsS:[\s\S]*?LyricsE:\s*/gi, '').trim();
         setNotes(notationContent.toUpperCase());
       }
     }

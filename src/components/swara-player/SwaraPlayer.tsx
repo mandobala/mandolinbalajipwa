@@ -92,6 +92,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
   const [edamMarked, setEdamMarked] = useState(false);
   const [isPrivate, setIsPrivate] = useState(false);
   const [lyrics, setLyrics] = useState<string>('');
+  const [showLyricsEditor, setShowLyricsEditor] = useState(false);
 
   const playbackRef = useRef<number | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -316,6 +317,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
       if (partsAfterMeta.length > 1) {
         let notationContent = partsAfterMeta[1];
         if (notationContent.startsWith('\n')) notationContent = notationContent.substring(1);
+        notationContent = notationContent.replace(/LyricsS:[\s\S]*?LyricsE:\s*/gi, '').trim();
         applyEdit(notationContent.toUpperCase().normalize('NFC'), 0);
       }
     } else {
@@ -359,7 +361,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
 
   const saveFile = async () => {
     const fileName = `${meta.song || 'Song'}_${meta.raga || 'Raga'}.txt`;
-    const content = `MetaS: Song: ${meta.song} | Composer: ${meta.composer} | Raga: ${meta.raga} | Arohana: ${meta.arohana} | Avarohana: ${meta.avarohana} | Scale: ${meta.scale} | Beats: ${meta.beats} | Nadai: ${meta.nadai} | Sruthi: ${meta.sruthi} | BPM: ${meta.bpm} | Thala: ${meta.thala} | Edam: ${meta.edam} | Tags: ${meta.tags} | GistId: ${meta.gistId || ''} | MetaE:\n${notes}`;
+    const content = `MetaS: Song: ${meta.song} | Composer: ${meta.composer} | Raga: ${meta.raga} | Arohana: ${meta.arohana} | Avarohana: ${meta.avarohana} | Scale: ${meta.scale} | Beats: ${meta.beats} | Nadai: ${meta.nadai} | Sruthi: ${meta.sruthi} | BPM: ${meta.bpm} | Thala: ${meta.thala} | Edam: ${meta.edam} | Tags: ${meta.tags} | GistId: ${meta.gistId || ''} | MetaE:\n${notes}${lyrics ? '\nLyricsS:\n' + lyrics + '\nLyricsE:' : ''}`;
     const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -398,7 +400,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
   const saveToGist = async () => {
     if (!githubToken) { setGistStatus('Enter GitHub token first'); return; }
     const fileName = `${meta.song || 'Song'}_${meta.raga || 'Raga'}.txt`;
-    const content = `MetaS: Song: ${meta.song} | Composer: ${meta.composer} | Raga: ${meta.raga} | Arohana: ${meta.arohana} | Avarohana: ${meta.avarohana} | Scale: ${meta.scale} | Beats: ${meta.beats} | Nadai: ${meta.nadai} | Sruthi: ${meta.sruthi} | BPM: ${meta.bpm} | Thala: ${meta.thala} | Edam: ${meta.edam} | Tags: ${meta.tags} | GistId: ${meta.gistId || ''} | MetaE:\n${notes}`;
+    const content = `MetaS: Song: ${meta.song} | Composer: ${meta.composer} | Raga: ${meta.raga} | Arohana: ${meta.arohana} | Avarohana: ${meta.avarohana} | Scale: ${meta.scale} | Beats: ${meta.beats} | Nadai: ${meta.nadai} | Sruthi: ${meta.sruthi} | BPM: ${meta.bpm} | Thala: ${meta.thala} | Edam: ${meta.edam} | Tags: ${meta.tags} | GistId: ${meta.gistId || ''} | MetaE:\n${notes}${lyrics ? '\nLyricsS:\n' + lyrics + '\nLyricsE:' : ''}`;
     const body = { files: { [fileName]: { content } }, public: true };
     let gistId = meta.gistId;
     try {
@@ -1121,12 +1123,30 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
             </button>
           </div>
 
-          {lyrics && (
-            <div className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-5 py-4">
-              <span className="block text-[10px] font-bold uppercase tracking-widest text-amber-500 mb-2">Lyrics</span>
-              <p className="whitespace-pre-wrap font-serif text-[15px] leading-relaxed text-gray-700">{lyrics}</p>
+          <div className="mb-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-amber-500">Lyrics</span>
+              <button
+                onClick={() => setShowLyricsEditor(v => !v)}
+                className="text-[10px] text-gray-400 hover:text-gray-600 underline"
+              >
+                {showLyricsEditor ? 'Done' : lyrics ? 'Edit' : 'Add Lyrics'}
+              </button>
             </div>
-          )}
+            {showLyricsEditor ? (
+              <textarea
+                value={lyrics}
+                onChange={e => setLyrics(e.target.value)}
+                placeholder="Paste lyrics here..."
+                rows={5}
+                className="w-full rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 font-serif text-[15px] leading-relaxed text-gray-700 resize-y focus:outline-none focus:ring-1 focus:ring-amber-300"
+              />
+            ) : lyrics ? (
+              <div className="rounded-xl border border-amber-200 bg-amber-50 px-5 py-4">
+                <p className="whitespace-pre-wrap font-serif text-[15px] leading-relaxed text-gray-700">{lyrics}</p>
+              </div>
+            ) : null}
+          </div>
           {/* Editor with highlight overlay */}
           <div className="relative h-[700px] bg-gray-50 rounded-xl border border-gray-200 font-mono text-[16px] leading-relaxed overflow-hidden">
             {showOctaveToast && (
