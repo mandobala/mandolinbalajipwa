@@ -340,9 +340,9 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
 
   const openPicker = async () => {
     if (songList.length === 0) {
-      const res = await fetch('/api/notation-index?all=true');
+      const res = await fetch('https://gist.githubusercontent.com/mandolinbalaji/2cccf69f0afcc5eb83099ab2f449edc9/raw/index.json?t=' + Date.now());
       const data = await res.json();
-      setSongList(data);
+      setSongList(data); // swara-player shows all songs including private
     }
     setShowPicker(true);
   };

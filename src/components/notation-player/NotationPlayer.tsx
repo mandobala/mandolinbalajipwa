@@ -147,9 +147,9 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
 
   const openPicker = async () => {
     if (songList.length === 0) {
-      const res = await fetch('/api/notation-index');
-      const data = await res.json();
-      setSongList(data);
+      const res = await fetch('https://gist.githubusercontent.com/mandolinbalaji/2cccf69f0afcc5eb83099ab2f449edc9/raw/index.json?t=' + Date.now());
+      const data: Record<string, unknown>[] = await res.json();
+      setSongList(data.filter((e: any) => !e.private) as any);
     }
     setShowPicker(true);
   };
@@ -167,9 +167,9 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
   // Download MIDI modal logic
   const openMidiModal = async () => {
     if (midiList.length === 0) {
-      const res = await fetch('/api/notation-index');
-      const data = await res.json();
-      const midiEntries = data.filter((entry: any) => entry.midiFile);
+      const res = await fetch('https://gist.githubusercontent.com/mandolinbalaji/2cccf69f0afcc5eb83099ab2f449edc9/raw/index.json?t=' + Date.now());
+      const data: Record<string, unknown>[] = await res.json();
+      const midiEntries = data.filter((entry: any) => entry.midiFile && !entry.private);
       setMidiList(midiEntries);
     }
     setShowMidiModal(true);
