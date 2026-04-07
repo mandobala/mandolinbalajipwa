@@ -77,6 +77,7 @@ export default defineConfig({
       additionalManifestEntries: [{ url: '/404.html', revision: null }],
       maximumFileSizeToCacheInBytes: 5000000,
       navigateFallback: '/404.html',
+      navigateFallbackDenylist: [/^\/api\//],
       globPatterns: ['**/*.{css,js,html,svg,png,ico,txt,webmanifest}'],
     },
     experimental: {
