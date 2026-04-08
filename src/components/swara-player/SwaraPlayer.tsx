@@ -83,6 +83,8 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeLineIdx, setActiveLineIdx] = useState<number | null>(null);
   const [showOctaveToast, setShowOctaveToast] = useState(false);
+  const [clickEnabled, setClickEnabled] = useState(true);
+  const clickEnabledRef = useRef(true);
   const [loopEnabled, setLoopEnabled] = useState(false);
   const [loopStart, setLoopStart] = useState<{ lineIdx: number; noteIdx: number } | null>(null);
   const [loopEnd, setLoopEnd] = useState<{ lineIdx: number; noteIdx: number } | null>(null);
@@ -475,7 +477,8 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
 
     isLoopingRef.current = loopOverride !== undefined ? loopOverride : (typeof customNotes === 'string') || (loopEnabled && !!(loopStart && loopEnd));
 
-    await audioEngine.playClick(0.01);
+    clickEnabledRef.current = clickEnabled;
+    if (clickEnabled) await audioEngine.playClick(0.01);
     setIsPlaying(true);
     isPlayingRef.current = true;
 
@@ -557,7 +560,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
       setActiveLineIdx(unit.lineIdx);
 
       const currentBeatVal = currentNoteDuration / beatDuration;
-      if (currentIndex === 0 || Math.floor(totalElapsedBeats + 0.001) > Math.floor(totalElapsedBeats - (playableUnits[currentIndex - 1]?.duration / beatDuration) + 0.001)) {
+      if (clickEnabledRef.current && (currentIndex === 0 || Math.floor(totalElapsedBeats + 0.001) > Math.floor(totalElapsedBeats - (playableUnits[currentIndex - 1]?.duration / beatDuration) + 0.001))) {
         audioEngine.playClick();
       }
       if (unit.char !== ',') {
@@ -964,6 +967,17 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
               {isPlaying ? <Square className="w-3 h-3 fill-current" /> : <Play className="w-3 h-3 fill-current" />}
               <span>{isPlaying ? 'Stop' : 'Play'}</span>
             </button>
+            <div className="h-6 w-[1px] bg-gray-300 mx-1" />
+            {/* Click Control */}
+            <label className="flex items-center gap-1.5 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={clickEnabled}
+                onChange={e => setClickEnabled(e.target.checked)}
+                className="accent-black"
+              />
+              <span className="text-xs font-bold text-gray-700">Click</span>
+            </label>
             <div className="h-6 w-[1px] bg-gray-300 mx-1" />
             {/* Loop Controls */}
             <label className="flex items-center gap-1.5 cursor-pointer select-none">

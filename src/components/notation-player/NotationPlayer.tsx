@@ -79,6 +79,8 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
   const [activeLineIdx, setActiveLineIdx] = useState<number | null>(null);
   const isPlayingRef = useRef(isPlaying);
   const isLoopingRef = useRef(false);
+  const [clickEnabled, setClickEnabled] = useState(true);
+  const clickEnabledRef = useRef(true);
   const [loopEnabled, setLoopEnabled] = useState(false);
   const [loopStart, setLoopStart] = useState<{ lineIdx: number; noteIdx: number } | null>(null);
   const [loopEnd, setLoopEnd] = useState<{ lineIdx: number; noteIdx: number } | null>(null);
@@ -218,7 +220,8 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
 
     isLoopingRef.current = loopOverride !== undefined ? loopOverride : (typeof customNotes === 'string') || (loopEnabled && !!(loopStart && loopEnd));
 
-    await audioEngine.playClick(0.01);
+    clickEnabledRef.current = clickEnabled;
+    if (clickEnabled) await audioEngine.playClick(0.01);
     setIsPlaying(true);
     isPlayingRef.current = true;
 
@@ -316,7 +319,7 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
 
       const currentBeatVal = currentNoteDuration / beatDuration;
 
-      if (currentIndex === 0 || Math.floor(totalElapsedBeats + 0.001) > Math.floor(totalElapsedBeats - (playableUnits[currentIndex - 1]?.duration / beatDuration) + 0.001)) {
+      if (clickEnabledRef.current && (currentIndex === 0 || Math.floor(totalElapsedBeats + 0.001) > Math.floor(totalElapsedBeats - (playableUnits[currentIndex - 1]?.duration / beatDuration) + 0.001))) {
         audioEngine.playClick();
       }
 
@@ -572,6 +575,18 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
               {isPlaying ? <Square className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current" />}
               <span>{isPlaying ? 'Stop Playback' : 'Start Playback'}</span>
             </button>
+
+            <div className="h-8 w-[1px] bg-gray-300 mx-2" />
+
+            <label className="flex items-center gap-1.5 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={clickEnabled}
+                onChange={e => setClickEnabled(e.target.checked)}
+                className="accent-black"
+              />
+              <span className="text-xs font-bold text-gray-700">Click</span>
+            </label>
 
             <div className="h-8 w-[1px] bg-gray-300 mx-2" />
 
