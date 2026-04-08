@@ -338,6 +338,7 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
 
   const renderHighlightedNotes = () => {
     const lines = notes.split('\n');
+    let lineNum = 0;
 
     return lines.map((line, lineIdx) => {
       if (/^TAGS\b/i.test(line.trim())) return null;
@@ -347,22 +348,26 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
         return (
           <div key={lineIdx} className="relative flex items-start gap-3 leading-relaxed min-h-[1.625rem] p-1">
             <div className="w-6 shrink-0" />
+            <div className="w-5 shrink-0" />
             <div className="flex-1 italic text-black font-sans text-sm">{lyric}</div>
           </div>
         );
       }
 
       if (/^[A-Za-z][A-Za-z0-9 ]*:$/.test(line.trim())) {
+        lineNum = 0;
         const label = line.trim().slice(0, -1);
         return (
           <div key={lineIdx} className="flex items-center gap-3 mt-3 mb-1 px-1">
             <div className="w-6 shrink-0" />
+            <div className="w-5 shrink-0" />
             <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">{label}</span>
             <div className="flex-1 border-t border-gray-200" />
           </div>
         );
       }
 
+      const currentLineNum = ++lineNum;
       const units = line.match(/([A-Za-z0-9 ]+:|[SRGMPDN][123]?\u0323?|Ṡ|Ṙ|Ġ|Ṁ|Ṗ|Ḋ|Ṅ|Ṣ|Ṛ|Ṃ|Ḍ|Ṇ|,|\|| |\{|\}|\[\d+:|\]|-)/gi) || [];
 
       let currentBrace: { startIdx: number; count: number } | null = null;
@@ -378,6 +383,7 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
           >
             {activeLineIdx === lineIdx ? <Square className="w-3 h-3 fill-current" /> : <Play className="w-3 h-3 fill-current" />}
           </button>
+          <span className="text-[9px] text-gray-400 w-5 shrink-0 text-right mt-1.5 select-none font-mono">{currentLineNum}</span>
           <div className="inline flex-1">
             {units.map((char, i) => {
               let color = 'text-gray-800';
