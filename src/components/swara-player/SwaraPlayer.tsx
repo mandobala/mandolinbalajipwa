@@ -91,6 +91,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
   const [settingMarker, setSettingMarker] = useState<'start' | 'end' | null>(null);
   const [showPicker, setShowPicker] = useState(false);
   const [songList, setSongList] = useState<{ name: string; song?: string; raga?: string; file?: string; url?: string; gistId?: string; private?: boolean }[]>([]);
+  const [pickerFilter, setPickerFilter] = useState('');
   const [edamMarked, setEdamMarked] = useState(false);
   const [isPrivate, setIsPrivate] = useState(false);
   const [lyrics, setLyrics] = useState<string>('');
@@ -348,6 +349,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
       const data = await res.json();
       setSongList(data); // swara-player shows all songs including private
     }
+    setPickerFilter('');
     setShowPicker(true);
   };
 
@@ -1239,8 +1241,23 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
                 <X className="w-5 h-5 text-gray-500" />
               </button>
             </div>
-            <ul className="divide-y divide-gray-100 max-h-80 overflow-y-auto">
-              {songList.map(s => (
+            <div className="px-4 py-3 border-b border-gray-100">
+              <input
+                type="text"
+                placeholder="Filter by name, raga, composer, tala, tags…"
+                value={pickerFilter}
+                onChange={e => setPickerFilter(e.target.value)}
+                autoFocus
+                className="w-full text-sm px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
+              />
+            </div>
+            <ul className="divide-y divide-gray-100 max-h-72 overflow-y-auto">
+              {songList.filter(s => {
+                const q = pickerFilter.toLowerCase();
+                if (!q) return true;
+                return [s.song, s.name, s.raga, (s as any).composer, (s as any).tala, (s as any).tags]
+                  .some(v => v && String(v).toLowerCase().includes(q));
+              }).map(s => (
                 <li key={s.name}>
                   <button
                     onClick={() => loadFromGist(s)}
