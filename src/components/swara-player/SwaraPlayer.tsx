@@ -785,7 +785,29 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
                   setSettingMarker(null);
                   return;
                 }
-                if (octave === 'normal') return;
+                if (octave === 'normal') {
+                  // Normalize dotted note back to plain
+                  if (!isAbove && !isBelow) return;
+                  e.stopPropagation();
+                  const variantNum = char.match(/[123]/)?.[0] ?? '';
+                  let baseNote = char;
+                  for (const [base, dotted] of Object.entries(DOT_ABOVE_MAP)) {
+                    if (char.startsWith(dotted)) { baseNote = base; break; }
+                  }
+                  if (baseNote === char) {
+                    for (const [base, dotted] of Object.entries(DOT_BELOW_MAP)) {
+                      if (char.startsWith(dotted)) { baseNote = base; break; }
+                    }
+                  }
+                  const allLines = [...lines];
+                  const lineUnits = [...units];
+                  lineUnits[i] = baseNote + variantNum;
+                  allLines[lineIdx] = lineUnits.join('');
+                  const cs = textareaRef.current?.selectionStart ?? 0;
+                  const ce = textareaRef.current?.selectionEnd ?? 0;
+                  applyEdit(allLines.join('\n'), cs, ce);
+                  return;
+                }
                 e.stopPropagation();
                 const baseMatch = char.match(/[SRGMPDN]/i);
                 if (!baseMatch) return;
@@ -803,7 +825,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
                 applyEdit(allLines.join('\n'), cs, ce);
               };
 
-              const isInteractive = settingMarker !== null || (octave !== 'normal' && /[SRGMPDN]/i.test(char));
+              const isInteractive = settingMarker !== null || (octave !== 'normal' && /[SRGMPDN]/i.test(char)) || (octave === 'normal' && (isAbove || isBelow));
 
               return (
                 <React.Fragment key={i}>
@@ -1077,7 +1099,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
           <label className="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-2 block">
             {octave !== 'normal'
               ? `Click notes to apply Dot ${octave === 'above' ? 'Above (upper octave)' : 'Below (lower octave)'}`
-              : 'Enter Notes'}
+              : 'Enter Notes · Click dotted notes to normalize'}
           </label>
 
           {/* Formatting helpers */}
