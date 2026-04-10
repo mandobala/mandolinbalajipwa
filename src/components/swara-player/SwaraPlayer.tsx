@@ -518,7 +518,9 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
       const useLoop = loopEnabled && !!(effectiveStart && effectiveEnd);
 
       lines.forEach((line, lineIdx) => {
-        if (/^TAGS\b/i.test(line.trim()) || /^LR:/i.test(line.trim())) return;
+        const lt = line.trim();
+        if (/^TAGS\b/i.test(lt) || /^LR:/i.test(lt)) return;
+        if (/^[A-Za-z][A-Za-z0-9 ]*:$/.test(lt) || lt === '') return;
         if (useLoop && (lineIdx < effectiveStart!.lineIdx || lineIdx > effectiveEnd!.lineIdx)) return;
         const rawUnits = line.match(/([A-Za-z0-9 ]+:|[SRGMPDN][123]?\u0323?|Ṡ|Ṙ|Ġ|Ṁ|Ṗ|Ḋ|Ṅ|Ṣ|Ṛ|Ṃ|Ḍ|Ṇ|,|\||\{|\}|\[\d+:|\]|-)/gi) || [];
         speedMultiplier = 1;
@@ -664,7 +666,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
     if (edamNoteIdx >= 0) {
       for (let i = 0; i < lines.length; i++) {
         const t = lines[i].trim();
-        if (t.length > 0 && !/^TAGS\b/i.test(t) && !/^LR:/i.test(t)) {
+        if (t.length > 0 && !/^TAGS\b/i.test(t) && !/^LR:/i.test(t) && !/^[A-Za-z][A-Za-z0-9 ]*:$/.test(t)) {
           firstContentLineIdx = i;
           break;
         }
@@ -682,6 +684,14 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
         );
       }
 
+      if (trimmed === '') {
+        return <div key={lineIdx} className="min-h-[0.75rem]" />;
+      }
+
+      if (/^LR:\s*$/i.test(trimmed)) {
+        return <div key={lineIdx} className="min-h-[0.75rem]" />;
+      }
+
       if (/^LR:/i.test(trimmed)) {
         const prefixMatch = line.match(/^LR:\s*/i);
         const prefix = prefixMatch ? prefixMatch[0] : '';
@@ -690,6 +700,15 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
           <div key={lineIdx} className="relative leading-relaxed min-h-[1.625rem]">
             <span className="text-transparent select-none">{prefix}</span>
             <span className="text-gray-400 italic font-sans text-[15px]">{lyrics}</span>
+          </div>
+        );
+      }
+
+      if (/^[A-Za-z][A-Za-z0-9 ]*:$/.test(trimmed)) {
+        return (
+          <div key={lineIdx} className="flex items-center gap-3 mt-3 mb-1 px-1">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">{trimmed.slice(0, -1)}</span>
+            <div className="flex-1 border-t border-gray-200" />
           </div>
         );
       }
