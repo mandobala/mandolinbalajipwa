@@ -16,7 +16,7 @@ function normalizeNotesWithScale(notes: string, scale: string): string {
     return variantToBase[m.toUpperCase()] || m;
   });
 }
-import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './swara-player.css';
 import {
   ChevronUp,
@@ -27,7 +27,6 @@ import {
   Play,
   Square,
   Save,
-  Trash2,
   Delete,
   Music,
   Upload,
@@ -96,6 +95,7 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
   const [isPrivate, setIsPrivate] = useState(false);
   const [lyrics, setLyrics] = useState<string>('');
   const [showLyricsEditor, setShowLyricsEditor] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const playbackRef = useRef<number | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -139,16 +139,6 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Single source of truth for value + cursor: fires after React commits, before browser paints.
-  // Uses [editor] (new object ref on every applyEdit) so it always fires — even when cursor
-  // position is unchanged but notes changed (e.g. format button). Textarea is uncontrolled so
-  // React never resets its DOM value mid-render and fights the cursor.
-  useLayoutEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.value = editor.notes;
-      textareaRef.current.setSelectionRange(editor.cursorStart, editor.cursorEnd);
-    }
-  }, [editor]);
 
 
   const formatLine = (line: string) => {
@@ -230,52 +220,47 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
       audioEngine.playNote(semitones, meta.sruthi, 0.3);
     }
 
-    const start = textareaRef.current?.selectionStart ?? notes.length;
-    const end = textareaRef.current?.selectionEnd ?? notes.length;
-    const newNotes = notes.substring(0, start) + charToAdd + notes.substring(end);
-    const newCursor = start + charToAdd.length;
-    textareaRef.current?.focus();
-    applyEdit(newNotes, newCursor);
-  };
-
-  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newValue = e.target.value.toUpperCase().normalize('NFC');
-    const start = e.target.selectionStart || 0;
-
-    if (edamMarked) setEdamMarked(false);
-
-    if (isPlayingRef.current) {
-      setIsPlaying(false);
-      isPlayingRef.current = false;
-      if (playbackRef.current) clearTimeout(playbackRef.current);
+    // If edit modal is not open, open it first
+    if (!showEditModal) {
+      setShowEditModal(true);
+      return;
     }
 
-    if (newValue.length === notes.length + 1) {
-      const charAdded = newValue[start - 1];
-      if (['S', 'R', 'G', 'M', 'P', 'D', 'N'].includes(charAdded) ||
-        Object.values(DOT_ABOVE_MAP).includes(charAdded) ||
-        Object.values(DOT_BELOW_MAP).includes(charAdded)) {
-        const semitones = getSemitones(charAdded, meta.scale);
-        audioEngine.playNote(semitones, meta.sruthi, 0.3);
-      }
-    }
-
-    applyEdit(newValue, start);
+    // Insert directly into the uncontrolled modal textarea
+    const el = textareaRef.current;
+    if (!el) return;
+    const start = el.selectionStart ?? el.value.length;
+    const end = el.selectionEnd ?? el.value.length;
+    el.value = el.value.substring(0, start) + charToAdd + el.value.substring(end);
+    const cursor = start + charToAdd.length;
+    el.setSelectionRange(cursor, cursor);
+    el.focus();
   };
+
 
   const handleBackspace = () => {
-    const start = textareaRef.current?.selectionStart || 0;
-    const end = textareaRef.current?.selectionEnd || 0;
-    textareaRef.current?.focus();
+    const el = textareaRef.current;
+    if (!el) return;
+    const start = el.selectionStart ?? 0;
+    const end = el.selectionEnd ?? 0;
     if (start === end && start > 0) {
-      applyEdit(notes.substring(0, start - 1) + notes.substring(end), start - 1);
-    } else {
-      applyEdit(notes.substring(0, start) + notes.substring(end), start);
+      el.value = el.value.substring(0, start - 1) + el.value.substring(end);
+      el.setSelectionRange(start - 1, start - 1);
+    } else if (start !== end) {
+      el.value = el.value.substring(0, start) + el.value.substring(end);
+      el.setSelectionRange(start, start);
     }
+    el.focus();
   };
 
   const handleClear = () => {
-    if (confirm('Clear all notes?')) applyEdit('', 0);
+    const el = textareaRef.current;
+    if (!el) return;
+    if (confirm('Clear all notes?')) {
+      el.value = '';
+      el.setSelectionRange(0, 0);
+      el.focus();
+    }
   };
 
   const normaliseLyrics = (text: string): string =>
@@ -578,21 +563,20 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
   };
 
   const wrapSelection = (prefix: string, suffix: string, replacement?: string) => {
-    if (!textareaRef.current) return;
-    const start = textareaRef.current.selectionStart;
-    const end = textareaRef.current.selectionEnd;
-
-    textareaRef.current.focus();
+    const el = textareaRef.current;
+    if (!el) return;
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    el.focus();
     if (start === end && replacement) {
-      const newText = notes.substring(0, start) + replacement + notes.substring(end);
-      applyEdit(newText, start + replacement.length);
+      el.value = el.value.substring(0, start) + replacement + el.value.substring(end);
+      el.setSelectionRange(start + replacement.length, start + replacement.length);
       return;
     }
     if (start === end) return;
-
-    const selectedText = notes.substring(start, end);
-    const newText = notes.substring(0, start) + prefix + selectedText + suffix + notes.substring(end);
-    applyEdit(newText, start, start + prefix.length + selectedText.length + suffix.length);
+    const selectedText = el.value.substring(start, end);
+    el.value = el.value.substring(0, start) + prefix + selectedText + suffix + el.value.substring(end);
+    el.setSelectionRange(start, start + prefix.length + selectedText.length + suffix.length);
   };
 
   const getTalaMap = () => {
@@ -717,15 +701,13 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
 
       return (
         <div key={lineIdx} className={`relative leading-relaxed min-h-[1.625rem] group transition-colors duration-200 ${activeLineIdx === lineIdx ? 'bg-yellow-100/50 rounded-md ring-1 ring-yellow-200' : ''}`}>
-          <div className="absolute -left-16 top-1 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-40 pointer-events-auto">
+          <div className="absolute -left-16 top-1 flex items-center gap-1 z-40 pointer-events-auto">
             <button
               onClick={() => {
                 const formatted = formatLine(line);
                 const allLines = notes.split('\n');
                 allLines[lineIdx] = formatted;
-                const cs = textareaRef.current?.selectionStart ?? 0;
-                const ce = textareaRef.current?.selectionEnd ?? 0;
-                applyEdit(allLines.join('\n'), cs, ce);
+                applyEdit(allLines.join('\n'), 0);
               }}
               className="p-1.5 rounded-full bg-gray-100 hover:bg-purple-600 text-gray-400 hover:text-white transition-all shadow-sm"
               title="Format this line"
@@ -1201,65 +1183,40 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
               </div>
             ) : null}
           </div>
-          {/* Editor with highlight overlay */}
-          <div className="relative h-[700px] bg-gray-50 rounded-xl border border-gray-200 font-mono text-[16px] leading-relaxed overflow-hidden">
+          {/* Notation Display */}
+          <div className="relative">
+            {/* Edit button */}
+            <button
+              onClick={() => setShowEditModal(true)}
+              className="absolute top-3 right-3 z-40 flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 rounded-full text-xs font-bold text-gray-600 hover:bg-gray-800 hover:text-white hover:border-gray-800 transition-all shadow-sm"
+              title="Open raw text editor"
+            >
+              <Wand2 className="w-3 h-3" />
+              Edit
+            </button>
             {showOctaveToast && (
-              <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-black/80 text-white text-xs font-bold rounded-full">
+              <div className="absolute top-3 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-black/80 text-white text-xs font-bold rounded-full pointer-events-none">
                 Octave: {octave === 'above' ? 'Dot Above' : octave === 'below' ? 'Dot Below' : 'Normal'}
               </div>
             )}
-            <div
-              ref={highlightRef}
-              style={{ scrollbarGutter: 'stable' }}
-              className="absolute inset-0 p-4 pl-20 whitespace-pre-wrap break-all z-30 pointer-events-none font-mono text-[16px] leading-relaxed select-none overflow-y-auto [&::-webkit-scrollbar]:hidden [scrollbar-width:none]"
-            >
-              {renderHighlightedNotes()}
-            </div>
-            <textarea
-              ref={textareaRef}
-              onChange={handleTextareaChange}
-              onScroll={e => {
-                if (highlightRef.current) highlightRef.current.scrollTop = (e.target as HTMLTextAreaElement).scrollTop;
-              }}
-              style={{ scrollbarGutter: 'stable' }}
-              className="absolute inset-0 w-full h-full p-4 pl-20 bg-transparent text-transparent caret-black focus:outline-none resize-none whitespace-pre-wrap break-all z-10 font-mono text-[16px] leading-relaxed border-none shadow-none ring-0 overflow-y-auto [&::selection]:text-transparent [&::selection]:bg-blue-200/40"
-              spellCheck={false}
-              placeholder="Type S R G M P D N..."
-            />
+            {notes ? (
+              <div
+                ref={highlightRef}
+                className="p-4 pl-20 whitespace-pre-wrap break-words font-mono text-[16px] leading-relaxed min-h-[200px] overflow-y-auto"
+              >
+                {renderHighlightedNotes()}
+              </div>
+            ) : (
+              <div
+                className="p-4 pl-20 min-h-[200px] flex items-center justify-center cursor-pointer"
+                onClick={() => setShowEditModal(true)}
+              >
+                <span className="text-gray-400 text-sm">No notation yet — click <strong>Edit</strong> to start</span>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Keyboard + Controls */}
-        <div className="p-6 bg-gray-50 border-t border-gray-100">
-          {/* Virtual Keyboard */}
-          <div className="grid grid-cols-4 sm:grid-cols-7 md:grid-cols-11 gap-2">
-            {['S', 'R', 'G', 'M', 'P', 'D', 'N', ',', '|'].map(note => (
-              <button
-                key={note}
-                onClick={() => handleNoteClick(note)}
-                className="h-14 bg-white border border-gray-200 rounded-xl flex items-center justify-center text-xl font-bold hover:bg-gray-50 active:scale-95 transition-all shadow-sm"
-              >
-                {octave === 'above' && DOT_ABOVE_MAP[note]
-                  ? DOT_ABOVE_MAP[note]
-                  : octave === 'below' && DOT_BELOW_MAP[note]
-                    ? DOT_BELOW_MAP[note]
-                    : note}
-              </button>
-            ))}
-            <button
-              onClick={handleBackspace}
-              className="h-14 bg-white border border-gray-200 rounded-xl flex items-center justify-center hover:bg-gray-50 active:scale-95 transition-all shadow-sm"
-            >
-              <Delete className="w-6 h-6 text-gray-500" />
-            </button>
-            <button
-              onClick={handleClear}
-              className="h-14 bg-white border border-gray-200 rounded-xl flex items-center justify-center hover:bg-red-50 active:scale-95 transition-all shadow-sm"
-            >
-              <Trash2 className="w-6 h-6 text-red-400" />
-            </button>
-          </div>
-        </div>
       </div>
 
       <div className="max-w-4xl mx-auto mt-8 text-center">
@@ -1267,6 +1224,83 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
           Monospaced 16px · Red: Upper Octave · Blue: Lower Octave · Alt+U/D/N to switch octave
         </p>
       </div>
+
+      {/* Edit Modal */}
+      {showEditModal && (
+        <div className="fixed inset-0 bg-black/60 z-[200] flex items-center justify-center p-4">
+          <div
+            className="bg-white rounded-2xl shadow-2xl flex flex-col w-full max-w-5xl"
+            style={{ height: '85vh' }}
+          >
+            {/* Modal header */}
+            <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 shrink-0">
+              <div className="flex items-center gap-3">
+                <h2 className="font-bold text-base">Edit Notation</h2>
+                <span className="text-xs text-gray-400">Plain text · one line per phrase</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setShowEditModal(false)}
+                  className="px-4 py-1.5 rounded-full text-sm border border-gray-200 hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    const raw = textareaRef.current?.value ?? '';
+                    applyEdit(raw.toUpperCase().normalize('NFC'), 0);
+                    setShowEditModal(false);
+                  }}
+                  className="px-5 py-1.5 rounded-full text-sm bg-black text-white font-bold hover:bg-gray-800 transition-colors"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+
+            {/* Plain text textarea — the actual editing surface */}
+            <textarea
+              ref={textareaRef}
+              defaultValue={notes}
+              className="flex-1 p-5 font-mono text-[15px] leading-relaxed resize-none focus:outline-none rounded-b-2xl overflow-y-auto"
+              spellCheck={false}
+              placeholder="Type S R G M P D N  |  - ...&#10;One phrase per line. Use { } for double speed. Add labels like Pallavi:"
+              autoFocus
+            />
+
+            {/* Virtual keyboard strip inside modal */}
+            <div className="shrink-0 px-4 py-3 border-t border-gray-100 flex flex-wrap gap-2 items-center bg-gray-50 rounded-b-2xl">
+              {['S', 'R', 'G', 'M', 'P', 'D', 'N', ',', '|'].map(note => (
+                <button
+                  key={note}
+                  onClick={() => handleNoteClick(note)}
+                  className="h-10 w-10 bg-white border border-gray-200 rounded-lg flex items-center justify-center text-base font-bold hover:bg-gray-50 active:scale-95 transition-all shadow-sm"
+                >
+                  {octave === 'above' && DOT_ABOVE_MAP[note]
+                    ? DOT_ABOVE_MAP[note]
+                    : octave === 'below' && DOT_BELOW_MAP[note]
+                      ? DOT_BELOW_MAP[note]
+                      : note}
+                </button>
+              ))}
+              <div className="w-px h-6 bg-gray-200 mx-1" />
+              <button onClick={handleBackspace} className="h-10 px-3 bg-white border border-gray-200 rounded-lg flex items-center justify-center hover:bg-gray-50 active:scale-95 transition-all shadow-sm">
+                <Delete className="w-4 h-4 text-gray-500" />
+              </button>
+              <div className="w-px h-6 bg-gray-200 mx-1" />
+              <button onClick={() => setOctave(octave === 'above' ? 'normal' : 'above')} className={`h-10 px-3 rounded-lg border text-xs font-bold transition-all ${octave === 'above' ? 'bg-red-500 text-white border-red-600' : 'bg-white border-gray-200 text-gray-600 hover:bg-red-50'}`}>
+                ↑ Above
+              </button>
+              <button onClick={() => setOctave('normal')} className={`h-10 px-3 rounded-lg border text-xs font-bold transition-all ${octave === 'normal' ? 'bg-gray-800 text-white border-gray-800' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'}`}>
+                ○ Normal
+              </button>
+              <button onClick={() => setOctave(octave === 'below' ? 'normal' : 'below')} className={`h-10 px-3 rounded-lg border text-xs font-bold transition-all ${octave === 'below' ? 'bg-blue-500 text-white border-blue-600' : 'bg-white border-gray-200 text-gray-600 hover:bg-blue-50'}`}>
+                ↓ Below
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Gist Song Picker Modal */}
       {showPicker && (
