@@ -10,7 +10,8 @@ import {
   Download,
   X,
   ChevronRight,
-  LogOut
+  LogOut,
+  Wand2,
 } from 'lucide-react';
 import type { User } from 'firebase/auth';
 import './notation-player.css';
