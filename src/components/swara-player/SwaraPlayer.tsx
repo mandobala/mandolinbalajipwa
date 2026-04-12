@@ -139,19 +139,16 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Single source of truth for cursor: fires after React commits, before browser paints
+  // Single source of truth for value + cursor: fires after React commits, before browser paints.
+  // Uses [editor] (new object ref on every applyEdit) so it always fires — even when cursor
+  // position is unchanged but notes changed (e.g. format button). Textarea is uncontrolled so
+  // React never resets its DOM value mid-render and fights the cursor.
   useLayoutEffect(() => {
     if (textareaRef.current) {
+      textareaRef.current.value = editor.notes;
       textareaRef.current.setSelectionRange(editor.cursorStart, editor.cursorEnd);
     }
-  }, [editor.cursorStart, editor.cursorEnd]);
-
-  // Sync highlight scroll with textarea scroll
-  useEffect(() => {
-    if (textareaRef.current && highlightRef.current) {
-      highlightRef.current.scrollTop = textareaRef.current.scrollTop;
-    }
-  }, [notes]);
+  }, [editor]);
 
 
   const formatLine = (line: string) => {
@@ -1214,13 +1211,12 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
             <div
               ref={highlightRef}
               style={{ scrollbarGutter: 'stable' }}
-              className="absolute inset-0 p-4 pl-20 whitespace-pre-wrap break-all z-30 pointer-events-none font-mono text-[16px] leading-relaxed select-none overflow-y-hidden"
+              className="absolute inset-0 p-4 pl-20 whitespace-pre-wrap break-all z-30 pointer-events-none font-mono text-[16px] leading-relaxed select-none overflow-y-auto [&::-webkit-scrollbar]:hidden [scrollbar-width:none]"
             >
               {renderHighlightedNotes()}
             </div>
             <textarea
               ref={textareaRef}
-              value={notes}
               onChange={handleTextareaChange}
               onScroll={e => {
                 if (highlightRef.current) highlightRef.current.scrollTop = (e.target as HTMLTextAreaElement).scrollTop;
