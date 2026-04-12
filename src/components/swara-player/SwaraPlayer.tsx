@@ -141,6 +141,20 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
 
 
 
+  const formatLyricLine = (lyricContent: string, notationLine: string): string => {
+    if (!lyricContent.includes('|')) return lyricContent;
+    const notationSegs = notationLine.split('|');
+    const lyricSegs = lyricContent.split('|');
+    const count = Math.max(notationSegs.length, lyricSegs.length);
+    const result: string[] = [];
+    for (let i = 0; i < count; i++) {
+      const notSeg = notationSegs[i] ?? '';
+      const lyrSeg = lyricSegs[i] ?? '';
+      result.push(lyrSeg.length < notSeg.length ? lyrSeg.padEnd(notSeg.length) : lyrSeg);
+    }
+    return result.join('|');
+  };
+
   const formatLine = (line: string) => {
     if (/^TAGS\b/i.test(line.trim()) || /^LR:/i.test(line.trim())) return line;
     const upperLine = line.toUpperCase();
@@ -676,11 +690,33 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
       if (/^LR:/i.test(trimmed)) {
         const prefixMatch = line.match(/^LR:\s*/i);
         const prefix = prefixMatch ? prefixMatch[0] : '';
-        const lyrics = line.slice(prefix.length);
+        const lyric = line.slice(prefix.length);
+        let notationLine = '';
+        for (let i = lineIdx - 1; i >= 0; i--) {
+          const t = lines[i].trim();
+          if (t === '' || /^LR:/i.test(t) || /^TAGS\b/i.test(t)) continue;
+          if (/^[A-Za-z][A-Za-z0-9 ]*:$/.test(t)) break;
+          notationLine = lines[i];
+          break;
+        }
         return (
-          <div key={lineIdx} className="relative leading-relaxed min-h-[1.625rem]">
+          <div key={lineIdx} className="relative leading-relaxed min-h-[1.625rem] group">
+            <div className="absolute -left-16 top-1 flex items-center gap-1 z-40 pointer-events-auto">
+              <button
+                onClick={() => {
+                  const formatted = formatLyricLine(lyric, notationLine);
+                  const allLines = notes.split('\n');
+                  allLines[lineIdx] = prefix + formatted;
+                  applyEdit(allLines.join('\n'), 0);
+                }}
+                className="p-1.5 rounded-full bg-gray-100 hover:bg-purple-600 text-gray-400 hover:text-white transition-all shadow-sm"
+                title="Align lyrics to notation pipes"
+              >
+                <Wand2 className="w-2.5 h-2.5" />
+              </button>
+            </div>
             <span className="text-transparent select-none">{prefix}</span>
-            <span className="text-gray-400 italic font-sans text-[15px]">{lyrics}</span>
+            <span className="text-gray-400 italic font-mono text-[16px] whitespace-pre">{lyric}</span>
           </div>
         );
       }

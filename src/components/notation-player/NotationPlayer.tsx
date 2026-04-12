@@ -11,7 +11,6 @@ import {
   X,
   ChevronRight,
   LogOut,
-  Wand2,
 } from 'lucide-react';
 import type { User } from 'firebase/auth';
 import './notation-player.css';
@@ -150,19 +149,6 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
     setLyrics(lyricsMatch ? normaliseLyrics(lyricsMatch[1].trim()) : '');
   };
 
-  const formatLyricLine = (lyricContent: string, notationLine: string): string => {
-    if (!lyricContent.includes('|')) return lyricContent;
-    const notationSegs = notationLine.split('|');
-    const lyricSegs = lyricContent.split('|');
-    const count = Math.max(notationSegs.length, lyricSegs.length);
-    const result: string[] = [];
-    for (let i = 0; i < count; i++) {
-      const notSeg = notationSegs[i] ?? '';
-      const lyrSeg = lyricSegs[i] ?? '';
-      result.push(lyrSeg.length < notSeg.length ? lyrSeg.padEnd(notSeg.length) : lyrSeg);
-    }
-    return result.join('|');
-  };
 
   const openPicker = async () => {
     if (songList.length === 0) {
@@ -369,34 +355,10 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
       }
 
       if (/^LR:/i.test(line.trim())) {
-        const prefix = line.match(/^LR:\s*/i)![0];
-        const lyric = line.slice(prefix.length);
-        let notationLine = '';
-        for (let i = lineIdx - 1; i >= 0; i--) {
-          const t = lines[i].trim();
-          if (t === '' || /^LR:/i.test(t) || /^TAGS\b/i.test(t)) continue;
-          if (/^[A-Za-z][A-Za-z0-9 ]*:$/.test(t)) break;
-          notationLine = lines[i];
-          break;
-        }
+        const lyric = line.replace(/^LR:\s*/i, '');
         return (
-          <div key={lineIdx} className="relative flex items-start gap-3 leading-relaxed min-h-[1.625rem] p-1 group">
-            <div className="w-6 shrink-0 flex items-start justify-center pt-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button
-                onClick={() => {
-                  const formatted = formatLyricLine(lyric, notationLine);
-                  const allLines = notes.split('\n');
-                  allLines[lineIdx] = prefix + formatted;
-                  const cs = textareaRef.current?.selectionStart ?? 0;
-                  const ce = textareaRef.current?.selectionEnd ?? 0;
-                  applyEdit(allLines.join('\n'), cs, ce);
-                }}
-                className="p-1.5 rounded-full bg-gray-100 hover:bg-purple-600 text-gray-400 hover:text-white transition-all shadow-sm"
-                title="Align lyrics to notation pipes"
-              >
-                <Wand2 className="w-2.5 h-2.5" />
-              </button>
-            </div>
+          <div key={lineIdx} className="relative flex items-start gap-3 leading-relaxed min-h-[1.625rem] p-1">
+            <div className="w-6 shrink-0" />
             <div className="w-5 shrink-0" />
             <div className="flex-1 italic text-black font-mono text-[16px] whitespace-pre">{lyric}</div>
           </div>
