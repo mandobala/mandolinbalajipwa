@@ -357,12 +357,22 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
       }
 
       if (/^LR:/i.test(line.trim())) {
-        const lyric = line.replace(/^LR:\s*/i, '');
+        const lyric = line.replace(/^LR:\s*/i, '').replace(/ {2,}/g, ' ');
+        const lyricParts = lyric.split('|');
         return (
           <div key={lineIdx} className="relative flex items-start gap-3 leading-relaxed min-h-[1.625rem] p-1">
             <div className="w-6 shrink-0" />
             <div className="w-5 shrink-0" />
-            <div className="flex-1 italic text-black font-mono text-[16px] whitespace-pre">{lyric}</div>
+            <div className="flex-1 italic text-black font-mono text-[13px] whitespace-pre">
+              {lyricParts.map((part, pi) => (
+                <React.Fragment key={pi}>
+                  {part}
+                  {pi < lyricParts.length - 1 && (
+                    <span className="text-gray-300 select-none">|</span>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
           </div>
         );
       }

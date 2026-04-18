@@ -716,7 +716,16 @@ export default function SwaraPlayer({ user, onSignOut }: Props) {
               </button>
             </div>
             <span className="text-transparent select-none">{prefix}</span>
-            <span className="text-gray-400 italic font-mono text-[16px] whitespace-pre">{lyric}</span>
+            <span className="text-black italic font-mono text-[13px] whitespace-pre">
+              {lyric.replace(/ {2,}/g, ' ').split('|').map((part, pi, arr) => (
+                <React.Fragment key={pi}>
+                  {part}
+                  {pi < arr.length - 1 && (
+                    <span className="text-gray-300 select-none">|</span>
+                  )}
+                </React.Fragment>
+              ))}
+            </span>
           </div>
         );
       }
