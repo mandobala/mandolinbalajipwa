@@ -27,13 +27,18 @@ function GoogleIcon() {
   );
 }
 
+const AUTH_ENABLED = import.meta.env.PUBLIC_AUTH_ENABLED !== 'false';
+
+const GUEST_USER = { email: 'guest', uid: 'guest' } as unknown as User;
+
 export default function AuthGate({ player = 'notation' }: AuthGateProps) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(AUTH_ENABLED ? null : GUEST_USER);
+  const [loading, setLoading] = useState(AUTH_ENABLED);
   const [signingIn, setSigningIn] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!AUTH_ENABLED) return;
     const unsubscribe = onAuthStateChanged(auth, async (u) => {
       const isNewSignIn = !user && u;
       setUser(u);

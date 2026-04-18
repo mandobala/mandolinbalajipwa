@@ -29,6 +29,8 @@ interface Props {
   onSignOut: () => void;
 }
 
+const AUTH_ENABLED = import.meta.env.PUBLIC_AUTH_ENABLED !== 'false';
+
 export default function NotationPlayer({ user, onSignOut }: Props) {
     // Helper to get query param from URL
     function getQueryParam(name: string): string | null {
@@ -517,14 +519,16 @@ export default function NotationPlayer({ user, onSignOut }: Props) {
                   <Music className="w-6 h-6 text-white" />
                 </div>
               </div>
-              <button
-                onClick={onSignOut}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 text-xs text-gray-500 hover:bg-gray-50 transition-all"
-                title={`Signed in as ${user.email}`}
-              >
-                <LogOut className="w-3 h-3" />
-                Sign out
-              </button>
+              {AUTH_ENABLED && (
+                <button
+                  onClick={onSignOut}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 text-xs text-gray-500 hover:bg-gray-50 transition-all"
+                  title={`Signed in as ${user.email}`}
+                >
+                  <LogOut className="w-3 h-3" />
+                  Sign out
+                </button>
+              )}
             </div>
             <p className="text-sm text-black font-serif italic ml-11">
               {meta.song} — {meta.raga}{meta.composer ? ` · ${meta.composer}` : ''}
