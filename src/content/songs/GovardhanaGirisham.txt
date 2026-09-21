@@ -1,13 +1,15 @@
-﻿[TITLE: Govardhana Grisham]
-[COMPOSER: Dikshithar]
+﻿[TITLE: GovardhanaGirisham]
 [RAGA: Hindolam]
-[TALA: rupakam]
-[BEATS:3]
-[NADAI:4]
-[BPM:100]
-[Arohanam: S G M D N S]
-[Avarohanam: S N D M G S]
+[TALA: Rupaka (3)]
+[BEATS: 3]
+[NADAI: 4]
+[BPM: 96]
+[SA: C#4]
+[SCALE: S G2 M1 D1 N2]
+[AROHANA: S G2 M1 D1 N2 Ṡ]
+[AVAROHANA: Ṡ N2 D1 M1 G2 S]
 
+[SECTION: Pallavi]
 G,,,  M,    G, M,M,|    MGM,N,       NDD,,,|ND,DṠN       Ṡ,,,,,|,,ṠĠṠN DNDMGS||
 gō     vard  dhana gi    ri           śam    sma rā       mi        a ni śam
 
@@ -17,7 +19,7 @@ gō   vard    dhana      gi   ri    śam  sma rā           mi           a ni ś
 NṠG NṠN      D N,D M,   |GMDM        GM GS       MG M,    ||
 gō pikā di   manōha ram  gar vita    kam sā      di haram
 
-
+[SECTION: Charanam]
 G,,,   M,N,D,DN         |ṠNDM MDG,M,,,   |MGM,,,N,NDD,      |N, Ṡ, ṠDṠNṠ,,,||
 gō     vin da nā              ma sā ram  ga jēn dra ra      kshaṇa dhī ram
 
@@ -27,7 +29,7 @@ gō   vin   da nā            ma sā ram   ga jēn dra ra      kshaṇa    dhī 
 ĠĠṠ, ṠṠN, NND,          |DDM,DDG,M,,,   |MMGG NNDD ĠĠṠṠ|MMĠĠṠNDM DNṠĠ||
 ka vi ja na hṛ n         man  dā ram     ka na ka ji ta su  śa ri     ram
 
-ĠS ṄṠ N D N Ġ ṠNṠ,      |D N D,M D G, MN D,       |MG M G, S -GSDN S,       |M, G S N D Ṡ ND MGS||
+ĠS ṄṠ N D N Ġ ṠNṠ,      |D N D,M D G, MN D,       |MG M G, S GSDN S,       |M, G S N D Ṡ ND MGS||
 ravi śaśi nayana vilā sam ra maṇiya mukhābha sam    śi vaga nā di vi śvā sam  śrī gu ruguha manōl lāsam
-
+[SECTION: Chittai Swaram]
 G,,G,MGM,SGS        |NS,DSNS,,MGM               |DM GMD MDNS MGM          |G,SND SNDMGSN||
