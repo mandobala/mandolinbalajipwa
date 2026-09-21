@@ -109,6 +109,11 @@
 .sp-progress { height: 8px; background: var(--sp-surface-2); border-radius: 99px; overflow: hidden; margin-top: 10px; }
 .sp-progress i { display: block; height: 100%; width: 0; background: var(--sp-accent); }
 
+.sp-plain {
+  font-family: var(--sp-mono); font-size: 0.85rem; color: var(--sp-ink-soft);
+  white-space: pre; overflow-x: auto; padding: 4px 12px;
+}
+
 .sp-hint { color: var(--sp-ink-soft); font-size: 0.88rem; margin: 16px 0 8px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 
 .sp-section { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--sp-ink-soft); font-weight: 700; padding: 10px 2px 2px; }

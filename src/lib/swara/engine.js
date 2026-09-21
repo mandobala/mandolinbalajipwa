@@ -295,7 +295,7 @@ const CarnaticEngine = (function () {
      It never starts playback on its own — the UI shows the assignment for
      review. */
   function looksLikeSwaraRow(text) {
-    var stripped = text.replace(/[\s,|\[\]'.̀-ͯ0-9]/g, '');
+    var stripped = text.replace(/[\s,|\[\]'._\-\/\\~\u0300-\u036F0-9]/g, '');
     if (stripped.length === 0) return text.replace(/\s/g, '').length > 0;
     var swaraChars = 0;
     for (var i = 0; i < stripped.length; i++) {
@@ -313,6 +313,7 @@ const CarnaticEngine = (function () {
     var currentSection = '';
     var title = null;
     var meta = {};
+    var expectRole = 'swara';
     var hasMarkers = /\[\s*SWARA\s*\]/i.test(source);
 
     for (var i = 0; i < lines.length; i++) {
@@ -330,6 +331,7 @@ const CarnaticEngine = (function () {
         currentSection = mSection[1];
         entry.role = 'section';
         entry.section = currentSection;
+        expectRole = 'swara';
       } else if (RE_SWARA_MARK.test(raw)) {
         entry.role = 'marker';
         pendingRole = 'swara';
@@ -344,11 +346,23 @@ const CarnaticEngine = (function () {
         entry.role = 'meta';
       } else if (raw.trim() === '') {
         entry.role = 'blank';
+        expectRole = 'swara';
       } else if (pendingRole) {
         entry.role = pendingRole;
         entry.auto = false;
       } else if (!hasMarkers) {
-        entry.role = looksLikeSwaraRow(raw) ? 'swara' : 'sahitya';
+        /* Without [SWARA]/[SAHITYA] markers, follow the usual convention: in
+           each block of consecutive lines the notation comes first and its
+           lyric line follows. A blank line or a section heading starts a new
+           block. Judging each line on its own gets this wrong — a swara row
+           holding a phrasing dash reads as text, and a lyric row reading
+           "sa ri ga ma" reads as notation. */
+        if (expectRole === 'swara' && !looksLikeSwaraRow(raw) && looksLikeSwaraRow(lines[i + 1] || '')) {
+          entry.role = 'sahitya';        // a stray line ahead of the notation
+        } else {
+          entry.role = expectRole;
+          expectRole = (expectRole === 'swara') ? 'sahitya' : 'swara';
+        }
         entry.needsReview = true;
       } else {
         entry.role = 'comment';

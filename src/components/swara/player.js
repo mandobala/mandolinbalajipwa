@@ -434,6 +434,15 @@ function renderScore() {
       host.appendChild(h);
       return;
     }
+    if (row.type === 'text') {
+      /* A line the parser could not pair — shown rather than silently dropped,
+         so nothing in the song disappears from the page. */
+      const plain = document.createElement('div');
+      plain.className = 'sp-plain';
+      plain.textContent = row.text;
+      host.appendChild(plain);
+      return;
+    }
     if (row.type !== 'passage') return;
 
     const columns = [];
