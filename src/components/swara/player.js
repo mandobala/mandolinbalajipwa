@@ -435,6 +435,7 @@ function renderScore() {
       return;
     }
     if (row.type === 'text') {
+      if (row.role === 'meta') return;     // header lines belong in the strip, not the score
       /* A line the parser could not pair — shown rather than silently dropped,
          so nothing in the song disappears from the page. */
       const plain = document.createElement('div');
