@@ -272,6 +272,24 @@ const CarnaticEngine = (function () {
   /* Any other [KEY: value] line is song metadata — raga, tala, tempo, tonic,
      composer — so a song file carries the settings it should be played with. */
   var RE_META = /^\s*\[\s*([A-Za-z][A-Za-z0-9 _-]*?)\s*:\s*(.*?)\s*\]\s*$/;
+  /* The same field goes by several names in practice; all of them are accepted
+     and stored under one key. */
+  var META_ALIASES = {
+    SONG: 'TITLE', NAME: 'TITLE',
+    AROHANAM: 'AROHANA', ARO: 'AROHANA', ASCENT: 'AROHANA',
+    AVAROHANAM: 'AVAROHANA', AVA: 'AVAROHANA', DESCENT: 'AVAROHANA',
+    SRUTHI: 'SA', SRUTI: 'SA', SHRUTI: 'SA', TONIC: 'SA', KEY: 'SA',
+    THALA: 'TALA', TAALA: 'TALA', TAL: 'TALA',
+    TEMPO: 'BPM', SPEED: 'BPM',
+    GATI: 'NADAI', NADAY: 'NADAI',
+    AKSHARAS: 'BEATS', BEAT: 'BEATS',
+    COMPOSER_NAME: 'COMPOSER', VAGGEYAKARA: 'COMPOSER',
+    RAAGA: 'RAGA', RAGAM: 'RAGA', RAAGAM: 'RAGA'
+  };
+  function metaKey(raw) {
+    var key = raw.trim().toUpperCase().replace(/[\s_-]+/g, '');
+    return META_ALIASES[key] || key;
+  }
 
   /* Heuristic used only when the text carries no [SWARA]/[SAHITYA] markers.
      It never starts playback on its own — the UI shows the assignment for
@@ -322,7 +340,7 @@ const CarnaticEngine = (function () {
         entry.role = 'comment';
       } else if (RE_META.test(raw) && !pendingRole) {
         var m = raw.match(RE_META);
-        meta[m[1].trim().toUpperCase().replace(/[\s_-]+/g, '')] = m[2];
+        meta[metaKey(m[1])] = m[2];
         entry.role = 'meta';
       } else if (raw.trim() === '') {
         entry.role = 'blank';
