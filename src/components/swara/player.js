@@ -519,6 +519,25 @@ function talaFromMeta(meta) {
   return null;
 }
 
+/* A raga the engine does not ship is registered from the song's own scale, so
+   the notation still resolves without any code change. */
+function ensureRaga(meta) {
+  const name = meta.RAGA;
+  if (!name) return 'Chromatic (all swaras)';
+  if (E.RAGAS[name]) return name;
+  const derived = E.swarasFromScale(meta.SCALE || meta.AROHANA);
+  if (derived) {
+    E.registerRaga(name, {
+      swaras: derived.swaras,
+      defaults: derived.defaults,
+      arohana: meta.AROHANA || '',
+      avarohana: meta.AVAROHANA || ''
+    });
+    return name;
+  }
+  return 'Chromatic (all swaras)';
+}
+
 function applyMeta(meta) {
   const tala = talaFromMeta(meta);
   if (tala) {
@@ -532,14 +551,18 @@ function applyMeta(meta) {
   }
   if (meta.NADAI && !isNaN(parseInt(meta.NADAI, 10))) state.subdivisionsPerBeat = parseInt(meta.NADAI, 10);
   if (meta.BPM && !isNaN(parseInt(meta.BPM, 10))) state.bpm = Math.max(20, Math.min(300, parseInt(meta.BPM, 10)));
-  if (meta.RAGA && E.RAGAS[meta.RAGA]) state.raga = meta.RAGA;
-  else state.raga = 'Chromatic (all swaras)';
+  state.raga = ensureRaga(meta);
   if (meta.SA) {
-    const m = String(meta.SA).trim().match(/^([A-G]#?)\s*(\d)?$/i);
-    if (m) {
-      state.tonicKey = m[1].toUpperCase();
-      state.tonicOctave = m[2] ? parseInt(m[2], 10) : 4;
+    const raw = String(meta.SA).trim();
+    const hz = raw.match(/^([\d.]+)\s*(hz)?$/i);
+    const key = raw.match(/^([A-G]#?)\s*(\d)?$/i);
+    if (key) {
+      state.tonicKey = key[1].toUpperCase();
+      state.tonicOctave = key[2] ? parseInt(key[2], 10) : 4;
       state.tonicHz = E.keyToFrequency(state.tonicKey, state.tonicOctave);
+    } else if (hz && parseFloat(hz[1]) > 20) {
+      state.tonicHz = parseFloat(hz[1]);
+      state.tonicKey = '';
     }
   }
 }
@@ -559,12 +582,8 @@ function loadSong(i) {
   $('spTitle').textContent = state.title;
   const search = $('spSearch');
   if (search) search.value = state.title;
-  const bits = [];
-  if (song.meta && song.meta.COMPOSER) bits.push(song.meta.COMPOSER);
-  if (state.raga !== 'Chromatic (all swaras)') bits.push(state.raga);
-  if (song.meta && song.meta.TALA) bits.push(song.meta.TALA);
-  bits.push(`Sa ${state.tonicKey}${state.tonicOctave}`);
-  $('spMeta').textContent = bits.join(' · ');
+  $('spMeta').textContent = (song.meta && song.meta.COMPOSER) || '';
+  renderSongBar(song.meta || {});
 
   syncControls();
   try { localStorage.setItem('sp-song', song.slug); } catch (e) {}
@@ -591,6 +610,8 @@ function setBpm(v) {
   $('spBpm').value = String(v);
   $('spBpmRange').value = String(v);
   $('spBpmMini').value = String(v);
+  const meta = (state.songs[state.index] || {}).meta || {};
+  if (parsed) renderSongBar(meta);
   const wasPlaying = transport.status === 'playing';
   const at = wasPlaying ? actx.currentTime - transport.uiOrigin : null;
   rebuild();
@@ -633,6 +654,49 @@ function loadPrefs() {
   } catch (e) {}
 }
 
+
+
+/* Everything about the song, compactly, above the notation. */
+function tonicLabel() {
+  return state.tonicKey ? state.tonicKey + state.tonicOctave : Number(state.tonicHz).toFixed(2) + ' Hz';
+}
+
+function renderSongBar(meta) {
+  const bar = $('spSongBar');
+  if (!bar) return;
+  const cycle = E.cycleReport(parsed, {
+    subdivisionsPerBeat: state.subdivisionsPerBeat,
+    beatsPerCycle: state.beatsPerCycle
+  });
+  const rows = [
+    ['Raga', state.raga === 'Chromatic (all swaras)' ? (meta.RAGA || '—') : state.raga],
+    ['Tala', meta.TALA || `${state.beatsPerCycle} beats`],
+    ['Beats × nadai', `${state.beatsPerCycle} × ${state.subdivisionsPerBeat}`],
+    ['Sruthi', tonicLabel()],
+    ['Tempo', `${state.bpm} BPM`],
+    ['Cycles', cycle.totalCycles]
+  ];
+  const dl = document.createElement('dl');
+  rows.forEach(([label, value]) => {
+    const row = document.createElement('div');
+    const dt = document.createElement('dt'); dt.textContent = label;
+    const dd = document.createElement('dd'); dd.textContent = String(value);
+    row.append(dt, dd);
+    dl.appendChild(row);
+  });
+  bar.replaceChildren(dl);
+
+  const scale = [
+    meta.AROHANA ? 'Arohana ' + meta.AROHANA : '',
+    meta.AVAROHANA ? 'Avarohana ' + meta.AVAROHANA : ''
+  ].filter(Boolean).join('   ·   ') || (meta.SCALE ? 'Swaras ' + meta.SCALE : '');
+  if (scale) {
+    const sc = document.createElement('span');
+    sc.className = 'sp-scale';
+    sc.textContent = scale;
+    bar.appendChild(sc);
+  }
+}
 
 /* ------------------------------------------------------- searchable picker */
 const fold = (v) => (v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -794,7 +858,7 @@ function wire() {
 
   const retune = () => {
     state.tonicHz = E.keyToFrequency(state.tonicKey, state.tonicOctave);
-    $('spMeta').textContent = $('spMeta').textContent.replace(/Sa [A-G]#?\d/, `Sa ${state.tonicKey}${state.tonicOctave}`);
+    renderSongBar((state.songs[state.index] || {}).meta || {});
     const wasPlaying = transport.status === 'playing';
     const at = wasPlaying ? actx.currentTime - transport.uiOrigin : null;
     if (wasPlaying) {

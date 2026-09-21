@@ -6,6 +6,10 @@
 [NADAI: 4]
 [BPM: 56]
 [SA: C4]
+[SCALE: S R2 G3 P D2]
+[AROHANA: S R2 G3 P D2 Ṡ]
+[AVAROHANA: Ṡ D2 P G3 R2 S]
+[TAGS: sample, exercise, sarali]
 
 [SECTION: Arohana]
 [SWARA]

@@ -6,6 +6,10 @@
 [NADAI: 4]
 [BPM: 60]
 [SA: C4]
+[SCALE: S G2 M1 D1 N2]
+[AROHANA: S G2 M1 D1 N2 Ṡ]
+[AVAROHANA: Ṡ N2 D1 M1 G2 S]
+[TAGS: sample, hindolam]
 
 [SECTION: Pallavi]
 [SWARA]

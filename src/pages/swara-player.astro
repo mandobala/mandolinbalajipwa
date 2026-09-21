@@ -16,7 +16,30 @@ const songs = Object.entries(files as Record<string, string>).map(([path, raw]) 
   const probe = E.parse(text, {});
   Object.assign(meta, probe.meta || {});
 
-  const raga = meta.RAGA && E.RAGAS[meta.RAGA] ? meta.RAGA : 'Chromatic (all swaras)';
+  /* A raga the engine does not ship is built from the song's own [SCALE:] or a
+     numbered [AROHANA:], so adding a raga needs no code change. */
+  let raga = 'Chromatic (all swaras)';
+  if (meta.RAGA) {
+    if (E.RAGAS[meta.RAGA]) {
+      raga = meta.RAGA;
+    } else {
+      const derived = E.swarasFromScale(meta.SCALE || meta.AROHANA);
+      if (!derived) {
+        throw new Error(
+          `Unknown raga "${meta.RAGA}" in src/content/songs/${slug}.txt.\n` +
+          `  Add [SCALE: S R2 G3 M1 P D2 N3] to the song (variant numbers included),\n` +
+          `  or add the raga to the RAGAS table in src/lib/swara/engine.js.`
+        );
+      }
+      E.registerRaga(meta.RAGA, {
+        swaras: derived.swaras,
+        defaults: derived.defaults,
+        arohana: meta.AROHANA || '',
+        avarohana: meta.AVAROHANA || ''
+      });
+      raga = meta.RAGA;
+    }
+  }
   const parsed = E.parse(text, { raga });
 
   if (parsed.errors.length) {
@@ -27,9 +50,6 @@ const songs = Object.entries(files as Record<string, string>).map(([path, raw]) 
   }
   if (!parsed.events.length) {
     throw new Error(`No swaras found in src/content/songs/${slug}.txt — is the [SWARA] marker missing?`);
-  }
-  if (meta.RAGA && !E.RAGAS[meta.RAGA]) {
-    throw new Error(`Unknown raga "${meta.RAGA}" in src/content/songs/${slug}.txt`);
   }
 
   // Cycle drift is reported, not fatal — a fragment may legitimately not close.

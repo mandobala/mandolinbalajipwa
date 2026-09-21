@@ -167,6 +167,30 @@ const CarnaticEngine = (function () {
     return false;
   }
 
+  /* Read a scale written as swaras — "R2 G3 M1 D2 N2", or an arohana such as
+     "S R2 G3 M1 P D2 N3 S" — into the variant list a raga context needs. S and P
+     are added when the scale mentions them. Bare letters are recorded as
+     defaults only when the scale also gives a variant for that letter, so an
+     arohana written without numbers never invents a position. */
+  function swarasFromScale(text) {
+    if (!text) return null;
+    var found = [], defaults = {};
+    var tokens = String(text).match(/[SRGMPDNsrgmpdn][123]?/g) || [];
+    tokens.forEach(function (tok) {
+      var letter = tok.charAt(0).toUpperCase();
+      var digit = tok.length > 1 ? tok.charAt(1) : '';
+      var name = (letter === 'S' || letter === 'P') ? letter : letter + digit;
+      if (!digit && letter !== 'S' && letter !== 'P') return;   // bare letter: no position given
+      if (DEFAULT_POSITIONS[name] === undefined) return;
+      if (found.indexOf(name) === -1) found.push(name);
+      if (digit) defaults[letter] = name;
+    });
+    if (!found.length) return null;
+    if (found.indexOf('S') === -1) found.unshift('S');
+    found.sort(function (a, b) { return ALL_SWARA_NAMES.indexOf(a) - ALL_SWARA_NAMES.indexOf(b); });
+    return { swaras: found, defaults: defaults };
+  }
+
   function buildRagaContext(ragaName, positions, customSwaras, customDefaults) {
     var raga = RAGAS[ragaName] || RAGAS['Chromatic (all swaras)'];
     var swaras = customSwaras && customSwaras.length ? customSwaras : raga.swaras;
@@ -282,6 +306,7 @@ const CarnaticEngine = (function () {
 
       if (mTitle) {
         title = mTitle[1];
+        meta.TITLE = mTitle[1];
         entry.role = 'meta';
       } else if (mSection) {
         currentSection = mSection[1];
@@ -883,6 +908,7 @@ const CarnaticEngine = (function () {
     frequencyOf: frequencyOf,
     buildRagaContext: buildRagaContext,
     registerRaga: registerRaga,
+    swarasFromScale: swarasFromScale,
     unregisterRaga: unregisterRaga,
     resolveSwara: resolveSwara,
     classifyLines: classifyLines,

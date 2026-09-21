@@ -42,7 +42,7 @@ const entries = songs.map((song, i) => {
   <header class="sp-head">
     <div class="sp-titles">
       <h1 id="spTitle">Swara Player</h1>
-      <p id="spMeta"></p>
+      <p id="spMeta" class="sp-by"></p>
     </div>
     {songs.length > 1 && (
       <div class="sp-field sp-song-field">
@@ -80,6 +80,8 @@ const entries = songs.map((song, i) => {
       </div>
     )}
   </header>
+
+  <div class="sp-songbar" id="spSongBar"></div>
 
   <div class="sp-readout-wrap">
     <div class="sp-readout" id="spReadout"></div>
