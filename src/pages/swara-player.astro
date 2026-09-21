@@ -1,11 +1,67 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import AuthGate from '../components/auth/AuthGate';
+import SwaraPlayer from '../components/swara/SwaraPlayer.astro';
+import E from '../lib/swara/engine.js';
+
+/* Songs are plain text files under src/content/songs. They are read at build
+   time and parsed with the same engine the player uses, so a song with a
+   mistake in it fails the build instead of reaching a visitor. */
+const files = import.meta.glob('../content/songs/*.txt', { query: '?raw', import: 'default', eager: true });
+
+const songs = Object.entries(files as Record<string, string>).map(([path, raw]) => {
+  const slug = (path.split('/').pop() || '').replace(/\.txt$/, '');
+  const text = raw.replace(/^﻿/, '');
+  const meta: Record<string, string> = {};
+
+  const probe = E.parse(text, {});
+  Object.assign(meta, probe.meta || {});
+
+  const raga = meta.RAGA && E.RAGAS[meta.RAGA] ? meta.RAGA : 'Chromatic (all swaras)';
+  const parsed = E.parse(text, { raga });
+
+  if (parsed.errors.length) {
+    const lines = parsed.errors
+      .map((e: any) => `  line ${e.line + 1}, col ${e.column + 1}: ${e.message}`)
+      .join('\n');
+    throw new Error(`Notation errors in src/content/songs/${slug}.txt\n${lines}`);
+  }
+  if (!parsed.events.length) {
+    throw new Error(`No swaras found in src/content/songs/${slug}.txt — is the [SWARA] marker missing?`);
+  }
+  if (meta.RAGA && !E.RAGAS[meta.RAGA]) {
+    throw new Error(`Unknown raga "${meta.RAGA}" in src/content/songs/${slug}.txt`);
+  }
+
+  // Cycle drift is reported, not fatal — a fragment may legitimately not close.
+  const beats = parseInt(meta.BEATS || '', 10);
+  const nadai = parseInt(meta.NADAI || '', 10);
+  if (beats > 0 && nadai > 0) {
+    const report = E.cycleReport(parsed, { beatsPerCycle: beats, subdivisionsPerBeat: nadai });
+    if (!report.aligned) {
+      console.warn(
+        `[swara-player] ${slug}: ${report.totalSpaces} note-spaces do not fill whole cycles of ` +
+        `${report.cycleSpaces}` +
+        (report.offenders.length
+          ? ` — check line${report.offenders.length > 1 ? 's' : ''} ` +
+            report.offenders.map((r: any) => r.line + 1).join(', ')
+          : '')
+      );
+    }
+  }
+
+  return { slug, title: parsed.title || meta.SONG || slug.replace(/[-_]+/g, ' '), meta, text };
+}).sort((a, b) => a.title.localeCompare(b.title));
 ---
 
 <BaseLayout
   title="Swara Player | Mandolin Balaji"
-  description="Interactive Carnatic music notation composer — type, edit, and play Carnatic notation with tala map, octave controls, and MIDI export."
+  description="Play Carnatic swara notation with aligned sahitya — raga-aware pitch, tala metronome, adjustable tempo and tonic, looping by section or passage."
 >
-  <AuthGate player="swara" client:only="react" />
+  {songs.length === 0 ? (
+    <div class="wrapper stack gap-8">
+      <p>No songs yet. Add a notation file to <code>src/content/songs/</code>.</p>
+    </div>
+  ) : (
+    <SwaraPlayer songs={songs} />
+  )}
 </BaseLayout>

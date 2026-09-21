@@ -1,0 +1,125 @@
+---
+import './player.css';
+
+export interface Song {
+  slug: string;
+  title: string;
+  meta: Record<string, string>;
+  text: string;
+}
+
+interface Props {
+  songs: Song[];
+}
+
+const { songs } = Astro.props;
+---
+
+<div class="sp" id="spPlayer">
+  <!-- Song text, validated at build time. Rendered as escaped text nodes and
+       read by the client with textContent — never as markup. -->
+  <div id="spSongs" hidden>
+    {songs.map((song) => (
+      <pre data-slug={song.slug} data-title={song.title} data-meta={JSON.stringify(song.meta)}>{song.text}</pre>
+    ))}
+  </div>
+
+  <header class="sp-head">
+    <div class="sp-titles">
+      <h1 id="spTitle">Swara Player</h1>
+      <p id="spMeta"></p>
+    </div>
+    {songs.length > 1 && (
+      <label class="sp-field sp-song-field">
+        <span>Song</span>
+        <select id="spSong" aria-label="Choose a song">
+          {songs.map((song, i) => <option value={i}>{song.title}</option>)}
+        </select>
+      </label>
+    )}
+  </header>
+
+  <div class="sp-readout-wrap">
+    <div class="sp-readout" id="spReadout"></div>
+    <div class="sp-progress" aria-hidden="true"><i id="spProgress"></i></div>
+  </div>
+
+  <p class="sp-hint">
+    Tap any swara to play from there. Shift-tap a second swara to mark a passage, then set Loop to
+    “Selected passage”.
+    <button type="button" class="sp-btn sp-small" id="spClearSel">Clear passage</button>
+  </p>
+
+  <div id="spScore" class="sp-score"></div>
+
+  <details class="sp-settings">
+    <summary>Tempo, pitch and sound</summary>
+    <div class="sp-grid">
+      <label class="sp-field">
+        <span>Tempo (BPM)</span>
+        <input type="number" id="spBpm" min="20" max="300" step="1" value="60" />
+        <input type="range" id="spBpmRange" min="20" max="300" step="1" value="60" aria-label="Tempo slider" />
+      </label>
+      <label class="sp-field">
+        <span>Tonic Sa</span>
+        <select id="spTonic" aria-label="Tonic key">
+          {['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'].map((k) => <option value={k}>{k}</option>)}
+        </select>
+      </label>
+      <label class="sp-field">
+        <span>Octave</span>
+        <select id="spOctave" aria-label="Tonic octave">
+          {[2,3,4,5].map((n) => <option value={n}>{n}</option>)}
+        </select>
+      </label>
+      <label class="sp-field">
+        <span>Loop</span>
+        <select id="spLoop">
+          <option value="off">Off</option>
+          <option value="song">Whole song</option>
+          <option value="section">Current section</option>
+          <option value="selection">Selected passage</option>
+        </select>
+      </label>
+      <label class="sp-field sp-check">
+        <input type="checkbox" id="spSubClick" />
+        <span>Click on every note-space</span>
+      </label>
+      <label class="sp-field">
+        <span>Volume</span>
+        <input type="range" id="spVolMaster" min="0" max="1" step="0.01" value="0.85" aria-label="Master volume" />
+      </label>
+      <label class="sp-field">
+        <span>Notes</span>
+        <input type="range" id="spVolPiano" min="0" max="1" step="0.01" value="0.8" aria-label="Note volume" />
+      </label>
+      <label class="sp-field">
+        <span>Click</span>
+        <input type="range" id="spVolClick" min="0" max="1" step="0.01" value="0.5" aria-label="Metronome volume" />
+      </label>
+    </div>
+    <p class="sp-keys">
+      Keyboard: <kbd>Space</kbd> play or pause · <kbd>S</kbd> stop · <kbd>R</kbd> restart ·
+      <kbd>M</kbd> click · <kbd>←</kbd> <kbd>→</kbd> tempo
+    </p>
+  </details>
+
+  <div class="sp-transport" role="group" aria-label="Playback controls">
+    <div class="sp-transport-inner">
+      <button type="button" class="sp-btn sp-primary" id="spPlay" aria-label="Play">▶ Play</button>
+      <button type="button" class="sp-btn" id="spStop" aria-label="Stop">■</button>
+      <button type="button" class="sp-btn" id="spRestart" aria-label="Restart from the beginning">↺</button>
+      <button type="button" class="sp-btn on" id="spMetro" aria-pressed="true" aria-label="Metronome on or off">Click</button>
+      <span class="sp-bpm-mini">
+        <label for="spBpmMini">BPM</label>
+        <input type="number" id="spBpmMini" min="20" max="300" value="60" aria-label="Tempo in beats per minute" />
+      </span>
+      <span class="sp-spacer"></span>
+      <span class="sp-now" id="spNow">Ready</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  import '../../components/swara/player.js';
+</script>

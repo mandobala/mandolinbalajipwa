@@ -503,14 +503,14 @@ const itemsPerPage = 16;
       }
     }
 
-    // Handle notation click
+    // Handle notation click — show the notation here rather than in a player,
+    // since these files are in the older notation format.
     function handleNotationClick(event) {
       const item = event.target.closest('.notation-item');
       if (item) {
         const fileKey = item.getAttribute('data-filekey');
-        if (fileKey) {
-          window.location.href = `/notation-player?file=${encodeURIComponent(fileKey)}`;
-        }
+        const notation = allNotations.find(n => n.fileKey === fileKey);
+        if (notation) showDetailView(notation.name, notation.url);
       }
     }
 

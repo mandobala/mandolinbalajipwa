@@ -1,0 +1,20 @@
+[TITLE: Mohanam Sarali]
+[COMPOSER: Traditional]
+[RAGA: Mohanam]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 56]
+[SA: C4]
+
+[SECTION: Arohana]
+[SWARA]
+S,,, R,,, G,,, P,,, | D,,, S',,, S',,, D,,, ||
+[SAHITYA]
+sa   ri   ga   pa     dha  sa    sa    dha
+
+[SECTION: Avarohana]
+[SWARA]
+P,,, G,,, R,,, S,,, | S,,, R,,, G,,, S,,, ||
+[SAHITYA]
+pa   ga   ri   sa     sa   ri   ga   sa

@@ -1,0 +1,26 @@
+[TITLE: Hindolam Sample]
+[COMPOSER: Traditional]
+[RAGA: Hindolam]
+[TALA: Rupaka (3)]
+[BEATS: 3]
+[NADAI: 4]
+[BPM: 60]
+[SA: C4]
+
+[SECTION: Pallavi]
+[SWARA]
+G,,,    | M,,,    | G,   M,   ||
+[SAHITYA]
+go        var       dha  ni
+
+[SECTION: Anupallavi]
+[SWARA]
+S',,,   | N,   D,   | M,   G,   ||
+[SAHITYA]
+ā         nan  da     ku   mā
+
+[SECTION: Chittaswaram]
+[SWARA]
+[G M D N] S',,  | .N   S,   | [S'N D M] G,   ||
+[SAHITYA]
+ā         nan     da           śrī      hā
