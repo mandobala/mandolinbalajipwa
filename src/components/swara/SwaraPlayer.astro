@@ -13,6 +13,21 @@ interface Props {
 }
 
 const { songs } = Astro.props;
+
+/* Fold accents so "sri" finds "śrī", and build one haystack per song. */
+const fold = (v: string) =>
+  (v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+const entries = songs.map((song, i) => {
+  const parts = [song.title, song.meta.RAGA, song.meta.COMPOSER, song.meta.TALA, song.meta.TAGS]
+    .filter(Boolean) as string[];
+  return {
+    ...song,
+    i,
+    detail: [song.meta.RAGA, song.meta.COMPOSER, song.meta.TALA].filter(Boolean).join(' · '),
+    haystack: fold(parts.join(' ')) + ' ' + fold(song.slug)
+  };
+});
 ---
 
 <div class="sp" id="spPlayer">
@@ -30,12 +45,39 @@ const { songs } = Astro.props;
       <p id="spMeta"></p>
     </div>
     {songs.length > 1 && (
-      <label class="sp-field sp-song-field">
-        <span>Song</span>
-        <select id="spSong" aria-label="Choose a song">
-          {songs.map((song, i) => <option value={i}>{song.title}</option>)}
-        </select>
-      </label>
+      <div class="sp-field sp-song-field">
+        <label for="spSearch"><span>Song</span></label>
+        <div class="sp-combo">
+          <input
+            id="spSearch"
+            type="text"
+            role="combobox"
+            aria-expanded="false"
+            aria-controls="spSongList"
+            aria-autocomplete="list"
+            aria-describedby="spCount"
+            autocomplete="off"
+            placeholder="Search song, raga or composer"
+          />
+          <button type="button" id="spSearchToggle" class="sp-combo-toggle" aria-label="Show all songs" tabindex="-1">▾</button>
+          <ul id="spSongList" class="sp-songlist" role="listbox" aria-label="Songs" hidden>
+            {entries.map((song) => (
+              <li
+                role="option"
+                id={`spSongOpt-${song.i}`}
+                class="sp-songopt"
+                data-index={song.i}
+                data-search={song.haystack}
+                aria-selected="false"
+              >
+                <b>{song.title}</b>
+                {song.detail && <span>{song.detail}</span>}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <p class="sp-count" id="spCount" role="status"></p>
+      </div>
     )}
   </header>
 

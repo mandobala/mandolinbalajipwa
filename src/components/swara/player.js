@@ -557,6 +557,8 @@ function loadSong(i) {
 
   state.title = parsed.title || song.title || '';
   $('spTitle').textContent = state.title;
+  const search = $('spSearch');
+  if (search) search.value = state.title;
   const bits = [];
   if (song.meta && song.meta.COMPOSER) bits.push(song.meta.COMPOSER);
   if (state.raga !== 'Chromatic (all swaras)') bits.push(state.raga);
@@ -631,6 +633,149 @@ function loadPrefs() {
   } catch (e) {}
 }
 
+
+/* ------------------------------------------------------- searchable picker */
+const fold = (v) => (v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+const combo = { open: false, active: -1, matches: [] };
+
+function comboOptions() {
+  return Array.from(document.querySelectorAll('.sp-songopt'));
+}
+
+/* Show the query inside the matched text, so it is clear why a song matched. */
+function markMatch(el, query) {
+  el.querySelectorAll('b, span').forEach((part) => {
+    const text = part.dataset.text || part.textContent;
+    part.dataset.text = text;
+    if (!query) { part.textContent = text; return; }
+    const at = fold(text).indexOf(query);
+    if (at < 0) { part.textContent = text; return; }
+    part.replaceChildren(
+      document.createTextNode(text.slice(0, at)),
+      Object.assign(document.createElement('mark'), { textContent: text.slice(at, at + query.length) }),
+      document.createTextNode(text.slice(at + query.length))
+    );
+  });
+}
+
+function filterSongs(raw) {
+  const query = fold(raw.trim());
+  const options = comboOptions();
+  combo.matches = [];
+  options.forEach((el) => {
+    const hit = !query || el.dataset.search.indexOf(query) !== -1;
+    el.hidden = !hit;
+    if (hit) { combo.matches.push(el); markMatch(el, query); }
+  });
+  const list = $('spSongList');
+  let empty = list.querySelector('.sp-noresult');
+  if (!combo.matches.length) {
+    if (!empty) {
+      empty = document.createElement('li');
+      empty.className = 'sp-noresult';
+      list.appendChild(empty);
+    }
+    empty.textContent = 'No song matches "' + raw.trim() + '".';
+    empty.hidden = false;
+  } else if (empty) {
+    empty.hidden = true;
+  }
+  const count = $('spCount');
+  if (count) {
+    count.textContent = !query
+      ? ''
+      : combo.matches.length + (combo.matches.length === 1 ? ' song matches' : ' songs match');
+  }
+  setActive(combo.matches.length ? 0 : -1);
+}
+
+function setActive(i) {
+  combo.active = i;
+  const input = $('spSearch');
+  comboOptions().forEach((el) => {
+    el.classList.remove('sp-active');
+    el.setAttribute('aria-selected', 'false');
+  });
+  const el = combo.matches[i];
+  if (el) {
+    el.classList.add('sp-active');
+    el.setAttribute('aria-selected', 'true');
+    el.scrollIntoView({ block: 'nearest' });
+    input.setAttribute('aria-activedescendant', el.id);
+  } else {
+    input.removeAttribute('aria-activedescendant');
+  }
+}
+
+function openCombo(showAll) {
+  const input = $('spSearch');
+  if (showAll) filterSongs('');
+  $('spSongList').hidden = false;
+  input.setAttribute('aria-expanded', 'true');
+  combo.open = true;
+}
+
+function closeCombo() {
+  $('spSongList').hidden = true;
+  $('spSearch').setAttribute('aria-expanded', 'false');
+  $('spSearch').removeAttribute('aria-activedescendant');
+  combo.open = false;
+}
+
+function chooseActive() {
+  const el = combo.matches[combo.active];
+  if (!el) return;
+  closeCombo();
+  loadSong(parseInt(el.dataset.index, 10));
+}
+
+function wireSearch() {
+  const input = $('spSearch');
+  if (!input) return;
+  const list = $('spSongList');
+
+  input.addEventListener('focus', () => { input.select(); openCombo(true); });
+  input.addEventListener('input', () => { filterSongs(input.value); openCombo(false); });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (!combo.open) { openCombo(true); return; }
+      const step = e.key === 'ArrowDown' ? 1 : -1;
+      const n = combo.matches.length;
+      if (n) setActive((combo.active + step + n) % n);
+    } else if (e.key === 'Enter') {
+      if (combo.open) { e.preventDefault(); chooseActive(); }
+    } else if (e.key === 'Escape') {
+      if (combo.open) { e.stopPropagation(); closeCombo(); input.value = state.title; }
+    }
+  });
+  input.addEventListener('blur', () => {
+    setTimeout(() => { if (combo.open) { closeCombo(); input.value = state.title; } }, 150);
+  });
+
+  list.addEventListener('mousedown', (e) => e.preventDefault());   // keep focus for blur order
+  list.addEventListener('click', (e) => {
+    const el = e.target.closest('.sp-songopt');
+    if (!el) return;
+    closeCombo();
+    loadSong(parseInt(el.dataset.index, 10));
+  });
+
+  const toggle = $('spSearchToggle');
+  if (toggle) toggle.addEventListener('click', () => {
+    if (combo.open) { closeCombo(); return; }
+    input.focus();
+    openCombo(true);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (combo.open && !e.target.closest('.sp-combo')) { closeCombo(); input.value = state.title; }
+  });
+
+  filterSongs('');
+}
+
 /* ------------------------------------------------------------------- wiring */
 function wire() {
   $('spPlay').addEventListener('click', () => {
@@ -667,8 +812,7 @@ function wire() {
   $('spVolPiano').addEventListener('input', function () { state.volPiano = parseFloat(this.value); applyVolumes(); savePrefs(); });
   $('spVolClick').addEventListener('input', function () { state.volClick = parseFloat(this.value); applyVolumes(); savePrefs(); });
 
-  const picker = $('spSong');
-  if (picker) picker.addEventListener('change', function () { loadSong(parseInt(this.value, 10)); });
+  wireSearch();
 
   $('spScore').addEventListener('click', (ev) => {
     const cell = ev.target.closest && ev.target.closest('.sp-cell.swara');
@@ -738,8 +882,6 @@ function init() {
     start = state.songs.findIndex((s) => s.slug === remembered);
   }
   if (start < 0) start = 0;
-  const picker = $('spSong');
-  if (picker) picker.value = String(start);
   loadSong(start);
 }
 

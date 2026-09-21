@@ -60,6 +60,7 @@ less a visitor has to set by hand:
 `TALA` must match one of the presets — Adi (8), Rupaka (3), Rupaka (6), Misra Chapu (7), Khanda
 Chapu (5), Triputa (7), Jhampa (10), Ata (14), Dhruva (14), Eka (4), Free / no tala. `BEATS` and
 `NADAI` override it if your song needs something else. `SA` is the tonic, key plus octave.
+`[TAGS: ganesha, kriti]` adds extra words for the search box to match on.
 
 Then the music, section by section:
 
@@ -131,6 +132,11 @@ write those lines yet.
 That app is for you alone and is never deployed. The site gets the finished text file.
 
 ## 7. What a visitor can do
+
+Pick a song from the box at the top: typing filters by song name, raga, composer, tala or
+anything in `[TAGS:]`, with the matching text highlighted in each result. Arrow keys move
+through the list, Enter opens, Escape closes. The chosen song is remembered, and its address
+(`?song=<file name>`) can be linked to directly.
 
 Press play, pause, stop or restart. Tap any swara to start from there. Shift-tap a second swara
 to mark a passage, then set Loop to "Selected passage" — or loop the whole song or the current

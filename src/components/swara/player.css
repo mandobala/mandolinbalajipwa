@@ -1,5 +1,8 @@
 /* Swara Player — playback UI. Everything is prefixed .sp- so it cannot collide
-   with the site's global styles. */
+   with the site's global styles, and the box model is set here rather than
+   inherited, so the component behaves the same wherever it is dropped. */
+.sp, .sp *, .sp *::before, .sp *::after { box-sizing: border-box; }
+
 .sp {
   --sp-bg: #fbf7f0;
   --sp-surface: #ffffff;
@@ -31,7 +34,38 @@
 .sp-titles { flex: 1 1 260px; }
 .sp-head h1 { margin: 0; font-size: 1.6rem; letter-spacing: -0.02em; }
 .sp-head p { margin: 4px 0 0; color: var(--sp-ink-soft); font-size: 0.9rem; }
-.sp-song-field { min-width: 200px; }
+.sp-song-field { min-width: 260px; flex: 0 1 340px; }
+
+/* ---- searchable song picker ---- */
+.sp-combo { position: relative; }
+.sp-combo input {
+  width: 100%; min-height: 44px; padding: 8px 36px 8px 10px; font-size: 16px;
+  color: var(--sp-ink); background: var(--sp-bg);
+  border: 1px solid var(--sp-line); border-radius: 10px;
+}
+.sp-combo-toggle {
+  position: absolute; right: 2px; top: 2px; bottom: 2px; width: 34px;
+  border: 0; background: none; color: var(--sp-ink-soft); font-size: 14px; cursor: pointer;
+  border-radius: 8px;
+}
+.sp-combo-toggle:hover { background: var(--sp-surface-2); }
+.sp-songlist {
+  position: absolute; z-index: 50; top: calc(100% + 4px); left: 0; right: 0;
+  margin: 0; padding: 4px; list-style: none; max-height: min(52vh, 360px); overflow-y: auto;
+  background: var(--sp-surface); border: 1px solid var(--sp-line); border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+}
+.sp-songopt {
+  padding: 9px 10px; border-radius: 8px; cursor: pointer; min-height: 44px;
+  display: flex; flex-direction: column; justify-content: center; gap: 2px;
+}
+.sp-songopt b { font-weight: 600; font-size: 0.95rem; }
+.sp-songopt span { font-size: 0.8rem; color: var(--sp-ink-soft); }
+.sp-songopt[aria-selected="true"], .sp-songopt:hover { background: var(--sp-surface-2); }
+.sp-songopt.sp-active { background: var(--sp-accent-soft); outline: 2px solid var(--sp-accent); }
+.sp-songopt mark { background: var(--sp-accent-2-soft); color: inherit; border-radius: 3px; padding: 0 1px; }
+.sp-count { margin: 6px 0 0; font-size: 0.78rem; color: var(--sp-ink-soft); min-height: 1em; }
+.sp-noresult { padding: 10px; color: var(--sp-ink-soft); font-size: 0.88rem; }
 
 .sp-field { display: flex; flex-direction: column; gap: 6px; }
 .sp-field > span { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--sp-ink-soft); font-weight: 700; }
@@ -111,6 +145,12 @@
   border: 1px solid var(--sp-line); border-radius: 8px; background: var(--sp-bg); color: var(--sp-ink);
 }
 .sp-now { font-family: var(--sp-mono); font-size: 0.85rem; color: var(--sp-ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 45vw; }
+
+.sp-head, .sp-song-field, .sp-combo { min-width: 0; }
+@media (max-width: 560px) {
+  .sp-song-field { flex: 1 1 100%; }
+  .sp-head { align-items: stretch; gap: 12px; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .sp * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
