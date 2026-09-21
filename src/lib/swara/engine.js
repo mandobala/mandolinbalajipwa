@@ -411,6 +411,14 @@ const CarnaticEngine = (function () {
         continue;
       }
 
+      /* Reading aids — phrasing dashes and gamakam marks. Displayed, silent,
+         and they take no time, exactly like a bar line. */
+      if ('-/\\~'.indexOf(ch) !== -1) {
+        marks.push({ type: 'mark', glyph: ch, line: lineIndex, column: i, atSpace: state.space });
+        i++;
+        continue;
+      }
+
       if (ch === '|') {
         var double = text.charAt(i + 1) === '|';
         marks.push({
@@ -424,13 +432,29 @@ const CarnaticEngine = (function () {
       }
 
       if (ch === ',') {
-        var last = state.lastEvent;
-        if (!last) {
-          pushError(i, 'A comma must follow a swara.');
+        var add0 = speedGroupOpenAt !== -1 ? 0.5 : 1;
+        /* A comma with nothing before it in this section is silence, not a
+           sustain: this is how a song with an eduppu enters after sam. */
+        if (!state.lastEvent) {
+          var rest = {
+            id: 'e' + state.eventCounter++,
+            swara: ',', resolvedSwara: 'rest', semitone: null, valid: true,
+            error: null, warning: null, isRest: true,
+            octave: 0, durationInSpaces: add0, commaCount: 0,
+            speed: speedGroupOpenAt !== -1 ? 2 : 1,
+            insideSpeedGroup: speedGroupOpenAt !== -1,
+            speedGroupId: speedGroupOpenAt !== -1 ? speedGroupId : null,
+            section: state.section, sahitya: null, startSpace: state.space,
+            sourceLine: lineIndex, sourceStartColumn: i, sourceEndColumn: i + 1
+          };
+          state.space += add0;
+          state.lastEvent = rest;
+          events.push(rest);
           i++;
           continue;
         }
-        var add = speedGroupOpenAt !== -1 ? 0.5 : 1;
+        var last = state.lastEvent;
+        var add = add0;
         last.durationInSpaces += add;
         last.commaCount += 1;
         last.sourceEndColumn = (last.sourceLine === lineIndex) ? i + 1 : last.sourceEndColumn;
@@ -661,6 +685,7 @@ const CarnaticEngine = (function () {
       state.section = line.section;
 
       if (line.role === 'section') {
+        state.lastEvent = null;
         sections.push({ name: line.section, atSpace: state.space, line: i });
         if (pendingSwaraRow) { rows.push(pendingSwaraRow); pendingSwaraRow = null; }
         rows.push({ type: 'section', name: line.section, line: i });
@@ -795,6 +820,23 @@ const CarnaticEngine = (function () {
      cycles is an "offender"; rows after it inherit the drift and are reported
      separately, as knock-on lines.
      --------------------------------------------------------------------- */
+  /* How far into the cycle the first sounding swara falls — the eduppu — read
+     from the rests the notation itself carries. */
+  function eduppuOf(parsed, config) {
+    var cycleSpaces = (config.subdivisionsPerBeat || 4) * (config.beatsPerCycle || 8);
+    var first = null;
+    for (var i = 0; i < parsed.events.length; i++) {
+      if (!parsed.events[i].isRest) { first = parsed.events[i]; break; }
+    }
+    if (!first) return null;
+    var offset = round6(first.startSpace % cycleSpaces);
+    return {
+      spaces: offset,
+      beats: round6(offset / (config.subdivisionsPerBeat || 4)),
+      onSam: offset === 0
+    };
+  }
+
   function cycleReport(parsed, config) {
     var subdivisions = config.subdivisionsPerBeat || 4;
     var beatsPerCycle = config.beatsPerCycle || 8;
@@ -901,6 +943,7 @@ const CarnaticEngine = (function () {
      Display normalisation of octave marks
      --------------------------------------------------------------------- */
   function displaySwara(event) {
+    if (event.isRest) return '\u00b7';
     var text = event.swara;
     if (event.octave > 0) text = text.charAt(0) + COMBINING_ABOVE + text.slice(1);
     else if (event.octave < 0) text = text.charAt(0) + COMBINING_BELOW + text.slice(1);
@@ -933,6 +976,7 @@ const CarnaticEngine = (function () {
     parse: parse,
     timing: timing,
     cycleReport: cycleReport,
+    eduppuOf: eduppuOf,
     metronomeGrid: metronomeGrid,
     displaySwara: displaySwara,
     safeFilename: safeFilename

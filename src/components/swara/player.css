@@ -135,6 +135,8 @@
 .sp-cell.sahitya { font-size: 0.85rem; color: var(--sp-ink-soft); min-height: 28px; overflow: hidden; }
 .sp-cell.sahitya.active { background: var(--sp-accent-soft); color: var(--sp-ink); border-color: var(--sp-accent); font-weight: 600; }
 .sp-cell.bar { width: 14px; color: var(--sp-ink-soft); }
+.sp-cell.bar.hint { color: var(--sp-accent-2); font-size: 0.9rem; opacity: 0.75; }
+.sp-cell.swara.rest { color: var(--sp-ink-soft); opacity: 0.6; font-weight: 400; }
 
 .sp-settings { border: 1px solid var(--sp-line); border-radius: 10px; background: var(--sp-surface); padding: 0 14px; margin-top: 18px; }
 .sp-settings > summary { cursor: pointer; padding: 14px 0; font-weight: 600; min-height: 44px; display: flex; align-items: center; }

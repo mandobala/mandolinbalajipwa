@@ -108,6 +108,8 @@ Save the file. The dev server reloads and the song appears in the picker.
 | `N'` or `Ṅ` | upper octave |
 | `G2`, `M1` | an explicit variant, overriding the raga's default |
 | `\|` `\|\|` | bar lines — shown, silent, and they take no time |
+| `,` at the start | silence: this is how a song enters after sam (see Eduppu below) |
+| `-` `/` `\` `~` | phrasing and gamakam marks — shown, silent, no time |
 
 A note-space is the smallest unit: at 8 beats with nadai 4, a cycle is 32 of them. Bare letters
 resolve through the raga, so in Hindolam `G M D N` plays G2 M1 D1 N2. A swara the raga does not
@@ -126,6 +128,27 @@ If the raga you need isn't in the engine yet, add it to the `RAGAS` table at the
 
 Where a raga holds two variants of one letter, add `defaults: { D: 'D2', N: 'N2' }` to say what
 a bare letter means.
+
+### Eduppu
+
+A comma with no swara before it in its section is silence, not a sustain, so a song that enters
+after sam is written the way you would write it on paper:
+
+```
+[SWARA]
+, , , , , ,  G,,, | M,,, G,,, M,,, D,,, ||
+```
+
+Those six note-spaces of rest count towards the cycle, the metronome clicks through them, and
+the player reports the eduppu — "+6" — in the information strip. Each `[SECTION:]` starts fresh,
+so the anupallavi may enter at a different point from the pallavi without the pallavi's last
+note being stretched into it.
+
+For atita eduppu, where the song begins *before* sam, give the pick-up its own line padded with
+commas so the first swaras land at the end of it; sam then falls at the start of the next line.
+
+`-`, `/`, `\` and `~` are reading marks — phrasing and gamakam hints. They are displayed and
+take no time at all. `*` is not recognised and will be reported as an error.
 
 ## 5. When the build complains
 

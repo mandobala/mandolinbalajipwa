@@ -394,7 +394,7 @@ function updateReadout(idx, songTime) {
     ['Section', ev && ev.section ? ev.section : '—'],
     ['Cycle', s ? s.cycle + 1 : '—'],
     ['Beat', s ? `${s.beatInCycle + 1}/${state.beatsPerCycle}` : '—'],
-    ['Swara', ev ? E.displaySwara(ev) : '—'],
+    ['Swara', ev ? (ev.isRest ? 'rest' : E.displaySwara(ev)) : '—'],
     ['Elapsed', `${fmtTime(songTime || 0)} / ${fmtTime(total)}`]
   ];
   $('spReadout').replaceChildren(...stats.map(([label, value]) => {
@@ -460,8 +460,9 @@ function renderScore() {
       let width;
       if (col.kind === 'bar') {
         const bar = document.createElement('div');
-        bar.className = 'sp-cell bar';
-        bar.textContent = col.mark.type === 'doublebar' ? '‖' : '|';
+        bar.className = 'sp-cell bar' + (col.mark.type === 'mark' ? ' hint' : '');
+        bar.textContent = col.mark.type === 'doublebar' ? '‖'
+          : (col.mark.type === 'mark' ? col.mark.glyph : '|');
         width = 14;
         swaraLine.appendChild(bar);
       } else {
@@ -469,17 +470,19 @@ function renderScore() {
         const gi = globalIndex[e.id];
         const cell = document.createElement('button');
         cell.type = 'button';
-        cell.className = 'sp-cell swara' + (e.insideSpeedGroup ? ' speed' : '');
+        cell.className = 'sp-cell swara' + (e.insideSpeedGroup ? ' speed' : '') + (e.isRest ? ' rest' : '');
         if (loop && gi >= loop.a && gi <= loop.b) cell.classList.add('in-loop');
         if (state.selection.start === gi) cell.classList.add('sel-start');
         cell.dataset.index = String(gi);
-        cell.textContent = E.displaySwara(e) + (e.commaCount ? ','.repeat(e.commaCount) : '');
+        cell.textContent = e.isRest ? E.displaySwara(e)
+          : E.displaySwara(e) + (e.commaCount ? ','.repeat(e.commaCount) : '');
         width = Math.max(30, e.durationInSpaces * UNIT);
         cell.style.width = width + 'px';
         if (e.insideSpeedGroup) cell.style.fontSize = '0.92rem';
-        cell.setAttribute('aria-label',
-          `Swara ${e.resolvedSwara}${e.octave ? (e.octave > 0 ? ' upper octave' : ' lower octave') : ''}` +
-          `${e.sahitya ? ', syllable ' + e.sahitya : ''}. Play from here.`);
+        cell.setAttribute('aria-label', e.isRest
+          ? `Rest, ${e.durationInSpaces} note-spaces.`
+          : `Swara ${e.resolvedSwara}${e.octave ? (e.octave > 0 ? ' upper octave' : ' lower octave') : ''}` +
+            `${e.sahitya ? ', syllable ' + e.sahitya : ''}. Play from here.`);
         swaraLine.appendChild(cell);
         if (tokenByEvent[e.id]) current = tokenByEvent[e.id];
       }
@@ -661,6 +664,17 @@ function tonicLabel() {
   return state.tonicKey ? state.tonicKey + state.tonicOctave : Number(state.tonicHz).toFixed(2) + ' Hz';
 }
 
+/* Where the first sounding swara falls, read from the rests in the notation. */
+function eduppuLabel() {
+  const ed = E.eduppuOf(parsed, {
+    beatsPerCycle: state.beatsPerCycle,
+    subdivisionsPerBeat: state.subdivisionsPerBeat
+  });
+  if (!ed) return '—';
+  if (ed.onSam) return 'samam';
+  return `+${ed.spaces}` + (ed.beats % 1 === 0 ? ` (${ed.beats} beat${ed.beats === 1 ? '' : 's'})` : '');
+}
+
 function renderSongBar(meta) {
   const bar = $('spSongBar');
   if (!bar) return;
@@ -674,7 +688,8 @@ function renderSongBar(meta) {
     ['Beats × nadai', `${state.beatsPerCycle} × ${state.subdivisionsPerBeat}`],
     ['Sruthi', tonicLabel()],
     ['Tempo', `${state.bpm} BPM`],
-    ['Cycles', cycle.totalCycles]
+    ['Cycles', cycle.totalCycles],
+    ['Eduppu', eduppuLabel()]
   ];
   const dl = document.createElement('dl');
   rows.forEach(([label, value]) => {
