@@ -35,10 +35,10 @@ tuṅga vihaṅga turaṅgam kṛ pā       pāṅgam ramaṇ        ta  raṅ g
  P, M, P,,R R,G,R, SṆ               |R,,, SN  RS              |R,,, S,,, ||
  praṇa vā   kā    ra               div  ya  vi               mā   nam
 
-,,*P, [PR,,] ,, [RSN,] ,, S, NP   |PN [PMRM] R M,          |P,PM P,,, ||
+,,P, [PR,,] ,, [RSN,] ,, S, NP   |PN [PMRM] R M,          |P,PM P,,, ||
 prahlā        dā      di bha       ktā     bhi           mā   nam
 
-,,GRG,, R S, D, ₚM,,, P,        |R,M, [MRM,] P,           |[PMR,] G, R,S, ||
+,,GRG,, R S, D, M,,, P,        |R,M, [MRM,] P,           |[PMR,] G, R,S, ||
  ga ṇa pa ti sa mā   na         vi    shvak                sē       nam
 
 ,,RG, MP, D, P, NDDN            |P, [PMR,] SR [PMR,]      |GGRS R,S, ||
