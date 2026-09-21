@@ -57,10 +57,29 @@ less a visitor has to set by hand:
 [SA: C#4]
 ```
 
-`TALA` must match one of the presets — Adi (8), Rupaka (3), Rupaka (6), Misra Chapu (7), Khanda
-Chapu (5), Triputa (7), Jhampa (10), Ata (14), Dhruva (14), Eka (4), Free / no tala. `BEATS` and
-`NADAI` override it if your song needs something else. `SA` is the tonic, key plus octave.
-`[TAGS: ganesha, kriti]` adds extra words for the search box to match on.
+Add the scale and the phrases too, which the player shows and uses:
+
+```
+[SCALE: S R2 G3 M1 P D2 N3]
+[AROHANA: S R2 G3 M1 P D2 N3 Ṡ]
+[AVAROHANA: Ṡ N3 D2 P M1 G3 R2 S]
+[TAGS: kriti, patnam]
+```
+
+`TALA` is best written as one of the presets — Adi (8), Rupaka (3), Rupaka (6), Misra Chapu (7),
+Khanda Chapu (5), Triputa (7), Jhampa (10), Ata (14), Dhruva (14), Eka (4), Free / no tala —
+because the preset also carries the beat grouping, which decides where the stronger clicks fall.
+`BEATS` and `NADAI` set the cycle on their own if you write something else. `SA` is the tonic,
+key plus octave, or a frequency in Hz. `[TAGS:]` adds extra words for the search box.
+
+**`SCALE` is what lets you use a raga the engine has never heard of.** Written with variant
+numbers — `S R2 G3 M1 P D2 N3` — it tells the player exactly which swaras the raga uses, so
+Kadanakuthuhalam or Chandrajyothi plays correctly with no code change at all. A numbered
+`AROHANA` does the same job. Only a song that names an unknown raga *and* gives no scale stops
+the build, and the message says what to add.
+
+Header names are forgiving: `Sruthi`, `Thala`, `Arohanam`, `Avarohanam`, `Raagam`, `Gati`,
+`Tempo` and `Song` are all understood and stored under the standard names.
 
 Then the music, section by section:
 
@@ -124,14 +143,22 @@ because a fragment or an exercise may legitimately not close.
 ## 6. Writing songs comfortably
 
 Use the standalone editor in `Documents\Swara-Player` — open `index.html` in a browser. It has
-the notation editor with line numbers, inline error highlighting, the cycle check and a raga
-editor. When the song plays correctly there, press **Download Text** and move the file into
-`src/content/songs/`, then add the header block at the top, since the standalone app doesn't
-write those lines yet.
+the notation editor with line numbers, inline error highlighting, the cycle check, a raga editor,
+and fields for composer, tags, arohana and avarohana. A strip at the top shows the song's raga,
+tala, beats × nadai, sruthi, tempo and cycle count as you work.
+
+**Download Text** now writes the whole header block for you, so the exported file drops straight
+into `src/content/songs/` with nothing to type. Opening a file there reads those headers back —
+raga, tala, tempo and sruthi are restored to the controls — so a song moves between the site and
+the editor without losing its settings.
 
 That app is for you alone and is never deployed. The site gets the finished text file.
 
 ## 7. What a visitor can do
+
+When a song loads, a strip above the notation shows its raga, tala, beats × nadai, sruthi,
+tempo and cycle count, with the arohana and avarohana underneath — and the song's own tempo and
+sruthi are applied, so it plays as you saved it.
 
 Pick a song from the box at the top: typing filters by song name, raga, composer, tala or
 anything in `[TAGS:]`, with the matching text highlighted in each result. Arrow keys move
