@@ -1,0 +1,64 @@
+﻿[TITLE: Ranganayakam-Nayaki]
+[COMPOSER: Dikshithar]
+[RAGA: Nayaki]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 51]
+[SA: C#4]
+[SCALE: S R2 G3 M1 P D2 N2]
+[AROHANA: S R2 G3 M1 P D2 N2 Ṡ]
+[AVAROHANA: Ṡ N2 D2 P M1 G3 R2 S]
+[TAGS: Dikshithar, Nayaki]
+
+[SECTION : Pallavi]
+,,R, PM [MP,R] GR  G,SR,,       |S,-  ṆSṆ, RS       |R,,, RSṆS  ||RS
+ raṅ ga nā        ya kam            bhā  va        yē   śrī
+
+[R,,P] PM [MPDP] [PMR,] G, SR,, |S,-  ṆSṆ, RS       |R,,, RSṆS  ||RS
+raṅ   ga  nā      ya   kam          bhā  va yē     śrī
+
+[RMR,] MPD, DP,Ṙ ṠṘ[NṠ,,]      |P,-  MPM PDP       |[MR] PMR G,RS||ṆS
+ raṅ     ga nā   ya kam         bhā va  yē      śrī
+                                                                  
+[SECTION : Anu Pallavi]
+S, S, [S,,R] ṘṠNṠ   DNPD        |MPRM,    PDṘ       |[ṘṠN,],, Ṡ,,, ||
+aṅga ja      tā     ta ma        nan      tama        tī      tam
+
+ṘṠNṠ [NṠṘ,] Ṡ,,,   ṠṘ ṠD N,    |N, NṠD,P,          |DP DMP, DN||
+a  jēn      drā     dya ma ra    nu tam              sata tam ut-
+
+PDM P RG R  Ṇ R, S,,   MP,      |M PṘ Ṡ,  P DM      |[PR] G,, RS ṆS||RS
+tuṅga vihaṅga turaṅgam kṛ pā       pāṅgam ramaṇ        ta  raṅ gamśrī 
+
+[SECTION : Charanam]
+ P, M, P,,R R,G,R, SṆ               |R,,, SN  RS              |R,,, S,,, ||
+ praṇa vā   kā    ra               div  ya  vi               mā   nam
+
+,,*P, [PR,,] ,, [RSN,] ,, S, NP   |PN [PMRM] R M,          |P,PM P,,, ||
+prahlā        dā      di bha       ktā     bhi           mā   nam
+
+,,GRG,, R S, D, ₚM,,, P,        |R,M, [MRM,] P,           |[PMR,] G, R,S, ||
+ ga ṇa pa ti sa mā   na         vi    shvak                sē       nam
+
+,,RG, MP, D, P, NDDN            |P, [PMR,] SR [PMR,]      |GGRS R,S, ||
+gaja tura ga pa dā             diśē                      nam  dīna
+
+P, M, D, P,  N, D, P,,,          |M, D,,, N,               |,, NṠ  D,,, ||
+maṇi  ku la  bhava rā             ghavā  rā                     dha nam
+
+,,P, P, M, D, D,,, D,           |N,,, N, Ṡ,               |,, N,  Ṡ,,, ||
+māmaka   vi dē   ha            mu   kti sā                   dha nam
+
+DṘṠ, ṠṘN, [NṠD,] [DNP,] D,,,    |,,,, D,DN                |Ṡ, Ṡ NṠ,,, ||
+ma ṇi ma ya sa     da     nam           śa śi                vada nam
+
+,,P D, P Ṙ, Ṡ,ṠN ṠNṠ,           |P,   MPMP DP             |[PMR,] G, R, SG||
+phaṇi pa ti śaya nam                 pa   dma              na     ya nam a-
+
+R S R ṆS S N N D P DDMD D,       |N Ṡ NṘ [ṘSS,] D M       |P D N Ṡ, N Ṡ,||
+gaṇita suguṇagaṇanatavibhīshaṇam    ghanatara kau   stubha     maṇivibhūshaṇam
+
+P DN Ṡ Ṙ Ṙ Ġ, R ṠN [ṘṠN,] Ṡ Ṙ,  |Ṡ Ṙ N Ṡ D NP D          |MPRG RS ṆS||
+guñjana kṛta vēda pā rā     ya ṇam guruguhamudita nā          rā ya ṇam śrī
+                                                                  
