@@ -58,13 +58,19 @@ const songs = Object.entries(files as Record<string, string>).map(([path, raw]) 
   if (beats > 0 && nadai > 0) {
     const report = E.cycleReport(parsed, { beatsPerCycle: beats, subdivisionsPerBeat: nadai });
     if (!report.aligned) {
+      // One short line per line of notation — no passage totals to count through.
+      const cyc = report.cycleSpaces;
+      const lines = report.offenders.length
+        ? report.offenders.map((r: any) => {
+            const over = r.endOffset;
+            const gap = over <= cyc - over ? `${over} too many` : `${cyc - over} missing`;
+            return `  line ${r.line + 1} — ${r.spaces} note-spaces, ${gap}`;
+          })
+        : [`  the last line ends ${report.remainder} note-spaces past a full cycle`];
       console.warn(
-        `[swara-player] ${slug}: ${report.totalSpaces} note-spaces do not fill whole cycles of ` +
-        `${report.cycleSpaces}` +
-        (report.offenders.length
-          ? ` — check line${report.offenders.length > 1 ? 's' : ''} ` +
-            report.offenders.map((r: any) => r.line + 1).join(', ')
-          : '')
+        `[swara-player] ${slug}: a cycle is ${cyc} note-spaces` +
+        (report.eduppuSpaces ? `, counted from the eduppu of +${report.eduppuSpaces}` : '') +
+        `\n${lines.join('\n')}`
       );
     }
   }

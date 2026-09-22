@@ -859,11 +859,26 @@ const CarnaticEngine = (function () {
     var sections = [];
     var byName = {};
 
+    /* A song with an eduppu enters after sam, so every cycle boundary in the
+       piece sits that many note-spaces later. Measure from there, otherwise a
+       correctly written song reads as permanently off the beat. */
+    var ed = eduppuOf(parsed, config);
+    var eduppu = ed ? ed.spaces : 0;
+    function offsetFrom(space) {
+      return round6((((space - eduppu) % cycleSpaces) + cycleSpaces) % cycleSpaces);
+    }
+
     parsed.rows.forEach(function (row) {
       if (row.type !== 'passage' || !row.events.length) return;
       var spaces = row.events.reduce(function (sum, e) { return sum + e.durationInSpaces; }, 0);
       var startSpace = row.events[0].startSpace;
       var name = row.events[0].section || '';
+      /* Leading rests are the eduppu padding: the line still begins at sam,
+         so measure where it starts from its first sounding note. */
+      var firstSounding = startSpace;
+      for (var ri = 0; ri < row.events.length; ri++) {
+        if (!row.events[ri].isRest) { firstSounding = row.events[ri].startSpace; break; }
+      }
       var entry = {
         line: row.swaraLine,
         sahityaLine: row.sahityaLine,
@@ -871,9 +886,10 @@ const CarnaticEngine = (function () {
         startSpace: round6(startSpace),
         spaces: round6(spaces),
         cycles: round6(spaces / cycleSpaces),
-        startOffset: round6(startSpace % cycleSpaces),
-        endOffset: round6((startSpace + spaces) % cycleSpaces)
+        startOffset: offsetFrom(firstSounding),
+        endOffset: offsetFrom(startSpace + spaces)
       };
+      entry.endSpace = round6(startSpace + spaces);
       entry.startsOnBoundary = entry.startOffset === 0;
       entry.endsOnBoundary = entry.endOffset === 0;
       entry.wholeCycles = round6(spaces % cycleSpaces) === 0;
@@ -885,6 +901,7 @@ const CarnaticEngine = (function () {
       }
       byName[name].lines.push(row.swaraLine);
       byName[name].spaces = round6(byName[name].spaces + spaces);
+      byName[name].endSpace = entry.endSpace;
     });
 
     /* A section is the unit that should close on a cycle. Half-cycle lines
@@ -893,12 +910,13 @@ const CarnaticEngine = (function () {
       s.remainder = round6(s.spaces % cycleSpaces);
       s.shortBy = s.remainder > 0 ? round6(cycleSpaces - s.remainder) : 0;
       s.cycles = round6(s.spaces / cycleSpaces);
-      s.aligned = s.remainder === 0;
-      s.startsOnBoundary = round6(s.startSpace % cycleSpaces) === 0;
+      s.aligned = s.remainder === 0 || offsetFrom(s.endSpace) === 0;
+      s.startsOnBoundary = offsetFrom(s.startSpace) === 0 || s.startSpace === 0;
     });
 
-    // Candidate lines: those inside a section that does not close, which end
-    // away from a cycle boundary. These are the lines worth looking at.
+    // The lines worth naming: those inside a section that does not close,
+    // which end away from a beat of the cycle. Reported one by one — a
+    // whole-passage total is no help to someone hunting for the line to fix.
     var offenders = rows.filter(function (r) {
       var s = byName[r.section];
       return s && !s.aligned && !r.endsOnBoundary;
@@ -910,19 +928,19 @@ const CarnaticEngine = (function () {
       return s && s.aligned && !s.startsOnBoundary && r === rows[rows.indexOf(r)] && !r.startsOnBoundary;
     });
 
+    var remainder = offsetFrom(parsed.totalSpaces);
     return {
       cycleSpaces: cycleSpaces,
+      eduppuSpaces: eduppu,
       totalSpaces: round6(parsed.totalSpaces),
-      totalCycles: round6(parsed.totalSpaces / cycleSpaces),
-      remainder: round6(parsed.totalSpaces % cycleSpaces),
-      shortBy: round6(parsed.totalSpaces % cycleSpaces) > 0
-        ? round6(cycleSpaces - (parsed.totalSpaces % cycleSpaces)) : 0,
+      totalCycles: round6((parsed.totalSpaces - eduppu) / cycleSpaces),
+      remainder: remainder,
+      shortBy: remainder > 0 ? round6(cycleSpaces - remainder) : 0,
       rows: rows,
       sections: sections,
       offenders: offenders,
       knockOn: knockOn,
-      aligned: round6(parsed.totalSpaces % cycleSpaces) === 0 &&
-               sections.every(function (s) { return s.aligned; })
+      aligned: remainder === 0 && !offenders.length
     };
   }
 

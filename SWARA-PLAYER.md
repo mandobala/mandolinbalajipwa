@@ -144,6 +144,10 @@ the player reports the eduppu — "+6" — in the information strip. Each `[SECT
 so the anupallavi may enter at a different point from the pallavi without the pallavi's last
 note being stretched into it.
 
+All the cycle arithmetic is measured from the eduppu, not from sam. A song that enters six
+note-spaces late and keeps that position throughout is correct, and nothing is reported — the
+six spaces are not a shortfall.
+
 For atita eduppu, where the song begins *before* sam, give the pick-up its own line padded with
 commas so the first swaras land at the end of it; sam then falls at the start of the next line.
 
@@ -159,9 +163,10 @@ Error: Notation errors in src/content/songs/raguvamsasudha.txt
   line 14, col 9: "P" is not part of Kadanakuthuhalam...
 ```
 
-Fix that line and save. Cycle arithmetic is a warning rather than an error — the terminal will
-say when a song doesn't fill whole cycles and which lines to look at, but the build continues,
-because a fragment or an exercise may legitimately not close.
+Fix that line and save. Cycle arithmetic is a warning rather than an error, and it is reported
+one line at a time — `line 12 — 30 note-spaces, 2 missing` — rather than as a total for the
+whole passage. The build continues either way, because a fragment or an exercise may
+legitimately not close.
 
 ## 6. Writing songs comfortably
 
@@ -169,6 +174,10 @@ Use the standalone editor in `Documents\Swara-Player` — open `index.html` in a
 the notation editor with line numbers, inline error highlighting, the cycle check, a raga editor,
 and fields for composer, tags, arohana and avarohana. A strip at the top shows the song's raga,
 tala, beats × nadai, sruthi, tempo and cycle count as you work.
+
+The Help tab has a row of tap-to-copy swaras for the three octaves — Ṣ Ṛ G̣ Ṃ P̣ Ḍ Ṇ below,
+S R G M P D N in the middle, Ṡ Ṙ Ġ Ṁ Ṗ Ḋ Ṅ above — so a dotted note can be pasted in rather
+than typed. `.N` and `N'` still work if you prefer them.
 
 **Download Text** now writes the whole header block for you, so the exported file drops straight
 into `src/content/songs/` with nothing to type. Opening a file there reads those headers back —
