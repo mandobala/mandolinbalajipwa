@@ -12,7 +12,11 @@
 [TAGS: Mohanam, Adhi, exercise]
 
 [SECTION: Pallavi]
+[SWARA]
 SRGP|RGPD|GPDṠ|PDPD|ṠĠṘS|DPṘṠ|DPGṠ|DPGR||
+[SWARA]
 RGPD|GPDṠ|PDPD|ṠĠṘS|DPṠ,|ṘṠDP|GP,Ṡ|DPGR||
+[SWARA]
 GPDṠ|PDPD|ṠĠṘS|DPṠ,|Ṡ,ṘṠ|DPGP|,P,Ṡ|DPGR||
+[SWARA]
 PDPD|ṠĠṘS|DPṠ,|Ṡ,Ṡ,ṘṠ|DPGP,P|,P,Ṡ|DPGR||
