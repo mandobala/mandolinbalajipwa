@@ -1,0 +1,18 @@
+﻿[TITLE: Mohanam-4445555-exercise]
+[COMPOSER: Balaji]
+[RAGA: Mohanam]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 96]
+[SA: C#4]
+[SCALE: S R2 G3 P D2]
+[AROHANA: S R2 G3 P D2 Ṡ]
+[AVAROHANA: Ṡ D2 P G3 R2 S]
+[TAGS: Mohanam, Adhi, exercise]
+
+[SECTION: Pallavi]
+SRGP|RGPD|GPDṠ|PDPD|ṠĠṘS|DPṘṠ|DPGṠ|DPGR||
+RGPD|GPDṠ|PDPD|ṠĠṘS|DPṠ,|ṘṠDP|GP,Ṡ|DPGR||
+GPDṠ|PDPD|ṠĠṘS|DPṠ,|Ṡ,ṘṠ|DPGP|,P,Ṡ|DPGR||
+PDPD|ṠĠṘS|DPṠ,|Ṡ,Ṡ,ṘṠ|DPGP,P|,P,Ṡ|DPGR||
