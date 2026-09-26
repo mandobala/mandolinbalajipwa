@@ -597,8 +597,15 @@ function renderGrid() {
     const len = row.endSpace - row.startSpace;
     const bars = row.marks.filter((m) => m.type === 'bar' || m.type === 'doublebar');
     const firstBar = bars.length ? bars[0].atSpace - row.startSpace : null;
-    const offset = (firstBar !== null && firstBar > 0 && firstBar < firstAnga && angas.length > 1)
-      ? firstAnga - firstBar : 0;
+    /* Set in only when that puts every bar line on an anga boundary. A line
+       barred on every beat already sits on the tala from sam. */
+    const angaAt = {};
+    let at0 = 0;
+    angas.forEach((g) => { angaAt[at0 * nadai] = true; at0 += g; });
+    const onAngas = (off) => bars.every((m) => angaAt[((m.atSpace - row.startSpace + off) % cycle + cycle) % cycle]);
+    const setIn = firstAnga - firstBar;
+    const offset = (firstBar !== null && firstBar > 0 && firstBar < firstAnga && angas.length > 1 &&
+      !onAngas(0) && onAngas(setIn)) ? setIn : 0;
     const slices = [];
     parsed.events.forEach((e) => {
       const s = Math.max(e.startSpace, row.startSpace);
