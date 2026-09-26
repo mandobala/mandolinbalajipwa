@@ -295,7 +295,7 @@ const CarnaticEngine = (function () {
      It never starts playback on its own — the UI shows the assignment for
      review. */
   function looksLikeSwaraRow(text) {
-    var stripped = text.replace(/[\s,|\[\]'._\-\/\\~\u0300-\u036F0-9]/g, '');
+    var stripped = text.replace(/[\s,|\[\]'._\-\/\\~*\u0300-\u036F0-9]/g, '');
     if (stripped.length === 0) return text.replace(/\s/g, '').length > 0;
     var swaraChars = 0;
     for (var i = 0; i < stripped.length; i++) {
@@ -427,7 +427,7 @@ const CarnaticEngine = (function () {
 
       /* Reading aids — phrasing dashes and gamakam marks. Displayed, silent,
          and they take no time, exactly like a bar line. */
-      if ('-/\\~'.indexOf(ch) !== -1) {
+      if ('-/\\~*'.indexOf(ch) !== -1) {
         marks.push({ type: 'mark', glyph: ch, line: lineIndex, column: i, atSpace: state.space });
         i++;
         continue;
@@ -471,6 +471,9 @@ const CarnaticEngine = (function () {
         var add = add0;
         last.durationInSpaces += add;
         last.commaCount += 1;
+        // each comma's own length, so a display can draw them as written:
+        // [PR,,] ,, is two half-space commas, then two whole ones
+        (last.commaSpaces = last.commaSpaces || []).push(add);
         last.sourceEndColumn = (last.sourceLine === lineIndex) ? i + 1 : last.sourceEndColumn;
         state.space += add;
         i++;
@@ -708,6 +711,10 @@ const CarnaticEngine = (function () {
 
       if (line.role === 'swara') {
         if (pendingSwaraRow) { rows.push(pendingSwaraRow); pendingSwaraRow = null; }
+        /* Commas opening a line sustain the previous line's last swara, so its
+           event runs into this line. The line's own span is measured from the
+           clock, not from the events it happens to start. */
+        var rowStartSpace = state.space;
         var res = parseSwaraRow(line.text, i, ctx, state, errors, warnings);
         state.groupCounter = res.groupCounter;
         events = events.concat(res.events);
@@ -719,6 +726,8 @@ const CarnaticEngine = (function () {
           swaraText: line.text,
           events: res.events,
           marks: res.marks,
+          startSpace: rowStartSpace,
+          endSpace: state.space,
           sahityaLine: null,
           sahityaText: null,
           sahityaTokens: []
@@ -869,10 +878,10 @@ const CarnaticEngine = (function () {
     }
 
     parsed.rows.forEach(function (row) {
-      if (row.type !== 'passage' || !row.events.length) return;
-      var spaces = row.events.reduce(function (sum, e) { return sum + e.durationInSpaces; }, 0);
-      var startSpace = row.events[0].startSpace;
-      var name = row.events[0].section || '';
+      if (row.type !== 'passage' || row.endSpace <= row.startSpace) return;
+      var spaces = row.endSpace - row.startSpace;
+      var startSpace = row.startSpace;
+      var name = row.section || '';
       /* Leading rests are the eduppu padding: the line still begins at sam,
          so measure where it starts from its first sounding note. */
       var firstSounding = startSpace;
@@ -951,10 +960,18 @@ const CarnaticEngine = (function () {
     var subdivisions = config.subdivisionsPerBeat || 4;
     var beatsPerCycle = config.beatsPerCycle || 8;
     var groups = config.beatGroups && config.beatGroups.length ? config.beatGroups : null;
+    /* Each beat is named by how the tala is kept by hand: a clap opens every
+       anga, the laghu is then counted on the fingers, and a drutam's second
+       beat is a wave. */
     var accents = {};
+    var handOf = {};
     if (groups) {
       var at = 0;
-      groups.forEach(function (g) { accents[at] = true; at += g; });
+      groups.forEach(function (g) {
+        accents[at] = true;
+        for (var k = 1; k < g; k++) handOf[at + k] = g > 2 ? 'finger' : 'wave';
+        at += g;
+      });
     }
     var ticks = [];
     for (var space = 0; space < totalSpaces; space++) {
@@ -962,7 +979,8 @@ const CarnaticEngine = (function () {
       var beat = space / subdivisions;
       if (isBeat) {
         var beatInCycle = beat % beatsPerCycle;
-        var kind = beatInCycle === 0 ? 'cycle' : (accents[beatInCycle] ? 'group' : 'beat');
+        var kind = beatInCycle === 0 ? 'cycle'
+          : (accents[beatInCycle] ? 'group' : (handOf[beatInCycle] || 'beat'));
         ticks.push({ space: space, kind: kind, beat: beat, beatInCycle: beatInCycle });
       } else {
         ticks.push({ space: space, kind: 'sub' });

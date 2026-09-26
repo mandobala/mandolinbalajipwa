@@ -94,7 +94,16 @@ const entries = songs.map((song, i) => {
     <button type="button" class="sp-btn sp-small" id="spClearSel">Clear passage</button>
   </p>
 
+  <div class="sp-layout">
+    <span>Layout</span>
+    <div class="sp-seg" role="group" aria-label="Notation layout">
+      <button type="button" id="spLayoutWritten" aria-pressed="true">As written</button>
+      <button type="button" id="spLayoutCycle" aria-pressed="false">By cycle</button>
+    </div>
+  </div>
+
   <div id="spScore" class="sp-score"></div>
+  <div id="spGrid" class="sp-gl" hidden></div>
 
   <details class="sp-settings">
     <summary>Tempo, pitch and sound</summary>
@@ -154,6 +163,7 @@ const entries = songs.map((song, i) => {
       <button type="button" class="sp-btn" id="spStop" aria-label="Stop">■</button>
       <button type="button" class="sp-btn" id="spRestart" aria-label="Restart from the beginning">↺</button>
       <button type="button" class="sp-btn on" id="spMetro" aria-pressed="true" aria-label="Metronome on or off">Click</button>
+      <button type="button" class="sp-btn" id="spSubMini" aria-pressed="false" aria-label="Click every note-space">Subs</button>
       <span class="sp-bpm-mini">
         <label for="spBpmMini">BPM</label>
         <input type="number" id="spBpmMini" min="20" max="300" value="60" aria-label="Tempo in beats per minute" />
