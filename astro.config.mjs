@@ -74,11 +74,25 @@ export default defineConfig({
       ],
     },
     workbox: {
-      additionalManifestEntries: [{ url: '/404.html', revision: null }],
       maximumFileSizeToCacheInBytes: 5000000,
-      navigateFallback: '/404.html',
-      navigateFallbackDenylist: [/^\/api\//],
-      globPatterns: ['**/*.{css,js,html,svg,png,ico,txt,webmanifest}'],
+      // No navigateFallback: serving 404.html for every uncached navigation
+      // made the homepage (and new/SSR pages) show "Reload" for returning visitors.
+      navigateFallback: null,
+      // Pages are fetched from the network first so users always get fresh HTML;
+      // the cache is only used when offline.
+      globPatterns: ['**/*.{css,js,svg,png,ico,txt,webmanifest}'],
+      runtimeCaching: [{
+        urlPattern: ({ request }) => request.mode === 'navigate',
+        handler: 'NetworkFirst',
+        options: {
+          cacheName: 'pages',
+          networkTimeoutSeconds: 5,
+          expiration: { maxEntries: 50 },
+        },
+      }],
+      cleanupOutdatedCaches: true,
+      skipWaiting: true,
+      clientsClaim: true,
     },
     experimental: {
       directoryAndTrailingSlashHandler: true,
