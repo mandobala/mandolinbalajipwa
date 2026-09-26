@@ -222,3 +222,19 @@
 @media (prefers-reduced-motion: reduce) {
   .sp * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
 }
+
+/* ---- looping by taps ---- */
+.sp-loopbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.sp-loopbar .sp-btn.on { background: var(--sp-accent-2); color: #fff; border-color: var(--sp-accent-2); }
+.sp-picking #spLoopMsg { color: var(--sp-accent-2); font-weight: 600; }
+.sp-picking .sp-cell.swara, .sp-picking .sp-gl-cell { outline: 1px dashed var(--sp-line); outline-offset: -2px; }
+.sp-passage { display: flex; align-items: flex-start; }
+.sp-line-loop { cursor: pointer; font-family: var(--sp-mono); }
+.sp-line-no {
+  flex: none; position: sticky; left: 0; z-index: 1; margin: 10px 0 0 8px;
+  min-width: 34px; min-height: 32px; border: 1px solid var(--sp-line); border-radius: 6px;
+  background: var(--sp-surface); color: var(--sp-ink-soft); font-size: 0.72rem;
+}
+.sp-line-loop:hover { background: var(--sp-surface-2); color: var(--sp-ink); }
+.sp-line-loop.on { background: var(--sp-accent-2); color: #fff; border-color: var(--sp-accent-2); }
+button.sp-gl-no { background: none; border: 0; border-right: 1px solid var(--sp-line); font: inherit; font-size: 0.7rem; }

@@ -29,7 +29,8 @@ const state = {
   volMaster: 0.85,
   volPiano: 0.8,
   volClick: 0.5,
-  selection: { start: null, end: null }
+  selection: { start: null, end: null },
+  pick: null                 // 'start' | 'end' while choosing a loop by taps
 };
 
 let parsed = null, timingInfo = null, ticks = [];
@@ -438,6 +439,66 @@ function updateReadout(idx, songTime) {
 /* -------------------------------------------------------------- rendering */
 const UNIT = 48;
 
+/* ------------------------------------------------------------ looping */
+/* Two ways to loop without a second key: tap a line number to loop that
+   line, or press "Set A-B" and tap the first and last notes. While
+   choosing, taps only mark — they never jump playback. */
+function lineRange(row, indexById) {
+  if (!row.events.length) return null;
+  return { a: indexById[row.events[0].id], b: indexById[row.events[row.events.length - 1].id] };
+}
+
+function lineLoopButton(row, indexById, loop, cls) {
+  const r = lineRange(row, indexById);
+  if (!r) return null;
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  const on = loop && loop.a === r.a && loop.b === r.b && state.loopMode === 'selection';
+  btn.className = cls + ' sp-line-loop' + (on ? ' on' : '');
+  btn.textContent = String(row.swaraLine + 1);
+  btn.dataset.loopA = String(r.a);
+  btn.dataset.loopB = String(r.b);
+  btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  btn.setAttribute('aria-label', `Loop line ${row.swaraLine + 1}`);
+  btn.title = `Loop line ${row.swaraLine + 1}`;
+  return btn;
+}
+
+function setLoop(a, b) {
+  state.selection = { start: Math.min(a, b), end: Math.max(a, b) };
+  state.pick = null;
+  state.loopMode = 'selection';
+  $('spLoop').value = 'selection';
+  renderScore();
+  syncLoopUi();
+  stop();
+  play(state.selection.start);
+}
+
+function clearLoop() {
+  state.selection = { start: null, end: null };
+  state.pick = null;
+  if (state.loopMode === 'selection') { state.loopMode = 'off'; $('spLoop').value = 'off'; }
+  renderScore();
+  syncLoopUi();
+}
+
+function syncLoopUi() {
+  const pickBtn = $('spLoopPick');
+  const picking = state.pick !== null;
+  pickBtn.classList.toggle('on', picking);
+  pickBtn.setAttribute('aria-pressed', picking ? 'true' : 'false');
+  pickBtn.textContent = picking ? 'Cancel' : 'Set A-B';
+  const looping = state.loopMode === 'selection' && state.selection.end !== null;
+  $('spClearSel').hidden = !looping && !picking;
+  const msg = state.pick === 'start' ? 'Tap note A, where the loop starts.'
+    : state.pick === 'end' ? 'Now tap note B, where it ends.'
+    : looping ? 'Looping A to B.'
+    : 'Tap a swara to play from there, or a line number to loop that line.';
+  $('spLoopMsg').textContent = msg;
+  $('spPlayer').classList.toggle('sp-picking', picking);
+}
+
 function renderScore() {
   const host = $('spScore');
   host.replaceChildren();
@@ -479,6 +540,8 @@ function renderScore() {
 
     const passage = document.createElement('div');
     passage.className = 'sp-passage';
+    const lineBtn = lineLoopButton(row, globalIndex, loop, 'sp-line-no');
+    if (lineBtn) passage.appendChild(lineBtn);
     const inner = document.createElement('div');
     inner.className = 'sp-passage-inner';
     const swaraLine = document.createElement('div');
@@ -659,8 +722,8 @@ function renderGrid() {
     }
     const r = glEl('div', 'sp-gl-row');
     r.style.gridTemplateColumns = template;
-    const no = glEl('div', 'sp-gl-no', String(ln.row.swaraLine + 1));
-    no.title = `Line ${ln.row.swaraLine + 1} · ${ln.len} note-spaces` +
+    const no = lineLoopButton(ln.row, indexById, loop, 'sp-gl-no') || glEl('div', 'sp-gl-no', String(ln.row.swaraLine + 1));
+    no.title = `Loop line ${ln.row.swaraLine + 1} · ${ln.len} note-spaces` +
       (ln.offset ? ` · set in ${ln.offset} from sam, because its first bar line comes ${ln.offset} before the end of the laghu` : '');
     r.appendChild(no);
 
@@ -802,6 +865,7 @@ function loadSong(i) {
   state.index = i;
   state.source = song.text;
   state.selection = { start: null, end: null };
+  state.pick = null;
 
   applyMeta(song.meta || {});
   rebuild();
@@ -1110,7 +1174,7 @@ function wire() {
   $('spTonic').addEventListener('change', function () { state.tonicKey = this.value; retune(); });
   $('spOctave').addEventListener('change', function () { state.tonicOctave = parseInt(this.value, 10); retune(); });
 
-  $('spLoop').addEventListener('change', function () { state.loopMode = this.value; savePrefs(); });
+  $('spLoop').addEventListener('change', function () { state.loopMode = this.value; renderScore(); syncLoopUi(); savePrefs(); });
   $('spSubClick').addEventListener('change', function () { state.subClick = this.checked; syncTransportUi(); savePrefs(); });
   $('spSubMini').addEventListener('click', () => {
     state.subClick = !state.subClick;
@@ -1127,15 +1191,23 @@ function wire() {
   wireSearch();
 
   const onScoreTap = (ev) => {
+    const lineBtn = ev.target.closest && ev.target.closest('.sp-line-loop');
+    if (lineBtn) {
+      if (lineBtn.classList.contains('on')) { clearLoop(); return; }
+      setLoop(parseInt(lineBtn.dataset.loopA, 10), parseInt(lineBtn.dataset.loopB, 10));
+      return;
+    }
     const cell = ev.target.closest && ev.target.closest('.sp-cell.swara, .sp-gl-cell');
     if (!cell) return;
     const idx = parseInt(cell.dataset.index, 10);
-    if (ev.shiftKey && state.selection.start !== null) {
-      state.selection.end = idx;
-      if (state.loopMode === 'off') { state.loopMode = 'selection'; $('spLoop').value = 'selection'; }
+    if (state.pick === 'start') {
+      state.selection = { start: idx, end: null };
+      state.pick = 'end';
       renderScore();
+      syncLoopUi();
       return;
     }
+    if (state.pick === 'end') { setLoop(state.selection.start, idx); return; }
     state.selection.start = idx;
     state.selection.end = null;
     renderScore();
@@ -1145,10 +1217,11 @@ function wire() {
   $('spScore').addEventListener('click', onScoreTap);
   $('spGrid').addEventListener('click', onScoreTap);
 
-  $('spClearSel').addEventListener('click', () => {
-    state.selection = { start: null, end: null };
-    if (state.loopMode === 'selection') { state.loopMode = 'off'; $('spLoop').value = 'off'; }
-    renderScore();
+  $('spClearSel').addEventListener('click', clearLoop);
+  $('spLoopPick').addEventListener('click', () => {
+    if (state.pick !== null) { state.pick = null; renderScore(); syncLoopUi(); return; }
+    state.pick = 'start';
+    syncLoopUi();
   });
 
   document.addEventListener('keydown', (e) => {
@@ -1188,6 +1261,7 @@ function init() {
   loadPrefs();
   wire();
   setLayout(state.layout);
+  syncLoopUi();
 
   const wanted = new URLSearchParams(window.location.search).get('song');
   let start = state.songs.findIndex((s) => s.slug === wanted);

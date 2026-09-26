@@ -88,11 +88,11 @@ const entries = songs.map((song, i) => {
     <div class="sp-progress" aria-hidden="true"><i id="spProgress"></i></div>
   </div>
 
-  <p class="sp-hint">
-    Tap any swara to play from there. Shift-tap a second swara to mark a passage, then set Loop to
-    “Selected passage”.
-    <button type="button" class="sp-btn sp-small" id="spClearSel">Clear passage</button>
-  </p>
+  <div class="sp-hint sp-loopbar">
+    <button type="button" class="sp-btn sp-small" id="spLoopPick" aria-pressed="false">Set A-B</button>
+    <button type="button" class="sp-btn sp-small" id="spClearSel" hidden>Clear loop</button>
+    <span id="spLoopMsg" aria-live="polite">Tap a swara to play from there, or a line number to loop that line.</span>
+  </div>
 
   <div class="sp-layout">
     <span>Layout</span>
