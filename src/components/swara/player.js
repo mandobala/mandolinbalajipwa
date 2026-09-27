@@ -875,6 +875,7 @@ function loadSong(i) {
   state.source = song.text;
   state.selection = { start: null, end: null };
   state.pick = null;
+  state.loopMode = 'off';     // a new song starts with no loop
 
   applyMeta(song.meta || {});
   rebuild();
@@ -887,6 +888,7 @@ function loadSong(i) {
   renderSongBar(song.meta || {});
 
   syncControls();
+  syncLoopUi();
   try { localStorage.setItem('sp-song', song.slug); } catch (e) {}
   const url = new URL(window.location.href);
   url.searchParams.set('song', song.slug);
