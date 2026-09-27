@@ -169,6 +169,12 @@ const entries = songs.map((song, i) => {
         <label for="spBpmMini">BPM</label>
         <input type="number" id="spBpmMini" min="20" max="300" value="60" aria-label="Tempo in beats per minute" />
       </span>
+      <span class="sp-bpm-mini">
+        <label for="spTonicMini">Sa</label>
+        <select id="spTonicMini" aria-label="Tonic Sa (sruthi)">
+          {['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'].map((k) => <option value={k}>{k}</option>)}
+        </select>
+      </span>
       <span class="sp-spacer"></span>
       <span class="sp-now" id="spNow">Ready</span>
     </div>

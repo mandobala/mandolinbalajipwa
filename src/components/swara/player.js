@@ -931,6 +931,7 @@ function syncControls() {
   $('spBpmRange').value = String(state.bpm);
   $('spBpmMini').value = String(state.bpm);
   $('spTonic').value = state.tonicKey;
+  $('spTonicMini').value = state.tonicKey;
   $('spOctave').value = String(state.tonicOctave);
   $('spLoop').value = state.loopMode;
   $('spSubClick').checked = state.subClick;
@@ -1182,7 +1183,8 @@ function wire() {
       play(Math.max(0, Math.min(idx, schedule().length - 1)));
     }
   };
-  $('spTonic').addEventListener('change', function () { state.tonicKey = this.value; retune(); });
+  $('spTonic').addEventListener('change', function () { state.tonicKey = this.value; $('spTonicMini').value = this.value; retune(); });
+  $('spTonicMini').addEventListener('change', function () { state.tonicKey = this.value; $('spTonic').value = this.value; retune(); });
   $('spOctave').addEventListener('change', function () { state.tonicOctave = parseInt(this.value, 10); retune(); });
 
   $('spLoop').addEventListener('change', function () { state.loopMode = this.value; renderScore(); syncLoopUi(); savePrefs(); });
