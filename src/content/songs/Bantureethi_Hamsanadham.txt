@@ -9,7 +9,7 @@
 [SCALE: S R2 M1 P N2]
 [AROHANA: S R2 M1 P N3 S]
 [AVAROHANA: S N3 P M1 R2 S]
-[TAGS: Bantureethi, Adhi, thyagaraja]
+[TAGS: Bantureethi, Adhi, thyagaraja, krithi]
 
 [SECTION: Pallavi]
 [SWARA]
