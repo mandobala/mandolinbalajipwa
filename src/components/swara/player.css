@@ -135,6 +135,8 @@
 .sp-cell.swara:hover { background: var(--sp-surface-2); }
 .sp-cell.speed { background: var(--sp-surface-2); border-bottom: 2px solid var(--sp-accent-2); }
 .sp-cell.in-loop { background: var(--sp-accent-2-soft); }
+/* A and B in the By cycle grid; its beat lines already use box-shadow */
+.sp-gl-cell.sp-gl-sel { outline: 2px solid var(--sp-accent-2); outline-offset: -2px; }
 .sp-cell.sel-start { box-shadow: inset 3px 0 0 var(--sp-accent-2); }
 .sp-cell.swara.active { background: var(--sp-accent); color: #fff; border-color: var(--sp-accent); }
 .sp-cell.sahitya { font-size: 0.85rem; color: var(--sp-ink-soft); min-height: 28px; overflow: hidden; }
@@ -238,3 +240,13 @@
 .sp-line-loop:hover { background: var(--sp-surface-2); color: var(--sp-ink); }
 .sp-line-loop.on { background: var(--sp-accent-2); color: #fff; border-color: var(--sp-accent-2); }
 button.sp-gl-no { background: none; border: 0; border-right: 1px solid var(--sp-line); font: inherit; font-size: 0.7rem; }
+
+/* A-B indicator: A lights when the start is marked, both glow once looping */
+.ab-led { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px 4px 8px;
+  border: 1px solid var(--sp-line); border-radius: 999px; background: var(--sp-surface); font-size: 0.8rem; font-weight: 600; }
+.ab-led[hidden] { display: none; }
+.ab-led i { width: 16px; height: 16px; border-radius: 50%; display: inline-grid; place-items: center;
+  font-style: normal; font-size: 0.6rem; color: #fff; background: #9a9a9a; opacity: 0.45; }
+.ab-led i.lit-a { background: #e0a100; opacity: 1; box-shadow: 0 0 6px 1px rgba(224, 161, 0, 0.7); }
+.ab-led i.lit-on { background: #1faa55; opacity: 1; box-shadow: 0 0 8px 2px rgba(31, 170, 85, 0.75); }
+.ab-led.on { border-color: #1faa55; }

@@ -497,6 +497,13 @@ function syncLoopUi() {
     : 'Tap a swara to play from there, or a line number to loop that line.';
   $('spLoopMsg').textContent = msg;
   $('spPlayer').classList.toggle('sp-picking', picking);
+  const led = $('spAbLed');
+  const aSet = state.selection.start !== null;
+  led.hidden = !picking && !looping;
+  led.classList.toggle('on', looping);
+  $('spLedA').className = looping ? 'lit-on' : (state.pick === 'end' && aSet ? 'lit-a' : '');
+  $('spLedB').className = looping ? 'lit-on' : '';
+  $('spLedText').textContent = looping ? 'A-B on' : (state.pick === 'end' ? 'A set' : 'Set A');
 }
 
 function renderScore() {
@@ -756,6 +763,7 @@ function renderGrid() {
           (e.isRest ? ' sp-gl-rest' : '') +
           (comma ? ' sp-gl-hold' : '') +
           (loop && idx >= loop.a && idx <= loop.b ? ' in-loop' : '') +
+          (!comma && (state.selection.start === idx || state.selection.end === idx) ? ' sp-gl-sel' : '') +
           lineClass(at) + (at >= cycleCols ? ' sp-gl-past' : ''));
         cell.type = 'button';
         cell.style.gridColumn = `${at + 2} / span ${Math.max(1, Math.round((b - a) * RES))}`;

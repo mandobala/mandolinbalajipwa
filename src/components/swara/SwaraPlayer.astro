@@ -90,6 +90,7 @@ const entries = songs.map((song, i) => {
 
   <div class="sp-hint sp-loopbar">
     <button type="button" class="sp-btn sp-small" id="spLoopPick" aria-pressed="false">Set A-B</button>
+    <span class="ab-led" id="spAbLed" role="status" hidden><i id="spLedA" aria-hidden="true">A</i><i id="spLedB" aria-hidden="true">B</i><span id="spLedText">Set A</span></span>
     <button type="button" class="sp-btn sp-small" id="spClearSel" hidden>Clear loop</button>
     <span id="spLoopMsg" aria-live="polite">Tap a swara to play from there, or a line number to loop that line.</span>
   </div>
