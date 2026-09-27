@@ -1,0 +1,37 @@
+﻿[TITLE: LotusFeet-Darbari]
+[COMPOSER: john mclaughlin]
+[RAGA: Darbari Kanada]
+[TALA: Custom]
+[BEATS: 4]
+[NADAI: 6]
+[BPM: 66]
+[SA: D4]
+[SCALE: S R2 G2 M1 P D1 N2]
+[AROHANA: S R2 M1 P D1 N2 Ṡ]
+[AVAROHANA: Ṡ D1 N2 P G2 M1 R2 S]
+[TAGS: lotusfeet, thisra nadai, darbari, darbarikanada, thsiram]
+
+[SWARA]
+,,gmpm d,d,p, g,s,ḍ, ḍ,ḍ,p̣, ||
+g̣,g̣,ṛ, ṣ,,,,, p,,gm, ṡ,,dn, ||
+r,m,n, p,,,,, ,,,,,, ,,,,,,||
+,,ġ,,ṙ p,,,,, ,,,,,, ,,,,,,||
+,,ṙṡṙṡ m,,,,, ,,,,,, ,,,,,,||
+
+,,gmpm d,d,p, g,s,ḍ, ḍ,ḍ,p̣, ||
+g̣,g̣,ṛ, ṣ,,,,, p,,gm, ṡ,,dn, ||
+r,m,n, p,,,,, ,,,,,, ,,,,,,||
+
+,,pnpm p,,,,, ,,pdnṡ p,,,,,||
+,,ṡnpm g,,,,, ,,,,,, ,,,,,,||
+,,,,ṇṛ m,,,p, g,,,,, ,,,,,,||
+
+,,g,,s ḍ,,g,, ,,,,,, ,,,,,,||
+,,gmd, n,ṡ,,, ṙ,,,ṡ, d,,,,,||
+
+,,nṡṙġ d,,,,, ,,srgm ṇ,,,,, ||
+,,rgmp s,,,, ,,,,,, ,,,,,,||| 
+
+
+
+
