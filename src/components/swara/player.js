@@ -1017,7 +1017,7 @@ function renderSongBar(meta) {
 /* ------------------------------------------------------- searchable picker */
 const fold = (v) => (v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
-const combo = { open: false, active: -1, matches: [] };
+const combo = { open: false, active: -1, matches: [], group: 'all' };
 
 function comboOptions() {
   return Array.from(document.querySelectorAll('.sp-songopt'));
@@ -1043,10 +1043,20 @@ function filterSongs(raw) {
   const query = fold(raw.trim());
   const options = comboOptions();
   combo.matches = [];
+  const counts = { all: 0 };
   options.forEach((el) => {
-    const hit = !query || el.dataset.search.indexOf(query) !== -1;
+    const found = !query || el.dataset.search.indexOf(query) !== -1;
+    if (found) { counts.all++; counts[el.dataset.group] = (counts[el.dataset.group] || 0) + 1; }
+    const hit = found && (combo.group === 'all' || el.dataset.group === combo.group);
     el.hidden = !hit;
     if (hit) { combo.matches.push(el); markMatch(el, query); }
+  });
+  // Chip counts follow the search; a group heading shows only above visible songs.
+  document.querySelectorAll('.sp-chips [data-count]').forEach((c) => {
+    c.textContent = String(counts[c.dataset.count] || 0);
+  });
+  document.querySelectorAll('.sp-grouphead').forEach((h) => {
+    h.hidden = !combo.matches.some((el) => el.dataset.group === h.dataset.grouphead);
   });
   const list = $('spSongList');
   let empty = list.querySelector('.sp-noresult');
@@ -1091,13 +1101,13 @@ function setActive(i) {
 function openCombo(showAll) {
   const input = $('spSearch');
   if (showAll) filterSongs('');
-  $('spSongList').hidden = false;
+  $('spSongPanel').hidden = false;
   input.setAttribute('aria-expanded', 'true');
   combo.open = true;
 }
 
 function closeCombo() {
-  $('spSongList').hidden = true;
+  $('spSongPanel').hidden = true;
   $('spSearch').setAttribute('aria-expanded', 'false');
   $('spSearch').removeAttribute('aria-activedescendant');
   combo.open = false;
@@ -1134,7 +1144,17 @@ function wireSearch() {
     setTimeout(() => { if (combo.open) { closeCombo(); input.value = state.title; } }, 150);
   });
 
-  list.addEventListener('mousedown', (e) => e.preventDefault());   // keep focus for blur order
+  $('spSongPanel').addEventListener('mousedown', (e) => e.preventDefault());   // keep focus for blur order
+  document.querySelectorAll('.sp-chip').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      combo.group = chip.dataset.group;
+      document.querySelectorAll('.sp-chip').forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+      // A chip from the closed state browses the whole group, not the current title.
+      const typed = input.value === state.title ? '' : input.value;
+      filterSongs(typed);
+      $('spSongList').scrollTop = 0;
+    });
+  });
   list.addEventListener('click', (e) => {
     const el = e.target.closest('.sp-songopt');
     if (!el) return;

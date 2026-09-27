@@ -18,16 +18,38 @@ const { songs } = Astro.props;
 const fold = (v: string) =>
   (v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
+/* Songs are grouped by form, read from [TAGS:]. Anything untagged goes to Other. */
+const GROUPS = [
+  { id: 'krithi', label: 'Krithi', match: /^(krithi|kriti|krithis|kritis)$/ },
+  { id: 'varnam', label: 'Varnam', match: /^varnams?$/ },
+  { id: 'thillana', label: 'Thillana', match: /^(thillana|tillana)s?$/ },
+  { id: 'exercise', label: 'Exercise', match: /^(exercises?|sarali|janta|alankaram)$/ },
+  { id: 'other', label: 'Other', match: null }
+];
+const groupOf = (tags: string) => {
+  const list = fold(tags).split(',').map((t) => t.trim());
+  const g = GROUPS.find((g) => g.match && list.some((t) => g.match!.test(t)));
+  return g ? g.id : 'other';
+};
+
 const entries = songs.map((song, i) => {
   const parts = [song.title, song.meta.RAGA, song.meta.COMPOSER, song.meta.TALA, song.meta.TAGS]
     .filter(Boolean) as string[];
   return {
     ...song,
     i,
+    group: groupOf(song.meta.TAGS || ''),
     detail: [song.meta.RAGA, song.meta.COMPOSER, song.meta.TALA].filter(Boolean).join(' · '),
     haystack: fold(parts.join(' ')) + ' ' + fold(song.slug)
   };
 });
+
+const grouped = GROUPS
+  .map((g) => ({
+    ...g,
+    songs: entries.filter((e) => e.group === g.id).sort((a, b) => a.title.localeCompare(b.title))
+  }))
+  .filter((g) => g.songs.length);
 ---
 
 <div class="sp" id="spPlayer">
@@ -60,21 +82,41 @@ const entries = songs.map((song, i) => {
             placeholder="Search song, raga or composer"
           />
           <button type="button" id="spSearchToggle" class="sp-combo-toggle" aria-label="Show all songs" tabindex="-1">▾</button>
-          <ul id="spSongList" class="sp-songlist" role="listbox" aria-label="Songs" hidden>
-            {entries.map((song) => (
-              <li
-                role="option"
-                id={`spSongOpt-${song.i}`}
-                class="sp-songopt"
-                data-index={song.i}
-                data-search={song.haystack}
-                aria-selected="false"
-              >
-                <b>{song.title}</b>
-                {song.detail && <span>{song.detail}</span>}
-              </li>
-            ))}
-          </ul>
+          <div id="spSongPanel" class="sp-songpanel" hidden>
+            {grouped.length > 1 && (
+              <div class="sp-chips" role="group" aria-label="Filter by form">
+                <button type="button" class="sp-chip" data-group="all" aria-pressed="true">
+                  All <small data-count="all">{entries.length}</small>
+                </button>
+                {grouped.map((g) => (
+                  <button type="button" class="sp-chip" data-group={g.id} aria-pressed="false">
+                    {g.label} <small data-count={g.id}>{g.songs.length}</small>
+                  </button>
+                ))}
+              </div>
+            )}
+            <ul id="spSongList" class="sp-songlist" role="listbox" aria-label="Songs">
+              {grouped.map((g) => (
+                <>
+                  <li role="presentation" class="sp-grouphead" data-grouphead={g.id}>{g.label}</li>
+                  {g.songs.map((song) => (
+                    <li
+                      role="option"
+                      id={`spSongOpt-${song.i}`}
+                      class="sp-songopt"
+                      data-index={song.i}
+                      data-group={song.group}
+                      data-search={song.haystack}
+                      aria-selected="false"
+                    >
+                      <b>{song.title}</b>
+                      {song.detail && <span>{song.detail}</span>}
+                    </li>
+                  ))}
+                </>
+              ))}
+            </ul>
+          </div>
         </div>
         <p class="sp-count" id="spCount" role="status"></p>
       </div>

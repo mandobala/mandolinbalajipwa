@@ -49,12 +49,41 @@
   border-radius: 8px;
 }
 .sp-combo-toggle:hover { background: var(--sp-surface-2); }
-.sp-songlist {
+.sp-songpanel {
   position: absolute; z-index: 50; top: calc(100% + 4px); left: 0; right: 0;
-  margin: 0; padding: 4px; list-style: none; max-height: min(52vh, 360px); overflow-y: auto;
-  background: var(--sp-surface); border: 1px solid var(--sp-line); border-radius: 10px;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+  display: flex; flex-direction: column; max-height: min(62vh, 440px);
+  background: var(--sp-surface); border: 1px solid var(--sp-line); border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14); overflow: hidden;
 }
+.sp-songpanel[hidden] { display: none; }
+.sp-chips {
+  display: flex; gap: 6px; padding: 8px; overflow-x: auto; flex: none;
+  border-bottom: 1px solid var(--sp-line); scrollbar-width: none;
+}
+.sp-chips::-webkit-scrollbar { display: none; }
+.sp-chip {
+  flex: none; display: inline-flex; align-items: center; gap: 6px;
+  min-height: 34px; padding: 4px 12px; border-radius: 999px; cursor: pointer;
+  font: inherit; font-size: 0.85rem; font-weight: 600;
+  color: var(--sp-ink-soft); background: var(--sp-surface-2); border: 1px solid transparent;
+}
+.sp-chip small {
+  font-size: 0.72rem; font-weight: 700; min-width: 1.5em; padding: 0 5px; border-radius: 999px;
+  text-align: center; background: var(--sp-surface); color: var(--sp-ink-soft);
+}
+.sp-chip:hover { border-color: var(--sp-line); color: var(--sp-ink); }
+.sp-chip[aria-pressed="true"] { background: var(--sp-accent); color: #fff; }
+.sp-chip[aria-pressed="true"] small { background: rgba(255, 255, 255, 0.25); color: #fff; }
+.sp-songlist {
+  margin: 0; padding: 0 4px 4px; list-style: none; overflow-y: auto; flex: 1 1 auto;
+}
+.sp-grouphead {
+  position: sticky; top: 0; z-index: 1; margin: 0 -4px; padding: 10px 14px 6px;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--sp-accent); background: var(--sp-surface);
+  border-bottom: 1px solid var(--sp-line);
+}
+.sp-grouphead[hidden] { display: none; }
 .sp-songopt {
   padding: 9px 10px; border-radius: 8px; cursor: pointer; min-height: 44px;
   display: flex; flex-direction: column; justify-content: center; gap: 2px;
