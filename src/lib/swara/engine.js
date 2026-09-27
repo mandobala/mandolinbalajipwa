@@ -648,6 +648,7 @@ const CarnaticEngine = (function () {
   /* Attach each sahitya token to the swara event it sits beneath. */
   function linkSahitya(tokens, events, links) {
     if (!events.length) return;
+    var taken = {};
     tokens.forEach(function (token) {
       if (links && links[token.id]) {
         var forced = null;
@@ -657,12 +658,20 @@ const CarnaticEngine = (function () {
           return;
         }
       }
-      var best = events[0];
-      for (var j = 0; j < events.length; j++) {
-        if (events[j].sourceStartColumn <= token.startColumn) best = events[j];
-        else break;
+      /* The swara whose column is nearest the syllable's — a syllable is
+         often written a little left or right of its swara. Two syllables
+         never share one swara: a later one moves on to the next free swara,
+         so none is hidden. */
+      var best = 0;
+      for (var j = 1; j < events.length; j++) {
+        var d = Math.abs(events[j].sourceStartColumn - token.startColumn);
+        if (d < Math.abs(events[best].sourceStartColumn - token.startColumn)) best = j;
       }
-      token.anchorEventId = best.id;
+      if (token.text !== '-') {
+        while (taken[best] && best + 1 < events.length) best++;
+        taken[best] = true;
+      }
+      token.anchorEventId = events[best].id;
     });
   }
 
@@ -769,7 +778,10 @@ const CarnaticEngine = (function () {
     rows.forEach(function (row) {
       if (row.type !== 'passage') return;
       var byAnchor = {};
-      row.sahityaTokens.forEach(function (t) { if (t.anchorEventId) byAnchor[t.anchorEventId] = t; });
+      row.sahityaTokens.forEach(function (t) {
+        // a '-' continues the syllable before it; it never replaces one
+        if (t.anchorEventId && (!byAnchor[t.anchorEventId] || t.text !== '-')) byAnchor[t.anchorEventId] = t;
+      });
       var current = null;
       row.events.forEach(function (e) {
         if (byAnchor[e.id]) current = byAnchor[e.id];
