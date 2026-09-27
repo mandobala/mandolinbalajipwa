@@ -811,11 +811,12 @@ function talaFromMeta(meta) {
 }
 
 /* A raga the engine does not ship is registered from the song's own scale, so
-   the notation still resolves without any code change. */
+   the notation still resolves without any code change. The song's own scale
+   wins over one registered by an earlier song. */
 function ensureRaga(meta) {
   const name = meta.RAGA;
   if (!name) return 'Chromatic (all swaras)';
-  if (E.RAGAS[name]) return name;
+  if (E.RAGAS[name] && !E.RAGAS[name].custom) return name;
   const derived = E.swarasFromScale(meta.SCALE || meta.AROHANA);
   if (derived) {
     E.registerRaga(name, {
@@ -826,7 +827,7 @@ function ensureRaga(meta) {
     });
     return name;
   }
-  return 'Chromatic (all swaras)';
+  return E.RAGAS[name] ? name : 'Chromatic (all swaras)';
 }
 
 function applyMeta(meta) {
