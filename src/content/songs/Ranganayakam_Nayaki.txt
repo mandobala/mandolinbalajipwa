@@ -9,7 +9,7 @@
 [SCALE: S R2 G3 M1 P D2 N2]
 [AROHANA: S R2 G3 M1 P D2 N2 Ṡ]
 [AVAROHANA: Ṡ N2 D2 P M1 G3 R2 S]
-[TAGS: Dikshithar, Nayaki]
+[TAGS: Dikshithar, Nayaki, krithi]
 
 [SECTION : Pallavi]
 ,,R, PM [MP,R] GR  G,SR,,       |S,-  ṆSṆ, RS       |R,,, RSṆS  ||RS
