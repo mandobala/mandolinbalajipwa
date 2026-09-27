@@ -9,7 +9,7 @@
 [SCALE: S R2 G3 M1 P D2 N3]
 [AROHANA: S R2 G3 M1 P D2 N3 Ṡ]
 [AVAROHANA: Ṡ N2 D2 P M1 G2 R2 S]
-[TAGS: MisraYaman, Adhi, GNB]
+[TAGS: MisraYaman, Adhi, GNB, krithi]
 
 [SECTION:PALLAVI]
  D N2, DP, M, GPM R,, G,    | M,,,,, M, D,,P MP MP ||
