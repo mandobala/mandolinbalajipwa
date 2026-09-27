@@ -91,7 +91,6 @@ G    ,    ,    ,                    R    ,    S    ,              R    ,    ,   
 [SWARA]
 R    ,    D    ,                   S    ,    ,    ,           |     R    ,    ,    ,                G    ,    R    , ||
 
-                                                                                                                         (San)
 [SWARA]
 G    ,    G    ,                   G    P    G    R        R    G    P    G          P    ,    ,    ,              |
 [SAHITYA]
