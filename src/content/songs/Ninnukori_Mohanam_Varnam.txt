@@ -30,7 +30,7 @@ G    ,    G    ,             P    ,    ,    ,            G    G    P    P       
 Nan -   nu   -             pa   -   -   -             li    -    -    -              -    im   pa     - Sa   -    -   -               -    -   ma    -          -    ya    -    -             mu   -   ra    -
 
  [SWARA]
-G    G    P    P           D    P-   D   Ṡ        D    Ṡ    Ṙ    S           Ġ    Ṙ     ,    Ṡ               | D    Ṡ    Ṙ    Ṡ           ,   D   P    D      |    Ṡ    D    ,    P               G    R    S    R             ||
+G    G    P    P           D    P-   D   Ṡ        D    Ṡ    Ṙ    Ṡ           Ġ    Ṙ     ,    Ṡ               | D    Ṡ    Ṙ    Ṡ           ,   D   P    D      |    Ṡ    D    ,    P               G    R    S    R             ||
 [SAHITYA]
 Na  -    -     -               -    -   mee   -         -   tha     -    -              kru  -     -   pa -     -     ju     -             -   -   -    -              da   -    -    -                 ra   -    -    -
 
@@ -54,7 +54,7 @@ G    ,    G    ,                   G    P    G    R        R    G    P    G     
 
  
 [SWARA]
-G    ,    ,    ,                    R    ,    S    ,              R    ,    ,    ,                D    ,    ,    ,              | R    ,    Ḍ    ,                   S    ,    ,    ,           |     R    ,    ,    ,                G    ,    R    , ||
+G    ,    ,    ,                    R    ,    S    ,              R    ,    ,    ,                Ḍ    ,    ,    ,              | R    ,    Ḍ    ,                   S    ,    ,    ,           |     R    ,    ,    ,                G    ,    R    , ||
 
 [SAHITYA]
    San -   nu   -                   tha   -    -    -           nga    -    -   -           Sree -   -     - ni   -   -    -                      -    -      va    -         -    -      sa   -            -    -     -    -
