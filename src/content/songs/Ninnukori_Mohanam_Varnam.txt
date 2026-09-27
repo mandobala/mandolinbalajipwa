@@ -81,9 +81,7 @@ ni   -   -    -                      -    -      va    -         -    -      sa 
 
 [SECTION:Chittai Swaras]
 
- 
 
-(1)
 
  
 [SWARA]
@@ -94,8 +92,18 @@ G    ,    ,    ,                    R    ,    S    ,              R    ,    ,   
 R    ,    D    ,                   S    ,    ,    ,           |     R    ,    ,    ,                G    ,    R    , ||
 
                                                                                                                          (San)
+[SWARA]
+G    ,    G    ,                   G    P    G    R        R    G    P    G          P    ,    ,    ,              |
+[SAHITYA]
+San -   nu   -                   tha   -    -    -           nga    -    -   -           Sree -   -     -
 
-(2)
+ 
+[SWARA]
+G    G    D   D                P     ,-    G    G   |     D    P-   G   P          G    R    S    R   ||
+[SAHITYA]
+ni   -   -    -                      -    -      va    -         -    -      sa   -            -    -     -    -
+
+
 
  [SWARA]
 
@@ -106,10 +114,29 @@ G    ,    G-    R                G    R    S    R          G    ,    G-    P    
 G    ,    G-    G                D    P    G    R     |     G    ,    G-    S          D    P    G    R  ||
 
  
+[SWARA]
+G    ,    G    ,                   G    P    G    R        R    G    P    G          P    ,    ,    ,              |
+[SAHITYA]
+San -   nu   -                   tha   -    -    -           nga    -    -   -           Sree -   -     -
+
+ 
+[SWARA]
+G    G    D   D                P     ,-    G    G   |     D    P-   G   P          G    R    S    R   ||
+[SAHITYA]
+ni   -   -    -                      -    -      va    -         -    -      sa   -            -    -     -    -
 
                                                                                                                                                        (San)
+[SWARA]
+G    ,    G    ,                   G    P    G    R        R    G    P    G          P    ,    ,    ,              |
+[SAHITYA]
+San -   nu   -                   tha   -    -    -           nga    -    -   -           Sree -   -     -
 
-(3)
+ 
+[SWARA]
+G    G    D   D                P     ,-    G    G   |     D    P-   G   P          G    R    S    R   ||
+[SAHITYA]
+ni   -   -    -                      -    -      va    -         -    -      sa   -            -    -     -    -
+
 
  
 [SWARA]
@@ -120,7 +147,17 @@ P    ,    D    D                    P    ,    G    R               S    ,    R  
 S    ,    R    G                    P    ,    D    ,        |         S    S  ,  -    D         P    ,    G    R  ||
 
                                                                           
-4
+[SWARA]
+G    ,    G    ,                   G    P    G    R        R    G    P    G          P    ,    ,    ,              |
+[SAHITYA]
+San -   nu   -                   tha   -    -    -           nga    -    -   -           Sree -   -     -
+
+ 
+[SWARA]
+G    G    D   D                P     ,-    G    G   |     D    P-   G   P          G    R    S    R   ||
+[SAHITYA]
+ni   -   -    -                      -    -      va    -         -    -      sa   -            -    -     -    -
+
 [SWARA]
 
 S    ,    R    G              R    S    R    S           D    S    D    P         G    R    S    R             |
