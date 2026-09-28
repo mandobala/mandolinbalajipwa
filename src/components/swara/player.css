@@ -175,6 +175,7 @@
 .sp-cell.swara.rest { color: var(--sp-ink-soft); opacity: 0.6; font-weight: 400; }
 
 /* ---- layout switch ---- */
+.sp-layout[hidden] { display: none; }
 .sp-layout { display: flex; align-items: center; gap: 10px; margin: 4px 0 6px; font-size: 0.85rem; color: var(--sp-ink-soft); }
 .sp-seg { display: inline-flex; border: 1px solid var(--sp-line); border-radius: 8px; overflow: hidden; }
 .sp-seg button {

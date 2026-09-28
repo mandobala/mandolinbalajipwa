@@ -1293,7 +1293,7 @@ function init() {
   if (!state.songs.length) return;
   loadPrefs();
   wire();
-  setLayout(state.layout);
+  setLayout('cycle');   // By cycle is the only view offered
   syncLoopUi();
 
   const wanted = new URLSearchParams(window.location.search).get('song');
