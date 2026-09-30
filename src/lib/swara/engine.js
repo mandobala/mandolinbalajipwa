@@ -295,7 +295,7 @@ const CarnaticEngine = (function () {
      It never starts playback on its own — the UI shows the assignment for
      review. */
   function looksLikeSwaraRow(text) {
-    var stripped = text.replace(/[\s,|\[\]'._\-\/\\~*\u0300-\u036F0-9]/g, '');
+    var stripped = text.replace(/[\s,|\[\]()'._\-\/\\~*\u0300-\u036F0-9]/g, '');
     if (stripped.length === 0) return text.replace(/\s/g, '').length > 0;
     var swaraChars = 0;
     for (var i = 0; i < stripped.length; i++) {
@@ -425,6 +425,16 @@ const CarnaticEngine = (function () {
         continue;
       }
 
+      /* ( ) mark a phrase. Shown as written, silent, taking no time; the
+         swaras inside carry the phrase number so a display can colour them. */
+      if (ch === '(' || ch === ')') {
+        if (ch === '(') state.phrase = ++state.phraseCounter;
+        else state.phrase = null;
+        marks.push({ type: 'mark', glyph: ch, line: lineIndex, column: i, atSpace: state.space });
+        i++;
+        continue;
+      }
+
       /* Reading aids — phrasing dashes and gamakam marks. Displayed, silent,
          and they take no time, exactly like a bar line. */
       if ('-/\\~*'.indexOf(ch) !== -1) {
@@ -458,6 +468,7 @@ const CarnaticEngine = (function () {
             speed: speedGroupOpenAt !== -1 ? 2 : 1,
             insideSpeedGroup: speedGroupOpenAt !== -1,
             speedGroupId: speedGroupOpenAt !== -1 ? speedGroupId : null,
+            phrase: state.phrase || null,
             section: state.section, sahitya: null, startSpace: state.space,
             sourceLine: lineIndex, sourceStartColumn: i, sourceEndColumn: i + 1
           };
@@ -603,6 +614,7 @@ const CarnaticEngine = (function () {
         speed: inGroup ? 2 : 1,
         insideSpeedGroup: inGroup,
         speedGroupId: inGroup ? speedGroupId : null,
+        phrase: state.phrase || null,
         section: state.section,
         sahitya: null,
         startSpace: state.space,
@@ -700,7 +712,9 @@ const CarnaticEngine = (function () {
       eventCounter: 0,
       groupCounter: 0,
       lastEvent: null,
-      section: ''
+      section: '',
+      phrase: null,              // the open ( ) phrase, if any
+      phraseCounter: 0
     };
 
     var pendingSwaraRow = null;

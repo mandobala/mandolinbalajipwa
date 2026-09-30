@@ -1,0 +1,88 @@
+﻿[TITLE: Nagumomu-Abheri]
+[RAGA: Abheri]
+[TALA: Custom]
+[BEATS: 16]
+[NADAI: 4]
+[BPM: 60]
+[SA: C4]
+[SCALE: S R2 G2 M1 P D2 N2]
+[AROHANA: S  G2 M1 P  N2 Ṡ]
+[AVAROHANA: Ṡ N2 D2 P M1 G2 R2 S]
+
+[SECTION:PALLAVI]
+
+M, P, P,N, N,,, N,,,       D, P, M,,,,,,, M,,,       |M,G,G,,, GRR, S,,,       |Ṇ, S,G,,R SGM, GMP, ||
+na gu mō       mu          ga na lē      ni           nā  jā       li          de li si
+
+M, P, NṠNN MPN,N,,,        D, P, M,,, SGMP M,,,      |MMGG/ PMMG GRR, S,,,     |Ṇ, S, G,,R- SGM, GMP, ||
+na gu mō       mu          ga na lē        ni         nā     jā        li      de li si
+
+PMP, NDP, PNṠ,Ṡ,,,        ṠṠNN ṠNND DPPM M,,,      |MMGG PMMG GRR,S,,,       |Ṇ, S, GRS, SG[M,PM]GMP, ||
+na gumō      mu            ga na lē         ni        nā   jā      li          de li si
+
+M, P, NṠNN PNṠ,NṠĠ,          [Ṡ,Ṁ,ĠṀĠ, ṘĠṘ, ṠṘṠ, NṠN,DND,PDP,MPM,]    | [PṘṠ, NṠN, DND, PDP, MPM, GMG, RGR, SRS,]   |Ṇ, S, G,,R- SGM, GMP, ||
+na gumō       mu            ga na lē          ni       nā       jā       li     de li si
+
+
+P, P, NṠNN Ṡ,,, N,D,P,M,G,R, NṠGM [M,PM]GR|S,,, ,,,, ,,,,    P,,,|MNPM G,R, Ṇ,S, G,M, ||
+nannubro                      va    rā     dā                śrī     ra ghu vara ni
+P, P, NṠNN Ṡ,,, N,D,P,M,G,R, NṠGM [M,PM]GR   |S,,, ,, ĠṘṠNDP   ṘṠND   |PM ṠNDP PMGRS ṆSG SGM||
+nannubro                    va          rā   | dā        śrī    ra     ghu  va ra  ni
+
+P, P, NDP, PN[SṘ,Ṡ]ND P/D  PMG,R, ṆSGMPMGR | S,- ṖṀĠṘṠN- ĠṘṠNDP- ṘṠ|NDPM-DPMGRS- ṆSG SGM||
+nannubro                    va     rā      |  dā       śrī     ra  ghu   va ra   ni
+
+[SECTION:ANUPALLAVI]
+ P, PN N,Ṡ,Ṡ,,, Ṡ,,,       N, ṠĠ Ġ,,, Ṁ,,, Ṁ,,,    |ṀĠĠ, ĠṘṠ, Ṡ,Ġ,Ġ,,,     |Ġ,Ṁ,Ġ,Ṙ, Ṡ,,, ṠṘṠN ||
+ na ga rā       ja           dha ra ni     du         pa ri vā      ru          lel      la
+
+ P, N,Ṡ,,, PNṠNṠ,,,        Ṡ, Ġ, Ṁ,,, ṠĠṀĠ Ṁ,,,    |ṀĠĠ, ĠṘṠ Ṡ,Ġ,Ġ,,,     |ṀĠṖṀĠ,Ṙ, Ṡ,,, ṠṘṠN ||
+ na garā     ja              dhara ni       du            pa ri vā               ru   lel        la
+
+ PDPN ṠṘṠN PNṠNṠ,,,       ṠṘ ṠĠ ṀṖṀĠ ṠĠṀĠ Ṁ,,,  |ṀĠĠ, ĠṘṠ, Ṡ,Ġ,Ġ, Ṁ,    |Ṗ,Ṁ,Ġ,Ṙ, Ṡ,,, ṠṘṠN ||
+ na ga rā       ja               dha ra ni     du     du   pa ri vā              ru   lel        la
+
+ PDPN ṠṘṠN PNṠṘṠNṠ,      ṠṘṠĠ ṀṖṀĠ ṠĠṀṖṀĠ Ṁ, |ṀĠĠ, ĠṘN, N,Ṡ,Ġ, Ṁ,    |Ṗ,,Ṁ,ĠṀĠṘ, Ṡ,,, ,,,, ||
+ na ga rā       ja               dhara ni             du   pa ri vā              ru    le         lla
+
+ P,Ṙ, Ṙ,,, Ṙ, Ṡ, Ṡ,,,       ṠṠN,N,,, NDDPM, M,       |P,N,Ṡ,Ṙ, Ṡ,,, N, D,     |P,M,G, R, Ṇ,S,G,M,|| 
+ o gi bō   dhana jē          sē  vā       ra lu         gā   rē        ya tu      luṇ ḍa du rā ni
+
+
+[SECTION:CHARANAM]
+ P, P, P,,,,,,, P,,,        M,MGM,,,,,,, M/PPM        |G,G, GRS, Ṇ,S,G,M,      |P,M, GMGR S,,, ṆSGM ||
+ khagarā        ju           ni  yā      na ti         vi ni vē       ga          cana lē     ḍō
+
+ P, P, P,,, [P,DP]P, P,,,   M,MGM,,, [M,PM] M,M/P PM |G,G, GRS, Ṇ,S,G,M,      |PDPM G,R, S,,, ṆSGM ||
+ khaga rā             ju    ni  yā          na ti     vi ni vē       ga          ca na lē    ḍō
+
+ P, P, P,, [P,DP]P, [P,DP]P, M,G,M,,, [M,PM] M, M/DPM |G,G, G,,, G,M, GMP,,,|,,- GM, GR, S,,, ṆSGM ||
+ khaga rā               ju   ni   yā         na ti     vi ni vē        ga        cana lē   ḍō
+
+P, P, P,,, P,N, N,,,       NNDPM,,, /M,,, DPPM      |G,G, G,,, G,M, GMPN     |Ṡ,- N P, G,R S,,, ṆSGM ||
+khaga rā       ju          ni     yā     na ti       vi ni vē        ga          ca na lē       ḍō
+
+P, P, P,N, N,Ṡ,Ṡ,,,       NṠṀĠ ĠṘṘṠ ṠNND DPPM    |GMPNṠ,,, \MG,, G,M,     |PNPM GMGRS,,R ṆSGM ||
+khaga rā      ju           ni    yā          na ti   vi ni vē       ga          ca na lē      ḍō
+
+P, P, P,N, N,Ṡ,Ṡ,Ġ,      ṠĠṀ, ĠṘṘṠ ṠNND DP PM   |GMPNṠ,[ṘṠ] [NṠṘṠ] Ṡ,\P, G,M,|PNPM GMGR S,,, ,,,, ||
+khaga rā      ju           ni    yā          na ti   vi ni vē                    ga ca na lē   ḍō
+Ṇ, Ṇ, S,,, ,,,, ,,Ṇ, S, G,G, G,,, ,,,, G,GS   | S,G, G,M, ,,,, M, M,       |G,M, GMP, P,,, ,,,, ||
+ga ga nā          ni  ki  la gu         ba hu   dū   ram       ba ni        nā       ḍō
+
+GMG GPM DPMGRSṆ, Ṇ, S,G,G, G,,,,, G, S,     |S,,G G,M, ,,,, M, MG       |G,M, GMPN N,Ṡ, ,,,, ||
+ga  ga  nā        ni ki la gu       ba  hu    dū   ram       ba ni        nā         ḍō
+
+NṠ, NPN PMP,,M GMPN       PṠNDPMG, GGRS, ṆṆ,     | S,G, G,M, ,,,, /PMMG       |G,M, GMPN Ṁ,P, ,,,, ||
+ga  ga  nā                 ni ki    la gu  bahu    dū   ram        ba ni       nā         ḍō
+
+
+[SECTION:COMMENT]
+   jagamēlē       paramātma       evaritō             moraliḍudu
+[SECTION:COMMENT]
+     vagajū pagutā  lanu nan  nēlu  kōra        tyā-    garāja nuta! ni
+[SECTION:COMMENT]
+                                                     (nagumōmu)
+
+
+

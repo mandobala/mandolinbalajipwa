@@ -284,3 +284,11 @@ button.sp-gl-no { background: none; border: 0; border-right: 1px solid var(--sp-
 .ab-led i.lit-a { background: #e0a100; opacity: 1; box-shadow: 0 0 6px 1px rgba(224, 161, 0, 0.7); }
 .ab-led i.lit-on { background: #1faa55; opacity: 1; box-shadow: 0 0 8px 2px rgba(31, 170, 85, 0.75); }
 .ab-led.on { border-color: #1faa55; }
+
+/* ( ) phrases: neighbouring phrases alternate colours, with a bar beneath */
+.sp-cell.swara.ph-a, .sp-gl-cell.ph-a { color: #1d63c9; background-image: linear-gradient(rgba(29, 99, 201, 0.6), rgba(29, 99, 201, 0.6)); background-size: 100% 3px; background-position: bottom; background-repeat: no-repeat; }
+.sp-cell.swara.ph-b, .sp-gl-cell.ph-b { color: #c2410c; background-image: linear-gradient(rgba(194, 65, 12, 0.6), rgba(194, 65, 12, 0.6)); background-size: 100% 3px; background-position: bottom; background-repeat: no-repeat; }
+@media (prefers-color-scheme: dark) {
+  .sp-cell.swara.ph-a, .sp-gl-cell.ph-a { color: #7fb0ff; }
+  .sp-cell.swara.ph-b, .sp-gl-cell.ph-b { color: #ffa36b; }
+}

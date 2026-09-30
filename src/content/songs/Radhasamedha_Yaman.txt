@@ -24,31 +24,35 @@ N ṘṠN D, M, GPM R,, G, | MPMM G2M G2G2 MPMM G2MD, ||
 a        sā mē  tha krishna
 
 [SECTION:CHARANAM]
- ,,, Ṡ, Ṡ Ṡ, NṘṠN DD1D, || ,,DP, DṘṠ DP M, GM [ṠDṠN] || Ṡ,,
+,,, Ṡ, Ṡ Ṡ, NṘṠN DD1D, || ,,DD NN,, DPGM D,,, || 
      nanda ku ma   ra        nava nītha cho   ra
- Ṡ, Ṡ Ṡ, NṘṠN DD1D, || ,, DṠ, ṘĠ, ṠĠṘṠ Ṡ,,, ,,,D ||
- nanda ku ma   ra        nava nītha cho   ra
-,,Ṡ,, Ṡ Ṡ, NṘṠN DPDṠ || D, DṠ, Ṙ,Ġ ṠĠṘĠ ṠṘṠṠ Ṡ,,, ||
- nanda ku ma   ra        nava nītha cho   ra
-,, Ṙ,, Ṙ,, Ṡ, Ġ, R,,, | ,, D N2 D PM, G2,,, M, D, || ,,
-   brin da   va na go       va    damu ra   re
+Ṡ,, Ṡ, Ṡ Ṡ, NṘṠN DD1D, || ,, DṠ, ṘĠ,    ṠĠṘĠ Ṡ,,,  ||
+    nanda ku ma   ra        nava nītha  cho   ra
+,,, Ṡ,, Ṡ Ṡ, NṘṠN DPDṠ || D, DṠ, Ṙ,Ġ ṠĠṘĠ ṠṘṠṠ Ṡ,,, ||
+     nanda ku ma   ra        nava nītha cho   ra
+,,, N,, N,, ṠĠṘĠ N3,,, | ,, D N2 D PM, M,P, M, D, || 
+    brin da   va na go       va    damu ra   re
+,,, N,, N, Ṡ,Ṁ, ṘĠṘṠ  | N3, D N2 D PM, M,P, M, D, || 
+    brin da   va na go       va    damu ra   re
+,,, Ṙ,, Ṙ,, Ṡ, Ġ, R,,, | ,, D N2 D PM, G2,,, M, D, ||
+    brin da   va na go       va    damu ra   re
 
-,, Ṙ,, Ṙ,, Ṡ, ṀĠ ĠṘṘ, | ,, D N2 D PM, G2MPD N,DP ||
-   brin da   va na go       va    damu ra   re
+,,, Ṙ,, Ṙ,, Ṡ, ṀĠ ĠṘṘ, | ,, D N2 D PM, G2MPD N,DP ||
+    brin da   va na go       va    damu ra   re
 
- ,,, Ṡ, Ṡ Ṡ, NṘṠN DD1D, || ,, DP,, DṘṠ DP M, GM [ṠDṠN] || Ṡ,,
+,,, Ṡ, Ṡ Ṡ, NṘṠN DD1D, || ,, DP,, DṘṠ DP M, GM [ṠDṠN] || 
      go pi ma na   ha ra       go   kula va     sa
 
- Ṡ, Ṡ Ṡ, NṘṠN DD1D, || ,, DṠ, ṘĠ, ṠĠṘṠ Ṡ,,, ,,,D ||
- go pi ma na   ha ra       go   kula va     sa
-,, Ṡ,, Ṡ Ṡ, NṘṠN DPDṠ || D, DṠ, Ṙ,Ġ ṠĠṘĠ ṠṘṠṠ Ṡ,,, ||
-  go pi ma na   ha ra       go   kula va     sa
+Ṡ,, Ṡ, Ṡ Ṡ, NṘṠN DD1D, || ,, DṠ, ṘĠ, ṠĠṘṠ Ṡ,,, ,,,D ||
+    go pi ma na   ha ra       go   kula va     sa
+,,,  Ṡ,, Ṡ Ṡ, NṘṠN DPDṠ || D, DṠ, Ṙ,Ġ ṠĠṘĠ ṠṘṠṠ Ṡ,,, ||
+    go pi ma na   ha ra       go   kula va     sa
 
-,,, Ṙ,Ṙ Ṙ, Ṡ, Ġ, Ṙ,,, | ,, D N2 D PM, G2,,, M, D, || ,,
+,,, Ṙ,Ṙ Ṙ, Ṡ, Ġ, Ṙ,,, | ,, D N2 D PM, G2,,, M, D, || 
     sobhi tha mu ra li      ga    navi la   sa
 
-  Ṙ,Ṙ Ṙ, Ṡ, ṀĠ ĠṘṘ, | ,, D N2 D PM, G2MPD N,DP ||
-  sobhi tha mu ra li      ga    navi la   sa
+  ,,Ṙ,Ṙ Ṙ, Ṡ, ṀĠ ĠṘṘ, | ,, D N2 D PM, G2MPD N,DP ||
+    sobhi tha mu ra li      ga    navi la   sa
 
  ,,, M, [DP]N2, N2,,, ṠṘ ṠṘ || D, D N2 D PM, G2MPD N2,DP ||
      sun dara   man  ma dha    ko      tipra ka     sa

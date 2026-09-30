@@ -573,7 +573,8 @@ function renderScore() {
         const gi = globalIndex[e.id];
         const cell = document.createElement('button');
         cell.type = 'button';
-        cell.className = 'sp-cell swara' + (e.insideSpeedGroup ? ' speed' : '') + (e.isRest ? ' rest' : '');
+        cell.className = 'sp-cell swara' + (e.insideSpeedGroup ? ' speed' : '') + (e.isRest ? ' rest' : '') +
+          (e.phrase ? (e.phrase % 2 ? ' ph-a' : ' ph-b') : '');
         if (loop && gi >= loop.a && gi <= loop.b) cell.classList.add('in-loop');
         if (state.selection.start === gi) cell.classList.add('sel-start');
         cell.dataset.index = String(gi);
@@ -761,6 +762,7 @@ function renderGrid() {
         const cell = glEl('button', 'sp-gl-cell' +
           (len < 1 ? ' sp-gl-speed' : '') +
           (e.isRest ? ' sp-gl-rest' : '') +
+          (e.phrase ? (e.phrase % 2 ? ' ph-a' : ' ph-b') : '') +
           (comma ? ' sp-gl-hold' : '') +
           (loop && idx >= loop.a && idx <= loop.b ? ' in-loop' : '') +
           (!comma && (state.selection.start === idx || state.selection.end === idx) ? ' sp-gl-sel' : '') +
