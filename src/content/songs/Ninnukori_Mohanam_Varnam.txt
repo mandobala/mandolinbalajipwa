@@ -11,6 +11,7 @@
 [AVAROHANA: Ṡ D2 P G3 R2 S]
 [TAGS: Varnam, Mohanam, Adhi]
 
+
 [SECTION:Pallavi]
 [SWARA]
 G    ,    G    ,            R    ,    ,    ,            S    S    R    R          G    G    R    R | S    R    G    R          S    R     S    Ḍ   |    S    R    G    P          G     R    S    R ||

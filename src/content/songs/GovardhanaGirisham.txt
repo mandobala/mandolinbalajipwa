@@ -1,4 +1,5 @@
 ﻿[TITLE: GovardhanaGirisham]
+[COMPOSER: GNB]
 [RAGA: Hindolam]
 [TALA: Rupaka (3)]
 [BEATS: 3]
@@ -10,27 +11,43 @@
 [AVAROHANA: Ṡ N2 D1 M1 G2 S]
 [TAGS: Govardhana, Rupakam, Dikshithar, krithi]
 
+
 [SECTION: Pallavi]
+[SWARA]
 G,,,  M,    G, M,M,|    MGM,N,       NDD,,,|ND,DṠN       Ṡ,,,,,|,,ṠĠṠN DNDMGS||
+[SAHITYA]
 gō     vard  dhana gi    ri           śam    sma rā       mi        a ni śam
 
+[SWARA]
 GGSṆS,,,     MGM,|      GMDNṠN ĠṠNDD,|DN ṠNDM          DNṠNṠ,|,,,, ĠĠṠNṠ,,,||
+[SAHITYA]
 gō   vard    dhana      gi   ri    śam  sma rā           mi           a ni śam
 
+[SWARA]
 NṠG NṠN      D N,D M,   |GMDM        GM GS       MG M,    ||
+[SAHITYA]
 gō pikā di   manōha ram  gar vita    kam sā      di haram
 
 [SECTION: Charanam]
+[SWARA]
 G,,,   M,N,D,DN         |ṠNDM MDG,M,,,   |MGM,,,N,NDD,      |N, Ṡ, ṠDṠNṠ,,,||
+[SAHITYA]
 gō     vin da nā              ma sā ram  ga jēn dra ra      kshaṇa dhī ram
 
+[SWARA]
 MGM, DNṠND,ND           |ṠNĠṠ ṠNDMDGM,|MGM,,,D, DNṠN     |DN DM     DNṠNṠ,,,||
+[SAHITYA]
 gō   vin   da nā            ma sā ram   ga jēn dra ra      kshaṇa    dhī ram
 
+[SWARA]
 ĠĠṠ, ṠṠN, NND,          |DDM,DDG,M,,,   |MMGG NNDD ĠĠṠṠ|MMĠĠṠNDM DNṠĠ||
+[SAHITYA]
 ka vi ja na hṛ n         man  dā ram     ka na ka ji ta su  śa ri     ram
 
+[SWARA]
 ĠS ṄṠ N D N Ġ ṠNṠ,      |D N D,M D G, MN D,       |MG M G, S GSDN S,       |M, G S N D Ṡ ND MGS||
+[SAHITYA]
 ravi śaśi nayana vilā sam ra maṇiya mukhābha sam    śi vaga nā di vi śvā sam  śrī gu ruguha manōl lāsam
 [SECTION: Chittai Swaram]
+[SWARA]
 G,,G,MGM,SGS        |NS,DSNS,,MGM               |DM GMD MDNS MGM          |G,SND SNDMGSN||

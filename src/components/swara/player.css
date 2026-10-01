@@ -286,6 +286,7 @@
 }
 
 /* ---- looping by taps ---- */
+.sp-loopbar .sp-download { margin-left: auto; }
 .sp-loopbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .sp-loopbar .sp-btn.on { background: var(--sp-accent-2); color: #fff; border-color: var(--sp-accent-2); }
 .sp-picking #spLoopMsg { color: var(--sp-accent-2); font-weight: 600; }

@@ -1309,6 +1309,19 @@ function wire() {
   $('spGrid').addEventListener('click', onScoreTap);
 
   $('spClearSel').addEventListener('click', clearLoop);
+  /* The song's notation file, exactly as the site holds it. */
+  $('spDownload').addEventListener('click', () => {
+    const song = state.songs[state.index];
+    if (!song) return;
+    const blob = new Blob(['\uFEFF' + song.text.replace(/^\uFEFF/, '')], { type: 'text/plain;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = (song.slug || 'notation') + '.txt';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  });
   $('spLoopPick').addEventListener('click', () => {
     if (state.pick !== null) { state.pick = null; renderScore(); syncLoopUi(); return; }
     state.pick = 'start';
