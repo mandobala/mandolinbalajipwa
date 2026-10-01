@@ -136,9 +136,6 @@ const grouped = GROUPS
   </div>
 
   <div class="sp-hint sp-loopbar">
-    <button type="button" class="sp-btn sp-small" id="spLoopPick" aria-pressed="false">Set A-B</button>
-    <span class="ab-led" id="spAbLed" role="status" hidden><i id="spLedA" aria-hidden="true">A</i><i id="spLedB" aria-hidden="true">B</i><span id="spLedText">Set A</span></span>
-    <button type="button" class="sp-btn sp-small" id="spClearSel" hidden>Clear loop</button>
     <span id="spLoopMsg" aria-live="polite">Tap a swara to play from there, or a line number to loop that line.</span>
     <button type="button" class="sp-btn sp-small sp-download" id="spDownload">Download notation</button>
   </div>
@@ -229,6 +226,12 @@ const grouped = GROUPS
       <button type="button" class="sp-btn" id="spRestart" aria-label="Restart from the beginning">↺</button>
       <button type="button" class="sp-btn on" id="spMetro" aria-pressed="true" aria-label="Metronome on or off">Click</button>
       <button type="button" class="sp-btn" id="spSubMini" aria-pressed="false" aria-label="Click every note-space">Subs</button>
+      <button type="button" class="sp-btn" id="spLoopPick" aria-pressed="false">Set A-B</button>
+      <span class="ab-led" id="spAbLed" role="status" hidden><i id="spLedA" aria-hidden="true">A</i><i id="spLedB" aria-hidden="true">B</i><span id="spLedText">Set A</span></span>
+      <span class="sp-bpm-mini">
+        <label for="spLoopMini">Loop</label>
+        <select id="spLoopMini" aria-label="What to loop"><option value="off">Off</option><option value="song">Song</option><option value="section">Section</option><option value="selection">A-B</option></select>
+      </span>
       <span class="sp-bpm-mini">
         <label for="spBpmMini">BPM</label>
         <input type="number" id="spBpmMini" min="20" max="300" value="60" aria-label="Tempo in beats per minute" />

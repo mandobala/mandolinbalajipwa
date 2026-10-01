@@ -488,9 +488,10 @@ function syncLoopUi() {
   const picking = state.pick !== null;
   pickBtn.classList.toggle('on', picking);
   pickBtn.setAttribute('aria-pressed', picking ? 'true' : 'false');
-  pickBtn.textContent = picking ? 'Cancel' : 'Set A-B';
   const looping = state.loopMode === 'selection' && state.selection.end !== null;
-  $('spClearSel').hidden = !looping && !picking;
+  pickBtn.textContent = picking ? 'Cancel' : (looping ? '✕ A-B' : 'Set A-B');
+  pickBtn.setAttribute('aria-label', picking ? 'Cancel setting the loop' : (looping ? 'Clear the A-B loop' : 'Set an A-B loop'));
+  $('spLoopMini').value = state.loopMode;
   const msg = state.pick === 'start' ? 'Tap note A, where the loop starts.'
     : state.pick === 'end' ? 'Now tap note B, where it ends.'
     : looping ? 'Looping A to B.'
@@ -1308,7 +1309,10 @@ function wire() {
   $('spScore').addEventListener('click', onScoreTap);
   $('spGrid').addEventListener('click', onScoreTap);
 
-  $('spClearSel').addEventListener('click', clearLoop);
+  $('spLoopMini').addEventListener('change', function () {
+    $('spLoop').value = this.value;
+    $('spLoop').dispatchEvent(new Event('change'));
+  });
   /* The song's notation file, exactly as the site holds it. */
   $('spDownload').addEventListener('click', () => {
     const song = state.songs[state.index];
@@ -1324,6 +1328,7 @@ function wire() {
   });
   $('spLoopPick').addEventListener('click', () => {
     if (state.pick !== null) { state.pick = null; renderScore(); syncLoopUi(); return; }
+    if (state.loopMode === 'selection' && state.selection.end !== null) { clearLoop(); return; }
     state.pick = 'start';
     syncLoopUi();
   });

@@ -262,7 +262,9 @@
   padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
   box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.07);
 }
-.sp-transport-inner { max-width: 1100px; margin: 0 auto; display: flex; gap: 8px; align-items: center; }
+.sp-transport-inner { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.sp-transport .sp-btn { flex: 0 0 auto; }
+.sp-transport .ab-led { flex: 0 0 auto; }
 .sp-spacer { flex: 1 1 auto; }
 .sp-bpm-mini { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--sp-ink-soft); }
 .sp-bpm-mini select {
@@ -318,4 +320,20 @@ button.sp-gl-no { background: none; border: 0; border-right: 1px solid var(--sp-
 @media (prefers-color-scheme: dark) {
   .sp-cell.swara.ph-a, .sp-gl-cell.ph-a { color: #7fb0ff; }
   .sp-cell.swara.ph-b, .sp-gl-cell.ph-b { color: #ffa36b; }
+}
+
+/* ---- the bottom panel on a phone: two compact rows, everything in reach ---- */
+@media (max-width: 640px) {
+  .sp { padding-bottom: calc(150px + env(safe-area-inset-bottom)); }
+  .sp-transport { padding: 6px 8px calc(6px + env(safe-area-inset-bottom)); }
+  .sp-transport-inner { gap: 6px; }
+  .sp-transport .sp-btn { min-height: 40px; padding: 6px 9px; font-size: 14px; }
+  .sp-transport .sp-bpm-mini { gap: 3px; font-size: 0.7rem; }
+  .sp-transport .sp-bpm-mini input { width: 56px; padding: 4px 6px; }
+  .sp-transport .sp-bpm-mini select { min-height: 40px; padding: 4px 2px; font-size: 14px; }
+  .sp-transport #spLoopMini { width: 68px; }
+  .sp-transport .ab-led { padding: 4px 6px; }
+  .sp-transport .ab-led #spLedText { display: none; }
+  .sp-transport .sp-spacer { display: none; }
+  .sp-transport .sp-now { flex: 1 1 100%; order: -1; max-width: none; font-size: 0.72rem; }
 }
