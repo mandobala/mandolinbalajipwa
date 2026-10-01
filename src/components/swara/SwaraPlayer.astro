@@ -6,6 +6,7 @@ export interface Song {
   title: string;
   meta: Record<string, string>;
   text: string;
+  problems?: string[];
 }
 
 interface Props {
@@ -57,7 +58,7 @@ const grouped = GROUPS
        read by the client with textContent — never as markup. -->
   <div id="spSongs" hidden>
     {songs.map((song) => (
-      <pre data-slug={song.slug} data-title={song.title} data-meta={JSON.stringify(song.meta)}>{song.text}</pre>
+      <pre data-slug={song.slug} data-title={song.title} data-meta={JSON.stringify(song.meta)} data-problems={JSON.stringify(song.problems || [])}>{song.text}</pre>
     ))}
   </div>
 
@@ -110,7 +111,9 @@ const grouped = GROUPS
                       aria-selected="false"
                     >
                       <b>{song.title}</b>
-                      {song.detail && <span>{song.detail}</span>}
+                      {song.problems?.length
+                        ? <span class="sp-songopt-bad">Cannot be played — notation needs fixing</span>
+                        : song.detail && <span>{song.detail}</span>}
                     </li>
                   ))}
                 </>
@@ -124,6 +127,8 @@ const grouped = GROUPS
   </header>
 
   <div class="sp-songbar" id="spSongBar"></div>
+
+  <div class="sp-error" id="spError" role="alert" hidden></div>
 
   <div class="sp-readout-wrap">
     <div class="sp-readout" id="spReadout"></div>

@@ -4,14 +4,16 @@ import SwaraPlayer from '../components/swara/SwaraPlayer.astro';
 import E from '../lib/swara/engine.js';
 
 /* Songs are plain text files under src/content/songs. They are read at build
-   time and parsed with the same engine the player uses, so a song with a
-   mistake in it fails the build instead of reaching a visitor. */
+   time and parsed with the same engine the player uses. A song with a mistake
+   in it does not fail the build: the problems are logged here and handed to
+   the player, which shows them instead of loading that song. */
 const files = import.meta.glob('../content/songs/*.txt', { query: '?raw', import: 'default', eager: true });
 
 const songs = Object.entries(files as Record<string, string>).map(([path, raw]) => {
   const slug = (path.split('/').pop() || '').replace(/\.txt$/, '');
   const text = raw.replace(/^﻿/, '');
   const meta: Record<string, string> = {};
+  const problems: string[] = [];
 
   const probe = E.parse(text, {});
   Object.assign(meta, probe.meta || {});
@@ -25,37 +27,40 @@ const songs = Object.entries(files as Record<string, string>).map(([path, raw]) 
     } else {
       const derived = E.swarasFromScale(meta.SCALE || meta.AROHANA);
       if (!derived) {
-        throw new Error(
-          `Unknown raga "${meta.RAGA}" in src/content/songs/${slug}.txt.\n` +
-          `  Add [SCALE: S R2 G3 M1 P D2 N3] to the song (variant numbers included),\n` +
-          `  or add the raga to the RAGAS table in src/lib/swara/engine.js.`
+        problems.push(
+          `Unknown raga "${meta.RAGA}". Add [SCALE: S R2 G3 M1 P D2 N3] to the song ` +
+          `(variant numbers included), or add the raga to the RAGAS table in src/lib/swara/engine.js.`
         );
+      } else {
+        E.registerRaga(meta.RAGA, {
+          swaras: derived.swaras,
+          defaults: derived.defaults,
+          arohana: meta.AROHANA || '',
+          avarohana: meta.AVAROHANA || ''
+        });
+        raga = meta.RAGA;
       }
-      E.registerRaga(meta.RAGA, {
-        swaras: derived.swaras,
-        defaults: derived.defaults,
-        arohana: meta.AROHANA || '',
-        avarohana: meta.AVAROHANA || ''
-      });
-      raga = meta.RAGA;
     }
   }
   const parsed = E.parse(text, { raga });
 
-  if (parsed.errors.length) {
-    const lines = parsed.errors
-      .map((e: any) => `  line ${e.line + 1}, col ${e.column + 1}: ${e.message}`)
-      .join('\n');
-    throw new Error(`Notation errors in src/content/songs/${slug}.txt\n${lines}`);
+  parsed.errors.forEach((e: any) => {
+    problems.push(`Line ${e.line + 1}, col ${e.column + 1}: ${e.message}`);
+  });
+  if (!parsed.events.length && !problems.length) {
+    problems.push('No swaras found — is the [SWARA] marker missing?');
   }
-  if (!parsed.events.length) {
-    throw new Error(`No swaras found in src/content/songs/${slug}.txt — is the [SWARA] marker missing?`);
+  if (problems.length) {
+    console.warn(
+      `[swara-player] src/content/songs/${slug}.txt has ${problems.length} problem(s); ` +
+      `the player will show them instead of loading the song:\n  ${problems.join('\n  ')}`
+    );
   }
 
   // Cycle drift is reported, not fatal — a fragment may legitimately not close.
   const beats = parseInt(meta.BEATS || '', 10);
   const nadai = parseInt(meta.NADAI || '', 10);
-  if (beats > 0 && nadai > 0) {
+  if (!problems.length && beats > 0 && nadai > 0) {
     const report = E.cycleReport(parsed, { beatsPerCycle: beats, subdivisionsPerBeat: nadai });
     if (!report.aligned) {
       // One short line per line of notation — no passage totals to count through.
@@ -75,7 +80,7 @@ const songs = Object.entries(files as Record<string, string>).map(([path, raw]) 
     }
   }
 
-  return { slug, title: parsed.title || meta.SONG || slug.replace(/[-_]+/g, ' '), meta, text };
+  return { slug, title: parsed.title || meta.SONG || slug.replace(/[-_]+/g, ' '), meta, text, problems };
 }).sort((a, b) => a.title.localeCompare(b.title));
 ---
 

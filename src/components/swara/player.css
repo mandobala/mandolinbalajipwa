@@ -96,6 +96,19 @@
 .sp-count { margin: 6px 0 0; font-size: 0.78rem; color: var(--sp-ink-soft); min-height: 1em; }
 .sp-noresult { padding: 10px; color: var(--sp-ink-soft); font-size: 0.88rem; }
 
+/* ---- a song whose notation has mistakes ---- */
+.sp-error {
+  margin: 12px 0; padding: 12px 14px; font-size: 0.88rem; line-height: 1.5;
+  color: var(--sp-ink); background: var(--sp-accent-soft);
+  border: 1px solid var(--sp-accent); border-radius: 10px;
+}
+.sp-error b { display: block; font-size: 1rem; color: var(--sp-accent); }
+.sp-error p { margin: 4px 0; }
+.sp-error ul { margin: 6px 0 0; padding-left: 20px; font-family: var(--sp-mono); font-size: 0.8rem; overflow-wrap: anywhere; }
+.sp-broken .sp-score, .sp-broken .sp-gl, .sp-broken .sp-loopbar,
+.sp-broken .sp-layout, .sp-broken .sp-readout-wrap { display: none; }
+.sp-songopt .sp-songopt-bad { color: var(--sp-accent); }
+
 /* ---- note under every notation ---- */
 .sp-note {
   margin: 20px 0 16px; padding: 12px 14px; font-size: 0.82rem; line-height: 1.5;

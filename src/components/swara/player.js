@@ -869,20 +869,51 @@ function applyMeta(meta) {
   }
 }
 
+/* Lists a song's notation problems in place of the score; null clears it. */
+function showProblems(song) {
+  const box = $('spError');
+  $('spPlayer').classList.toggle('sp-broken', !!song);
+  box.hidden = !song;
+  box.replaceChildren();
+  if (!song) return;
+  const head = document.createElement('b');
+  head.textContent = 'This song could not be loaded';
+  const intro = document.createElement('p');
+  intro.textContent = 'Its notation file (' + song.slug + '.txt) has ' +
+    (song.problems.length === 1 ? 'a mistake' : song.problems.length + ' mistakes') +
+    ' that must be fixed before it can be played:';
+  const list = document.createElement('ul');
+  song.problems.slice(0, 20).forEach((p) => {
+    const li = document.createElement('li');
+    li.textContent = p;
+    list.appendChild(li);
+  });
+  box.append(head, intro, list);
+  if (song.problems.length > 20) {
+    const more = document.createElement('p');
+    more.textContent = '…and ' + (song.problems.length - 20) + ' more.';
+    box.appendChild(more);
+  }
+}
+
 function loadSong(i) {
   stop();
   const song = state.songs[i];
   if (!song) return;
   state.index = i;
-  state.source = song.text;
+  /* A song with notation mistakes is not loaded: the score stays empty, so
+     there is nothing to play, and the problems are listed in its place. */
+  const broken = song.problems && song.problems.length > 0;
+  state.source = broken ? '' : song.text;
   state.selection = { start: null, end: null };
   state.pick = null;
   state.loopMode = 'off';     // a new song starts with no loop
 
   applyMeta(song.meta || {});
   rebuild();
+  showProblems(broken ? song : null);
 
-  state.title = parsed.title || song.title || '';
+  state.title = (!broken && parsed.title) || song.title || '';
   $('spTitle').textContent = state.title;
   const search = $('spSearch');
   if (search) search.value = state.title;
@@ -1309,6 +1340,7 @@ function readSongs() {
     slug: el.dataset.slug,
     title: el.dataset.title || '',
     meta: JSON.parse(el.dataset.meta || '{}'),
+    problems: JSON.parse(el.dataset.problems || '[]'),
     text: el.textContent
   }));
 }

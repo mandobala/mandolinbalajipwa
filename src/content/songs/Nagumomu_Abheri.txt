@@ -78,11 +78,11 @@ ga  ga  nā                 ni ki    la gu  bahu    dū   ram        ba ni      
 
 
 [SECTION:COMMENT]
-   jagamēlē       paramātma       evaritō             moraliḍudu
+#    jagamēlē       paramātma       evaritō             moraliḍudu
 [SECTION:COMMENT]
-     vagajū pagutā  lanu nan  nēlu  kōra        tyā-    garāja nuta! ni
+#      vagajū pagutā  lanu nan  nēlu  kōra        tyā-    garāja nuta! ni
 [SECTION:COMMENT]
-                                                     (nagumōmu)
+#                                                      (nagumōmu)
 
 
 
