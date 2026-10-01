@@ -96,6 +96,17 @@
 .sp-count { margin: 6px 0 0; font-size: 0.78rem; color: var(--sp-ink-soft); min-height: 1em; }
 .sp-noresult { padding: 10px; color: var(--sp-ink-soft); font-size: 0.88rem; }
 
+/* ---- note under every notation ---- */
+.sp-note {
+  margin: 20px 0 16px; padding: 12px 14px; font-size: 0.82rem; line-height: 1.5;
+  color: var(--sp-ink-soft); background: var(--sp-surface-2);
+  border-left: 3px solid var(--sp-accent); border-radius: 8px;
+}
+.sp-note b { display: block; margin-bottom: 4px; color: var(--sp-ink); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.sp-note p { margin: 0 0 4px; }
+.sp-note p:last-child { margin-bottom: 0; }
+.sp-note a { color: var(--sp-accent); text-decoration: underline; overflow-wrap: anywhere; }
+
 .sp-field { display: flex; flex-direction: column; gap: 6px; }
 .sp-field > span { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--sp-ink-soft); font-weight: 700; }
 .sp-field select, .sp-field input[type="number"] {
