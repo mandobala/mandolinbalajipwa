@@ -1,0 +1,107 @@
+﻿[TITLE: InnumEnManam-Charukesi]
+[COMPOSER: Lalgudi Jayaraman]
+[NOTATED BY: Lalgudi Jayaraman]
+[RAGA: Charukesi]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R2 G3 M1 P D1 N2]
+[AROHANA: S R2 G3 M1 P D1 N2 Ṡ]
+[AVAROHANA: Ṡ N2 D1 P M1 G3 R2 S]
+[TAGS: Varnam, Charukesi, Lalgudi]
+
+[SECTION: Pallavi]
+
+[SWARA]
+s,, rg, m, p,dn, pd m |p,, mgm pd |mp mgṙ mgr ||
+[SAHITYA]
+In  nam en maṇam aṟi   yā  da  va    r  pō  la
+
+[SWARA]
+srg grs sṇ ṇrs ḍ,, ṇ, |s,, dnṡ, n |dp, mg gr, ||
+[SAHITYA]
+I   run di dal nyā ya   mā  yā   da  va mā dha vā
+
+
+[SECTION: Anupallavi]
+
+[SWARA]
+p, dndp mpd m,dp m, g |mrg m,, pdn, dn ṡ,,, ||
+[SAHITYA]
+Munnam pa   yinḏṟa dō   in  nā   da  ga mel lām
+
+[SWARA]
+pd nsṙġ ṁġṙṡḋ,, nṡṙ |ġd dnṡṙṗ, |pdnṡnd pm ||
+[SAHITYA]
+Man nā   ka ma lak kan   nā ma ni     vaṇ  nā
+
+
+[SECTION: Mukthayi Swaram]
+
+[SWARA]
+pdnd,p mdpmg rg,m, |p,, mndn p, |dmp gmgm ||
+[SAHITYA]
+Parivilāda neñjam tan da dar paśaṟa vē lām ninainduriḡiyum
+
+[SWARA]
+pdnṡ, ṙṡṙ, ġṁṙġ, ṡ, |, nṡdn, p, |, dmp gmṙg ||
+[SAHITYA]
+Palavidan tanilē ninaivalait tēn manamcalit tēn orutuṇaiyilēn
+
+[SECTION: Charanam]
+
+[SWARA]
+[m,pdp,] [mg] g,m, pd,nd, dṡ |n,ṡ, ,, nṡ |n dpmg srg ||
+[SAHITYA]
+Kul’a     lū   dum al’a gā kaṇ nā    kuṟai   tī rā yō
+
+
+[SWARA]
+ m,, p,, d, m,, p,, g, |, m, r,, g, |, s,, r, g,
+[SAHITYA]
+ uḷ   ḷum pu  ṟam eṅ śum   i   sai poṅ   ga vēyiṟ
+
+
+
+[SWARA]
+ m,d pm grg m, npdm pg |m,rgmn dp |m, r, gs rg
+[SAHITYA]
+ Veṇṇeyuṇ ṇumvā yā oḷiyum mā yā kal vanum nī yā kan niyar nē
+
+[SWARA]
+ m, gm ṡn dpm, pṙṡndp |m, pdnṡ ṙġ |ṁ, ġṙṡ ndp ||
+[SAHITYA]
+ yā kadir niḡar tū yā un manamkā yā an belām poy yā agamurugavē
+
+[SWARA]
+ pdnpd mp dmp gm ndpm |rgmrg srg |sr ḍn srgm
+[SAHITYA]
+ Muḷ’umadiyaik kaṇ ḍakaḍa lalai pō lavum kuḷirmal’aiyil nanaiyum iḷam payir pō lavum
+[SWARA]
+ dpm ndp ṡnd ṙṡn ġṙṡd |nṡġṙ pdnṙ |ṡ gmpdn rg
+[SAHITYA]
+ enadu uyirum uḍalum uḷamum neḡiḷa nī vandu manamuvand’ du karam tandu in
+
+
+[SWARA]
+  ṡ,, m,, pdnṡ, ndpmg |s,, rgm, p |dn, ṡṙ ġ,ṙ
+[SAHITYA]
+   kā   ṇum poruḷelām unaiyand’ṟi vē ṟē dum kā ṇēn eṅ śum
+
+[SWARA]
+   ṡṙ, nṙṡnd nṡ, dṡndp |dn, mndpm |pg, m,pdn
+[SAHITYA]
+   Malar vil’i gal’oḍu kul’al aśaiyumugam mayil iṟa gaṇiyum mana mōhanā
+
+[SWARA]
+   ṡṙġ n,, nṡṙ d,, dnṡm |,, pdn srg |mpdn ṡṙ ġ,
+[SAHITYA]
+   Arugil nī varuga vē taruṇamē karuṇai puriya vē an buvuvē
+
+[SWARA]
+   ṁ,, ġṙṡ d,,, ṁġṙṡ d, |, ṙġṁ ṡġṙ n |ṙṡ dṡn pnd
+[SAHITYA]
+   Ā   ruyirē vā ā   la vā   akhila magil’a pa val’a idal’ pol’iyum
+ 
