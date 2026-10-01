@@ -805,6 +805,14 @@ const CarnaticEngine = (function () {
       });
     });
 
+    // Lines are numbered within their section: 1, 2, 3… starting again at
+    // each section heading.
+    var lineInSection = 0;
+    rows.forEach(function (row) {
+      if (row.type === 'section') lineInSection = 0;
+      else if (row.type === 'passage') row.sectionLine = ++lineInSection;
+    });
+
     var totalSpaces = state.space;
 
     return {

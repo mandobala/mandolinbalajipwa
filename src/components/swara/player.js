@@ -455,12 +455,13 @@ function lineLoopButton(row, indexById, loop, cls) {
   btn.type = 'button';
   const on = loop && loop.a === r.a && loop.b === r.b && state.loopMode === 'selection';
   btn.className = cls + ' sp-line-loop' + (on ? ' on' : '');
-  btn.textContent = String(row.swaraLine + 1);
+  btn.textContent = String(row.sectionLine);
   btn.dataset.loopA = String(r.a);
   btn.dataset.loopB = String(r.b);
   btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-  btn.setAttribute('aria-label', `Loop line ${row.swaraLine + 1}`);
-  btn.title = `Loop line ${row.swaraLine + 1}`;
+  const where = `line ${row.sectionLine}${row.section ? ' of ' + row.section : ''}`;
+  btn.setAttribute('aria-label', `Loop ${where}`);
+  btn.title = `Loop ${where}`;
   return btn;
 }
 
@@ -731,8 +732,8 @@ function renderGrid() {
     }
     const r = glEl('div', 'sp-gl-row');
     r.style.gridTemplateColumns = template;
-    const no = lineLoopButton(ln.row, indexById, loop, 'sp-gl-no') || glEl('div', 'sp-gl-no', String(ln.row.swaraLine + 1));
-    no.title = `Loop line ${ln.row.swaraLine + 1} · ${ln.len} note-spaces` +
+    const no = lineLoopButton(ln.row, indexById, loop, 'sp-gl-no') || glEl('div', 'sp-gl-no', String(ln.row.sectionLine));
+    no.title = `Loop line ${ln.row.sectionLine}${ln.section ? ' of ' + ln.section : ''} · ${ln.len} note-spaces` +
       (ln.offset ? ` · set in ${ln.offset} from sam, because its first bar line comes ${ln.offset} before the end of the laghu` : '');
     r.appendChild(no);
 
@@ -774,7 +775,7 @@ function renderGrid() {
         cell.dataset.index = String(idx);
         cell.textContent = (comma || e.isRest) ? ',' : E.displaySwara(e);
         cell.setAttribute('aria-label', e.isRest ? 'Rest.'
-          : `${comma ? 'Held ' : 'Swara '}${e.resolvedSwara}, line ${e.sourceLine + 1}. Play from here.`);
+          : `${comma ? 'Held ' : 'Swara '}${e.resolvedSwara}, line ${ln.row.sectionLine}${ln.section ? ' of ' + ln.section : ''}. Play from here.`);
         r.appendChild(cell);
       });
     });
