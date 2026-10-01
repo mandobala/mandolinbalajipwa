@@ -1,5 +1,6 @@
 ﻿[TITLE: Ninnukori-Mohanam-Varnam]
 [COMPOSER: Ramnad Sreenivasa Iyengar]
+[NOTATED BY: https://www.shivkumar.org/music/varnams/ninnukori.htm]
 [RAGA: Mohanam]
 [TALA: Adi (8)]
 [BEATS: 8]
