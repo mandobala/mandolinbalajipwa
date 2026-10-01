@@ -1014,6 +1014,31 @@ function renderSongBar(meta) {
     sc.textContent = scale;
     bar.appendChild(sc);
   }
+  const credit = creditNode(meta.NOTATEDBY, 'sp-credit');
+  if (credit) bar.appendChild(credit);
+}
+
+/* "Notated by <name>", linked when the field carries a URL. Accepts a name,
+   a URL, or both ("Name https://…", "Name <https://…>", "Name | https://…"). */
+function creditNode(value, cls) {
+  var text = String(value || '').trim();
+  if (!text) return null;
+  var m = text.match(/(https?:\/\/[^\s<>|()]+|www\.[^\s<>|()]+)/i);
+  var url = m ? (/^www\./i.test(m[1]) ? 'https://' + m[1] : m[1]) : '';
+  var name = m ? text.replace(m[1], '').replace(/[<>|()]/g, ' ').replace(/[\s,;:–-]+$/, '').replace(/\s+/g, ' ').trim() : text;
+  if (url && !name) name = url.replace(/^https?:\/\/(www\.)?/i, '').replace(/\/$/, '');
+  var wrap = document.createElement('span');
+  wrap.className = cls;
+  wrap.appendChild(document.createTextNode('Notated by '));
+  if (url) {
+    var a = document.createElement('a');
+    a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+    a.textContent = name;
+    wrap.appendChild(a);
+  } else {
+    wrap.appendChild(document.createTextNode(name));
+  }
+  return wrap;
 }
 
 /* ------------------------------------------------------- searchable picker */

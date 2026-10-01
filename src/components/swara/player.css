@@ -127,6 +127,8 @@
 .sp-songbar div { display: flex; gap: 5px; align-items: baseline; }
 .sp-songbar dt { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--sp-ink-soft); font-weight: 700; }
 .sp-songbar dd { margin: 0; font-family: var(--sp-mono); font-size: 0.85rem; }
+.sp-songbar .sp-credit { flex: 1 1 100%; color: var(--sp-ink-soft); font-size: 0.72rem; overflow-wrap: anywhere; }
+.sp-songbar .sp-credit a { color: inherit; text-decoration: underline; }
 .sp-songbar .sp-scale { flex: 1 1 100%; color: var(--sp-ink-soft); font-size: 0.78rem; font-family: var(--sp-mono); }
 .sp-by { font-size: 0.92rem; }
 
