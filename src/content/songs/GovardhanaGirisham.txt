@@ -9,7 +9,7 @@
 [SCALE: S G2 M1 D1 N2]
 [AROHANA: S G2 M1 D1 N2 Ṡ]
 [AVAROHANA: Ṡ N2 D1 M1 G2 S]
-[TAGS: Govardhana, Rupakam, Dikshithar, krithi]
+[TAGS: Bilahari, Adhi, Raravenu, Geetham]
 
 
 [SECTION: Pallavi]
