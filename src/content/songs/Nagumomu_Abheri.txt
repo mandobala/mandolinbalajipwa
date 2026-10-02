@@ -1,4 +1,5 @@
 ﻿[TITLE: Nagumomu-Abheri]
+[COMPOSER: Lalgudi Jayaraman]
 [RAGA: Abheri]
 [TALA: Custom]
 [BEATS: 16]
@@ -8,72 +9,111 @@
 [SCALE: S R2 G2 M1 P D2 N2]
 [AROHANA: S  G2 M1 P  N2 Ṡ]
 [AVAROHANA: Ṡ N2 D2 P M1 G2 R2 S]
+[TAGS: Varnam, Charukesi, Lalgudi]
 
 [SECTION:PALLAVI]
 
+[SWARA]
 M, P, P,N, N,,, N,,,       D, P, M,,,,,,, M,,,       |M,G,G,,, GRR, S,,,       |Ṇ, S,G,,R SGM, GMP, ||
+[SAHITYA]
 na gu mō       mu          ga na lē      ni           nā  jā       li          de li si
 
+[SWARA]
 M, P, NṠNN MPN,N,,,        D, P, M,,, SGMP M,,,      |MMGG/ PMMG GRR, S,,,     |Ṇ, S, G,,R- SGM, GMP, ||
+[SAHITYA]
 na gu mō       mu          ga na lē        ni         nā     jā        li      de li si
 
+[SWARA]
 PMP, NDP, PNṠ,Ṡ,,,        ṠṠNN ṠNND DPPM M,,,      |MMGG PMMG GRR,S,,,       |Ṇ, S, GRS, SG[M,PM]GMP, ||
+[SAHITYA]
 na gumō      mu            ga na lē         ni        nā   jā      li          de li si
 
+[SWARA]
 M, P, NṠNN PNṠ,NṠĠ,          [Ṡ,Ṁ,ĠṀĠ, ṘĠṘ, ṠṘṠ, NṠN,DND,PDP,MPM,]    | [PṘṠ, NṠN, DND, PDP, MPM, GMG, RGR, SRS,]   |Ṇ, S, G,,R- SGM, GMP, ||
+[SAHITYA]
 na gumō       mu            ga na lē          ni       nā       jā       li     de li si
 
 
+[SWARA]
 P, P, NṠNN Ṡ,,, N,D,P,M,G,R, NṠGM [M,PM]GR|S,,, ,,,, ,,,,    P,,,|MNPM G,R, Ṇ,S, G,M, ||
+[SAHITYA]
 nannubro                      va    rā     dā                śrī     ra ghu vara ni
-P, P, NṠNN Ṡ,,, N,D,P,M,G,R, NṠGM [M,PM]GR   |S,,, ,, ĠṘṠNDP   ṘṠND   |PM ṠNDP PMGRS ṆSG SGM||
+[SWARA]
+P, P, NṠNN Ṡ,,, N,D,P,M,G,R, NṠGM [M,PM]GR   |S, (ĠṘṠNDP)   (ṘṠND  PM) (ṠN|DP MG)(DPMGRS) ṆSG SGM||
+[SAHITYA]
 nannubro                    va          rā   | dā        śrī    ra     ghu  va ra  ni
 
-P, P, NDP, PN[SṘ,Ṡ]ND P/D  PMG,R, ṆSGMPMGR | S,- ṖṀĠṘṠN- ĠṘṠNDP- ṘṠ|NDPM-DPMGRS- ṆSG SGM||
-nannubro                    va     rā      |  dā       śrī     ra  ghu   va ra   ni
 
 [SECTION:ANUPALLAVI]
+[SWARA]
  P, PN N,Ṡ,Ṡ,,, Ṡ,,,       N, ṠĠ Ġ,,, Ṁ,,, Ṁ,,,    |ṀĠĠ, ĠṘṠ, Ṡ,Ġ,Ġ,,,     |Ġ,Ṁ,Ġ,Ṙ, Ṡ,,, ṠṘṠN ||
+[SAHITYA]
  na ga rā       ja           dha ra ni     du         pa ri vā      ru          lel      la
 
+[SWARA]
  P, N,Ṡ,,, PNṠNṠ,,,        Ṡ, Ġ, Ṁ,,, ṠĠṀĠ Ṁ,,,    |ṀĠĠ, ĠṘṠ Ṡ,Ġ,Ġ,,,     |ṀĠṖṀĠ,Ṙ, Ṡ,,, ṠṘṠN ||
+[SAHITYA]
  na garā     ja              dhara ni       du            pa ri vā               ru   lel        la
 
- PDPN ṠṘṠN PNṠNṠ,,,       ṠṘ ṠĠ ṀṖṀĠ ṠĠṀĠ Ṁ,,,  |ṀĠĠ, ĠṘṠ, Ṡ,Ġ,Ġ, Ṁ,    |Ṗ,Ṁ,Ġ,Ṙ, Ṡ,,, ṠṘṠN ||
+[SWARA]
+ PNPN Ṡ,,N PNPNṠ,,,       ṠĠ ṠĠ ṀṖṀĠ ṠĠṀĠ Ṁ,,,  |Ġ,Ġ, Ġ,Ṙ, N,Ṡ,Ġ, Ṁ,    |Ṗ,,Ṁ Ġ,,Ṙ, Ṡ,,, ĠṘṠN ||
+[SAHITYA]
  na ga rā       ja               dha ra ni     du     du   pa ri vā              ru   lel        la
 
+[SWARA]
  PDPN ṠṘṠN PNṠṘṠNṠ,      ṠṘṠĠ ṀṖṀĠ ṠĠṀṖṀĠ Ṁ, |ṀĠĠ, ĠṘN, N,Ṡ,Ġ, Ṁ,    |Ṗ,,Ṁ,ĠṀĠṘ, Ṡ,,, ,,,, ||
+[SAHITYA]
  na ga rā       ja               dhara ni             du   pa ri vā              ru    le         lla
 
+[SWARA]
  P,Ṙ, Ṙ,,, Ṙ, Ṡ, Ṡ,,,       ṠṠN,N,,, NDDPM, M,       |P,N,Ṡ,Ṙ, Ṡ,,, N, D,     |P,M,G, R, Ṇ,S,G,M,|| 
+[SAHITYA]
  o gi bō   dhana jē          sē  vā       ra lu         gā   rē        ya tu      luṇ ḍa du rā ni
 
 
 [SECTION:CHARANAM]
+[SWARA]
  P, P, P,,,,,,, P,,,        M,MGM,,,,,,, M/PPM        |G,G, GRS, Ṇ,S,G,M,      |P,M, GMGR S,,, ṆSGM ||
+[SAHITYA]
  khagarā        ju           ni  yā      na ti         vi ni vē       ga          cana lē     ḍō
 
+[SWARA]
  P, P, P,,, [P,DP]P, P,,,   M,MGM,,, [M,PM] M,M/P PM |G,G, GRS, Ṇ,S,G,M,      |PDPM G,R, S,,, ṆSGM ||
+[SAHITYA]
  khaga rā             ju    ni  yā          na ti     vi ni vē       ga          ca na lē    ḍō
 
+[SWARA]
  P, P, P,, [P,DP]P, [P,DP]P, M,G,M,,, [M,PM] M, M/DPM |G,G, G,,, G,M, GMP,,,|,,- GM, GR, S,,, ṆSGM ||
+[SAHITYA]
  khaga rā               ju   ni   yā         na ti     vi ni vē        ga        cana lē   ḍō
 
+[SWARA]
 P, P, P,,, P,N, N,,,       NNDPM,,, /M,,, DPPM      |G,G, G,,, G,M, GMPN     |Ṡ,- N P, G,R S,,, ṆSGM ||
+[SAHITYA]
 khaga rā       ju          ni     yā     na ti       vi ni vē        ga          ca na lē       ḍō
 
+[SWARA]
 P, P, P,N, N,Ṡ,Ṡ,,,       NṠṀĠ ĠṘṘṠ ṠNND DPPM    |GMPNṠ,,, \MG,, G,M,     |PNPM GMGRS,,R ṆSGM ||
+[SAHITYA]
 khaga rā      ju           ni    yā          na ti   vi ni vē       ga          ca na lē      ḍō
 
+[SWARA]
 P, P, P,N, N,Ṡ,Ṡ,Ġ,      ṠĠṀ, ĠṘṘṠ ṠNND DP PM   |GMPNṠ,[ṘṠ] [NṠṘṠ] Ṡ,\P, G,M,|PNPM GMGR S,,, ,,,, ||
+[SAHITYA]
 khaga rā      ju           ni    yā          na ti   vi ni vē                    ga ca na lē   ḍō
+[SWARA]
 Ṇ, Ṇ, S,,, ,,,, ,,Ṇ, S, G,G, G,,, ,,,, G,GS   | S,G, G,M, ,,,, M, M,       |G,M, GMP, P,,, ,,,, ||
+[SAHITYA]
 ga ga nā          ni  ki  la gu         ba hu   dū   ram       ba ni        nā       ḍō
 
+[SWARA]
 GMG GPM DPMGRSṆ, Ṇ, S,G,G, G,,,,, G, S,     |S,,G G,M, ,,,, M, MG       |G,M, GMPN N,Ṡ, ,,,, ||
+[SAHITYA]
 ga  ga  nā        ni ki la gu       ba  hu    dū   ram       ba ni        nā         ḍō
 
+[SWARA]
 NṠ, NPN PMP,,M GMPN       PṠNDPMG, GGRS, ṆṆ,     | S,G, G,M, ,,,, /PMMG       |G,M, GMPN Ṁ,P, ,,,, ||
+[SAHITYA]
 ga  ga  nā                 ni ki    la gu  bahu    dū   ram        ba ni       nā         ḍō
 
 
