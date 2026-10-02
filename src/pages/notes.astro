@@ -1,0 +1,263 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+
+/* The library is built from the same song files the Swara Player reads, so a
+   song added to src/content/songs appears here with no further work. Only the
+   header fields are needed, so they are read directly rather than parsed. */
+const files = import.meta.glob('../content/songs/*.txt', { query: '?raw', import: 'default', eager: true });
+
+const fold = (v: string) =>
+	(v || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+const field = (text: string, key: string) =>
+	(text.match(new RegExp(`^\\uFEFF?\\[${key}:\\s*(.+?)\\s*\\]`, 'mi')) || [])[1] || '';
+
+/* A steady colour per raga, so songs in one raga share a cover. */
+const hueOf = (s: string) => {
+	let h = 0;
+	for (const c of s) h = (h * 31 + c.charCodeAt(0)) % 360;
+	return h;
+};
+
+const songs = Object.entries(files as Record<string, string>)
+	.map(([path, text]) => {
+		const slug = (path.split('/').pop() || '').replace(/\.txt$/, '');
+		const title = field(text, 'TITLE') || slug.replace(/[-_]+/g, ' ');
+		const raga = field(text, 'RAGA');
+		const tala = field(text, 'TALA');
+		const composer = field(text, 'COMPOSER');
+		const tags = field(text, 'TAGS').split(',').map((t) => t.trim()).filter(Boolean);
+		return {
+			slug, title, raga, tala, composer, tags,
+			hue: hueOf(fold(raga || title)),
+			haystack: fold([title, raga, tala, composer, tags.join(' '), slug].join(' ')),
+		};
+	})
+	.sort((a, b) => a.title.localeCompare(b.title));
+---
+
+<BaseLayout
+	title="Notes | Mandolin Balaji"
+	description="Browse all Carnatic notations by song, raga, tala or composer, and open any of them in the Swara Player."
+>
+	<div class="stack gap-10">
+		<Hero title="Notes" tagline="Every notation in the library. Pick one to open it in the Swara Player." align="center" />
+		<main class="wrapper lib">
+			<div class="lib-search">
+				<input
+					id="libSearch"
+					type="search"
+					placeholder="Search song, raga, tala, composer or tag"
+					aria-label="Search notations"
+					autocomplete="off"
+					spellcheck="false"
+				/>
+				<p id="libCount" role="status"></p>
+			</div>
+
+			<ul id="libGrid" class="lib-grid">
+				{songs.map((song) => (
+					<li class="cd" data-search={song.haystack}>
+						<a href={`/swara-player/?song=${encodeURIComponent(song.slug)}`} style={`--hue:${song.hue}`}>
+							<div class="cd-case">
+								<span class="cd-disc" aria-hidden="true"></span>
+								<div class="cd-cover">
+									<span class="cd-raga">{song.raga || 'Notation'}</span>
+									<strong class="cd-title">{song.title}</strong>
+									{song.composer && <span class="cd-composer">{song.composer}</span>}
+								</div>
+							</div>
+							<dl class="cd-info">
+								{song.raga && <div><dt>Raga</dt><dd>{song.raga}</dd></div>}
+								{song.tala && <div><dt>Tala</dt><dd>{song.tala}</dd></div>}
+								{song.composer && <div><dt>Composer</dt><dd>{song.composer}</dd></div>}
+							</dl>
+						</a>
+					</li>
+				))}
+			</ul>
+
+			<p id="libEmpty" class="lib-empty" hidden>No notation matches your search.</p>
+
+			<nav id="libPager" class="lib-pager" aria-label="Pages" hidden>
+				<button type="button" id="libPrev">‹ Previous</button>
+				<span id="libPage" aria-live="polite"></span>
+				<button type="button" id="libNext">Next ›</button>
+			</nav>
+		</main>
+	</div>
+</BaseLayout>
+
+<script>
+	const PER_PAGE = 12;
+	const fold = (v: string) => v.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+	const cards = Array.from(document.querySelectorAll<HTMLElement>('#libGrid .cd'));
+	const search = document.getElementById('libSearch') as HTMLInputElement | null;
+	const pager = document.getElementById('libPager')!;
+	const prev = document.getElementById('libPrev') as HTMLButtonElement;
+	const next = document.getElementById('libNext') as HTMLButtonElement;
+	let page = 1;
+
+	function render() {
+		// Every word typed must appear somewhere in the song's details.
+		const words = fold(search?.value || '').split(/\s+/).filter(Boolean);
+		const hits = cards.filter((c) => words.every((w) => (c.dataset.search || '').includes(w)));
+		const pages = Math.max(1, Math.ceil(hits.length / PER_PAGE));
+		page = Math.min(Math.max(1, page), pages);
+		const from = (page - 1) * PER_PAGE;
+		const shown = new Set(hits.slice(from, from + PER_PAGE));
+		cards.forEach((c) => { c.hidden = !shown.has(c); });
+
+		document.getElementById('libEmpty')!.hidden = hits.length > 0;
+		document.getElementById('libCount')!.textContent =
+			hits.length + (hits.length === 1 ? ' notation' : ' notations') + (words.length ? ' found' : '');
+		pager.hidden = pages < 2;
+		document.getElementById('libPage')!.textContent = `Page ${page} of ${pages}`;
+		prev.disabled = page <= 1;
+		next.disabled = page >= pages;
+	}
+
+	function turn(step: number) {
+		page += step;
+		render();
+		document.getElementById('libSearch')?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+	}
+
+	search?.addEventListener('input', () => { page = 1; render(); });
+	prev.addEventListener('click', () => turn(-1));
+	next.addEventListener('click', () => turn(1));
+	render();
+</script>
+
+<style>
+	.lib { padding-bottom: 4rem; }
+
+	.lib-search { max-width: 34rem; margin: 0 auto 2rem; text-align: center; }
+	.lib-search input {
+		width: 100%;
+		min-height: 48px;
+		padding: 0.6rem 1rem;
+		font: inherit;
+		font-size: 16px;
+		color: var(--gray-0);
+		background: var(--gray-999);
+		border: 1px solid var(--gray-800);
+		border-radius: 999px;
+	}
+	.lib-search input:focus-visible { outline: 2px solid var(--accent-regular); outline-offset: 2px; }
+	.lib-search p { margin: 0.5rem 0 0; font-size: var(--text-sm); color: var(--gray-400); min-height: 1.2em; }
+
+	.lib-grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+		gap: 1.5rem 1.25rem;
+	}
+	.cd[hidden] { display: none; }
+	.cd a { display: block; color: inherit; text-decoration: none; }
+
+	/* The jewel case: a square cover with the disc peeking out on the right. */
+	.cd-case { position: relative; aspect-ratio: 1; margin-right: 12%; }
+	.cd-disc {
+		position: absolute;
+		top: 4%;
+		bottom: 4%;
+		right: -14%;
+		aspect-ratio: 1;
+		border-radius: 50%;
+		background:
+			radial-gradient(circle, var(--gray-999) 0 9%, #8a8a8a 9.5% 11%, transparent 11.5%),
+			conic-gradient(#d9d9d9, #f7f7f7, #b9c6d6, #f1e6d0, #d9d9d9, #c9b8d8, #f7f7f7, #d9d9d9);
+		box-shadow: var(--shadow-sm);
+		transition: transform 0.35s ease;
+	}
+	.cd-cover {
+		position: relative;
+		height: 100%;
+		padding: 10% 9% 9% 14%;
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+		color: #fff;
+		background: linear-gradient(145deg, hsl(var(--hue) 55% 38%), hsl(calc(var(--hue) + 35) 60% 22%));
+		border-radius: 6px;
+		box-shadow: var(--shadow-md);
+		overflow: hidden;
+		transition: transform 0.25s ease, box-shadow 0.25s ease;
+	}
+	/* the case's hinge strip */
+	.cd-cover::before {
+		content: '';
+		position: absolute;
+		inset: 0 auto 0 0;
+		width: 7%;
+		background: rgba(0, 0, 0, 0.28);
+		border-right: 1px solid rgba(255, 255, 255, 0.18);
+	}
+	.cd-raga {
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		opacity: 0.85;
+		overflow-wrap: anywhere;
+	}
+	.cd-title {
+		font-family: var(--font-brand);
+		font-size: 1rem;
+		line-height: 1.2;
+		overflow-wrap: anywhere;
+		display: -webkit-box;
+		-webkit-line-clamp: 4;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+	.cd-composer { margin-top: auto; font-size: 0.72rem; opacity: 0.9; overflow-wrap: anywhere; }
+
+	.cd a:hover .cd-cover, .cd a:focus-visible .cd-cover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+	.cd a:hover .cd-disc, .cd a:focus-visible .cd-disc { transform: translateX(10%) rotate(40deg); }
+	.cd a:focus-visible { outline: 2px solid var(--accent-regular); outline-offset: 4px; border-radius: 8px; }
+
+	.cd-info { margin: 0.7rem 0 0; display: grid; gap: 0.15rem; font-size: var(--text-sm); }
+	.cd-info div { display: flex; gap: 0.4rem; align-items: baseline; }
+	.cd-info dt {
+		flex: none;
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		color: var(--gray-400);
+	}
+	.cd-info dd { margin: 0; color: var(--gray-200); overflow-wrap: anywhere; }
+
+	.lib-empty { text-align: center; color: var(--gray-400); padding: 2rem 0; }
+
+	.lib-pager { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 2.5rem; }
+	.lib-pager[hidden] { display: none; }
+	.lib-pager span { font-size: var(--text-sm); color: var(--gray-300); }
+	.lib-pager button {
+		min-height: 44px;
+		padding: 0.4rem 1rem;
+		font: inherit;
+		font-size: var(--text-sm);
+		color: var(--gray-0);
+		background: var(--gray-999);
+		border: 1px solid var(--gray-800);
+		border-radius: 999px;
+		cursor: pointer;
+	}
+	.lib-pager button:hover:not(:disabled) { border-color: var(--accent-regular); color: var(--accent-regular); }
+	.lib-pager button:disabled { opacity: 0.4; cursor: default; }
+
+	@media (min-width: 50em) {
+		.lib-grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 2rem 1.75rem; }
+		.cd-title { font-size: 1.15rem; }
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.cd-cover, .cd-disc { transition: none; }
+	}
+</style>
