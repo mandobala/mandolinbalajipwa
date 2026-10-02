@@ -532,7 +532,7 @@ function renderScore() {
       /* A line the parser could not pair — shown rather than silently dropped,
          so nothing in the song disappears from the page. */
       const plain = document.createElement('div');
-      plain.className = 'sp-plain';
+      plain.className = row.role === 'note' ? 'sp-plain sp-pointer' : 'sp-plain';
       plain.textContent = row.text;
       host.appendChild(plain);
       return;
@@ -614,6 +614,12 @@ function renderScore() {
 
     inner.appendChild(swaraLine);
     if (row.sahityaTokens.length) inner.appendChild(sahityaLine);
+    if (row.labels && row.labels.length) {
+      const label = document.createElement('div');
+      label.className = 'sp-pointer sp-line-pointer';
+      label.textContent = row.labels.map((l) => l.text).join(' · ');
+      inner.appendChild(label);
+    }
     passage.appendChild(inner);
     host.appendChild(passage);
   });
@@ -665,7 +671,14 @@ function renderGrid() {
 
   const firstAnga = angas[0] * nadai;
   const lines = [];
+  let curSection = '';
   parsed.rows.forEach((row) => {
+    if (row.type === 'section') { curSection = row.name; return; }
+    /* <text> on a line of its own: a line of words between the notation rows */
+    if (row.type === 'text' && row.role === 'note') {
+      lines.push({ note: row.text, offset: 0, len: 0, section: curSection });
+      return;
+    }
     if (row.type !== 'passage' || !(row.endSpace > row.startSpace)) return;
     const len = row.endSpace - row.startSpace;
     const bars = row.marks.filter((m) => m.type === 'bar' || m.type === 'doublebar');
@@ -729,6 +742,10 @@ function renderGrid() {
       host.appendChild(block);
       block.appendChild(header());
       lastSection = ln.section;
+    }
+    if (ln.note !== undefined) {
+      block.appendChild(glEl('div', 'sp-pointer sp-gl-text', ln.note));
+      return;
     }
     const r = glEl('div', 'sp-gl-row');
     r.style.gridTemplateColumns = template;
@@ -797,6 +814,10 @@ function renderGrid() {
       r.appendChild(syl);
     });
     block.appendChild(r);
+    /* <text> written on the line itself: shown under the end of the line */
+    if (ln.row.labels && ln.row.labels.length) {
+      block.appendChild(glEl('div', 'sp-pointer sp-gl-label', ln.row.labels.map((l) => l.text).join(' · ')));
+    }
   });
   fitGrid();
 }

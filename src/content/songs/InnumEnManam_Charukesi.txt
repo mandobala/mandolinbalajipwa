@@ -50,7 +50,7 @@ pdnṡ, ṙṡṙ, ġṁṙġ, ṡ, |, nṡdn, p, |, dmp gmrg ||
 [SAHITYA]
 Palavidan tanilē ninaivalait tēn manamcalit tēn orutuṇaiyilēn
 
-[SECTION: Charanam]
+[SECTION: Charanam1]
 
 [SWARA]
 [m,pdp,] [mg] g,m, pd,nd, dṡ |n,ṡ, ,, nṡ |n dpmg srg ||
@@ -62,7 +62,12 @@ Kul’a     lū   dum al’a gā kaṇ nā    kuṟai   tī rā yō
  m,, p,, d, m,, p,, g, |, m, r,, g, |, s,, r, g,
 [SAHITYA]
  uḷ   ḷum pu  ṟam eṅ śum   i   sai poṅ   ga vēyiṟ
+[SECTION: Charanam2]
 
+[SWARA]
+[m,pdp,] [mg] g,m, pd,nd, dṡ |n,ṡ, ,, nṡ |n dpmg srg ||
+[SAHITYA]
+Kul’a     lū   dum al’a gā kaṇ nā    kuṟai   tī rā yō
 
 
 [SWARA]
@@ -74,6 +79,13 @@ Kul’a     lū   dum al’a gā kaṇ nā    kuṟai   tī rā yō
  m, gm ṡn dpm, pṙṡndp |m, pdnṡ ṙġ |ṁ, ġṙṡ ndp ||
 [SAHITYA]
  yā kadir niḡar tū yā un manamkā yā an belām poy yā agamurugavē
+[SECTION: Charanam3]
+
+[SWARA]
+[m,pdp,] [mg] g,m, pd,nd, dṡ |n,ṡ, ,, nṡ |n dpmg srg ||
+[SAHITYA]
+Kul’a     lū   dum al’a gā kaṇ nā    kuṟai   tī rā yō
+
 
 [SWARA]
  pdnpd mp dmp gm ndpm |rgmrg srg |sr ḍn srgm
@@ -85,6 +97,12 @@ Kul’a     lū   dum al’a gā kaṇ nā    kuṟai   tī rā yō
  enadu uyirum uḍalum uḷamum neḡiḷa nī vandu manamuvand’ du karam tandu in
 
 
+[SECTION: Charanam4]
+
+[SWARA]
+[m,pdp,] [mg] g,m, pd,nd, dṡ |n,ṡ, ,, nṡ |n dpmg srg ||
+[SAHITYA]
+Kul’a     lū   dum al’a gā kaṇ nā    kuṟai   tī rā yō
 [SWARA]
   ṡ,, m,, pdnṡ, ndpmg |s,, rgm, p |dn, ṡṙ ġ,ṙ
 [SAHITYA]

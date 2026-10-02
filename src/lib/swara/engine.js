@@ -268,6 +268,11 @@ const CarnaticEngine = (function () {
   var RE_SWARA_MARK = /^\s*\[\s*SWARA\s*\]\s*$/i;
   var RE_SAHITYA_MARK = /^\s*\[\s*SAHITYA\s*\]\s*$/i;
   var RE_COMMENT = /^\s*(#|\/\/)/;
+  /* <any text> is a pointer for the reader — "2 times", "back to Pallavi".
+     Shown exactly as written, never played, and it takes no time. Alone on a
+     line it is a line of text in the score; on a swara line it sits at the
+     end of that line. */
+  var RE_NOTE_LINE = /^\s*<([^<>]*)>\s*$/;
   var RE_TITLE = /^\s*\[\s*TITLE\s*:?\s*(.*?)\s*\]\s*$/i;
   /* Any other [KEY: value] line is song metadata — raga, tala, tempo, tonic,
      composer — so a song file carries the settings it should be played with. */
@@ -297,6 +302,7 @@ const CarnaticEngine = (function () {
      It never starts playback on its own — the UI shows the assignment for
      review. */
   function looksLikeSwaraRow(text) {
+    text = text.replace(/<[^<>]*>/g, '');
     var stripped = text.replace(/[\s,|\[\]()'._\-\/\\~*\u0300-\u036F0-9]/g, '');
     if (stripped.length === 0) return text.replace(/\s/g, '').length > 0;
     var swaraChars = 0;
@@ -340,6 +346,8 @@ const CarnaticEngine = (function () {
       } else if (RE_SAHITYA_MARK.test(raw)) {
         entry.role = 'marker';
         pendingRole = 'sahitya';
+      } else if (RE_NOTE_LINE.test(raw)) {
+        entry.role = 'note';
       } else if (RE_COMMENT.test(raw)) {
         entry.role = 'comment';
       } else if (RE_META.test(raw) && !pendingRole) {
@@ -382,6 +390,7 @@ const CarnaticEngine = (function () {
   function parseSwaraRow(text, lineIndex, ctx, state, errors, warnings) {
     var events = [];
     var marks = [];           // bar lines etc, for display
+    var labels = [];          // <text> pointers, for display
     var i = 0;
     var speedGroupOpenAt = -1;
     var speedGroupId = null;
@@ -429,6 +438,18 @@ const CarnaticEngine = (function () {
 
       /* ( ) mark a phrase. Shown as written, silent, taking no time; the
          swaras inside carry the phrase number so a display can colour them. */
+      /* <text> on a swara line: a pointer shown at the end of the line. */
+      if (ch === '<') {
+        var close = text.indexOf('>', i);
+        if (close === -1) {
+          pushError(i, 'No closing ">" for the text that starts here.', 'error', text.length);
+          break;
+        }
+        labels.push({ text: text.slice(i + 1, close).trim(), line: lineIndex, column: i, atSpace: state.space });
+        i = close + 1;
+        continue;
+      }
+
       if (ch === '(' || ch === ')') {
         if (ch === '(') state.phrase = ++state.phraseCounter;
         else state.phrase = null;
@@ -634,7 +655,7 @@ const CarnaticEngine = (function () {
       return { events: events, marks: marks, groupCounter: groupCounter, fatal: true };
     }
 
-    return { events: events, marks: marks, groupCounter: groupCounter, fatal: false };
+    return { events: events, marks: marks, labels: labels, groupCounter: groupCounter, fatal: false };
   }
 
   /* ---------------------------------------------------------------------
@@ -751,6 +772,7 @@ const CarnaticEngine = (function () {
           swaraText: line.text,
           events: res.events,
           marks: res.marks,
+          labels: res.labels || [],
           startSpace: rowStartSpace,
           endSpace: state.space,
           sahityaLine: null,
@@ -773,6 +795,12 @@ const CarnaticEngine = (function () {
         } else {
           rows.push({ type: 'text', role: 'sahitya', text: line.text, line: i });
         }
+        continue;
+      }
+
+      if (line.role === 'note') {
+        if (pendingSwaraRow) { rows.push(pendingSwaraRow); pendingSwaraRow = null; }
+        rows.push({ type: 'text', role: 'note', text: line.text.replace(RE_NOTE_LINE, '$1').trim(), line: i });
         continue;
       }
 

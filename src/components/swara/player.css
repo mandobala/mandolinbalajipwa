@@ -337,3 +337,9 @@ button.sp-gl-no { background: none; border: 0; border-right: 1px solid var(--sp-
   .sp-transport .sp-spacer { display: none; }
   .sp-transport .sp-now { flex: 1 1 100%; order: -1; max-width: none; font-size: 0.72rem; }
 }
+
+/* ---- <text> pointers: shown as written, never played ---- */
+.sp-pointer { font-family: inherit; font-style: italic; color: var(--sp-accent-2); white-space: normal; overflow-wrap: anywhere; }
+.sp-line-pointer { font-size: 0.82rem; padding: 2px 2px 0; }
+.sp-gl-text { font-size: 0.85rem; padding: 6px 4px 6px 42px; }
+.sp-gl-label { font-size: 0.78rem; text-align: right; padding: 0 4px 4px; }
