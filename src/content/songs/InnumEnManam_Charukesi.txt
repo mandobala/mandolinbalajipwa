@@ -50,13 +50,14 @@ pdnṡ, ṙṡṙ, ġṁṙġ, ṡ, |, nṡdn, p, |, dmp gmrg ||
 [SAHITYA]
 Palavidan tanilē ninaivalait tēn manamcalit tēn orutuṇaiyilēn
 
-[SECTION: Charanam1]
+[SECTION: Charanam]
 
 [SWARA]
 [m,pdp,] [mg] g,m, pd,nd, dṡ |n,ṡ, ,, nṡ |n dpmg srg ||
 [SAHITYA]
 Kul’a     lū   dum al’a gā kaṇ nā    kuṟai   tī rā yō
 
+[SECTION: Chittai Swaram]
 
 [SWARA]
  m,, p,, d, m,, p,, g, |, m, r,, g, |, s,, r, g,
