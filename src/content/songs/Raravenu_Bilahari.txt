@@ -1,0 +1,69 @@
+﻿[TITLE: Raravenu-Bilahari]
+[RAGA: Chromatic (all swaras)]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R1 R2 R3 G1 G2 G3 M1 M2 P D1 D2 D3 N1 N2 N3]
+
+[SECTION: Pallavi]
+
+[SWARA]
+ s , , r   g , p ,   d , ṡ,    n , d , | p , d p   m g r s | r s ṇ ḍ   s , , , ||
+[SAHITYA]
+ Ra    ra  ve   nu    go  pa      ba  la  ra  j tha sad   gu na ja ya si    la
+
+[SECTION: Anupallavi]
+[SWARA]
+ s , , r   g , p ,   m , g , p , d , |  ṙ , , ṡ   n , , d | p , , m   g , , r ||
+[SAHITYA]
+ S aa  ra  saak sha   Ne    ra Me   mi  Maa    ru   baa    ri Ko    rva  le    ra
+
+
+[SECTION: Charanam]
+
+[SWARA]
+ s , , r   g , g ,   g , , ,   , , r g |  p , , p   p ,  p , | p , , ,   , , d p ||
+[SAHITYA]
+ Nan   da  goo paa   laa          Ne     Nen   du  Po    jaa   laa           Nee
+
+[SWARA]
+|| ṡ, ,  ṡ   ṡ,  ṡ,   ġ ṙ ṡ n   n d p , | p d p m   g g r , | g p m g   r s r g ||
+[SAHITYA]
+   Vin    du   Raa  raa    Sa da ma la  ma di to  Mu da ma la Ra ga na Ke du ru ga Ga di ya ra
+
+[SECTION: Charanam]
+
+[SWARA]
+|| p p p ,   r r r ,   g p m g   g , , , | g p m g   m g r s | r g r s   s , , , ||
+[SAHITYA]
+   Pa lu ma  Ru nu ga  Ra va mu na Nin     Pi la chi na Pa lu ka vu Na lu ga ku raa
+
+[SWARA]
+|| r s ṇ ḍ   s , , ,   m g r g   p , , , | d p d ṙ   ṡ, , ,  | ṙ ṡ n d   p m g r ||
+[SAHITYA]
+   Ka ri va ra da      Ma ri mari naa      A dha ra mu gro       La ra ka ni Ka ra mu ga
+
+
+[SECTION: Charanam]
+
+[SWARA]
+|| p , , ,   m g r g   d , , ,   m g r g |  p , , ,   m g r g | p , p ,   p , , , ||
+[SAHITYA]
+   Raa       Na ga da ra Raa     Mu rahara  Raa       Bha vaha ra Raa Ve  raa
+ 
+[SWARA]
+|| ġ, , ,    ṙ ṡ n d   ṙ, , ,    ṙ ṡ n d |  ṡ, , ,   ṙ ṡ n d | ṡ , ṡ ,   ṡ , , , ||
+[SAHITYA]
+   Ee         Ma gu vanu Ee          La la la nu  Ee         So ga si ni Che  ko      raa
+[SWARA]
+|| ġ , ṙ ṡ   ṙ , ṙ ,   ṙ , , ,   ṙ , ṡ n |   d , d ,   d , , , |  p , m g   g , g , ||
+[SAHITYA]
+   Ko   ri ka   Lim  Pon    daa        Den   damu   Nee  yan  da        Che   mru Nee  chen
+
+[SWARA]
+|| g , , ,   s r g d   p , , ,   ṙ s ṙ g |   ṡ , , ,   ġ ṙ ṡ n | d p m g   r s r g ||
+
+[SAHITYA]
+   na        Maru va ku raa      Ka ru na ra   aa         Ra mu la     ni du pa da mu la
