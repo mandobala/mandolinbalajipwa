@@ -13,10 +13,19 @@
 
 [SECTION: Pallavi]
 [SWARA]
-SRGP|RGPD|GPDṠ|PDPD|ṠĠṘS|DPṘṠ|DPGṠ|DPGR||
+SRGP|RGPD|GPDṠ|(PDPD|Ṡ)(ĠṘS|DP)(ṘṠ|DPG)(Ṡ|DPGR)||
+[SAHITYA]
+4    4    4    5        5      5        5
 [SWARA]
-RGPD|GPDṠ|PDPD|ṠĠṘS|DPṠ,|ṘṠDP|GP,Ṡ|DPGR||
+RGPD|GPDṠ|PDPD|Ṡ(ĠṘS|DP)Ṡ,|(ṘṠDP|G)P,(Ṡ|DPGR)||
+[SAHITYA]
+4    4    5      5      2  5        2 5
 [SWARA]
-GPDṠ|PDPD|ṠĠṘS|DPṠ,|Ṡ,ṘṠ|DPGP|,P,Ṡ|DPGR||
+GPDṠ|(PDPD|Ṡ)(ĠṘS|DP)(Ṡ,|Ṡ,)(ṘṠ|DPG)(P|,P,)(Ṡ|DPGR)||
+[SAHITYA]
+4    5       5      2  2     5       2  2   5      
 [SWARA]
-PDPD|ṠĠṘS|DPṠ,|Ṡ,Ṡ,ṘṠ|DPGP,P|,P,Ṡ|DPGR||
+(PDPD|Ṡ)(ĠṘS|DP)(Ṡ,|Ṡ,Ṡ,)(ṘṠ|DPG)(P,P|,P,)(Ṡ|DPGR)||
+[SAHITYA]
+5       5      2   2   2  5       2  2 2    5 
+
