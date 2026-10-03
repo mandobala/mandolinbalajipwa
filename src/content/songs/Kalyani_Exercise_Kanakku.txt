@@ -14,12 +14,12 @@
 
 [SECTION: Pallavi]
 [SWARA]
-, , , , | , , , , | , , , , | , , , , | , ġ ṙ ṡ | n d ṙ ṡ | n d p ṡ | n d p m||
+, , , , | , , , , | , , , , | , , , , | , ġ ṙ ṡ | n d ṙ ṡ | n d p g | m p d n||
 [SAHITYA]
                                           5           5           5
 <unnai allal>
 [SWARA]
-, , , , | , , , , | , , , , | , , ġ ṙ | , ṡ n d | ṙ ṡ , d | n p ṡ n | , d p m||
+, , , , | , , , , | , , , , | , , ġ ṙ | , ṡ n d | ṙ ṡ , n | d p g m | , p d n||
 [SAHITYA]
                                   6               6             6          
 <unnai allal>
