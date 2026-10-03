@@ -1,21 +1,14 @@
 ﻿[TITLE: Raravenu-Bilahari]
-<<<<<<< HEAD
 [RAGA: Bilahari]
-=======
-[RAGA: Chromatic (all swaras)]
->>>>>>> 6c409044ea15d76bf836f9799cd0d07d1c53d6d8
 [TALA: Adi (8)]
 [BEATS: 8]
 [NADAI: 4]
 [BPM: 60]
 [SA: C#4]
-<<<<<<< HEAD
 [SCALE: S R2 G3 M1 P D2 N3]
 [AROHANA: S R1 G3  P D2 Ṡ]
 [AVAROHANA: Ṡ N3 D2 P M1 G3 R2 S]
-=======
-[SCALE: S R1 R2 R3 G1 G2 G3 M1 M2 P D1 D2 D3 N1 N2 N3]
->>>>>>> 6c409044ea15d76bf836f9799cd0d07d1c53d6d8
+
 
 [SECTION: Pallavi]
 
