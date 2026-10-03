@@ -88,6 +88,8 @@
   padding: 9px 10px; border-radius: 8px; cursor: pointer; min-height: 44px;
   display: flex; flex-direction: column; justify-content: center; gap: 2px;
 }
+/* the search hides songs that do not match; display: flex above would otherwise keep them */
+.sp-songopt[hidden], .sp-noresult[hidden] { display: none; }
 .sp-songopt b { font-weight: 600; font-size: 0.95rem; }
 .sp-songopt span { font-size: 0.8rem; color: var(--sp-ink-soft); }
 .sp-songopt[aria-selected="true"], .sp-songopt:hover { background: var(--sp-surface-2); }
