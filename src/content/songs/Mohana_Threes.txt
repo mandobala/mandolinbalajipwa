@@ -1,5 +1,7 @@
 ﻿[TITLE: Mohana-Threes]
-[RAGA: Chromatic (all swaras)]
+[COMPOSER: Balaji]
+[NOTATED BY: Balaji]
+[RAGA: Mohanam]
 [TALA: Custom]
 [BEATS: 4]
 [NADAI: 3]
