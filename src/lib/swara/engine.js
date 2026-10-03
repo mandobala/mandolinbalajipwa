@@ -268,6 +268,7 @@ const CarnaticEngine = (function () {
   var RE_SWARA_MARK = /^\s*\[\s*SWARA\s*\]\s*$/i;
   var RE_SAHITYA_MARK = /^\s*\[\s*SAHITYA\s*\]\s*$/i;
   var RE_COMMENT = /^\s*(#|\/\/)/;
+  var HOLD_ACROSS_LINES = false;   // commas opening a line hold the line before's last note
   /* <any text> is a pointer for the reader — "2 times", "back to Pallavi".
      Shown exactly as written, never played, and it takes no time. Alone on a
      line it is a line of text in the score; on a swara line it sits at the
@@ -757,10 +758,12 @@ const CarnaticEngine = (function () {
 
       if (line.role === 'swara') {
         if (pendingSwaraRow) { rows.push(pendingSwaraRow); pendingSwaraRow = null; }
-        /* Commas opening a line sustain the previous line's last swara, so its
-           event runs into this line. The line's own span is measured from the
-           clock, not from the events it happens to start. */
+        /* The line's own span is measured from the clock, not from the events
+           it happens to start. */
         var rowStartSpace = state.space;
+        /* Commas opening a line are silence: a note is never held over from
+           the line before. Set HOLD_ACROSS_LINES to true to hold it again. */
+        if (!HOLD_ACROSS_LINES) state.lastEvent = null;
         var res = parseSwaraRow(line.text, i, ctx, state, errors, warnings);
         state.groupCounter = res.groupCounter;
         events = events.concat(res.events);

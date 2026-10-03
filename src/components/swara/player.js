@@ -161,6 +161,17 @@ const LOOKAHEAD = 0.25, INTERVAL = 25;
 
 const schedule = () => (timingInfo ? timingInfo.schedule : []);
 
+/* Where a note's own written line ends. A loop ends on its last written
+   note: commas on the next line that hold that note are not part of it. */
+function writtenEnd(slot) {
+  const e = slot.event;
+  let end = e.startSpace + e.durationInSpaces;
+  parsed.rows.forEach((r) => {
+    if (r.type === 'passage' && r.events.includes(e) && r.endSpace < end) end = r.endSpace;
+  });
+  return slot.startTime + (end - e.startSpace) * timingInfo.secondsPerNoteSpace;
+}
+
 function loopBounds() {
   const sch = schedule();
   if (!sch.length) return null;
@@ -170,7 +181,7 @@ function loopBounds() {
     const end = state.selection.end === null ? state.selection.start : state.selection.end;
     const a = Math.min(state.selection.start, end);
     const b = Math.max(state.selection.start, end);
-    return { start: sch[a].startTime, end: sch[b].startTime + sch[b].duration };
+    return { start: sch[a].startTime, end: writtenEnd(sch[b]) };
   }
   if (state.loopMode === 'section') {
     const idx = Math.min(transport.eventPtr, sch.length - 1);
@@ -178,7 +189,7 @@ function loopBounds() {
     let first = null, last = null;
     sch.forEach((s, i) => { if (s.event.section === sec) { if (first === null) first = i; last = i; } });
     if (first === null) return null;
-    return { start: sch[first].startTime, end: sch[last].startTime + sch[last].duration };
+    return { start: sch[first].startTime, end: writtenEnd(sch[last]) };
   }
   return null;
 }
@@ -254,7 +265,7 @@ function schedulerTick() {
       const s = sch[transport.eventPtr];
       if (s.event.valid && s.event.semitone !== null) {
         playNote(E.frequencyOf(state.tonicHz, s.event.semitone, s.event.octave),
-          transport.origin + s.startTime, s.duration);
+          transport.origin + s.startTime, Math.min(s.duration, endT - s.startTime));  // a loop cuts its last note off
       }
       transport.eventPtr++;
     }
