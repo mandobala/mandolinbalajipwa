@@ -303,7 +303,7 @@ const CarnaticEngine = (function () {
      It never starts playback on its own — the UI shows the assignment for
      review. */
   function looksLikeSwaraRow(text) {
-    text = text.replace(/<[^<>]*>/g, '');
+    text = text.replace(/<[^<>]*>/g, '').replace(/[{}]/g, '');
     var stripped = text.replace(/[\s,|\[\]()'._\-\/\\~*\u0300-\u036F0-9]/g, '');
     if (stripped.length === 0) return text.replace(/\s/g, '').length > 0;
     var swaraChars = 0;
@@ -392,6 +392,7 @@ const CarnaticEngine = (function () {
     var events = [];
     var marks = [];           // bar lines etc, for display
     var labels = [];          // <text> pointers, for display
+    var pendingSlide = null;  // {r d} read, waiting for the note it slides into
     var i = 0;
     var speedGroupOpenAt = -1;
     var speedGroupId = null;
@@ -439,6 +440,26 @@ const CarnaticEngine = (function () {
 
       /* ( ) mark a phrase. Shown as written, silent, taking no time; the
          swaras inside carry the phrase number so a display can colour them. */
+      /* {r}M — a slide into M from r ({rd}P: r, then d, then P). The notes in
+         braces take no time: the slide happens inside the target note's own
+         time — over its first third — and then the target is held. */
+      if (ch === '{') {
+        var shut = text.indexOf('}', i);
+        if (shut === -1) {
+          pushError(i, 'No closing "}" for the slide that starts here.', 'error', text.length);
+          break;
+        }
+        var scratch = { space: 0, eventCounter: 0, groupCounter: 0, lastEvent: null, section: '',
+                        phrase: null, phraseCounter: 0 };
+        var inner = parseSwaraRow(text.slice(i + 1, shut), lineIndex, ctx, scratch, [], []);
+        var from = inner.events.filter(function (ev) { return !ev.isRest && ev.semitone !== null; })
+          .map(function (ev) { return { semitone: ev.semitone, octave: ev.octave, name: ev.resolvedSwara, swara: ev.swara }; });
+        if (!from.length) pushError(i, 'A slide needs at least one note inside { }.', 'warning', shut + 1);
+        else pendingSlide = { from: from, text: text.slice(i + 1, shut).replace(/\s+/g, ''), column: i };
+        i = shut + 1;
+        continue;
+      }
+
       /* <text> on a swara line: a pointer shown at the end of the line. */
       if (ch === '<') {
         var close = text.indexOf('>', i);
@@ -649,8 +670,12 @@ const CarnaticEngine = (function () {
       state.space += duration;
       state.lastEvent = event;
       events.push(event);
+      if (pendingSlide) { event.slideFrom = pendingSlide.from; event.slideText = pendingSlide.text; pendingSlide = null; }
     }
 
+    if (pendingSlide) {
+      pushError(pendingSlide.column, 'This slide has no note after it to slide into.', 'warning');
+    }
     if (speedGroupOpenAt !== -1) {
       pushError(speedGroupOpenAt, 'Unmatched "[" — the double-speed phrase is never closed.');
       return { events: events, marks: marks, groupCounter: groupCounter, fatal: true };

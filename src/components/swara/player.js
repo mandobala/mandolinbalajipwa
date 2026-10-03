@@ -69,6 +69,48 @@ const HARMONICS = [
   { ratio: 6, gain: 0.04, type: 'sine' }
 ];
 
+/* A slide: a sustained, bowed-string-like tone (a piano cannot bend its
+   pitch). It moves through the notes in braces over the first third of the
+   target's own note-space, evenly in pitch, then holds the target. */
+function playSlide(freqs, when, dur, glideFor) {
+  if (!actx || !freqs.length) return;
+  const start = Math.max(when, actx.currentTime + 0.001);
+  const length = Math.max(0.08, dur - (start - when));
+  const release = start + length;
+  const out = actx.createGain();
+  const filt = actx.createBiquadFilter();
+  filt.type = 'lowpass';
+  filt.Q.value = 0.8;
+  filt.frequency.value = 2600;
+  filt.connect(out);
+  out.connect(busPiano);
+  const peak = 0.22;
+  out.gain.setValueAtTime(0.0001, start);
+  out.gain.linearRampToValueAtTime(peak, start + 0.04);
+  out.gain.setValueAtTime(peak, Math.max(start + 0.04, release - 0.06));
+  out.gain.linearRampToValueAtTime(0.0001, release + 0.04);
+
+  const glide = Math.min(length, glideFor) / 3;   // a third of the target's own note-space; its commas just hold it
+  const steps = freqs.length - 1;
+  const oscs = [];
+  [{ type: 'sawtooth', ratio: 1, gain: 0.55 }, { type: 'triangle', ratio: 1, gain: 0.6 }, { type: 'sine', ratio: 2, gain: 0.12 }]
+    .forEach((h) => {
+      const osc = actx.createOscillator();
+      osc.type = h.type;
+      osc.frequency.setValueAtTime(freqs[0] * h.ratio, start);
+      for (let k = 1; k <= steps; k++) {
+        osc.frequency.exponentialRampToValueAtTime(freqs[k] * h.ratio, start + glide * k / steps);
+      }
+      const hg = actx.createGain();
+      hg.gain.value = h.gain;
+      osc.connect(hg); hg.connect(filt);
+      osc.start(start);
+      osc.stop(release + 0.1);
+      oscs.push(osc);
+    });
+  voices.push({ out, oscs, end: release + 0.1 });
+}
+
 function playNote(freq, when, dur) {
   if (!actx || !isFinite(freq) || freq <= 0) return;
   const start = Math.max(when, actx.currentTime + 0.001);
@@ -264,8 +306,16 @@ function schedulerTick() {
            transport.origin + sch[transport.eventPtr].startTime < horizon) {
       const s = sch[transport.eventPtr];
       if (s.event.valid && s.event.semitone !== null) {
-        playNote(E.frequencyOf(state.tonicHz, s.event.semitone, s.event.octave),
-          transport.origin + s.startTime, Math.min(s.duration, endT - s.startTime));  // a loop cuts its last note off
+        const freq = E.frequencyOf(state.tonicHz, s.event.semitone, s.event.octave);
+        const noteDur = Math.min(s.duration, endT - s.startTime);  // a loop cuts its last note off
+        if (s.event.slideFrom) {
+          const path = s.event.slideFrom.map((f) => E.frequencyOf(state.tonicHz, f.semitone, f.octave));
+          path.push(freq);
+          const own = (s.event.insideSpeedGroup ? 0.5 : 1) * timingInfo.secondsPerNoteSpace;
+          playSlide(path, transport.origin + s.startTime, noteDur, own);
+        } else {
+          playNote(freq, transport.origin + s.startTime, noteDur);
+        }
       }
       transport.eventPtr++;
     }
@@ -593,6 +643,7 @@ function renderScore() {
         cell.dataset.index = String(gi);
         cell.textContent = e.isRest ? E.displaySwara(e)
           : E.displaySwara(e) + (e.commaCount ? ','.repeat(e.commaCount) : '');
+        if (e.slideText) cell.prepend(glEl('sup', 'sp-slide-from', e.slideText));
         width = Math.max(30, e.durationInSpaces * UNIT);
         cell.style.width = width + 'px';
         if (e.insideSpeedGroup) cell.style.fontSize = '0.92rem';
@@ -797,6 +848,7 @@ function renderGrid() {
         cell.style.gridRow = '1';
         cell.dataset.index = String(idx);
         cell.textContent = (comma || e.isRest) ? ',' : E.displaySwara(e);
+        if (e.slideText && !comma) cell.prepend(glEl('sup', 'sp-slide-from', e.slideText));
         cell.setAttribute('aria-label', e.isRest ? 'Rest.'
           : `${comma ? 'Held ' : 'Swara '}${e.resolvedSwara}, line ${ln.row.sectionLine}${ln.section ? ' of ' + ln.section : ''}. Play from here.`);
         r.appendChild(cell);

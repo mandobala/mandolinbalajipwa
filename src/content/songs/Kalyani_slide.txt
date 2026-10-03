@@ -1,0 +1,21 @@
+﻿[TITLE: Hindolam Sample]
+[RAGA: Chromatic (all swaras)]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R1 R2 R3 G1 G2 G3 M1 M2 P D1 D2 D3 N1 N2 N3]
+
+[SECTION: Pallavi]
+[SWARA]
+, , , , | , , , , | , , , , | , , , , | , {ḋ}ġ {d}ṙ ṡ | {ṡ}n d ṙ {dṙ}ṡ | n d p g | m p d n||
+[SAHITYA]
+                                          5           5           5
+<unnai allal>
+[SECTION: Pallavi]
+[SWARA]
+, , , , | , , , , | , , , , | , , ġ ṙ | , ṡ n d | ṙ ṡ , n | d p g m | , p d n||
+[SAHITYA]
+                                  6               6             6          
+<unnai allal>
