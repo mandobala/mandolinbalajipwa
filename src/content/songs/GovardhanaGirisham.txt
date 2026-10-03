@@ -1,5 +1,5 @@
 ﻿[TITLE: GovardhanaGirisham]
-[COMPOSER: GNB]
+[COMPOSER: Dikshithar]
 [RAGA: Hindolam]
 [TALA: Rupaka (3)]
 [BEATS: 3]
@@ -9,7 +9,7 @@
 [SCALE: S G2 M1 D1 N2]
 [AROHANA: S G2 M1 D1 N2 Ṡ]
 [AVAROHANA: Ṡ N2 D1 M1 G2 S]
-[TAGS: Bilahari, Adhi, Raravenu, Geetham]
+[TAGS: Hindolam, Rupakam, Dikshithar, Govardhana]
 
 
 [SECTION: Pallavi]
