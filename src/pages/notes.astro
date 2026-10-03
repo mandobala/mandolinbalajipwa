@@ -39,7 +39,6 @@ const songs = getSongs().map((song) => ({
 					autocomplete="off"
 					spellcheck="false"
 				/>
-				<p id="libCount" role="status"></p>
 			</div>
 
 			<ul id="libGrid" class="lib-grid">
@@ -97,8 +96,6 @@ const songs = getSongs().map((song) => ({
 		cards.forEach((c) => { c.hidden = !shown.has(c); });
 
 		document.getElementById('libEmpty')!.hidden = hits.length > 0;
-		document.getElementById('libCount')!.textContent =
-			hits.length + (hits.length === 1 ? ' notation' : ' notations') + (words.length ? ' found' : '');
 		pager.hidden = pages < 2;
 		document.getElementById('libPage')!.textContent = `Page ${page} of ${pages}`;
 		prev.disabled = page <= 1;
@@ -133,7 +130,6 @@ const songs = getSongs().map((song) => ({
 		border-radius: 999px;
 	}
 	.lib-search input:focus-visible { outline: 2px solid var(--accent-regular); outline-offset: 2px; }
-	.lib-search p { margin: 0.5rem 0 0; font-size: var(--text-sm); color: var(--gray-400); min-height: 1.2em; }
 
 	.lib-grid {
 		list-style: none;
