@@ -239,7 +239,8 @@
 .sp-gl-cell.in-loop { background: var(--sp-accent-2-soft); }
 .sp-gl-cell.active { background: var(--sp-accent); color: #fff; opacity: 1; }
 .sp-gl-syl {
-  font-size: 0.78em; color: var(--sp-ink-soft); display: flex; align-items: center; justify-content: center;
+  /* starts under its own note, not centred over the commas that follow */
+  font-size: 0.78em; color: var(--sp-ink-soft); display: flex; align-items: center; justify-content: flex-start; padding-left: 3px;
   overflow: hidden; white-space: nowrap; padding-bottom: 2px; min-width: 0;
 }
 .sp-gl-syl.active { background: var(--sp-accent-soft); color: var(--sp-ink); border-radius: 4px; }
