@@ -1,0 +1,84 @@
+﻿[TITLE: Panchamatanga-Malahari]
+[NOTATED BY: T K Govinda Rao]
+[RAGA: Malahari]
+[TALA: Rupaka (3)]
+[BEATS: 3]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R1 G3 M1 P D1]
+[AROHANA: S R1 M1 P D1 Ṡ]
+[AVAROHANA: Ṡ D1 P M1 G3 R1 S]
+[TAGS: Krithi, Malahari, Rupakam, Dikshithar]
+
+[SECTION: Pallavi]
+
+
+[SWARA]
+P, ,, D, D,M, P, | D, P, M,G, R,S, | P̣,Ḍ,S, ,,
+[SAHITYA]
+pañ   ca mā   tan     ga mukha gaṇa    pati nā
+
+[SWARA]
+,RM, | P, ,, ,, M,G,R, | S, ,, Ḍ R  SR  ḌS RM ||
+[SAHITYA]
+ pari  pā       li tō    ham   sumu khē na śrī
+
+<pañcamātaṅgamukha>
+
+[SECTION: Anupallavi]
+
+
+[SWARA]
+P, ,, D, P, ,, ,, | DPM, P, D,Ṡ,Ṡ, | Ṡ,Ṙ, Ṡ, ,, D,P,
+[SAHITYA]
+pañ   ca bhū       tāt     maka pra   pañ  cō    dayā
+
+[SWARA]
+| ,,D,-P,M,P,-D, | Ṡ, ṘĠ ṘṠ, Ṙ Ṡ D,, | P,D  M,P  MG RSRM ||
+[SAHITYA]
+    di kara ṇavi   riñ cihari ru dranutē na pañca vaktra śivasutē na
+
+<pañcamātaṅgamukha>
+
+
+[SECTION: Charanam]
+
+[SWARA]
+R,M,P, ,, D, M, | P, ,,M,G,R,-S, | S,R,S, D, ,,S,
+[SAHITYA]
+varadā   bhava    pā   śa sr ṇi ka   pā    la danta
+
+[SWARA]
+| D, ,, S, R, M, ,, | M, G,R,R, M, ,, |
+[SAHITYA]
+  mō    dakamud     ga  rā     kshamā
+
+[SWARA]
+| P,,,D, P, ,,M, | P,D, D,Ṙ,Ṡ, Ṙ, | D,Ṡ, ,,D, ,,P, ||
+[SAHITYA]
+  lā  ka rē   ṇa   kamalā     pura   vi hā   rē   ṇa
+
+
+[SWARA]
+Ṡ, D,P, ,,M, ,, | P, D, P, M,G,R, | S, ,,R,M,G,R,
+[SAHITYA]
+puruhū   tā       dyakhi la dē      vapū  ji ta vi
+
+[SWARA]
+| R,S, SDR, ,,S, ||
+[SAHITYA]
+  ghnē śvarē ṇa
+
+
+[SWARA]
+M P D P MG RSR MPP | D Ṙ ṠṘ ḊṠ PD D ĠṘṠ
+[SAHITYA]
+va ra guruguha sō darē ṇa suru cira lambō darē ṇa
+
+[SWARA]
+| ṘṠ D, P P, MG R,S | Ḍ S R M G RS RḌSRM ||
+[SAHITYA]
+  karuṇāṅga gaura tarēṇa kali mala haraṇa tarē ṇa
+
+<pañcamātaṅgamukha>

@@ -669,37 +669,29 @@ function renderGrid() {
     ? { a: Math.min(state.selection.start, state.selection.end), b: Math.max(state.selection.start, state.selection.end) }
     : null;
 
-  const firstAnga = angas[0] * nadai;
+  /* A line of the song runs from one || to the next, however many cycles
+     and written lines that takes; inside it a new row starts at every sam.
+     Placement is by counting note-spaces from the line's start, so where the
+     text file breaks a line makes no difference. */
   const lines = [];
   let curSection = '';
-  parsed.rows.forEach((row) => {
-    if (row.type === 'section') { curSection = row.name; return; }
-    /* <text> on a line of its own: a line of words between the notation rows */
-    if (row.type === 'text' && row.role === 'note') {
-      lines.push({ note: row.text, offset: 0, len: 0, section: curSection });
-      return;
-    }
-    if (row.type !== 'passage' || !(row.endSpace > row.startSpace)) return;
-    const len = row.endSpace - row.startSpace;
-    const bars = row.marks.filter((m) => m.type === 'bar' || m.type === 'doublebar');
-    const firstBar = bars.length ? bars[0].atSpace - row.startSpace : null;
-    /* Set in only when that puts every bar line on an anga boundary. A line
-       barred on every beat already sits on the tala from sam. */
-    const angaAt = {};
-    let at0 = 0;
-    angas.forEach((g) => { angaAt[at0 * nadai] = true; at0 += g; });
-    const onAngas = (off) => bars.every((m) => angaAt[((m.atSpace - row.startSpace + off) % cycle + cycle) % cycle]);
-    const setIn = firstAnga - firstBar;
-    const offset = (firstBar !== null && firstBar > 0 && firstBar < firstAnga && angas.length > 1 &&
-      !onAngas(0) && onAngas(setIn)) ? setIn : 0;
-    const slices = [];
-    parsed.events.forEach((e) => {
-      const s = Math.max(e.startSpace, row.startSpace);
-      const end = Math.min(e.startSpace + e.durationInSpaces, row.endSpace);
-      if (end - s < 1e-6) return;
-      slices.push({ event: e, col: offset + s - row.startSpace, span: end - s, skip: s - e.startSpace });
+  E.cycleLines(parsed, cycle).forEach((it) => {
+    if (it.type === 'section') { curSection = it.name; return; }
+    if (it.type === 'note') { lines.push({ note: it.text, offset: 0, len: 0, section: curSection }); return; }
+    const whole = { events: it.events, sectionLine: it.number, section: it.section };
+    it.rows.forEach((rw, k) => {
+      const slices = [];
+      parsed.events.forEach((e) => {
+        const s = Math.max(e.startSpace, rw.startSpace);
+        const end = Math.min(e.startSpace + e.durationInSpaces, rw.endSpace);
+        if (end - s < 1e-6) return;
+        slices.push({ event: e, col: s - rw.startSpace, span: end - s, skip: s - e.startSpace });
+      });
+      lines.push({ row: whole, offset: 0, len: rw.endSpace - rw.startSpace,
+        lineLen: it.endSpace - it.startSpace, cycles: it.rows.length,
+        slices, section: it.section, contRow: k > 0,
+        labels: k === it.rows.length - 1 ? it.labels : [] });
     });
-    lines.push({ row, offset, len, slices, section: row.section || '' });
   });
 
   let width = cycle;
@@ -749,9 +741,12 @@ function renderGrid() {
     }
     const r = glEl('div', 'sp-gl-row');
     r.style.gridTemplateColumns = template;
-    const no = lineLoopButton(ln.row, indexById, loop, 'sp-gl-no') || glEl('div', 'sp-gl-no', String(ln.row.sectionLine));
-    no.title = `Loop line ${ln.row.sectionLine}${ln.section ? ' of ' + ln.section : ''} · ${ln.len} note-spaces` +
-      (ln.offset ? ` · set in ${ln.offset} from sam, because its first bar line comes ${ln.offset} before the end of the laghu` : '');
+    const no = ln.contRow ? glEl('div', 'sp-gl-no', '')
+      : (lineLoopButton(ln.row, indexById, loop, 'sp-gl-no') || glEl('div', 'sp-gl-no', String(ln.row.sectionLine)));
+    no.title = ln.contRow ? `Line ${ln.row.sectionLine} continues`
+      : `Loop line ${ln.row.sectionLine}${ln.section ? ' of ' + ln.section : ''} · ${ln.lineLen} note-spaces` +
+        (ln.cycles > 1 ? `, ${ln.cycles} cycles` : '');
+    if (ln.contRow) r.classList.add('sp-gl-cont');
     r.appendChild(no);
 
     for (let c = 0; c < cols; c += beatCols) {
@@ -815,8 +810,8 @@ function renderGrid() {
     });
     block.appendChild(r);
     /* <text> written on the line itself: shown under the end of the line */
-    if (ln.row.labels && ln.row.labels.length) {
-      block.appendChild(glEl('div', 'sp-pointer sp-gl-label', ln.row.labels.map((l) => l.text).join(' · ')));
+    if (ln.labels && ln.labels.length) {
+      block.appendChild(glEl('div', 'sp-pointer sp-gl-label', ln.labels.map((l) => l.text).join(' · ')));
     }
   });
   fitGrid();

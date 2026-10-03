@@ -343,3 +343,6 @@ button.sp-gl-no { background: none; border: 0; border-right: 1px solid var(--sp-
 .sp-line-pointer { font-size: 0.82rem; padding: 2px 2px 0; }
 .sp-gl-text { font-size: 0.85rem; padding: 6px 4px 6px 42px; }
 .sp-gl-label { font-size: 0.78rem; text-align: right; padding: 0 4px 4px; }
+
+/* a line's later cycles sit close under its first, with no number */
+.sp-gl-row.sp-gl-cont { margin-top: 0; }

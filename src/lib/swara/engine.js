@@ -1073,6 +1073,90 @@ const CarnaticEngine = (function () {
     return base.replace(/[^\p{L}\p{N}]+/gu, '_').replace(/^_+|_+$/g, '').slice(0, 80) + '.txt';
   }
 
+  /* ---------------------------------------------------------------------
+     Lines for a by-cycle view
+     A line of the song runs from the start of its section, or from a ||,
+     up to the next || (or the section's end) — however many cycles and
+     written lines that takes. Inside a line, a new row starts at every sam,
+     counted from the line's start. Where the text file happens to break a
+     line makes no difference.
+     Returns, in song order: { type: 'section', name }, { type: 'note', text }
+     and { type: 'line', section, number, startSpace, endSpace, events,
+     labels, rows: [{ startSpace, endSpace }] }.
+     --------------------------------------------------------------------- */
+  function cycleLines(parsed, spacesPerCycle) {
+    var EPS = 1e-6;
+    var cycle = spacesPerCycle > 0 ? spacesPerCycle : 32;
+    var out = [];
+    var groups = [];
+    var current = { name: '', items: [] };
+    groups.push(current);
+    parsed.rows.forEach(function (row) {
+      if (row.type === 'section') { current = { name: row.name, items: [], heading: true }; groups.push(current); return; }
+      if (row.type === 'passage' && row.endSpace > row.startSpace) current.items.push(row);
+      else if (row.type === 'text' && row.role === 'note') current.items.push(row);
+    });
+
+    groups.forEach(function (g) {
+      if (g.heading) out.push({ type: 'section', name: g.name });
+      var passages = g.items.filter(function (r) { return r.type === 'passage'; });
+      if (!passages.length) {
+        g.items.forEach(function (r) { out.push({ type: 'note', text: r.text }); });
+        return;
+      }
+      var secStart = passages[0].startSpace;
+      var secEnd = passages[passages.length - 1].endSpace;
+      var cuts = [secStart, secEnd];
+      passages.forEach(function (r) {
+        r.marks.forEach(function (m) {
+          if (m.type === 'doublebar' && m.atSpace > secStart + EPS && m.atSpace < secEnd - EPS) cuts.push(m.atSpace);
+        });
+      });
+      cuts.sort(function (a, b) { return a - b; });
+      var lines = [];
+      for (var k = 0; k + 1 < cuts.length; k++) {
+        if (cuts[k + 1] - cuts[k] < EPS) continue;
+        var line = { type: 'line', section: g.name, number: lines.length + 1,
+          startSpace: cuts[k], endSpace: cuts[k + 1], events: [], labels: [], rows: [], after: [] };
+        for (var s = line.startSpace; s < line.endSpace - EPS; s += cycle) {
+          line.rows.push({ startSpace: s, endSpace: Math.min(s + cycle, line.endSpace) });
+        }
+        passages.forEach(function (r) {
+          r.events.forEach(function (e) {
+            if (e.startSpace >= line.startSpace - EPS && e.startSpace < line.endSpace - EPS) line.events.push(e);
+          });
+        });
+        lines.push(line);
+      }
+      function lineAt(space) {
+        // the line a point in time belongs to; a point on a boundary closes the line before it
+        for (var i = 0; i < lines.length; i++) {
+          if (space > lines[i].startSpace + EPS && space <= lines[i].endSpace + EPS) return lines[i];
+        }
+        return null;
+      }
+      passages.forEach(function (r) {
+        (r.labels || []).forEach(function (l) { (lineAt(l.atSpace) || lines[0]).labels.push(l); });
+      });
+      // <text> lines keep their place: after the line in which they were written
+      var before = [];
+      var clock = secStart;
+      g.items.forEach(function (r) {
+        if (r.type === 'passage') { clock = r.endSpace; return; }
+        var owner = lineAt(clock);
+        if (owner) owner.after.push(r.text); else before.push(r.text);
+      });
+      before.forEach(function (t) { out.push({ type: 'note', text: t }); });
+      lines.forEach(function (l) {
+        var after = l.after;
+        delete l.after;
+        out.push(l);
+        after.forEach(function (t) { out.push({ type: 'note', text: t }); });
+      });
+    });
+    return out;
+  }
+
   return {
     DEFAULT_POSITIONS: DEFAULT_POSITIONS,
     ALL_SWARA_NAMES: ALL_SWARA_NAMES,
@@ -1090,6 +1174,7 @@ const CarnaticEngine = (function () {
     parse: parse,
     timing: timing,
     cycleReport: cycleReport,
+    cycleLines: cycleLines,
     eduppuOf: eduppuOf,
     metronomeGrid: metronomeGrid,
     displaySwara: displaySwara,
