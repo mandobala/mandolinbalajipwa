@@ -32,10 +32,13 @@
 <unnai allal>
 [SECTION: Pallavi]
 [SWARA]
+, , , , | , , , , | , , , , | , ġ ṙ ṡ | n d ṡ , | ṙ ṡ n d | p d , g | m p d n||
+[SAHITYA]
+                                5           2    5           2    5
+[SWARA]
 , , , , | , , , , | , ġ ṙ ṡ | n d ṡ , | ṡ , ṙ ṡ | n d p d | , d , g | m p d n||
 [SAHITYA]
                       5           2     2   5           2     2   5
 <unnai allal>
-[SWARA]
-, , , , | , , , , | , , , , | , ġ ṙ ṡ | n d ṡ , | ṙ ṡ n d | p d , g | m p d n||
+
 <unnai allal>
