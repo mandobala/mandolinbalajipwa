@@ -11,6 +11,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://mandolinbalaji.com',
   server: {
     port: 7777,
     host: true

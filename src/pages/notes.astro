@@ -2,16 +2,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 
+import { getSongs, songPageUrl, fold } from '../lib/songs';
+
 /* The library is built from the same song files the Swara Player reads, so a
-   song added to src/content/songs appears here with no further work. Only the
-   header fields are needed, so they are read directly rather than parsed. */
-const files = import.meta.glob('../content/songs/*.txt', { query: '?raw', import: 'default', eager: true });
-
-const fold = (v: string) =>
-	(v || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
-
-const field = (text: string, key: string) =>
-	(text.match(new RegExp(`^\\uFEFF?\\[${key}:\\s*(.+?)\\s*\\]`, 'mi')) || [])[1] || '';
+   song added to src/content/songs appears here, with its own page, on the next
+   build. Each box opens that song's page. */
 
 /* A steady colour per raga, so songs in one raga share a cover. */
 const hueOf = (s: string) => {
@@ -20,29 +15,20 @@ const hueOf = (s: string) => {
 	return h;
 };
 
-const songs = Object.entries(files as Record<string, string>)
-	.map(([path, text]) => {
-		const slug = (path.split('/').pop() || '').replace(/\.txt$/, '');
-		const title = field(text, 'TITLE') || slug.replace(/[-_]+/g, ' ');
-		const raga = field(text, 'RAGA');
-		const tala = field(text, 'TALA');
-		const composer = field(text, 'COMPOSER');
-		const tags = field(text, 'TAGS').split(',').map((t) => t.trim()).filter(Boolean);
-		return {
-			slug, title, raga, tala, composer, tags,
-			hue: hueOf(fold(raga || title)),
-			haystack: fold([title, raga, tala, composer, tags.join(' '), slug].join(' ')),
-		};
-	})
-	.sort((a, b) => a.title.localeCompare(b.title));
+const songs = getSongs().map((song) => ({
+	...song,
+	href: songPageUrl(song),
+	hue: hueOf(fold(song.raga || song.title)),
+	haystack: fold([song.title, song.raga, song.tala, song.composer, song.tags.join(' '), song.file].join(' ')),
+}));
 ---
 
 <BaseLayout
-	title="Notes | Mandolin Balaji"
+	title="Carnatic Swara Notations – Krithis, Varnams & Exercises | Mandolin Balaji"
 	description="Browse all Carnatic notations by song, raga, tala or composer, and open any of them in the Swara Player."
 >
 	<div class="stack gap-10">
-		<Hero title="Notes" tagline="Every notation in the library. Pick one to open it in the Swara Player." align="center" />
+		<Hero title="Notes" tagline="Every notation in the library. Pick one to read it, then practise it in the Swara Player." align="center" />
 		<main class="wrapper lib">
 			<div class="lib-search">
 				<input
@@ -59,7 +45,7 @@ const songs = Object.entries(files as Record<string, string>)
 			<ul id="libGrid" class="lib-grid">
 				{songs.map((song) => (
 					<li class="cd" data-search={song.haystack}>
-						<a href={`/swara-player/?song=${encodeURIComponent(song.slug)}`} style={`--hue:${song.hue}`}>
+						<a href={song.href} style={`--hue:${song.hue}`}>
 							<div class="cd-case">
 								<span class="cd-disc" aria-hidden="true"></span>
 								<div class="cd-cover">

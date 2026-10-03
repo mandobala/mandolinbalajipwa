@@ -13,7 +13,14 @@ interface Props {
   description?: string | undefined;
 }
 
-const { title, description } = Astro.props;
+const {
+  title = 'Mandolin Balaji',
+  description = 'Carnatic Mandolin and Guitar Exponent',
+} = Astro.props;
+
+/* One official address per page, so search engines do not count the
+   web.app copy or a ?query variant as a separate page. */
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://mandolinbalaji.com');
 ---
 
 <html lang="en">
@@ -29,11 +36,13 @@ const { title, description } = Astro.props;
     </script>
     <MainHead title={title} description={description} />
     <SEO
-      title="Mandolin Balaji"
-      description="Carnatic Mandolin and Guitar Exponent"
+      title={title}
+      description={description}
+      canonical={canonical}
+      surpressWarnings
       openGraph={{
         basic: {
-          title: "Mandolin Balaji",
+          title: title,
           type: "website",
           image: "assets/portrait.png",
         }
@@ -51,6 +60,7 @@ const { title, description } = Astro.props;
         ]
       }}
     />
+    <slot name="head" />
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
 	<script is:inline src="/js/ios-pwa-splash.min.js"></script>
 	<script is:inline src="/js/pwa-install.bundle.js"></script>

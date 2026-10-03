@@ -1,0 +1,227 @@
+---
+/* One page per notation file, generated at build time. Nothing here is edited
+   by hand: correcting the .txt file in src/content/songs updates this page. */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getSongs, songPageUrl, playerUrl, songDescription, songHeadline, fold, type SongEntry } from '../../lib/songs';
+
+export function getStaticPaths() {
+	return getSongs().map((song) => ({ params: { slug: song.slug }, props: { song } }));
+}
+
+const { song } = Astro.props as { song: SongEntry };
+const site = Astro.site ?? new URL('https://mandolinbalaji.com');
+const pageUrl = new URL(songPageUrl(song), site).href;
+const description = songDescription(song);
+
+const pageTitle = songHeadline(song) + ' | Swara Notation | Mandolin Balaji';
+
+/* Songs that share a raga or composer, for readers and for search engines
+   following links through the library. */
+const related = getSongs()
+	.filter((s) => s.file !== song.file)
+	.map((s) => ({
+		s,
+		score: (song.raga && fold(s.raga) === fold(song.raga) ? 2 : 0) +
+			(song.composer && fold(s.composer) === fold(song.composer) ? 1 : 0),
+	}))
+	.filter((r) => r.score > 0)
+	.sort((a, b) => b.score - a.score || a.s.title.localeCompare(b.s.title))
+	.slice(0, 6)
+	.map((r) => r.s);
+
+const updatedText = song.updated?.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+/* Notated-by may be a name, a URL or both. */
+const credit = (() => {
+	const t = song.notatedBy.trim();
+	if (!t) return null;
+	const m = t.match(/(https?:\/\/[^\s<>|()]+|www\.[^\s<>|()]+)/i);
+	const url = m ? (/^www\./i.test(m[1]) ? 'https://' + m[1] : m[1]) : '';
+	let name = m ? t.replace(m[1], '').replace(/[<>|()]/g, ' ').replace(/[\s,;:–-]+$/, '').replace(/\s+/g, ' ').trim() : t;
+	if (url && !name) name = url.replace(/^https?:\/\/(www\.)?/i, '').replace(/\/$/, '');
+	return { name, url };
+})();
+
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@graph': [
+		{
+			'@type': 'MusicComposition',
+			'@id': pageUrl + '#composition',
+			name: song.title,
+			url: pageUrl,
+			...(song.composer && { composer: { '@type': 'Person', name: song.composer } }),
+			...(song.raga && { musicalKey: `${song.raga} raga` }),
+			genre: 'Carnatic music',
+			...(song.tags.length && { keywords: song.tags.join(', ') }),
+		},
+		{
+			'@type': 'WebPage',
+			'@id': pageUrl,
+			url: pageUrl,
+			name: pageTitle,
+			description,
+			about: { '@id': pageUrl + '#composition' },
+			...(song.updated && { dateModified: song.updated.toISOString() }),
+			author: { '@type': 'Person', name: 'Mandolin Balaji', url: new URL('/about/', site).href },
+		},
+		{
+			'@type': 'BreadcrumbList',
+			itemListElement: [
+				{ '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', site).href },
+				{ '@type': 'ListItem', position: 2, name: 'Notes', item: new URL('/notes/', site).href },
+				{ '@type': 'ListItem', position: 3, name: song.title, item: pageUrl },
+			],
+		},
+	],
+};
+---
+
+<BaseLayout title={pageTitle} description={description}>
+	<script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+
+	<main class="wrapper song">
+		<nav class="crumbs" aria-label="Breadcrumb">
+			<a href="/">Home</a> <span aria-hidden="true">›</span>
+			<a href="/notes/">Notes</a> <span aria-hidden="true">›</span>
+			<span aria-current="page">{song.title}</span>
+		</nav>
+
+		<header class="song-head">
+			<h1>{song.title}</h1>
+			<p class="song-sub">
+				Swara notation{song.raga && <> in <strong>{song.raga}</strong> raga</>}
+				{song.composer && <> · composed by <strong>{song.composer}</strong></>}
+			</p>
+
+			<dl class="song-facts">
+				{song.raga && <div><dt>Raga</dt><dd>{song.raga}</dd></div>}
+				{song.tala && <div><dt>Tala</dt><dd>{song.tala}</dd></div>}
+				{song.composer && <div><dt>Composer</dt><dd>{song.composer}</dd></div>}
+				{song.arohana && <div><dt>Arohana</dt><dd>{song.arohana}</dd></div>}
+				{song.avarohana && <div><dt>Avarohana</dt><dd>{song.avarohana}</dd></div>}
+				{credit && (
+					<div><dt>Notated by</dt><dd>
+						{credit.url ? <a href={credit.url} target="_blank" rel="noopener noreferrer">{credit.name}</a> : credit.name}
+					</dd></div>
+				)}
+			</dl>
+		</header>
+
+		<aside class="practice">
+			<div>
+				<strong>Practice this song</strong>
+				<p>Play along in the Swara Player with adjustable tempo, sruti and looping.</p>
+			</div>
+			<a class="practice-btn" href={playerUrl(song)}>▶ Open in Swara Player</a>
+		</aside>
+
+		<section class="notation" aria-label="Notation">
+			{song.sections.map((sec) => (
+				<div class="sec">
+					{sec.name && !/^comments?$/i.test(sec.name.trim()) && <h2>{sec.name}</h2>}
+					<pre>{sec.text}</pre>
+				</div>
+			))}
+		</section>
+
+		<aside class="practice">
+			<div>
+				<strong>Ready to practise?</strong>
+				<p>Open {song.title} in the Swara Player and loop any line until it sits.</p>
+			</div>
+			<a class="practice-btn" href={playerUrl(song)}>▶ Practice this song</a>
+		</aside>
+
+		<aside class="note" aria-label="About this notation">
+			<p>
+				This notation is meant for timing and swara practice; the Swara Player does not play gamakams.
+				It may have been edited for this site — for the original, see the source under “Notated by”, where one is given.
+				Found a mistake? Please report it on our Telegram channel,
+				<a href="https://t.me/mandolinfriends" target="_blank" rel="noopener noreferrer">t.me/mandolinfriends</a>.
+			</p>
+			{updatedText && <p class="updated">Last updated {updatedText}</p>}
+		</aside>
+
+		{related.length > 0 && (
+			<section class="related">
+				<h2>More notations{song.raga && <> in {song.raga}</>}{song.composer && <> and by {song.composer}</>}</h2>
+				<ul>
+					{related.map((r) => (
+						<li>
+							<a href={songPageUrl(r)}>{r.title}</a>
+							<span>{[r.raga, r.composer].filter(Boolean).join(' · ')}</span>
+						</li>
+					))}
+				</ul>
+			</section>
+		)}
+
+		<p class="back"><a href="/notes/">← All notations</a></p>
+	</main>
+</BaseLayout>
+
+<style>
+	.song { padding-top: 1.5rem; padding-bottom: 4rem; display: flex; flex-direction: column; gap: 1.75rem; }
+
+	.crumbs { font-size: var(--text-sm); color: var(--gray-400); display: flex; flex-wrap: wrap; gap: 0.4rem; }
+	.crumbs a { color: var(--gray-300); }
+
+	.song-head h1 { font-size: var(--text-3xl); line-height: 1.15; margin: 0 0 0.4rem; overflow-wrap: anywhere; }
+	.song-sub { margin: 0 0 1.25rem; color: var(--gray-300); }
+	.song-facts {
+		margin: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+		gap: 0.75rem 1.5rem;
+	}
+	.song-facts dt {
+		font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-400);
+	}
+	.song-facts dd { margin: 0.1rem 0 0; overflow-wrap: anywhere; }
+
+	.practice {
+		display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;
+		padding: 1rem 1.25rem;
+		background: var(--gray-999);
+		border: 1px solid var(--gray-800);
+		border-left: 4px solid var(--accent-regular);
+		border-radius: 0.75rem;
+		box-shadow: var(--shadow-sm);
+	}
+	.practice p { margin: 0.2rem 0 0; font-size: var(--text-sm); color: var(--gray-300); }
+	.practice-btn {
+		display: inline-flex; align-items: center; min-height: 44px; padding: 0.5rem 1.25rem;
+		border-radius: 999px; font-weight: 700; text-decoration: none; white-space: nowrap;
+		color: var(--accent-text-over); background: var(--gradient-accent-orange);
+		box-shadow: var(--shadow-sm);
+	}
+	.practice-btn:hover { box-shadow: var(--shadow-md); }
+
+	.notation { display: flex; flex-direction: column; gap: 1.5rem; }
+	.sec h2 {
+		font-size: var(--text-lg); margin: 0 0 0.5rem; padding-bottom: 0.3rem;
+		border-bottom: 1px solid var(--gray-800); color: var(--accent-regular);
+	}
+	.sec pre {
+		margin: 0; padding: 1rem; overflow-x: auto;
+		font-family: ui-monospace, 'SF Mono', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+		font-size: 0.9rem; line-height: 1.55;
+		background: var(--gray-999); border: 1px solid var(--gray-800); border-radius: 0.5rem;
+	}
+
+	.note {
+		font-size: var(--text-sm); line-height: 1.55; color: var(--gray-300);
+		padding: 0.9rem 1.1rem; background: var(--gray-900); border-radius: 0.5rem;
+	}
+	.note p { margin: 0; }
+	.note a { color: var(--accent-regular); overflow-wrap: anywhere; }
+	.note .updated { margin-top: 0.5rem; color: var(--gray-400); }
+
+	.related h2 { font-size: var(--text-lg); margin: 0 0 0.75rem; }
+	.related ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+	.related li { display: flex; flex-wrap: wrap; gap: 0.2rem 0.75rem; align-items: baseline; }
+	.related span { font-size: var(--text-sm); color: var(--gray-400); }
+
+	.back a { font-weight: 600; }
+</style>
