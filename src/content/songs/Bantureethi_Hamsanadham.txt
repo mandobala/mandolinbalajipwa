@@ -1,7 +1,7 @@
 ﻿[TITLE: Bantureethi-Hamsanadham]
 [COMPOSER: Thyagaraja]
 [RAGA: Hamsanadham]
-[TALA: Adhi]
+[TALA: Custom]
 [BEATS: 8]
 [NADAI: 4]
 [BPM: 80]
@@ -13,10 +13,10 @@
 
 [SECTION: Pallavi]
 [SWARA]
-,,,,|,,p,|  p,   pm|r,r,|sr,s|,,   Ṇ,|s,,p|,,m,||p,,p|,,
+,,,,|,,{r}p,|  p,   p{p}m|{p}r,r,|s{s}r,{ṣṇ}s|,,   {Ṣ}Ṇ,|s,,{r}p|,,{p}m,||
 [SAHITYA]
-       ban tu    reethi  kolu vu    eya  vai ya  ra ma
+       ban tu    reethi  kolu vu                       eya  vai     ya  
 [SWARA]
-p,|  p,   pm|r,r,|sr,s|,,   Ṇ,|s,,p|,,m,||p,,p|,,
+p,,p|,,p{p}n|  p{p}n   p{p}m|{p}r,r,|s{s}r,{ṣṇ}s|,,   {Ṣ}Ṇ,|s,,{r}p|,,{p}m,||
 [SAHITYA]
- ban tu    reethi  kolu vu    eya  vai ya  ra ma
+ra ma  ban tu    reethi           kolu vu         eya     vai     ya  
