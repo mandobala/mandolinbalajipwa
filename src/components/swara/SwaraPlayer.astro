@@ -212,6 +212,15 @@ const grouped = GROUPS
         <span>Click</span>
         <input type="range" id="spVolClick" min="0" max="1" step="0.01" value="0.5" aria-label="Metronome volume" />
       </label>
+      <label class="sp-field">
+        <span>Instrument</span>
+        <select id="spInstrument" aria-label="Instrument">
+          <option value="piano">Piano</option>
+          <option value="violin">Violin</option>
+          <option value="flute">Flute</option>
+          <option value="reed">Wind (reed)</option>
+        </select>
+      </label>
     </div>
     <p class="sp-keys">
       Keyboard: <kbd>Space</kbd> play or pause · <kbd>S</kbd> stop · <kbd>R</kbd> restart ·

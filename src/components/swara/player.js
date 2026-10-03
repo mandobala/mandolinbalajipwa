@@ -29,6 +29,7 @@ const state = {
   volMaster: 0.85,
   volPiano: 0.8,
   volClick: 0.5,
+  instrument: 'piano',      // piano, violin, flute or reed; slides on piano use violin
   selection: { start: null, end: null },
   pick: null                 // 'start' | 'end' while choosing a loop by taps
 };
@@ -69,46 +70,94 @@ const HARMONICS = [
   { ratio: 6, gain: 0.04, type: 'sine' }
 ];
 
-/* A slide: a sustained, bowed-string-like tone (a piano cannot bend its
-   pitch). It moves through the notes in braces over the first third of the
-   target's own note-space, evenly in pitch, then holds the target. */
-function playSlide(freqs, when, dur, glideFor) {
+/* A slide: a sustained tone (a piano cannot bend its pitch). It moves
+   through the notes in braces over the first third of the target's own
+   note-space, evenly in pitch, then holds the target. The tone is chosen in
+   the settings: violin (bowed), flute (soft, breathy) or wind (a bright reed,
+   nearer nadaswaram). */
+var SLIDE_TONES = {
+  violin: { parts: [{ type: 'sawtooth', ratio: 1, gain: 0.5 }, { type: 'triangle', ratio: 1, gain: 0.5 }, { type: 'sine', ratio: 2, gain: 0.1 }],
+            cutoff: 2600, q: 0.8, attack: 0.06, peak: 0.2, vibrato: { rate: 5.5, cents: 14, delay: 0.18 }, breath: 0 },
+  flute:  { parts: [{ type: 'sine', ratio: 1, gain: 0.8 }, { type: 'triangle', ratio: 2, gain: 0.08 }, { type: 'sine', ratio: 3, gain: 0.04 }],
+            cutoff: 3200, q: 0.5, attack: 0.09, peak: 0.32, vibrato: { rate: 5, cents: 10, delay: 0.22 }, breath: 0.05 },
+  reed:   { parts: [{ type: 'square', ratio: 1, gain: 0.3 }, { type: 'sawtooth', ratio: 1, gain: 0.35 }, { type: 'sawtooth', ratio: 2, gain: 0.08 }],
+            cutoff: 3600, q: 1.6, attack: 0.03, peak: 0.2, vibrato: { rate: 6, cents: 12, delay: 0.12 }, breath: 0.015 }
+};
+var slideNoise = null;
+
+function playSlide(freqs, when, dur, glideFor, kind) {
   if (!actx || !freqs.length) return;
-  const start = Math.max(when, actx.currentTime + 0.001);
-  const length = Math.max(0.08, dur - (start - when));
-  const release = start + length;
-  const out = actx.createGain();
-  const filt = actx.createBiquadFilter();
+  var tone = SLIDE_TONES[kind] || SLIDE_TONES.violin;
+  var start = Math.max(when, actx.currentTime + 0.001);
+  var length = Math.max(0.08, dur - (start - when));
+  var release = start + length;
+  var out = actx.createGain();
+  var filt = actx.createBiquadFilter();
   filt.type = 'lowpass';
-  filt.Q.value = 0.8;
-  filt.frequency.value = 2600;
+  filt.Q.value = tone.q;
+  filt.frequency.value = tone.cutoff;
   filt.connect(out);
   out.connect(busPiano);
-  const peak = 0.22;
   out.gain.setValueAtTime(0.0001, start);
-  out.gain.linearRampToValueAtTime(peak, start + 0.04);
-  out.gain.setValueAtTime(peak, Math.max(start + 0.04, release - 0.06));
+  out.gain.linearRampToValueAtTime(tone.peak, start + tone.attack);
+  out.gain.setValueAtTime(tone.peak, Math.max(start + tone.attack, release - 0.06));
   out.gain.linearRampToValueAtTime(0.0001, release + 0.04);
 
-  const glide = Math.min(length, glideFor) / 3;   // a third of the target's own note-space; its commas just hold it
-  const steps = freqs.length - 1;
-  const oscs = [];
-  [{ type: 'sawtooth', ratio: 1, gain: 0.55 }, { type: 'triangle', ratio: 1, gain: 0.6 }, { type: 'sine', ratio: 2, gain: 0.12 }]
-    .forEach((h) => {
-      const osc = actx.createOscillator();
-      osc.type = h.type;
-      osc.frequency.setValueAtTime(freqs[0] * h.ratio, start);
-      for (let k = 1; k <= steps; k++) {
-        osc.frequency.exponentialRampToValueAtTime(freqs[k] * h.ratio, start + glide * k / steps);
-      }
-      const hg = actx.createGain();
-      hg.gain.value = h.gain;
-      osc.connect(hg); hg.connect(filt);
-      osc.start(start);
-      osc.stop(release + 0.1);
-      oscs.push(osc);
-    });
-  voices.push({ out, oscs, end: release + 0.1 });
+  // vibrato, arriving after the attack as a player's would
+  var lfo = actx.createOscillator();
+  lfo.frequency.value = tone.vibrato.rate;
+  var depth = actx.createGain();
+  depth.gain.setValueAtTime(0, start);
+  depth.gain.setValueAtTime(0, start + tone.vibrato.delay);
+  depth.gain.linearRampToValueAtTime(tone.vibrato.cents, start + tone.vibrato.delay + 0.25);
+  lfo.connect(depth);
+  lfo.start(start);
+  lfo.stop(release + 0.1);
+
+  var glide = Math.min(length, glideFor) / 3;   // a third of the target's own note-space; its commas just hold it
+  var steps = freqs.length - 1;
+  var oscs = [lfo];
+  tone.parts.forEach(function (h) {
+    var osc = actx.createOscillator();
+    osc.type = h.type;
+    osc.frequency.setValueAtTime(freqs[0] * h.ratio, start);
+    for (var k = 1; k <= steps; k++) {
+      osc.frequency.exponentialRampToValueAtTime(freqs[k] * h.ratio, start + glide * k / steps);
+    }
+    depth.connect(osc.detune);
+    var hg = actx.createGain();
+    hg.gain.value = h.gain;
+    osc.connect(hg); hg.connect(filt);
+    osc.start(start);
+    osc.stop(release + 0.1);
+    oscs.push(osc);
+  });
+
+  // breath, for the wind tones
+  if (tone.breath) {
+    if (!slideNoise) {
+      slideNoise = actx.createBuffer(1, actx.sampleRate, actx.sampleRate);
+      var data = slideNoise.getChannelData(0);
+      for (var n = 0; n < data.length; n++) data[n] = Math.random() * 2 - 1;
+    }
+    var noise = actx.createBufferSource();
+    noise.buffer = slideNoise;
+    noise.loop = true;
+    var band = actx.createBiquadFilter();
+    band.type = 'bandpass';
+    band.frequency.value = Math.min(6000, freqs[freqs.length - 1] * 3);
+    band.Q.value = 0.8;
+    var ng = actx.createGain();
+    ng.gain.setValueAtTime(0.0001, start);
+    ng.gain.linearRampToValueAtTime(tone.breath, start + 0.05);
+    ng.gain.setTargetAtTime(tone.breath * 0.4, start + 0.08, 0.1);
+    ng.gain.linearRampToValueAtTime(0.0001, release + 0.04);
+    noise.connect(band); band.connect(ng); ng.connect(busPiano);
+    noise.start(start);
+    noise.stop(release + 0.1);
+    oscs.push(noise);
+  }
+  voices.push({ out: out, oscs: oscs, end: release + 0.1 });
 }
 
 function playNote(freq, when, dur) {
@@ -308,11 +357,14 @@ function schedulerTick() {
       if (s.event.valid && s.event.semitone !== null) {
         const freq = E.frequencyOf(state.tonicHz, s.event.semitone, s.event.octave);
         const noteDur = Math.min(s.duration, endT - s.startTime);  // a loop cuts its last note off
+        const inst = state.instrument || 'piano';
+        const own = (s.event.insideSpeedGroup ? 0.5 : 1) * timingInfo.secondsPerNoteSpace;
         if (s.event.slideFrom) {
           const path = s.event.slideFrom.map((f) => E.frequencyOf(state.tonicHz, f.semitone, f.octave));
           path.push(freq);
-          const own = (s.event.insideSpeedGroup ? 0.5 : 1) * timingInfo.secondsPerNoteSpace;
-          playSlide(path, transport.origin + s.startTime, noteDur, own);
+          playSlide(path, transport.origin + s.startTime, noteDur, own, inst === 'piano' ? 'violin' : inst);  // a piano cannot slide
+        } else if (inst !== 'piano') {
+          playSlide([freq], transport.origin + s.startTime, noteDur, own, inst);
         } else {
           playNote(freq, transport.origin + s.startTime, noteDur);
         }
@@ -1052,6 +1104,7 @@ function syncControls() {
   $('spVolMaster').value = String(state.volMaster);
   $('spVolPiano').value = String(state.volPiano);
   $('spVolClick').value = String(state.volClick);
+  $('spInstrument').value = state.instrument || 'piano';
   syncTransportUi();
 }
 
@@ -1060,7 +1113,7 @@ function savePrefs() {
   try {
     localStorage.setItem('sp-prefs', JSON.stringify({
       metronome: state.metronome, subClick: state.subClick, loopMode: state.loopMode, layout: state.layout,
-      volMaster: state.volMaster, volPiano: state.volPiano, volClick: state.volClick
+      volMaster: state.volMaster, volPiano: state.volPiano, volClick: state.volClick, instrument: state.instrument
     }));
   } catch (e) {}
 }
@@ -1359,6 +1412,7 @@ function wire() {
   $('spVolMaster').addEventListener('input', function () { state.volMaster = parseFloat(this.value); applyVolumes(); savePrefs(); });
   $('spVolPiano').addEventListener('input', function () { state.volPiano = parseFloat(this.value); applyVolumes(); savePrefs(); });
   $('spVolClick').addEventListener('input', function () { state.volClick = parseFloat(this.value); applyVolumes(); savePrefs(); });
+  $('spInstrument').addEventListener('change', function () { state.instrument = this.value; savePrefs(); });
 
   wireSearch();
 
