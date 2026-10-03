@@ -1,7 +1,7 @@
 ﻿[TITLE: Bantureethi-Hamsanadham]
 [COMPOSER: Thyagaraja]
 [RAGA: Hamsanadham]
-[TALA: Custom]
+[TALA: Adhi]
 [BEATS: 8]
 [NADAI: 4]
 [BPM: 80]
