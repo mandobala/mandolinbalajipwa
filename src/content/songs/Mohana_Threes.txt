@@ -5,9 +5,11 @@
 [TALA: Custom]
 [BEATS: 4]
 [NADAI: 3]
-[BPM: 60]
 [SA: C#4]
-[SCALE: S R1 R2 R3 G1 G2 G3 M1 M2 P D1 D2 D3 N1 N2 N3]
+[SCALE: S R2 G3 P D2]
+[AROHANA: S R2 G3 P D2 Ṡ]
+[AVAROHANA: Ṡ D2 P G3 R2 S]
+[TAGS: Exercise, Mohanam, fours, 4]
 
 [SECTION: Threes]
 [SWARA]
