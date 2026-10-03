@@ -1,0 +1,41 @@
+﻿[TITLE: Kalyani-Exercise-Kanakku]
+[COMPOSER: Balaji]
+[NOTATED BY: Balaji]
+[RAGA: Kalyani]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R2 G3 M2 P D2 N3]
+[AROHANA: S R2 G3 M2 P D2 N3 Ṡ]
+[AVAROHANA: Ṡ N3 D2 P M2 G3 R2 S]
+[TAGS: Exercise, Kalyani, Kanakku]
+
+[SECTION: Pallavi]
+[SWARA]
+, , , , | , , , , | , , , , | , , , , | , ġ ṙ ṡ | n d ṙ ṡ | n d p g | m p d n||
+[SAHITYA]
+                                          5           5           5
+<unnai allal>
+[SECTION: Pallavi]
+[SWARA]
+, , , , | , , , , | , , , , | , , ġ ṙ | , ṡ n d | ṙ ṡ , n | d p g m | , p d n||
+[SAHITYA]
+                                  6               6             6          
+<unnai allal>
+[SECTION: Pallavi]
+[SWARA]
+, , , , | , , , , | , , , ġ | , ṙ , ṡ | n d ṙ , | ṡ , n d | p g , m | , p d n||
+[SAHITYA]
+                          7                 7                 7
+<unnai allal>
+[SECTION: Pallavi]
+[SWARA]
+, , , , | , , , , | , ġ ṙ ṡ | n d ṡ , | ṡ , ṙ ṡ | n d p d | , d , g | m p d n||
+[SAHITYA]
+                      5           2     2   5           2     2   5
+<unnai allal>
+[SWARA]
+, , , , | , , , , | , , , , | , ġ ṙ ṡ | n d ṡ , | ṙ ṡ n d | p d , g | m p d n||
+<unnai allal>

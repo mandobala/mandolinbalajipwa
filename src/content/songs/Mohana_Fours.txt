@@ -1,0 +1,22 @@
+﻿[TITLE: Mohana-Fours]
+[COMPOSER: Balaji]
+[NOTATED BY: Balaji]
+[RAGA: Mohanam]
+[TALA: Custom]
+[BEATS: 4]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R2 G3 P D2]
+[AROHANA: S R2 G3 P D2 Ṡ]
+[AVAROHANA: Ṡ D2 P G3 R2 S]
+[TAGS: Exercise, Mohanam, fours, 4]
+
+[SECTION: Pallavi]
+
+
+[SECTION: Threes]
+[SWARA]
+SRGPRGPDGPDṠPDṠṘDṠṘĠ
+ĠṘṠDṘṠDPṠDPGDPGRPGRS
+[SAHITYA]

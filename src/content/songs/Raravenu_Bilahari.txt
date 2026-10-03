@@ -30,12 +30,11 @@
  s , , r   g , g ,   g , , ,   , , r g |  p , , p   p ,  p , | p , , ,   , , d p ||
 [SAHITYA]
  Nan   da  goo paa   laa          Ne     Nen   du  Po    jaa   laa           Nee
-
 [SWARA]
 || ṡ, ,  ṡ   ṡ,  ṡ,   ġ ṙ ṡ n   n d p , | p d p m   g g r , | g p m g   r s r g ||
 [SAHITYA]
    Vin    du   Raa  raa    Sa da ma la  ma di to  Mu da ma la Ra ga na Ke du ru ga Ga di ya ra
-
+< Ra    ra  ve   nu>
 [SECTION: Charanam]
 
 [SWARA]
@@ -48,7 +47,7 @@
 [SAHITYA]
    Ka ri va ra da      Ma ri mari naa      A dha ra mu gro       La ra ka ni Ka ra mu ga
 
-
+< Ra    ra  ve   nu>
 [SECTION: Charanam]
 
 [SWARA]
