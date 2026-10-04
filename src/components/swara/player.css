@@ -39,7 +39,7 @@
 /* ---- searchable song picker ---- */
 .sp-combo { position: relative; }
 .sp-combo input {
-  width: 100%; min-height: 44px; padding: 8px 36px 8px 10px; font-size: 16px;
+  width: 100%; min-height: 44px; padding: 8px 72px 8px 10px; font-size: 16px;
   color: var(--sp-ink); background: var(--sp-bg);
   border: 1px solid var(--sp-line); border-radius: 10px;
 }
@@ -49,6 +49,13 @@
   border-radius: 8px;
 }
 .sp-combo-toggle:hover { background: var(--sp-surface-2); }
+/* ✕ clears the search; it sits left of the ▾ */
+.sp-combo-clear {
+  position: absolute; right: 38px; top: 6px; bottom: 6px; width: 30px;
+  border: 0; background: none; color: var(--sp-ink-soft); font-size: 15px; cursor: pointer; border-radius: 8px;
+}
+.sp-combo-clear:hover { background: var(--sp-surface-2); color: var(--sp-ink); }
+.sp-combo-clear[hidden] { display: none; }
 .sp-songpanel {
   position: absolute; z-index: 50; top: calc(100% + 4px); left: 0; right: 0;
   display: flex; flex-direction: column; max-height: min(62vh, 440px);
@@ -61,6 +68,10 @@
   border-bottom: 1px solid var(--sp-line); scrollbar-width: none;
 }
 .sp-chips::-webkit-scrollbar { display: none; }
+/* with a mouse the hidden scrollbar cannot be dragged, so the chips wrap instead */
+@media (hover: hover) and (pointer: fine) {
+  .sp-chips { flex-wrap: wrap; overflow-x: visible; }
+}
 .sp-chip {
   flex: none; display: inline-flex; align-items: center; gap: 6px;
   min-height: 34px; padding: 4px 12px; border-radius: 999px; cursor: pointer;

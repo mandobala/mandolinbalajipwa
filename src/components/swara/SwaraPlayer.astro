@@ -80,8 +80,9 @@ const grouped = GROUPS
             aria-autocomplete="list"
             aria-describedby="spCount"
             autocomplete="off"
-            placeholder="Search song, raga or composer"
+            placeholder="Type here to search song, raga or composer"
           />
+          <button type="button" id="spSearchClear" class="sp-combo-clear" aria-label="Clear the search" hidden>✕</button>
           <button type="button" id="spSearchToggle" class="sp-combo-toggle" aria-label="Show all songs" tabindex="-1">▾</button>
           <div id="spSongPanel" class="sp-songpanel" hidden>
             {grouped.length > 1 && (

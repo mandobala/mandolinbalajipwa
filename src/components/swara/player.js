@@ -1342,7 +1342,21 @@ function wireSearch() {
   const list = $('spSongList');
 
   input.addEventListener('focus', () => { input.select(); openCombo(true); });
-  input.addEventListener('input', () => { filterSongs(input.value); openCombo(false); });
+  const clear = $('spSearchClear');
+  const syncClear = () => { if (clear) clear.hidden = !input.value || (!combo.open && input.value === state.title); };
+  input.addEventListener('input', () => { filterSongs(input.value); openCombo(false); syncClear(); });
+  input.addEventListener('focus', syncClear);
+  input.addEventListener('blur', () => setTimeout(syncClear, 160));
+  if (clear) {
+    clear.addEventListener('mousedown', (e) => e.preventDefault());   // keep focus in the box
+    clear.addEventListener('click', () => {
+      input.value = '';
+      filterSongs('');
+      openCombo(false);
+      input.focus();
+      syncClear();
+    });
+  }
   input.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
