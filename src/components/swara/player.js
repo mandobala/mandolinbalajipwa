@@ -40,11 +40,33 @@ let parsed = null, timingInfo = null, ticks = [];
 let actx = null, busMaster = null, busPiano = null, busClick = null;
 let voices = [];
 
+/* iPhone browsers (all WebKit) treat Web Audio as "ambient" sound, which the
+   ring/silent switch mutes. Asking for "playback" makes it behave like media.
+   Older iOS has no audioSession; there, a silent <audio> element played from
+   the tap moves the page into the media category instead. */
+let iosUnlocked = false;
+function unlockIosAudio() {
+  if (iosUnlocked) return;
+  iosUnlocked = true;
+  try {
+    if (navigator.audioSession) { navigator.audioSession.type = 'playback'; return; }
+  } catch (e) {}
+  try {
+    const silence = new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=');
+    silence.setAttribute('playsinline', '');
+    const p = silence.play();
+    if (p && p.catch) p.catch(() => {});
+  } catch (e) {}
+}
+
 function ensureAudio() {
-  if (actx) { if (actx.state === 'suspended') actx.resume(); return actx; }
+  unlockIosAudio();
+  // "interrupted" is iOS's state after a call or another app took the audio.
+  if (actx) { if (actx.state !== 'running') actx.resume(); return actx; }
   const Ctor = window.AudioContext || window.webkitAudioContext;
   if (!Ctor) return null;
   actx = new Ctor();
+  if (actx.state !== 'running') actx.resume();
   busMaster = actx.createGain();
   busPiano = actx.createGain();
   busClick = actx.createGain();
