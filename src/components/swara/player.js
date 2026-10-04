@@ -84,6 +84,7 @@ var SLIDE_TONES = {
             cutoff: 3600, q: 1.6, attack: 0.03, peak: 0.2, vibrato: { rate: 6, cents: 12, delay: 0.12 }, breath: 0.015 }
 };
 var slideNoise = null;
+var SLIDE_MIN = 0.18;   // seconds: a slide is never quicker than this, so its notes can be heard
 
 function playSlide(freqs, when, dur, glideFor, kind) {
   if (!actx || !freqs.length) return;
@@ -114,7 +115,8 @@ function playSlide(freqs, when, dur, glideFor, kind) {
   lfo.start(start);
   lfo.stop(release + 0.1);
 
-  var glide = Math.min(length, glideFor) / 3;   // a third of the target's own note-space; its commas just hold it
+  var glide = Math.min(length * 0.9,              // always lands before the note ends
+      Math.max(SLIDE_MIN, Math.min(length, glideFor) / 3));  // a third of the target's own note-space, never under SLIDE_MIN
   var steps = freqs.length - 1;
   var oscs = [lfo];
   tone.parts.forEach(function (h) {
