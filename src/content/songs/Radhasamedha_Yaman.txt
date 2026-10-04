@@ -1,5 +1,6 @@
 ﻿[TITLE: Radhasamedha-Yaman]
 [COMPOSER: GNB]
+[NOTATED BY: https://www.eviolinguru.com/uploads/7/3/5/7/735729/radha_samatha.pdf]
 [RAGA: MisraYaman]
 [TALA: Adi (8)]
 [BEATS: 8]
@@ -12,49 +13,84 @@
 [TAGS: MisraYaman, Adhi, GNB, krithi]
 
 [SECTION:PALLAVI]
+[SWARA]
  D N2, DP, M, GPM R,, G,    | M,,,,, M, D,,P MP MP ||
+[SAHITYA]
  rā    dha sā mē  tha krish   na    krish na
 
+[SWARA]
  [PD]D N2, DP M, GPM R,, G,  |M,,, ,, M, GPM R,, G, ||
+[SAHITYA]
     rā        dha sā mē tha krish na    sā mē  tha krish
+[SWARA]
 P,,,,, M, GPM R,, G, |  D,,, ,, M, GPM R,, G, ||
+[SAHITYA]
 na     sā mē  tha krish   na    sā mē  tha krishn
 
+[SWARA]
 N ṘṠN D, M, GPM R,, G, | MPMM G2M G2G2 MPMM G2MD, ||
+[SAHITYA]
 a        sā mē  tha krishna
 
 [SECTION:CHARANAM]
+[SWARA]
 ,,, Ṡ, Ṡ Ṡ, NṘṠN DD1D, || ,,DD NN,, DPGM D,,, || 
+[SAHITYA]
      nanda ku ma   ra        nava nītha cho   ra
+[SWARA]
 Ṡ,, Ṡ, Ṡ Ṡ, NṘṠN DD1D, || ,, DṠ, ṘĠ,    ṠĠṘĠ Ṡ,,,  ||
+[SAHITYA]
     nanda ku ma   ra        nava nītha  cho   ra
+[SWARA]
 ,,, Ṡ,, Ṡ Ṡ, NṘṠN DPDṠ || D, DṠ, Ṙ,Ġ ṠĠṘĠ ṠṘṠṠ Ṡ,,, ||
+[SAHITYA]
      nanda ku ma   ra        nava nītha cho   ra
+[SWARA]
 ,,, N,, N,, ṠĠṘĠ N3,,, | ,, D N2 D PM, M,P, M, D, || 
+[SAHITYA]
     brin da   va na go       va    damu ra   re
+[SWARA]
 ,,, N,, N, Ṡ,Ṁ, ṘĠṘṠ  | N3, D N2 D PM, M,P, M, D, || 
+[SAHITYA]
     brin da   va na go       va    damu ra   re
+[SWARA]
 ,,, Ṙ,, Ṙ,, Ṡ, Ġ, R,,, | ,, D N2 D PM, G2,,, M, D, ||
+[SAHITYA]
     brin da   va na go       va    damu ra   re
 
+[SWARA]
 ,,, Ṙ,, Ṙ,, Ṡ, ṀĠ ĠṘṘ, | ,, D N2 D PM, G2MPD N,DP ||
+[SAHITYA]
     brin da   va na go       va    damu ra   re
 
+[SWARA]
 ,,, Ṡ, Ṡ Ṡ, NṘṠN DD1D, || ,, DP,, DṘṠ DP M, GM [ṠDṠN] || 
+[SAHITYA]
      go pi ma na   ha ra       go   kula va     sa
 
+[SWARA]
 Ṡ,, Ṡ, Ṡ Ṡ, NṘṠN DD1D, || ,, DṠ, ṘĠ, ṠĠṘṠ Ṡ,,, ,,,D ||
+[SAHITYA]
     go pi ma na   ha ra       go   kula va     sa
+[SWARA]
 ,,,  Ṡ,, Ṡ Ṡ, NṘṠN DPDṠ || D, DṠ, Ṙ,Ġ ṠĠṘĠ ṠṘṠṠ Ṡ,,, ||
+[SAHITYA]
     go pi ma na   ha ra       go   kula va     sa
 
+[SWARA]
 ,,, Ṙ,Ṙ Ṙ, Ṡ, Ġ, Ṙ,,, | ,, D N2 D PM, G2,,, M, D, || 
+[SAHITYA]
     sobhi tha mu ra li      ga    navi la   sa
 
+[SWARA]
   ,,Ṙ,Ṙ Ṙ, Ṡ, ṀĠ ĠṘṘ, | ,, D N2 D PM, G2MPD N,DP ||
+[SAHITYA]
     sobhi tha mu ra li      ga    navi la   sa
 
+[SWARA]
  ,,, M, [DP]N2, N2,,, ṠṘ ṠṘ || D, D N2 D PM, G2MPD N2,DP ||
+[SAHITYA]
      sun dara   man  ma dha    ko      tipra ka     sa
+[SWARA]
  M, [DP]N2, N2,,, N2, [ĠPṀṀ] || D, D N2 D PM, G2MPD N2,DP ||
                                                                   

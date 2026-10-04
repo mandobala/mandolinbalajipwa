@@ -1,0 +1,174 @@
+﻿[TITLE: Rangapura_BrindavaSaranga]
+[COMPOSER: Dikshithar]
+[NOTATED BY: TKGovinda Rao]
+[RAGA: BrindavaSaranga]
+[TALA: Rupaka (6)]
+[BEATS: 6]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R2 G3 M1 P N2 N3]
+[AROHANA: SR2M1PN2Ṡ]
+[AVAROHANA: ṠN2PM1R2S]
+[TAGS: Krithi, Dikshithar, BridavanSaranga, Rupakam]
+
+<Ārō: SR2M1PN2Ṡ Avarō: ṠN2PM1R2S / G²R²G²S,>                 
+
+[SECTION: Pallavi]
+
+
+[SWARA]
+PṘ, ,Ṡ Ṡ,Ṡ, Ṡ,N,Ṡ,P,       | NṠ,, Ṡ, ,, ṠNṠ,
+[SAHITYA]
+raṅ   gapu ra   vi  hā   ra     jaya         kō daṇḍa
+
+[SWARA]
+| Ṙ,, [ṘĠ Ṡ,] NṠN NPM | [RG]SS, RM P,Ṡ N,Ṡ,P, ||
+[SAHITYA]
+  rā          māva tā ra   raghuvī ra śrī
+
+[SWARA]
+PṘ, ,Ṡ Ṡ,Ṡ, Ṡ,N,Ṡ,P,       | NṠ,, Ṡ, ,, ṘNṠ,
+[SAHITYA]
+raṅ   gapu ra   vi  hā   ra     ja   ya       kō daṇ
+
+[SWARA]
+| Ṙ,, [ṀṖṀ,ṘĠṠ,] [NṠṘNṠ,] NPM
+[SAHITYA]
+  ḍa   rā          māva tā   ra
+
+[SWARA]
+| [RG]SS, RM P,Ṡ N,Ṡ,P, ||
+[SAHITYA]
+  raghuvī ra śrī
+
+<raṅgapuravihāra>
+
+[SECTION: Anupallavi]
+
+
+[SWARA]
+P, ,, ,, [PN,,] P, [PN,,]
+[SAHITYA]
+añ        ga   ja ja
+
+[SWARA]
+| [NM,,] [P,,Ṡ] NṠ,, ,,Ṡ, | NP,, {R}{s}Ṙ, ,, [Ṙ,Ġ] Ṙ,
+[SAHITYA]
+  na      ka    dē     va     brṇ   dā    va    na sā
+
+[SWARA]
+| Ṡ,, ṠṘN N,Ṡ,ṠP ||
+[SAHITYA]
+  raṅ  gēn dra
+
+
+[SWARA]
+PNP, M, MRM, ,, | P, [PṠN] NMP, , NṠN
+[SAHITYA]
+va ra da ra mañ   ta  raṅ    ga     śyāma
+
+[SWARA]
+| P, M / P[MR,,]R    {M}RN,S
+[SAHITYA]
+  lāṅga vihaṅga      turaṅga
+
+[SWARA]
+{p}Ġ | Ṙ Ṡ, ṘNṠ NP, NMP ||
+[SAHITYA]
+sa   dayāpāṅga sat saṅ ga
+
+<raṅga>
+
+
+[SECTION: Charanam]
+
+
+[SWARA]
+R,P,M,P,,,P, /NPP, /NM M, /PRR,,
+[SAHITYA]
+pañ ka jā pta kula  ja la  ni dhi
+
+[SWARA]
+| SR[PMMR] RS, ,,NP[P,,R]
+[SAHITYA]
+  sō          ma  va ra
+
+[SWARA]
+| {s}R,, R/GR, [R,,G]SS,
+[SAHITYA]
+  pañka ja   mu
+
+[SWARA]
+| {s}MR,, ,,M,P, [P,,Ṙ] | [ṘṠN,N,,Ṙ] ṠNṠ,NP [P,,Ṙ] |
+[SAHITYA]
+  khapa   ṭṭā   bhi     rā           ma   pa da
+
+
+[SWARA]
+Ṙ, ,, Ṙ/ĠṘ, [Ṙ/ĠṠṠ,]
+[SAHITYA]
+pañ   ka ja  ji
+
+[SWARA]
+| Ṙ, ,Ṗ ṀṖṀṘ Ṙ,[Ṡ,,Ṙ] | [ṘṠNP,] ṘṘ, ,, Ṡ,,N
+[SAHITYA]
+  ta kā    ma    ra ghurā      mā         vā
+
+[SWARA]
+| /Ṙ, ,, ,,Ṙ, ṘĠṘ, | Ṡ, ,, [N,ṘṠ] [Ṡ,,N] P, Ṙ,
+[SAHITYA]
+   mañ     ga ga ta   si      tā             vara
+
+[SWARA]
+| [Ṡ,ṘṠ]NP,,M, P,ṠN ||
+[SAHITYA]
+  vē         sha śē
+
+
+[SWARA]
+P, ,, M, [PM]R,S, | [S,RS]N, NS,, ,, R,
+[SAHITYA]
+shāṅ  kāsa yanabha          kta      san
+
+[SWARA]
+| M,P, ,, P, PN,
+[SAHITYA]
+  tō      sha ē
+
+[SWARA]
+| P,Ṡ, ,,ṠN / Ṙ,Ṡ, | [Ṙ,,ṀṘ,]Ṡ, /Ṁ,ṀṠ/
+[SAHITYA]
+  ṇā    ṅka   ra vi   na       yana mṛ du ta
+
+[SWARA]
+Ṙ,ṘN/Ṡ, ,,Ṡ, Ṡ,Ṡ, ||
+[SAHITYA]
+ra       bhāsha a ka-
+
+
+[SWARA]
+[N,,Ṡ] Ṙ,Ṡ, ṠṘ\N NṠ\P, P,
+[SAHITYA]
+ḷaṅ     ka da   rpa   ṇa kapō
+
+[SWARA]
+[M,PN] [PNṠN]P, RMPNPMRNS, - RS ||
+[SAHITYA]
+                la vi śē       sha muni
+
+
+[SECTION: Madhyama Kala Sahitya]
+
+
+[SWARA]
+R, MP N P N NMP, P | PṘ,, Ġ Ṙ ṘṠ Ṙ N Ṡ,, S
+[SAHITYA]
+san kaṭa haraṇa gō vinda vēṅ kaṭa ramaṇamu kunda san
+
+[SWARA]
+| Ṙ, ṀṘ Ġ Ṙ ṠNṠ NP N SRN S MR S [NP,,] NMP[,,R] ||
+[SAHITYA]
+  kar shaṇa mūla kanda śaṅkara guruguhā nanda
+
+<raṅgapuravihāra>
