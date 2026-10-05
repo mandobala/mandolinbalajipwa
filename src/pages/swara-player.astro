@@ -74,7 +74,7 @@ const songs = Object.entries(files as Record<string, string>).map(([path, raw]) 
         : [`  the last line ends ${report.remainder} note-spaces past a full cycle`];
       console.warn(
         `[swara-player] ${slug}: a cycle is ${cyc} note-spaces` +
-        (report.eduppuSpaces ? `, counted from the eduppu of +${report.eduppuSpaces}` : '') +
+        ', counted from sam; each || should land on a cycle' +
         `\n${lines.join('\n')}`
       );
     }

@@ -958,90 +958,104 @@ const CarnaticEngine = (function () {
     var cycleSpaces = subdivisions * beatsPerCycle;
     var rows = [];
     var sections = [];
-    var byName = {};
 
-    /* A song with an eduppu enters after sam, so every cycle boundary in the
-       piece sits that many note-spaces later. Measure from there, otherwise a
-       correctly written song reads as permanently off the beat. */
+    /* Counted from sam. Each section starts on sam with whatever it writes
+       first, opening commas included. A line is right when its || lands on a
+       cycle boundary; notes written after a section's last || lead into the
+       repeat and are not counted against it. A line with no || simply
+       continues into the next. The eduppu is still reported, for display. */
     var ed = eduppuOf(parsed, config);
     var eduppu = ed ? ed.spaces : 0;
-    function offsetFrom(space) {
-      return round6((((space - eduppu) % cycleSpaces) + cycleSpaces) % cycleSpaces);
+    function offsetIn(sec, space) {
+      return round6((((space - sec.startSpace) % cycleSpaces) + cycleSpaces) % cycleSpaces);
     }
 
+    var current = null;
+    var rowSection = [];
     parsed.rows.forEach(function (row) {
+      if (row.type === 'section') { current = null; return; }
       if (row.type !== 'passage' || row.endSpace <= row.startSpace) return;
-      var spaces = row.endSpace - row.startSpace;
-      var startSpace = row.startSpace;
-      var name = row.section || '';
-      /* Leading rests are the eduppu padding: the line still begins at sam,
-         so measure where it starts from its first sounding note. */
-      var firstSounding = startSpace;
-      for (var ri = 0; ri < row.events.length; ri++) {
-        if (!row.events[ri].isRest) { firstSounding = row.events[ri].startSpace; break; }
+      if (!current) {
+        /* Notes after the previous section's last || may lead into this one
+           (its first cycle then began at that ||) or back into a repeat. They
+           lead in only when that is what makes this section's first || land
+           on a cycle boundary. */
+        var start = row.startSpace;
+        var prev = sections.length ? sections[sections.length - 1] : null;
+        var prevLast = prev ? prev.rows[prev.rows.length - 1] : null;
+        if (prevLast && prevLast.closes && prevLast.endSpace > prevLast.closesAt + 1e-6) {
+          var firstBar = row.marks.filter(function (m) { return m.type === 'doublebar'; })[0];
+          var fits = function (from) { return firstBar && round6(((firstBar.atSpace - from) % cycleSpaces + cycleSpaces) % cycleSpaces) === 0; };
+          if (fits(prevLast.closesAt) && !fits(row.startSpace)) start = prevLast.closesAt;
+        }
+        current = { name: row.section || '', lines: [], spaces: 0, startSpace: round6(start), rows: [], lastClose: start };
+        sections.push(current);
       }
+      var spaces = row.endSpace - row.startSpace;
+      var bars = row.marks.filter(function (m) { return m.type === 'doublebar'; });
+      var lastBar = bars.length ? bars[bars.length - 1].atSpace : null;
       var entry = {
         line: row.swaraLine,
         sahityaLine: row.sahityaLine,
-        section: name,
-        startSpace: round6(startSpace),
+        section: current.name,
+        startSpace: round6(row.startSpace),
         spaces: round6(spaces),
         cycles: round6(spaces / cycleSpaces),
-        startOffset: offsetFrom(firstSounding),
-        endOffset: offsetFrom(startSpace + spaces)
+        startOffset: offsetIn(current, row.startSpace),
+        /* each line is judged on its own, from the || before it, so one
+           mistake is not repeated on every line that follows */
+        endOffset: round6((((lastBar !== null ? lastBar : row.endSpace) - current.lastClose) % cycleSpaces + cycleSpaces) % cycleSpaces),
+        endSpace: round6(row.endSpace),
+        closes: lastBar !== null,
+        closesAt: lastBar
       };
-      entry.endSpace = round6(startSpace + spaces);
       entry.startsOnBoundary = entry.startOffset === 0;
       entry.endsOnBoundary = entry.endOffset === 0;
       entry.wholeCycles = round6(spaces % cycleSpaces) === 0;
+      if (lastBar !== null) current.lastClose = lastBar;
       rows.push(entry);
-
-      if (!byName[name]) {
-        byName[name] = { name: name, lines: [], spaces: 0, startSpace: round6(startSpace) };
-        sections.push(byName[name]);
-      }
-      byName[name].lines.push(row.swaraLine);
-      byName[name].spaces = round6(byName[name].spaces + spaces);
-      byName[name].endSpace = entry.endSpace;
+      rowSection.push(current);
+      current.rows.push(entry);
+      current.lines.push(row.swaraLine);
+      current.spaces = round6(current.spaces + spaces);
+      current.endSpace = entry.endSpace;
     });
 
-    /* A section is the unit that should close on a cycle. Half-cycle lines
-       inside a section that adds up are ordinary notation, not a mistake. */
+    // A line is wrong when its || is off a cycle boundary, or when it is the
+    // last line of its section, has no ||, and stops part-way through a cycle.
+    var offenders = rows.filter(function (r, i) {
+      var sec = rowSection[i];
+      if (r.closes) return !r.endsOnBoundary;
+      return r === sec.rows[sec.rows.length - 1] && !r.endsOnBoundary;
+    });
+
+    var totalCycles = 0;
     sections.forEach(function (s) {
-      s.remainder = round6(s.spaces % cycleSpaces);
+      var last = s.rows[s.rows.length - 1];
+      var measuredEnd = last.closes ? last.closesAt : s.endSpace;
+      s.remainder = offsetIn(s, measuredEnd);
       s.shortBy = s.remainder > 0 ? round6(cycleSpaces - s.remainder) : 0;
-      s.cycles = round6(s.spaces / cycleSpaces);
-      s.aligned = s.remainder === 0 || offsetFrom(s.endSpace) === 0;
-      s.startsOnBoundary = offsetFrom(s.startSpace) === 0 || s.startSpace === 0;
+      s.cycles = round6((measuredEnd - s.startSpace) / cycleSpaces);
+      s.aligned = !s.rows.some(function (r) { return offenders.indexOf(r) !== -1; });
+      s.startsOnBoundary = true;
+      totalCycles += s.cycles;
     });
+    sections.forEach(function (s) { delete s.rows; });
 
-    // The lines worth naming: those inside a section that does not close,
-    // which end away from a beat of the cycle. Reported one by one — a
-    // whole-passage total is no help to someone hunting for the line to fix.
-    var offenders = rows.filter(function (r) {
-      var s = byName[r.section];
-      return s && !s.aligned && !r.endsOnBoundary;
-    });
-
-    // Lines pushed off the beat by an earlier section rather than by themselves.
-    var knockOn = rows.filter(function (r) {
-      var s = byName[r.section];
-      return s && s.aligned && !s.startsOnBoundary && r === rows[rows.indexOf(r)] && !r.startsOnBoundary;
-    });
-
-    var remainder = offsetFrom(parsed.totalSpaces);
+    var remainder = sections.length ? sections[sections.length - 1].remainder : 0;
     return {
       cycleSpaces: cycleSpaces,
       eduppuSpaces: eduppu,
       totalSpaces: round6(parsed.totalSpaces),
-      totalCycles: round6((parsed.totalSpaces - eduppu) / cycleSpaces),
+      totalCycles: round6(totalCycles),
       remainder: remainder,
       shortBy: remainder > 0 ? round6(cycleSpaces - remainder) : 0,
       rows: rows,
       sections: sections,
       offenders: offenders,
-      knockOn: knockOn,
-      aligned: remainder === 0 && !offenders.length
+      // right in themselves, but pushed off sam by a mistake earlier in the section
+      knockOn: rows.filter(function (r) { return !r.startsOnBoundary && offenders.indexOf(r) === -1; }),
+      aligned: !offenders.length
     };
   }
 
