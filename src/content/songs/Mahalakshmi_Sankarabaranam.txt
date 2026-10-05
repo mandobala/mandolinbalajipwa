@@ -1,0 +1,148 @@
+﻿[TITLE: Mahalakshmi-Sankarabaranam]
+[COMPOSER: Papanasam Sivan]
+[NOTATED BY: Eviolin guru]
+[RAGA: Shankarabharanam]
+[TALA: Misra Chapu (7)]
+[BEATS: 7]
+[NADAI: 2]
+[BPM: 180]
+[SA: C#4]
+[SCALE: S R2 G3 M1 P D2 N3]
+[AROHANA: S R2 G3 M1 P D2 N3 Ṡ]
+[AVAROHANA: Ṡ N3 D2 P M1 G3 R2 S]
+[TAGS: Exercise, Mahalakshmi-Sankarabaranam, Shankarabharanam, Misra Chapu, Papanasam Sivan, Kalyani, Kanakku]
+
+[SECTION: Pallavi]
+[SWARA]
+p, ppmg g,m, p,,, || ,, ,, ,,   ,, ,, d,n,
+[SAHITYA]
+ma ha   lak  shmi                    jagan
+
+[SWARA]
+ṡ, ,,,, ṡnd, m,p, || n,d,p, mg ṣ, ṣrg, ||
+[SAHITYA]
+mā      thā  mana    mi ra ngi va ra marul
+
+[SWARA]
+pm dpmg m,,, pmpd || ,p ,, ,,   ,,,, pṡdṡ
+[SAHITYA]
+ma ha   lak   shmi                   jagan
+
+[SWARA]
+ṡnṡ ṙ,, ṡndp m,pp || ġṙṡndp mg ṣ,, rg, ||
+[SAHITYA]
+mā      thā   mama    mi ra ngi va ra marul
+
+[SWARA]
+gm [p,dp]mg g,m, p,dd || [dnṙṡndp,],, ,,,, mpdn 
+[SAHITYA]
+ma ha       lak  shmi
+
+[SWARA]
+ṡṙ, ṁġṙ ṡndp ,mp, || ṁġ [ṙṡn,] dp ppmgṣ rg, ||
+[SAHITYA]
+jagan  mā      thā   mama    mi ra ngi   va ra marul
+
+[SWARA]
+pm dpmg g,m, pmpd || ,p ,,,, ,,,,   d,n,
+[SAHITYA]
+ma ha   lak   shmi                  jagan
+
+[SWARA]
+| [n,ṙṡ] ṡdn, ṡn[ṡṙ,ṡ] ,, ,, || 
+[SAHITYA]
+  mā      thā   mama
+
+
+[SECTION: Anupallavi]
+
+
+[SWARA]
+p, ppmg g,m, p,p, || pṡd,n, ṡ,,, ṡ,ṡ,
+[SAHITYA]
+ma ha   vi   shuin   mar bi  nil  maṟi
+
+[SWARA]
+ṡ, ṙ, ṡ,   ṡ,ṡ, ṡ, ṡ, || ṡ,d,r, ṡ,,, ,, ,, ||
+[SAHITYA]
+pee dha ma  di ni  la nandā val
+
+[SWARA]
+ṡ,ndpm gpmp pṡdṡ || [n,ṙṡ] ṡdn, ṡ,,, ṡṡ,,
+[SAHITYA]
+ma ha   vi   shuin   mar     bi   nil  maṟi
+
+[SWARA]
+ṡṙġṙ [ṙġṁġ] ṙṡ, ṡṡ, nṙ || ṡ,d,r, ṡ,,, ,, ,, ||
+[SAHITYA]
+pee   dha ma di ni la nandā       val
+
+[SWARA]
+ṙ, [ṡndpmg], gpmp pṡdṡ || ṡnṡ ṙ,ṡ ṡ,ṡ,, ṡṡ,
+[SAHITYA]
+ma  ha        vi   shuin   mar bi   nil    maṟi
+[SWARA]
+nṡ[ṙġṁ,] [ṙġṁġ] ṙṡ, ṡṡ, nṙ || 
+[SAHITYA]
+pee       dha ma di ni la nandā
+
+
+[SWARA]
+p,,, ġ, ṙ,ṡ, d,ṙ, | ṡn d, p, p,ṡd ṙ,ṡ,
+[SAHITYA]
+man  ma da nai een   da  ru lum tha  ye
+
+[SWARA]
+m,,p,, n,d, p,,, | ppmgṣ, ṣrg, gpmp |
+[SAHITYA]
+da ya  ni de ye    ma ha  ma    ye
+
+[SWARA]
+p,,, ṁġ ṙġṙṡ d,ṙ, || ṡn d, p, ṣpmp pṡdṡ
+[SAHITYA]
+man  ma da nai een    da  ru lum tha  ye
+[SWARA]
+ṙ,, ṡ,, ṡndn dp,, ||
+[SAHITYA]
+da ya   ni de ye
+
+<Mahalakshmi>
+
+
+[SECTION: Charanam]
+
+
+[SWARA]
+p,,, p, p,, pp, m, | gmdpm, g,,, ,,,,
+[SAHITYA]
+      pal  ka dal tharum kru pa  ka   ri
+
+[SWARA]
+gmdpmg ṣ,,, rgm, | dpmgm, p,, ṣ,rgm ||
+[SAHITYA]
+pa ri ndu van      demmai a    da ri
+
+[SWARA]
+p,ṡ,n, dpp pp, m, | gmpdp, m,g, ,, ,, |
+[SAHITYA]
+pal ka dal tharum kru pa ka ri
+
+[SWARA]
+gmdpm ṙg, mgṙ ṣn | ṣrg,m, [dppm]m, mp,, ||
+[SAHITYA]
+pa ri ndu van demmai a da ri
+
+
+[SWARA]
+ṡ,,, n,ṙ, n,ṡ, d, | n, p, d, m,, pd, n, |
+[SAHITYA]
+pan  ka ja malar vala ra ma ye kadaikkan par
+
+[SWARA]
+ṡ, ,,,, ,,,, m,pp, | n, d,p, mgṣ, r,g, ||
+[SAHITYA]
+rā          ma       da  sa pa ni yum
+
+< || — — — — || — — — — || — — m,,, || [pṙ]ṡndp, — — ||>
+                                                 
+<Mahalakshmi>

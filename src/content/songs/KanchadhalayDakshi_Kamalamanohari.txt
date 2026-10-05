@@ -1,0 +1,93 @@
+﻿[TITLE: KanchadhalayDakshi-Kamalamanohari]
+[COMPOSER: Dikshithar]
+[NOTATED BY: Balaji]
+[RAGA: Kamalamanohari]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 80]
+[SA: C#4]
+[SCALE: S G3 M1 P D1 N3]
+[AROHANA: S G₃ M₁ P N₃ S]
+[AVAROHANA: S N₃ D P M₁ G₃ S]
+[TAGS: Krithi, KanchadhalayDakshi-Kamalamanohari, Kamalamanohari, Adi, Dikshithar]
+
+[SECTION: Pallavi]
+
+
+[SWARA]
+,,, ṡ | ,, nd | p,,, | m,mg | p,m, | g,s, | ,,g, | ,,m, ||
+[SAHITYA]
+    Kan    chada la     ya da   a k    shi ka   ma    kshi
+
+[SWARA]
+,,, ṡ | ,, nd | p,,, | m,mg | p,m, | g,sṇ | s,,m | gmp, ||
+
+[SWARA]
+n,d, | p,,, | mgpm | g,pm | g,,d | pdmp | gmpn | ṡġ,, ||
+[SAHITYA]
+Ka ma  la     ma no  o ha   ri     tri pu  ra     Sun da ri
+
+[SWARA]
+ṡṁg ṡ | ,, nd | p,,, | m,mg | p,m, | g,s, | ,,,, | ,,,, ||
+
+
+[SECTION: Anupallavi]
+
+
+[SWARA]
+s,sg | sgm, | ,,gm | pnpm | gmpn | pnṡ, | ,,,, | ,,,, ||
+[SAHITYA]
+kunjara gamane  mani  manditha manluta charane
+
+[SWARA]
+s,sg | sgm, | ,,gm | pnpm | gmpn | pnṡ n | dpmg | pmgs ||
+
+[SWARA]
+s,sg | sgm, | ,,gm | pnpm | gmpn | pnṡ, | ,,n, | ṡġṡṁ ||
+[SAHITYA]
+kunjara gamane  mani  mandithe manluta charane ma    mava Siva
+
+[SWARA]
+ġ,ṁġ    | ṡn s, | ndpm | gmpn | ṡ,      nd |     pdpp | ,mgs | gmpn ||
+[SAHITYA]
+pa chara suki     pankaja muki   guru   ranjani durithabha njani niranjani
+
+<Kancha dhalaya dakshi>
+
+
+
+[SECTION: Charanam]
+[SWARA]
+,,p, | ,,p, | ,,mg | ,,pm | g,,, | ,,ṇ, | s,g, | ,,m, ||
+[SAHITYA]
+  ra     ka     sasi   vada ne       su   ra dha  ne
+
+[SWARA]
+,,s, | ,,ṇ, | ḍ,p, | ṇ,,s | ,,ṇ, | ,,s, | g,g, | m,,, ||
+[SAHITYA]
+  rak    shi   tha ma da ne  dath   na    sa dha ne
+
+[SWARA]
+,,mn | pmm, | m,n, | ,d,d, | p,,, | ,,g, | m,p, | n,,, ||
+[SAHITYA]
+  Sri  kaan   chi ni  va sa   ne       su    ra sa   ne
+
+[SWARA]
+ṡ,,, | ġ,,, | ṡ,,, | n,d, | ,,pn | ddp, | mgpm | g,,, ||
+[SAHITYA]
+Shrin  ga     ra     sra ya    ma   ndha   ha sa   ne
+
+[SECTION: Madhyama kala Sahithyam]
+
+[SWARA]
+s,s, | ṇdp, | ṇsgg | m,    gm |  pdp, | mgm, | gmgs | gmgm ||
+[SAHITYA]
+e ka   neka   shari buvane swari eka  nanda   mrutha jana Bhaswari
+                         
+
+[SWARA]
+pdp, | ṡnṡ, | ṡġṡṁ |    ṡ,ṡ, | pṡnd | pdpm | gmgs |    gmpn ||
+[SAHITYA]
+ekagra mano   laya ha  ri sri  eka mresa    gruheswari Sankari
+<[Kancha dhalaya pallavi>
