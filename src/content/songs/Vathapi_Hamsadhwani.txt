@@ -20,9 +20,9 @@ G, ,, ,, R, ,,S, SRSṆ | P̣,R, ,,S, | R, ,, SṆSR ||
 vā       tā    pi ga ṇa patiṁ bha    jē    ham
 
 [SWARA]
-G,SRG,, R, ,R, SRSṆ | P̣,R, ,,S, | R, ,, SṆSR ||
+G,SR  G,R,  ,,R,  S,Ṇ,    P,,R  ,,S,  R,,,  SṆSR||
 [SAHITYA]
-vā     tā  pi ga ṇa   patiṁ bha    jē    ham
+vā     tā     pi ga ṇa    patiṁ bha    jē      ham
 
 [SWARA]
 GPGG RS RGRRSṆ SRSṆ | P̣,R, ,,S, | R, ,, SṆSR ||
