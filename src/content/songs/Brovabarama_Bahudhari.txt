@@ -1,0 +1,52 @@
+﻿[TITLE: Brovabarama-Bahudhari]
+[COMPOSER: Thyagaraja]
+[NOTATED BY: Balaji]
+[RAGA: Bahudhari]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S G3 M1 P D2 N2]
+[AROHANA: S G3 M1 P D2 N2 Ṡ]
+[AVAROHANA: Ṡ N2 P M1 G3 S]
+[TAGS: Krithi, Brovabarama-Bahudhari, Adi, Thyagaraja]
+
+[SECTION: Pallavi]
+
+[SWARA]
+|,,,,|,,pd|n,,p|,,m,|g,,,|,,g,|m,,p|,,p,||
+[SAHITYA]
+|g,,,|,,pd|nṠ,p|,,m,|g,,,|,,g,|m,,p|,,p,||
+[SWARA]
+|g,,,|,,m,|g,,s|,,ṇ,|s,,,|s,sg|mggm|pmp,||
+[SAHITYA]
+|pmgs|gmpd|nṡ,p|,,m,|g,,,|,,,,|s,,,,||
+[SAHITYA]
+Anupallavi
+[SWARA]
+|,,,,|,,dn|ṡ,ṡn|dnp,|d,n,|ṡ,ṡ,|,,ṡ,|,,ṡ,||
+[SAHITYA]
+|,,s',|,,dn|s,sn|dnp,|d,n,|ṡ',dn|ṡ,,p|dnṡ,||
+[SWARA]
+dnsd|npdn|s,sn|dnp,|d,n,|ṡ,ṡ,|ṡ',ġ',|,ṁ'ṗ',||
+[SAHITYA]
+|ṁ',ġ',|ṡ',p,|ṡ,ṡn|dnpd|nṡṡn|pmgm|pmmp|mgs,||
+[SWARA]
+|pmgs|gmpd|nṡ',p|,,m,|g,,,|,,,,|s,,,|,,,,||
+[SAHITYA]
+Charanam
+[SWARA]
+|,,,,|,,p,|p,p,|,,pm|gm,p|,,pd|nṡ,p|,,mg||
+[SAHITYA]
+|sg,s|,,ḍṇ|s,sṇ|ḍṇp̣,|ḍ,ṇ,|s,s,|s,gm|p,m,||
+[SWARA]
+|,,,,|,,dn|ṡ,ṡn|dnp,|d,n,|ṡ,ṡ,|,,ṡ,|,,ṡ,||
+[SAHITYA]
+|,,s',|,,dn|s,sn|dnp,|d,n,|ṡ',dn|ṡ,,p|dnṡ,||
+[SWARA]
+dnsd|npdn|s,sn|dnp,|d,n,|ṡ,ṡ,|ṡ',ġ,|,ṁ ṗ,||
+[SAHITYA]
+|ṁ,ġ,|ṡ,p,|ṡ,ṡn|dnpd|nṡṡn|pmgm|pmmp|mgs,||
+[SWARA]
+|pmgs|gmpd|nṡ,p|,,m,|g,,,|,,,,|s,,,|,,,,||
