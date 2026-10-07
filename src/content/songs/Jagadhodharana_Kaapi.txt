@@ -31,7 +31,7 @@ r,, g2 r ṇ2, ḍ ṇ3, s, , r s, |,,, m g2 r s s ṇ3s [rm] [pn2] [d2d2] [pṡ
 
 
 [SWARA]
-,,, r m p p, p, p, [pn2 pn2] [ rṡn2 d2] | p, [mn2] p g2 r s, [n3s rm pn dd ps n2d2 pm g2r] ||
+,,, r m p p, p, p, [pn2 pn2] [ rṡn2 d2] | p, [mn2] p g2 r s, [n3s rm pn2 dd pṡ n2d2 pm g2r] ||
 
 [SWARA]
 sn3 sr,, ,,,, ,,,, ,,,, ,,,, ,,,, ,,,, ,,||
@@ -46,6 +46,6 @@ sn3 sr,, ,,,, ,,,, ,,,, ,,,, ,,,, ,,,, ,,||
 [SWARA]
 r,, g3 g3 g3 g3  , , , ,  s g3 p m |,,, mn p g r s n s [n3s] [rg] r, r,||
 [SWARA]
-r,, g3 g3 g3 g3 , [gsgm gsgm] [gmnp pm gp]|[mg pm gm] m g r s s [n3s] [rm] [pn] [dd] [ps] [nd] [pm] [gr] ||
+r,, g3 g3 g3 g3 , [gsgm gsgm] [gmn2p pm g2p]|[mg2 pm g2m] m g2 r2 s s [n3s] [r2m] [pn2] [dd] [pṡ] [n2d] [pm] [g2r2] ||
 [SWARA]
-[sn3] [sr]
+[sn3] [sr2]
