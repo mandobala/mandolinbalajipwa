@@ -18,20 +18,20 @@
 ,,, g2 r ṇ2, ḍ ṇ3, s, , r s, | ,,, m g2 r s s ṇ3 s [ṇ3s] [rg2] r, r, ||
 
 [SWARA]
-r,, g2 r ṇ2, ḍ ṇ3, s, , r s, |,,, m g2 r s s ṇ3s [rm] [pn2] [d2d2] [pṡ] [nd2] [pm] 
+r,, g2 r ṇ2, ḍ ṇ3, s, , r s, |,,, m g2 r s s ṇ3s [rm] [pn2] [d2d2] [pṡ] [n2d2] [pm] 
 [SWARA]
-[gr][sṇ3] [sr] g2 r ṇ2, ḍ ṇ3, s, , r s, | ,,, m g2 r s s ṇ3 s [ṇ3s] [rg2] r, r, ||
+[g2r][sṇ3] [sr] g2 r ṇ2, ḍ ṇ3, s, , r s, | ,,, m g2 r s s ṇ3 s [ṇ3s] [rg2] r, r, ||
 
 
 [SECTION: Anupallavi]
 
 
 [SWARA]
-,, n n n , , n n, n, , n [psn2d2] | n2,, d1 p d1, m p, [psn2d2] n,d1 p ||
+,, n2 n2 n2 , , n2 n2, n2, , n2 [psn2d2] | n2,, d1 p d1, m p, [psn2d2] n2,d1 p ||
 
 
 [SWARA]
-,,, r m p p, p, p, [pn2 pn2] [ rṡn d] | p, [mn] p g2 r s, [ns rm pn dd ps nd pm g2r] ||
+,,, r m p p, p, p, [pn2 pn2] [ rṡn2 d2] | p, [mn2] p g2 r s, [n3s rm pn dd ps n2d2 pm g2r] ||
 
 [SWARA]
 sn3 sr,, ,,,, ,,,, ,,,, ,,,, ,,,, ,,,, ,,||
