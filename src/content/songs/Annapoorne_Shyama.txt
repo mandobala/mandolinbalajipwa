@@ -1,0 +1,71 @@
+﻿[TITLE: Annapoorne -Shyama]
+[COMPOSER: Shyama]
+[NOTATED BY: Balaji]
+[RAGA: Shyama]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 80]
+[SA: C#4]
+[SCALE: S R2 G3 M1 P D2]
+[AROHANA: S R₂ M₁ P D₂ S]
+[AVAROHANA: S D₂ P M₁ G₃ R₂ S R G₃ S R S]
+[TAGS: Krithi, Annapoorne -Shyama, Adi, Shyama]
+
+[SECTION: Pallavi]
+
+[SWARA]
+,,,ḍ    ,,s,    m,,,       m,,,      ,,,p    ,dpm    mggr    g,r,||
+[SWARA]
+,,,ḍ    ,,s,    rdp,       m,,,      ,,,d    d,p,    mggr    g,r,||
+
+[SWARA]
+,,,ḍ    ,,s,    [r,m,] [rmp,] [mpd,] [m,,,]    ,,,d    ,,p,    mggr    srg,||
+
+[SWARA]
+r,,s    r,mp    d,ṡ,    dṡṙṗ    ṁġṙ,    ,,ṙṡ    [dsd,][pdp,]    [mpm,][gmg,]||
+
+[SWARA]
+[rgrs],,  ḍ       ,,,s    m,,      m,,,    mggr    ḍ,,,    s,,,    ,,,,||
+
+
+[SECTION: Anupallavi]
+
+
+[SWARA]
+,,,d    p,m,    d,,,    ṡ,,,    dṡṙ,    ,ṗ,,    ṁġġṙ    ġ,ṙ,||
+
+[SWARA]
+ṡṙṗṁ    [ġṁġ,][ṙġṙ,]    ṡ,ṡ,    ,md    ṙṡdsd    p,pm    [gmg,]rs    r,r,||
+
+[SWARA]
+pdsd    ,pmp    d,s,    ṙ,d,    ṡ,,,    ,,,,    ,,,,    ,,,,||
+
+[SWARA]
+pdsd    ,pmp    d,s,    ṙd,s    [(ġṁġ)(ṙġṙ)ṡṙṡ,]ṙ,ṡ    [(dsd,)pdp,    mpm,gmg,]||
+
+[SWARA]
+[rgrs],  ḍ    ,,,s    [r,m,] [rmp,] [mpd,]| m,,,    [,,,d]    ,,p,    mggr    srg,||
+
+[SWARA]
+r,s,    r,mp    d,s,    dṡrp    mġṙ,    ,,ṙṡ    [dsd,pdp,]    [mpm,gmg,]||
+
+[SWARA]
+[rgrs],  d    ,,,s    m,,,    m,,,    mggr    d,,,    s,,,    ,,,,||
+
+
+[SECTION: Charanam]
+
+[SWARA]
+,,,d    sd,p    ,,p,    mdpm    pm,m    grrs    r,m,    p,,,||
+
+[SWARA]
+,,pm    d,d,    p,d,    s,ds    rgs,    [,,sd][sd]    pmd,    ,s,,,||
+
+[SWARA]
+,,,d    ds,,    ,,r,    dsrm    ,,gr    s,r,    g,s,    r,,,||
+
+[SWARA]
+s,,,    d,,p    ,,m,    mpdm    pm,m    ggrs    r,g,    s,r,||
+
+

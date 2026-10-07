@@ -496,6 +496,9 @@ const CarnaticEngine = (function () {
           column: i,
           atSpace: state.space
         });
+        /* || ends a line of the song, so commas after it are silence, the
+           same as commas opening a written line. */
+        if (double && !HOLD_ACROSS_LINES) state.lastEvent = null;
         i += double ? 2 : 1;
         continue;
       }

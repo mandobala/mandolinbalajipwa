@@ -63,7 +63,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://mandolinbal
     <slot name="head" />
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
 	<script is:inline src="/js/ios-pwa-splash.min.js"></script>
-	<script is:inline src="/js/pwa-install.bundle.js"></script>
   </head>
   <body>
     <div class="stack">
@@ -77,86 +76,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://mandolinbal
     </script>
     <ReloadPrompt />
     <CookieConsent />
-    <pwa-install
-	  id="pwa-install"
-	  use-local-storage="true"
-      install-description="Install as an app for the best experience"
-      disable-screenshots="true"
-      disable-screenshots-apple="true"
-      disable-screenshots-chrome="true"
-      manifest-url="/manifest.webmanifest"
-      name="Mandolin Balaji"
-      description="Mandolin Balaji's web application"
-      icon="/favicon.png">
-    </pwa-install>
-	<script>
-		const pwaInstall = document.getElementById("pwa-install");
-
-		const logMessage = (message) => {
-			console.log(message);
-		}
-
-		const getRelated = () => {
-			pwaInstall.getInstalledRelatedApps().then(
-				(result) => {
-					logMessage(result.toString() || 'None');
-				}
-			)
-		}
-		
-		const forceStyle = (style) => {
-			switch (style) {
-				case 'apple-mobile':
-					pwaInstall.isAppleDesktopPlatform = false;
-					pwaInstall.isAppleMobilePlatform = true;
-					break;
-				case 'apple-desktop':
-					pwaInstall.isAppleMobilePlatform = false;
-					pwaInstall.isAppleDesktopPlatform = true;
-					break;
-				case 'chrome':
-					pwaInstall.isAppleMobilePlatform = false;
-					pwaInstall.isAppleDesktopPlatform = false;
-					pwaInstall.isAndroidFallback = false;
-					break;
-				case 'fallback':
-					pwaInstall.isAppleMobilePlatform = false;
-					pwaInstall.isAppleDesktopPlatform = false;
-					pwaInstall.isAndroidFallback = true;
-					break;
-			}
-			pwaInstall.hideDialog();
-			pwaInstall.showDialog();
-		}
-
-		const disableInstallDescription = (cb) => {
-			cb.checked ? pwaInstall.setAttribute('disable-install-description', true) :
-			pwaInstall.removeAttribute('disable-install-description');
-		}
-		const disableScreenshots = (cb) => {
-			cb.checked ? pwaInstall.setAttribute('disable-screenshots', true) :
-			pwaInstall.removeAttribute('disable-screenshots');
-		}
-		const disableScreenshotsPlatform = (cb, platform) => {
-			cb.checked ? pwaInstall.setAttribute(`disable-screenshots-${platform}`, true) :
-			pwaInstall.removeAttribute(`disable-screenshots-${platform}`);
-		}
-		const disableClose = (cb) => {
-			cb.checked ? pwaInstall.setAttribute('disable-close', true) :
-			pwaInstall.removeAttribute('disable-close');
-		}
-		const setAttr = (attr, value) => {
-			value? pwaInstall.setAttribute(attr, value) :
-			pwaInstall.removeAttribute(attr);
-			pwaInstall._init();
-		}
-
-		pwaInstall.addEventListener('pwa-install-success-event', (event) => {logMessage(event.detail.message)});
-		pwaInstall.addEventListener('pwa-install-fail-event', (event) => {logMessage(event.detail.message)});
-		pwaInstall.addEventListener('pwa-user-choice-result-event', (event) => {logMessage(event.detail.message)});
-		pwaInstall.addEventListener('pwa-install-available-event', (event) => {logMessage(event.detail.message)});
-		pwaInstall.addEventListener('pwa-install-how-to-event', (event) => {logMessage(event.detail.message)});
-		pwaInstall.addEventListener('pwa-install-gallery-event', (event) => {logMessage(event.detail.message)});
-	</script>
+    {/* The "Install as an app" pop-up (pwa-install) was removed; the site can still be added to the home screen from the browser menu. */}
   </body>
 </html>
