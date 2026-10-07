@@ -1,0 +1,176 @@
+﻿[TITLE: Vathapi-Hamsadhwani]
+[COMPOSER: Dikshithar]
+[NOTATED BY: TK Govinda Rao]
+[RAGA: Hamsadhwani]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 80]
+[SA: C#4]
+[SCALE: S R2 G3 P N3]
+[AROHANA: S R2 G3 P N3 Ṡ]
+[AVAROHANA: Ṡ N3 P G3 R2 S]
+[TAGS: Krithi, Vathapi-Hamsadhwani, Hamsadhwani, Adi, Dikshithar]
+
+[SECTION: Pallavi]
+
+[SWARA]
+G, ,, ,, R, ,,S, SRSṆ | P̣,R, ,,S, | R, ,, SṆSR ||
+[SAHITYA]
+vā       tā    pi ga ṇa patiṁ bha    jē    ham
+
+[SWARA]
+G,SR  G,R,  ,,R,  S,Ṇ,    P,,R  ,,S,  R,,,  SṆSR||
+[SAHITYA]
+vā     tā     pi ga ṇa    patiṁ bha    jē      ham
+
+[SWARA]
+GPGG RS RGRRSṆ SRSṆ | P̣,R, ,,S, | R, ,, SṆSR ||
+[SAHITYA]
+vā       tā  pi ga ṇa  patiṁ bhajē   ham
+
+[SWARA]
+G,P, ,,PG ,,R, SRSṆ | P̣,R, ,,S, | R, ,, SṆSR ||
+[SAHITYA]
+vā     tā    pi ga ṇa   patiṁ bha    jē    ham
+
+[SWARA]
+G,P,N,P, G,R, GRSṆ | P̣,R, ,,S, | R, ,, SṆSR ||
+[SAHITYA]
+vā   tā  pi ga ṇa    patiṁ bhajē   ham
+
+[SWARA]
+GPNṠṘ,ṠNP GR, GRSṆ  | P̣,R, ,,S, | R, ,, SṆSR ||
+[SAHITYA]
+vā    tā  pi gaṇā     patiṁ  bha  jē     ham
+
+[SWARA]
+G,R,G,P,, ,P,P,Ṡ, | ṠNP, ,, G, | G,R,  GRSR||
+[SAHITYA]
+vā ra ṇā    syam   va ra    pra     dam      śrī
+
+[SWARA]
+GPNṠṘĠ ĠṘṠNP P GRSṆ | P̣,R, ,,S, | R, ,, SṆSR ||
+[SAHITYA]
+vā     tā       pi ga ṇa patiṁ bha   jē    ham
+
+[SWARA]
+G,R,G,P, ,, P, P,Ṡ, | ṠNP, ,, G, | G,R,  GRSR ||
+[SAHITYA]
+vā ra ṇā      syam    va ra   pra   dam  śrī
+
+[SWARA]
+GPNṠṘĠ ṖĠṘṠNPG R SṆ | P̣,[R,GR] R,S, | [R,GR]R,SṆSR ||
+[SAHITYA]
+vā       tā      pi gaṇā  patiṁ           bhajē    ham
+
+[SWARA]
+G,R,G,P, ,, P, PNṠṘ | ĠṘṠ ṘṠN ṠNP NP PGRSR ||
+[SAHITYA]
+vā  ra ṇā     syam    va   ra   pra dam śrī
+
+[SWARA]
+ĠṘ,, ,, ṠNP, GR, R SṆ | P̣,,R,, S, | R, ,, RSS, ||
+[SAHITYA]
+vā      tā   pi  gaṇā   patiṁ bhajē        ham
+
+
+[SECTION: Anupallavi]
+
+
+[SWARA]
+P,,,  G,,,  ,,R,  S,,,    SRGR  S,R,  G,G,  P,,,||
+[SAHITYA]
+bhū tā   di      sam     sē   vita    cara ṇam
+
+[SWARA]
+P,Ṡ,  N,Ṡ,  Ṙ,Ṡ,  ṠNP,    P,ṠN  P,P,  GRGR  S,,,||
+[SAHITYA]
+bhū tā  bhau    ti     ka prapañ ca   bhara ṇam
+
+
+[SWARA]
+GPṠN  P,G,  ,,R,  S,,,    SRGP  GRSR  G,G,  P,,,
+[SAHITYA]
+bhū     tā  di sam        sē   vi ta  cara ṇam
+
+[SWARA]
+P,Ṡ,  N,Ṡ,  Ṙ,Ṡ,  ṠNP,    P,ṠN  P,P,  GRGR  S,,,||
+[SAHITYA]
+bhū tā  bhau    ti     ka prapañ ca   bhara ṇam
+
+
+[SECTION: Madhyama Kala Sahitya]
+
+
+[SWARA]
+,,G  R,    PG  PPṠN  ,,ṘṠ,    | Ġ,,Ṙ  Ṡ,NP   G,,P   G,RS ||
+[SAHITYA]
+vīta rā gi ṇam vi nata yōginam  viśvakāraṇam vighna vāraṇam  
+
+<vātāpi gaṇapatim>
+
+
+[SECTION: Charanam]
+
+
+[SWARA]
+G,G,  ,,R,  ,,R,  S,,,    ,,SṆ  P,S,  S,G,  R,,, ||
+[SAHITYA]
+purā    kum  bha sam    bha vamuni   va ra   pra
+
+[SWARA]
+P,,,  ,,G,  R,,,  S,R,    ,,G,  R,,,  G,S,  R,,, ||
+[SAHITYA]
+pū       jitam trikō    ṇama          dhyāgatam
+
+
+[SWARA]
+Ṇ,,R  ,,R,  GPGR  S,,,    SRSṆ  P,R,  S,,,  ,,,, ||
+[SAHITYA]
+murā   ri   pramu khā    dyupā   si tam
+
+[SWARA]
+G,,,  P,,,  R,,,  G,,,    R,,,  SRGP  G,R,  S,,,||
+[SAHITYA]
+mū   lā     dhā   ra      kshē tra     sthi tam
+
+
+[SWARA]
+P,,S  ,,S,  R,R,  G,,,    R,,P  ,,G,  ,,,,  ṠNP,||
+[SAHITYA]
+parā  di  cat   vā     ri vā   gā      tmakam
+
+[SWARA]
+Ṡ,Ṡ,  N,,,  ,,G,  P,N,    Ṡ,,Ṙ  ,,Ġ,  Ṡ,Ṙ,  Ṡ,,,||
+[SAHITYA]
+praṇava    svarū  pa      va    kra    tuṇ   ḍam
+
+
+[SWARA]
+N,,Ṙ  ,,Ġ,  ,,Ṙ,  N,Ṡ,    R,P,  ,,N,  G,P,  NṠṘ,||
+[SAHITYA]
+niran   taram ni ti       la can dra  khaṇ ḍam
+
+[SWARA]
+ṠṘṠN  P,,,  P,G,  R,S,    SRG,  ,,P,  R,G,  R,S,||
+[SAHITYA]
+ni ja  vā  ma ka ra vi   dhṛ tē kshu dan    ḍam
+
+
+
+[SECTION: Madhyama Kala Sahitya]
+
+
+[SWARA]
+SG,R       SRSN  P,RS   R,R,      GGPG     SNP,       NṠṘ,   ṠNṠ,||
+[SAHITYA]
+karaambuja paaSa beejaa pooram    kalusha  vidū ram   bhū tā kā ram
+[SWARA]
+ṖĠ,Ṙ  SRSN         P,RS  Ṙ,   Ṙ,  Ṡ,Ṡ,  ṠN      P, GP    GR SN  S,
+[SAHITYA]
+harādi guruguha   tōshita bim bam hamsa dhvani bhū shita hē ram bham
+
+ 
+
+<vātāpi gaṇapatim>

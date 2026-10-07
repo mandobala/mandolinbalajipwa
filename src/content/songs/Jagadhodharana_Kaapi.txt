@@ -1,0 +1,51 @@
+﻿[TITLE: Jagadhodharana-Kaapi]
+[COMPOSER: Purandhara Dasa]
+[NOTATED BY: Balaji]
+[RAGA: Kaapi]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R2 G2 G3 M1 P D1 D2 N2 N3]
+[AROHANA: s r m p n s]
+[AVAROHANA: n₃ s d₂ n₂ p d₁ m₁ p g₃ m₁ r₂ g₂ s r n₂ s]
+[TAGS: Krithi, Jagadhodharana-Kaapi, Kaapi, Adi, Purandhara Dasa]
+
+[SECTION: Pallavi]
+
+[SWARA]
+,,, g2 r ṇ2, ḍ ṇ3, s, , r s, | ,,, m g2 r s s ṇ3 s [ṇ3s] [rg2] r, r, ||
+
+[SWARA]
+r,, g2 r ṇ2, ḍ ṇ3, s, , r s, |,,, m g2 r s s ṇ3s [rm] [pn2] [d2d2] [pṡ] [nd2] [pm] 
+[SWARA]
+[gr][sṇ3] [sr] g2 r ṇ2, ḍ ṇ3, s, , r s, | ,,, m g2 r s s ṇ3 s [ṇ3s] [rg2] r, r, ||
+
+
+[SECTION: Anupallavi]
+
+
+[SWARA]
+,, n n n , , n n, n, , n [psn2d2] | n2,, d1 p d1, m p, [psn2d2] n,d1 p ||
+
+
+[SWARA]
+,,, r m p p, p, p, [pn2 pn2] [ rṡn d] | p, [mn] p g2 r s, [ns rm pn dd ps nd pm g2r] ||
+
+[SWARA]
+sn3 sr,, ,,,, ,,,, ,,,, ,,,, ,,,, ,,,, ,,||
+
+
+[SECTION: Charanam]
+
+
+[SWARA]
+,,, r m p p, p, p, r m p , | ,,, [mn] p g r s n3 s [n3s] [rg] r, r, ||
+
+[SWARA]
+r,, g3 g3 g3 g3  , , , ,  s g3 p m |,,, mn p g r s n s [n3s] [rg] r, r,||
+[SWARA]
+r,, g3 g3 g3 g3 , [gsgm gsgm] [gmnp pm gp]|[mg pm gm] m g r s s [n3s] [rm] [pn] [dd] [ps] [nd] [pm] [gr] ||
+[SWARA]
+[sn3] [sr]
