@@ -46,6 +46,6 @@ sn3 sr,, ,,,, ,,,, ,,,, ,,,, ,,,, ,,,, ,,||
 [SWARA]
 r,, g3 g3 g3 g3  , , , ,  s g3 p m |,,, mn2 p g2 r s n s [ṇ3s] [rg2] r, r,||
 [SWARA]
-r,, g3 g3 g3 g3 , [g2sg2m g2sg2m] [g2mn2p pm g2p]|[mg2 pm g2m] m g2 r2 s s [n3s] [r2m] [pn2] [dd] [pṡ] [n2d] [pm] [g2r2] ||
+r,, g3 g3 g3 g3 , [g3sg3m g3sg3m] [g3mn2p pm g3p]|[mg3 pm g3m] m g2 r2 s s [n3s] [r2m] [pn2] [dd] [pṡ] [n2d] [pm] [g2r2] ||
 [SWARA]
 [sn3] [sr2]
