@@ -27,7 +27,7 @@ r,, g2 r ṇ2, ḍ ṇ3, s, , r s, |,,, m g2 r s s ṇ3s [rm] [pn2] [d2d2] [pṡ
 
 
 [SWARA]
-,, n n n , , n n, n, , n [psnd] | n,, d p d, m p, [psnd] n,d1 p ||
+,, n n n , , n n, n, , n [psn2d2] | n2,, d1 p d1, m p, [psn2d2] n,d1 p ||
 
 
 [SWARA]
