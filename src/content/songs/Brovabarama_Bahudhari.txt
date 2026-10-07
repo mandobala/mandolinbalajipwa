@@ -16,21 +16,21 @@
 
 [SWARA]
 |,,,,|,,pd|n,,p|,,m,|g,,,|,,g,|m,,p|,,p,||
-[SAHITYA]
+[SWARA]
 |g,,,|,,pd|nṠ,p|,,m,|g,,,|,,g,|m,,p|,,p,||
 [SWARA]
 |g,,,|,,m,|g,,s|,,ṇ,|s,,,|s,sg|mggm|pmp,||
-[SAHITYA]
+[SWARA]
 |pmgs|gmpd|nṡ,p|,,m,|g,,,|,,,,|s,,,,||
 [SAHITYA]
 Anupallavi
 [SWARA]
 |,,,,|,,dn|ṡ,ṡn|dnp,|d,n,|ṡ,ṡ,|,,ṡ,|,,ṡ,||
-[SAHITYA]
+[SWARA]
 |,,s',|,,dn|s,sn|dnp,|d,n,|ṡ',dn|ṡ,,p|dnṡ,||
 [SWARA]
 dnsd|npdn|s,sn|dnp,|d,n,|ṡ,ṡ,|ṡ',ġ',|,ṁ'ṗ',||
-[SAHITYA]
+[SWARA]
 |ṁ',ġ',|ṡ',p,|ṡ,ṡn|dnpd|nṡṡn|pmgm|pmmp|mgs,||
 [SWARA]
 |pmgs|gmpd|nṡ',p|,,m,|g,,,|,,,,|s,,,|,,,,||
@@ -38,15 +38,15 @@ dnsd|npdn|s,sn|dnp,|d,n,|ṡ,ṡ,|ṡ',ġ',|,ṁ'ṗ',||
 Charanam
 [SWARA]
 |,,,,|,,p,|p,p,|,,pm|gm,p|,,pd|nṡ,p|,,mg||
-[SAHITYA]
+[SWARA]
 |sg,s|,,ḍṇ|s,sṇ|ḍṇp̣,|ḍ,ṇ,|s,s,|s,gm|p,m,||
 [SWARA]
 |,,,,|,,dn|ṡ,ṡn|dnp,|d,n,|ṡ,ṡ,|,,ṡ,|,,ṡ,||
-[SAHITYA]
+[SWARA]
 |,,s',|,,dn|s,sn|dnp,|d,n,|ṡ',dn|ṡ,,p|dnṡ,||
 [SWARA]
 dnsd|npdn|s,sn|dnp,|d,n,|ṡ,ṡ,|ṡ',ġ,|,ṁ ṗ,||
-[SAHITYA]
+[SWARA]
 |ṁ,ġ,|ṡ,p,|ṡ,ṡn|dnpd|nṡṡn|pmgm|pmmp|mgs,||
 [SWARA]
 |pmgs|gmpd|nṡ,p|,,m,|g,,,|,,,,|s,,,|,,,,||
