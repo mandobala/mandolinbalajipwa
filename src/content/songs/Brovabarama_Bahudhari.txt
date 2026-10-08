@@ -27,13 +27,13 @@ Anupallavi
 [SWARA]
 |,,,,|,,dn|ṡ,ṡn|dnp,|d,n,|ṡ,ṡ,|,,ṡ,|,,ṡ,||
 [SWARA]
-|,,s',|,,dn|s,sn|dnp,|d,n,|ṡ',dn|ṡ,,p|dnṡ,||
+|,,ṡ,|,,dn|ṡ,ṡn|dnp,|d,n,|ṡ,dn|ṡ,,p|dnṡ,||
 [SWARA]
-dnsd|npdn|s,sn|dnp,|d,n,|ṡ,ṡ,|ṡ',ġ',|,ṁ'ṗ',||
+dnṡd|npdn|ṡ,ṡn|dnp,|d,n,|ṡ,ṡ,|ṡ,,ġ|,,ṁṗ||
 [SWARA]
-|ṁ',ġ',|ṡ',p,|ṡ,ṡn|dnpd|nṡṡn|pmgm|pmmp|mgs,||
+|ṁ,ġ,|ṡ,p,|ṡ,ṡn|dnpd|nṡṡn|pmgm|pmmp|mgs,||
 [SWARA]
-|pmgs|gmpd|nṡ',p|,,m,|g,,,|,,,,|s,,,|,,,,||
+|pmgs|gmpd|nṡ,p|,,m,|g,,,|,,,,|s,,,|,,,,||
 [SAHITYA]
 Charanam
 [SWARA]
@@ -43,10 +43,12 @@ Charanam
 [SWARA]
 |,,,,|,,dn|ṡ,ṡn|dnp,|d,n,|ṡ,ṡ,|,,ṡ,|,,ṡ,||
 [SWARA]
-|,,s',|,,dn|s,sn|dnp,|d,n,|ṡ',dn|ṡ,,p|dnṡ,||
+|,,ṡ,|,,dn|ṡ,ṡn|dnp,|d,n,|ṡ,dn|ṡ,,p|dnṡ,||
 [SWARA]
-dnsd|npdn|s,sn|dnp,|d,n,|ṡ,ṡ,|ṡ',ġ,|,ṁ ṗ,||
+dnṡd|npdn|ṡ,ṡn|dnp,|d,n,|ṡ,ṡ,|ṡ,,ġ|,,ṁṗ||
 [SWARA]
 |ṁ,ġ,|ṡ,p,|ṡ,ṡn|dnpd|nṡṡn|pmgm|pmmp|mgs,||
 [SWARA]
+|pmgs|gmpd|nṡ,p|,,m,|g,,,|,,,,|s,,,|,,,,||
+
 |pmgs|gmpd|nṡ,p|,,m,|g,,,|,,,,|s,,,|,,,,||
