@@ -845,7 +845,7 @@ function renderGrid() {
   const angaStarts = {};
   let acc = 0;
   angas.forEach((g) => { angaStarts[acc * beatCols] = true; acc += g; });
-  const template = `34px repeat(${cols}, minmax(0, 1fr))`;
+  const template = `48px repeat(${cols}, minmax(0, 1fr))`;
   const lineClass = (c) => {
     if (c === 0 || c === cycleCols) return ' sp-gl-sam';
     if (c < cycleCols && angaStarts[c]) return ' sp-gl-anga';
@@ -968,7 +968,7 @@ function fitGrid() {
     const row = b.querySelector('.sp-gl-row:not(.sp-gl-head)');
     const cols = row && (row.style.gridTemplateColumns.match(/repeat\((\d+)/) || [])[1];
     if (!cols) return;
-    const per = (b.clientWidth - 34) / Number(cols);
+    const per = (b.clientWidth - 48) / Number(cols);
     b.style.fontSize = Math.max(9, Math.min(17, per * 1.45)) + 'px';
   });
 }

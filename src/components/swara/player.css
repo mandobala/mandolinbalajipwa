@@ -363,3 +363,15 @@ button.sp-gl-no { background: none; border: 0; border-right: 1px solid var(--sp-
 
 /* {r}M: the notes a slide starts from, small and raised before the target */
 .sp-slide-from { font-size: 0.62em; color: var(--sp-accent-2); margin-right: 1px; vertical-align: super; line-height: 0; }
+
+/* line numbers are play buttons: ▶ 1 — tap to loop that line; ↻ while it loops */
+button.sp-gl-no.sp-line-loop, .sp-line-no.sp-line-loop {
+  justify-content: center; gap: 3px; padding: 0 6px; margin: 3px 6px 3px 0;
+  border: 1px solid var(--sp-accent); border-radius: 999px; align-self: center; min-height: 26px;
+  background: var(--sp-accent-soft); color: var(--sp-accent); font-weight: 700; font-size: 0.72rem;
+  display: flex; align-items: center;
+}
+button.sp-gl-no.sp-line-loop::before, .sp-line-no.sp-line-loop::before { content: '▶'; font-size: 0.8em; }
+button.sp-gl-no.sp-line-loop:hover, .sp-line-no.sp-line-loop:hover { background: var(--sp-accent); border-color: var(--sp-accent); color: #fff; }
+button.sp-gl-no.sp-line-loop.on, .sp-line-no.sp-line-loop.on { background: var(--sp-accent-2); border-color: var(--sp-accent-2); color: #fff; }
+button.sp-gl-no.sp-line-loop.on::before, .sp-line-no.sp-line-loop.on::before { content: '↻'; }
