@@ -14,7 +14,7 @@
 [SECTION: Pallavi]
 
 [SWARA]
-r,,m|g,s,|s,,ṇ|ḍ,p̣,|ḍ,,s|r,mm|m,,,|r,r,||
+r,,m|g,s,|s,,ṇ|ḍ,p̣,|ḍ,,s|r,mm|m,,r|r,,,||
 [SWARA]
 p,,m|r,s,|s,,ṇ|ḍ,p̣,|ḍ,,s|r,mm|m,,r|rmmp||
 
@@ -28,7 +28,7 @@ p,,m|r,m,|p,p,|mpdp|ṡ,ṡ,|p,p,|mgr,|mgs,||
 [SECTION: Charanam]
 
 [SWARA]
-r,,m|g,s,|s,,ṇ|ḍ,,,|ḍ,,s|r,mm|m,,,|r,r,||
+r,,m|g,s,|s,,ṇ|ḍ,,,|ḍ,,s|r,mm|m,,r|r,,,||
 [SWARA]
 p,,p|p,dp|ṡ,,ṡ|ṡ,ṡ,|ṙ,,ṁ|g,ṡ,|ṡ,,n|d,p,||
 [SWARA]
