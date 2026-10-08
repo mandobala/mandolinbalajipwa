@@ -23,10 +23,6 @@ M, P, NṠNN MPN,N,,,        D, P, M,,, SGMP M,,,      |M,G,G,,, GRR, S,,,      
 [SAHITYA]
 na gu mō       mu          ga na lē        ni         nā     jā        li      de li si
 
-[SWARA]
-PMP, NDP, PNṠ,Ṡ,,,        ṠṠNN ṠNND DPPM M,,,      |M,G,G,,, GRR, S,,,        |Ṇ, S, GRS, SG[M,PM]GMP, ||
-[SAHITYA]
-na gumō      mu            ga na lē         ni        nā   jā      li          de li si
 
 [SWARA]
 M, P, NṠNN PNṠ,NṠĠ,          [Ṡ,Ṁ,ĠṀĠ, ṘĠṘ, ṠṘṠ, NṠN,DND,PDP,MPM,]    | [PṘṠ, NṠN, DND, PDP, MPM, GMG, RGR, SRS,]   |Ṇ, S, G,,R- SGM, GMP, ||
