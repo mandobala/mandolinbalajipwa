@@ -26,10 +26,10 @@ p,,p|,,pn|snpm|r,r,|s r,s|,,ṇ,|s,,p|,,m,||
 p,,p|,,pn|snpm|r,r,|s r,s|,,ṇ,|s,,s|,s,, ||
 
 [SWARA]
-ṙ,s,|n,pn|snpm|r,r,|s r,s|,,sn|pmpm|rsṇs||
+ṙ,s,|n,pn|snpm|r,r,|s r,s|,,sn|pm(pm|rs)ṇs||
 
 [SWARA]
-rmpn|sṙpn|snpm|r,r,|s r,s|,,n,|s,,p|,,m,||
+rm(pn|sṙ)pn|snpm|r,r,|s r,s|,,n,|s,,p|,,m,||
 
 [SWARA]
 P,,p|,,
@@ -50,10 +50,10 @@ P,,p|,,
 ṡṙ,ṁ|,,ṗ,|ṗ,ṗṁ|ṙ,ṙ,|ṡṙ,ṡ|,,ṡ,|ṡ,,ṡ|,ṡ,,
 
 [SWARA]
-ṙṡ,n|,,pn|ṡnpm|r,r,|sr,s|,,ṡn|pmpm|rsṇs|
+ṙṡ,n|,,pn|ṡnpm|r,r,|sr,s|,,ṡn|pm(pm|rs)ṇs|
 
 [SWARA]
-(rmpn|ṡṙ)pn|ṡnpm|r,r,|sr,s|,,ṇ,|s,,p|,,m,|
+rm(pn|ṡṙ)pn|ṡnpm|r,r,|sr,s|,,ṇ,|s,,p|,,m,|
 
 [SWARA]
 P,,p|,,,,
@@ -80,10 +80,10 @@ P,,p|,,p,|n,,ṡ|,,ṡ,|ṙṡ,n|,,n,|ṡ,,ṙ|,,ṙ,|
 ṡṙ,ṁ|,,ṗ,|ṗ,ṗṁ|ṙ,ṙ,|ṡṙ,ṡ|,,ṡ,|ṡ,,ṡ|,ṡ,,
 
 [SWARA]
-ṙṡ,n|,,pn|ṡnpm|r,r,|sr,s|,,ṡn|pmpm|rsṇs|
+ṙṡ,n|,,pn|ṡnpm|r,r,|sr,s|,,ṡn|pm(pm|rs)ṇs|
 
 [SWARA]
-(rmpn|ṡṙ)pn|ṡnpm|r,r,|sr,s|,,ṇ,|s,,p|,,m,|
+rm(pn|ṡṙ)pn|ṡnpm|r,r,|sr,s|,,ṇ,|s,,p|,,m,|
 
 [SWARA]
 P,,p|,,,,
