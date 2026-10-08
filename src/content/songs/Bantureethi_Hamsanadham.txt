@@ -11,12 +11,80 @@
 [AVAROHANA: S N3 P M1 R2 S]
 [TAGS: Bantureethi, Adhi, thyagaraja, krithi]
 
-[SECTION: Pallavi]
+[SECTION: PALLAVI]
+
 [SWARA]
-,,,,|,,{r}p,|  p,   p{p}m|{p}r,r,|s{s}r,{ṣṇ}s|,,   {Ṣ}Ṇ,|s,,{r}p|,,{p}m,||
-[SAHITYA]
-       ban tu    reethi  kolu vu                       eya  vai     ya  
+,,,,|,,p,|p,pm|r,r,|s r,s|,,ṇ,|s,,p|,,m,||
+
 [SWARA]
-p,,p|,,p{p}n|  p{p}n   p{p}m|{p}r,r,|s{s}r,{ṣṇ}s|,,   {Ṣ}Ṇ,|s,,{r}p|,,{p}m,||
-[SAHITYA]
-ra ma  ban tu    reethi           kolu vu         eya     vai     ya  
+p,,p|,,pn|pnpm|r,r,|s r,s|,,ṇ,|s,,p|,,m,||
+
+[SWARA]
+p,,p|,,pn|snpm|r,r,|s r,s|,,ṇ,|s,,p|,,m,||
+
+[SWARA]
+p,,p|,,pn|snpm|r,r,|s r,s|,,ṇ,|s,,s|,s,, ||
+
+[SWARA]
+ṙ,s,|n,pn|snpm|r,r,|s r,s|,,sn|pmpm|rsṇs||
+
+[SWARA]
+rmpn|sṙpn|snpm|r,r,|s r,s|,,n,|s,,p|,,m,||
+
+[SWARA]
+P,,p|,,
+
+
+[SECTION: ANUPALLAVI]
+
+[SWARA]
+,,,,|,,p,|n,,ṡ|,,ṡ,|ṙṡ,n|,,n,|ṡ,,ṙ|,,ṙ,|
+
+[SWARA]
+ṡṙ,ṡ|,,p,|n,,ṡ|,,ṡ,|ṙṡ,n|,,n,|ṡ,,ṙ|,,ṙ,|
+
+[SWARA]
+(ṡṙṡn|pn)p,|n,,ṡ|,,ṡ,|ṙṡ,n|,,n,|ṡ,,ṙ|,,ṙ,|
+
+[SWARA]
+ṡṙ,ṁ|,,ṗ,|ṗ,ṗṁ|ṙ,ṙ,|ṡṙ,ṡ|,,ṡ,|ṡ,,ṡ|,ṡ,,
+
+[SWARA]
+ṙṡ,n|,,pn|ṡnpm|r,r,|sr,s|,,ṡn|pmpm|rsṇs|
+
+[SWARA]
+(rmpn|ṡṙ)pn|ṡnpm|r,r,|sr,s|,,ṇ,|s,,p|,,m,|
+
+[SWARA]
+P,,p|,,,,
+
+
+[SECTION: CHARANAM]
+
+[SWARA]
+,,,,|,,p,|p,,p|,,p,|mp,m|,,p,|p,pm|r,r,|
+
+[SWARA]
+rsṇs|rmp,|p,pm|r,r,|s r,s|,,ṇ,|s,,p|,,m,|
+
+[SWARA]
+P,,p|,,p,|n,,ṡ|,,ṡ,|ṙṡ,n|,,n,|ṡ,,ṙ|,,ṙ,|
+
+[SWARA]
+ṡṙ,ṡ|,,p,|n,,ṡ|,,ṡ,|ṙṡ,n|,,n,|ṡ,,ṙ|,,ṙ,|
+
+[SWARA]
+(ṡṙṡn|pn)p,|n,,ṡ|,,ṡ,|ṙṡ,n|,,n,|ṡ,,ṙ|,,ṙ,|
+
+[SWARA]
+ṡṙ,ṁ|,,ṗ,|ṗ,ṗṁ|ṙ,ṙ,|ṡṙ,ṡ|,,ṡ,|ṡ,,ṡ|,ṡ,,
+
+[SWARA]
+ṙṡ,n|,,pn|ṡnpm|r,r,|sr,s|,,ṡn|pmpm|rsṇs|
+
+[SWARA]
+(rmpn|ṡṙ)pn|ṡnpm|r,r,|sr,s|,,ṇ,|s,,p|,,m,|
+
+[SWARA]
+P,,p|,,,,
+
