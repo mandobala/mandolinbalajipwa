@@ -181,7 +181,9 @@ function playSlide(freqs, when, dur, glideFor, kind) {
     noise.stop(release + 0.1);
     oscs.push(noise);
   }
+  oscs[1].onended = function () { try { out.disconnect(); } catch (e) {} };
   voices.push({ out: out, oscs: oscs, end: release + 0.1 });
+  if (voices.length > 64) voices = voices.filter(function (v) { return v.end > actx.currentTime - 0.5; });
 }
 
 function playNote(freq, when, dur) {
@@ -218,6 +220,8 @@ function playNote(freq, when, dur) {
     osc.stop(release + 0.35);
     oscs.push(osc);
   });
+  // unplug the note once it has finished, so nothing lingers in the audio graph
+  oscs[0].onended = () => { try { out.disconnect(); } catch (e) {} };
   voices.push({ out, oscs, end: release + 0.35 });
   if (voices.length > 64) voices = voices.filter((v) => v.end > actx.currentTime - 0.5);
 }
@@ -243,6 +247,7 @@ function playClick(kind, when) {
   g.gain.linearRampToValueAtTime(c.gain, start + 0.003);
   g.gain.exponentialRampToValueAtTime(0.0001, start + c.len);
   osc.connect(g); g.connect(busClick);
+  osc.onended = () => { try { g.disconnect(); } catch (e) {} };
   osc.start(start); osc.stop(start + c.len + 0.02);
 }
 
