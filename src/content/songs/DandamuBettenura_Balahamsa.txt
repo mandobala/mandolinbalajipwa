@@ -15,21 +15,21 @@
 
 [SWARA]
 r,,m|g,s,|s,,ṇ|ḍ,p̣,|ḍ,,s|r,mm|m,,,|r,r,||
-[SAHITYA]
+[SWARA]
 p,,m|r,s,|s,,ṇ|ḍ,p̣,|ḍ,,s|r,mm|m,,r|rmmp||
 
 [SECTION: Anupallavi]
 
 [SWARA]
 p,,p|p,dp|ṡ,,ṡ|ṡ,,,|ṙ,,ṁ|ġ,ṡ,|ṡ,,n|d,p,||
-[SAHITYA]
+[SWARA]
 p,,m|r,m,|p,p,|mpdp|ṡ,ṡ,|p,p,|mgr,|mgs,||
 
 [SECTION: Charanam]
 
 [SWARA]
 r,,m|g,s,|s,,ṇ|ḍ,,,|ḍ,,s|r,mm|m,,,|r,r,||
-[SAHITYA]
+[SWARA]
 p,,p|p,dp|ṡ,,ṡ|ṡ,ṡ,|ṙ,,ṁ|g,ṡ,|ṡ,,n|d,p,||
 [SWARA]
 p,,m|r,m,|p,p,|mpdp|ṡ,ṡ,|p,p,|mgr,|mgs,||
