@@ -1,0 +1,140 @@
+﻿[TITLE: Kamakshi-Bhairavi]
+[RAGA: Bhairavi]
+[TALA: Misra Chapu (7)]
+[BEATS: 7]
+[NADAI: 2]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R2 G2 M1 P D1 D2 N2]
+[AROHANA: SR²G²M¹PD²N²Ṡ]
+[AVAROHANA: ṠN²D¹PM¹G²R²S]
+[TAGS: Kamakshi-Bhairavi, Bhairavi, Misra Chapu, Adi]
+
+[SECTION: PALLAVI]
+
+[SWARA]
+N,,,,,,,,, D,,, |,,,,,,,,,, MP,, |,,,,,,,,,, D,N, |S,,,,,,,,, G, R,||
+[SAHITYA]
+kā          mā              kshi             am   bā         am ba
+
+[SWARA]
+RSṆ,,,,,,, ṆḌ,, |,,,,,,,,,, ḌṆP, |,,,,,,,,,, ṆḌṆ, |S,,,,,,,,, G, R,||
+[SAHITYA]
+kā         mā              kshi             am    bā         kañ ci
+
+[SWARA]
+RSṆ,,,,,,,,, ṆḌ,, |,,,,,,,, ḌṆP, |,,,,,,,,,, ṆḌṆ, |S,R,G, M,P,M,G,||
+[SAHITYA]
+kā         mā            kshi             a nu   dinamu mara va ka
+
+[SWARA]
+R,,,,,,,,,,, Ṇ,,, |S,,, R, /G, M, P,,, |D,N,Ṡ, ṠṘN,D P |M,-G,,,,,R,,,S,||
+[SAHITYA]
+nē         nī   pā   da  mu le dik    ka nu cu nam miti ni śrī  kañ ci
+                                                              <kāmākshi>
+
+
+[SECTION: SWARA SAHITYA]
+
+
+[SWARA]
+S,,, R,Ṇ,S,R,,, |,,-Ṇ,R,S,Ṇ,Ḍ,P̣, |M,,,,,-P̣,,,,,-Ḍ, |,,,,- Ṇ,,, S,,, R, ||
+[SAHITYA]
+kun  da rada nā     ku va la ya na ya nā    tal       li         rak  shim cu
+                                                                  <kāmākshi>
+
+
+[SWARA]
+R,,,G,R,G,\S,,, |,,-Ṇ,G,R,S,R,,, |,,- Ṇ,R,S,Ṇ,Ḍ,,, |,,-Ṇ,,,,, G,,,R, ||
+[SAHITYA]
+kam bu ga la nī     ra da ci ku rā     vidhuvada nā       mā      yamma
+                                                                  <kāmākshi>
+
+
+[SWARA]
+G,,,M,G,R,S,R,\Ṇ,,, S,Ṇ,S,R,G, |M,,,/P,G,R,/G,M, |P,,,/D,M,G,R,S, ||
+[SAHITYA]
+kum bhakuca ma da mat ta ga ja ga ma pa dma bhava ha ri śam bhunu ta pa da
+
+[SWARA]
+Ṇ,,,S,\Ṇ,,,-/G,,, |R,/G,,,/M,,,P,D, |N,,,N,,, D,P,,, |P,,,M,,,G,R,S, ||
+[SAHITYA]
+śañ ka ri    nī    vu nā   cin  tala  vē  vē   ga dirc cammā  yi pu ḍu
+                                                                  <kāmākshi>
+
+
+[SWARA]
+M,,,P,N,D,\M,,, |P,D,P,\M,,,G,R, |/G,,,M,P,,,G,M, |P,,,G,P,M,G,R, ||
+[SAHITYA]
+bha ktaja na kal pala ti kā ka ru  ṇā  la yā sa da   ya  giri ta na ya
+
+[SWARA]
+Ṇ,,,S,R,,,Ṇ,S, |R,,,Ṇ,S,R,G,M, |P,,,D,N,S, P,,, |/Ṡ,N,D,P,M,G,R, ||
+[SAHITYA]
+kā    vavē śa ra  nā  gatu ḍuga da tā  masa mu sē    yaka vara mosa gu
+                                                                  <kāmākshi>
+
+[SWARA]
+P,,,D,P,M,G,R, |G,,,M,P,,, M,G, |R,,,G,M,,,G,R, |Ṇ,,,S,R,,,,,,, ||
+[SAHITYA]
+pā  ta kamulanu dircci nī  pada  bha kti sam pada mī  ya vē
+
+[SWARA]
+G,,,M,G,R,S,,, |,,-P,M,G,R,S,,, |/Ṙ,,Ṡ,,N,,,D,P, |,,M,,,G,R,,,S, ||
+[SAHITYA]
+pā  va niga dā     mora vi na dā  pa rā kē  la nam   mā  vi nam ma
+                                                                  <kāmākshi>
+
+[SWARA]
+D,P,/N,D,,,P,M, |G,R,,,G,M,P,D, |P,,,,,,,,, M,G, |M,P,M,G,R,G, M,||
+[SAHITYA]
+kalusha hā ri ni sadā  na ta phala dā         ya ki yani bi rudubhu vi
+
+[SWARA]
+G,,,,,,,,, R,G, |M,G,R,G,S,R,Ṇ, |S,,,,,,,,, /Ġ,Ṙ, |Ṡ,N,D,P,M,G,R, ||
+[SAHITYA]
+lō         gali ginadorayanucu   vē         da mu   mora liḍa kavi ni
+                                                                  <kāmākshi>
+
+[SWARA]
+N,,,Ṙ,Ṡ,Ṙ,N,Ṙ, |N,,,D,P,D,M,P, |G,,,R,S,R,Ṇ,S, |R,G,M,P,,,M,P, ||
+[SAHITYA]
+nī  pavana nila  yā  su ra sa mu da yā ka ra vidhṛ ta ku va la yā mada
+
+[SWARA]
+Ṡ,N,D,P,,,M,G, |R,Ṡ,,,Ṇ,,,Ḍ,Ṇ, |S,R,G, M,P,M,G, |R,,,,,,,,, Ṇ,S, ||
+[SAHITYA]
+danu ja vā ra ṇa mṛ gēn drārc ci ta kalu sha da hana gha nā        a pa-
+
+[SWARA]
+R,G,M,P,,,S,R, |G,M,P,D,,,M,P, |G,R,G,M,,,P,M, |P,D,N,Ṡ,,, P,D, ||
+[SAHITYA]
+ri mita vai bha va muga la nī sma ra ṇa ma di lō da la cina ja nā dula-
+
+[SWARA]
+N,Ṡ,Ṙ,Ġ,,,Ṁ,Ġ, |Ṙ,,Ṡ,,N,,,D,P, |/Ġ,,-Ṙ,,,,,Ṡ,N, |D,,P,,,,,,, G,R, ||
+[SAHITYA]
+ku bahu sam pa da la nic cē vi pu ḍu    mā     ka bha ya miy      yavē
+                                                                 <kāmākshi>
+
+
+[SWARA]
+Ṡ,,,Ġ,Ṙ,,,Ṡ,-Ṙ, |Ṡ,,,Ṙ,Ṇ,,,D,\M, |P,,,D,Ṇ,,, D,N, |Ṡ,,,,,,,,, Ġ,Ṙ, ||
+[SAHITYA]
+śyā ma kṛsh ṇa sa hō  da rī śi va   śañ ka rī  para   mē         śvari
+
+[SWARA]
+Ṡ,Ṙ,Ṡ,N,,,D,P, |M,-G,,,M,G,R,S, |Ṇ,,S,,,,,, R,G, |M,P,,,,,,, G,M, ||
+[SAHITYA]
+hari ha rā du la ku nī ma hima lu ga ṇim     pa ta  ra mā      su tu-
+
+[SWARA]
+G,,R,,,,,,,, S,Ṇ, |S,,,,,,,,, P,M, |P,,,,,,,, D,,, |,,-N,,,,,, Ṡ,,, ||
+[SAHITYA]
+ḍammā     a bhi  mā        namu  lē         dā       nā      pai
+
+[SWARA]
+,,-Ṙ,,,,,Ġ,,,,, |Ṁ,,Ġ,,Ṙ,,, Ġ,Ṙ, |Ṡ,,,Ṙ,N,,,D,P, |M,- G,,,R,,,G,R,||
+[SAHITYA]
+   dē    vī      pa rā kē   la nē  brō va vē yi pu  ḍu  śrī bhairavi
+                                                                  <kāmākshi>
