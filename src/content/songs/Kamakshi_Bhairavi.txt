@@ -9,7 +9,7 @@
 [SCALE: S R2 G2 M1 P D1 D2 N2]
 [AROHANA: SR²G²M¹PD²N²Ṡ]
 [AVAROHANA: ṠN²D¹PM¹G²R²S]
-[TAGS: Kamakshi-Bhairavi, Bhairavi, Misra Chapu, Adi]
+[TAGS: Kamakshi-Bhairavi, Bhairavi, Misra Chapu, Adi, Krithi]
 
 [SECTION: PALLAVI]
 
