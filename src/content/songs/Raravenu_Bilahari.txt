@@ -27,7 +27,7 @@
 [SECTION: Charanam]
 
 [SWARA]
- s , , r   g , g ,   g , , ,   , , r g |  p , , p   p ,  p , | p , , ,   , , d p ||
+ s , , r   g , g ,   g , , ,   , , r g |  p , , p   p ,  p , | p , , ,   , , d p |
 [SAHITYA]
  Nan   da  goo paa   laa          Ne     Nen   du  Po    jaa   laa           Nee
 
