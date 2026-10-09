@@ -1,0 +1,225 @@
+﻿[TITLE: Jagadhanandhakaraka-Nattai]
+[NOTATED BY: TK Govinda Rao]
+[RAGA: Nattai]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R3 G3 M1 P N3]
+[AROHANA: S R3 G3 M1 P  N3 Ṡ]
+[AVAROHANA: Ṡ N³P M¹ G3 M1 R³ S]
+[TAGS: Krithi, Jagadhanandhakaraka-Nattai, Nattai, Adi, Balahamsa, Pacharatnam]
+
+[SECTION: PALLAVI]
+
+
+[SWARA]
+P,P, PN,P PMP, ,, P, |Ṡ, ṠN Ṡ, ,,|NṠ,N PMGM||
+[SAHITYA]
+jaga dā          nan  da kā       ra   ka
+
+
+[SWARA]
+P,P, PN,P PMNPṠN Ṡ, |,,ṠN PNṠ, |PNṠN PMGM||
+[SAHITYA]
+ja ga dā  nanda        kā         ra   ka
+
+
+[SWARA]
+P,P, PN,P PṠ,N Ṡ,Ṙ, |,, ṠNPMR, |,,GMPNPM||
+[SAHITYA]
+jaga dā       nan        da       kā raka
+
+
+[SWARA]
+P,P, PN,P PṠ,N Ṡ,Ṙ, |ṘṠ ṠN NP PM|MR RS GMPM||
+[SAHITYA]
+jaga dā       nan     da kā       ra ka
+
+
+[SWARA]
+P,P, PN,P PṠ,N Ṡ,Ṙ, |ṘṠ ṠN NP PM|GMPN PMGM||
+[SAHITYA]
+jaga dā       nan     da kā       ra   ka
+
+
+[SWARA]
+P,P,ṠNPMR,S,SṆṆ, |P̣, S, ,,S, |GMPN PMGM||
+[SAHITYA]
+jayajā     nakī    prā ṇa       nā ya ka
+
+
+[SWARA]
+P,P, ṠN PṠNPMR SMRS|ṆP̣ S, ,,S, |GMPNPMGM||
+[SAHITYA]
+jaya jā     na kī   prā ṇa       nā yaka
+
+
+[SWARA]
+P,P,ṠNNP PMMR RSSṆ|ṆP̣ RRSṆS, |GMPN PMGM||
+[SAHITYA]
+jayajā       na kī prā ṇa      nā ya ka
+                              <jaga>
+
+
+[SECTION: ANUPALLAVI]
+
+[SWARA]
+,,ṠṠ Ṡ,,,  ,, PN Ṡ, ,, |P, N Ṡ, N PN|ṠNPM GMPN||
+[SAHITYA]
+gaga nā    dhipa sat    kulaja rā ja rā jē śva 
+
+
+[SWARA]
+P, NN, Ṡ,, ,N-PN,Ṡ,, |P PṠṠ,N PN|ṠNPM GMPN||
+[SAHITYA]
+rā gaga nā  dhi pasat kulajarāja rā jē śva 
+
+
+[SWARA]
+P, ṠN [Ṡ,ṘṠ] [Ṡ,ṘṠ] Ṡ,   P NṠ,[ṠṠ], |P PS Ṡ, N PNṠNPMR, ,,||
+[SAHITYA]
+rā gaga nā                  dhipasat  kulaja rā ja rā jē śvarā
+
+[SWARA]
+|MGPMNP Ṡ N Ṙ,,Ṡ ṠNPM|RS SR,S S, |,, NP, MGM||
+[SAHITYA]
+ suguṇā kara sura sēvyabhav yadā yaka sadā sakala
+                                               <jaga>
+
+
+[SECTION: SWARA SAHITYA]
+
+[SWARA]
+SS ṆP̣,, MP S S RS S MMR |S MM, ,,P, |,, P M MP MM||
+[SAHITYA]
+amaratā raka nicayakumudahita pari pū rṇā nagha surasura
+
+[SWARA]
+R, S M R S S, N P,P MMP, |Ṡ, Ṡ NNṠ N N|Ṡ N P, Ṙ Ṡ N P||
+[SAHITYA]
+bhūjadādhipayō dhivāsaharaṇa sundaratara vadanasudhāmayavacō
+
+[SWARA]
+ṠN P M,,NPM R, PMR S, |P P,ṠṠ,N P |M R S,, RGM||
+[SAHITYA]
+bṛndagō vin dasā nandamā varājarāptasubhakarā nēka
+                                                <jaga>
+
+[SWARA]
+Ṡ N P M,NP, MRS Ṇ,R S, |S Ṇ P S, S R, |SR S P,MNP||
+[SAHITYA]
+nigamani ra jāṃrtajapōshakā nimishavairivā ridasamīraṇa
+
+[SWARA]
+Ṡ N PṘ, Ṙ Ṡ, P Ṡ N P,MGM|P PṠ Ṡ,N P,|M R S S, R GM||
+[SAHITYA]
+khagaturaṅgasatkavihṛdālayā gaṇitavānarādhipanatāṅghriyuga
+                                                   <jaga>
+
+
+[SWARA]
+P,N P,NP M M, P M, P M G |G, M G,M R S|Ṇ,S G, M P,||
+[SAHITYA]
+indranīlamaṇisannibhāpaghana candrasūryanayanāpramēya vāgindra
+
+[SWARA]
+P, N PṠ N ṘṠ /Ṁ,ṘṠNP M,|GMP ṠN P PN P|MRS SR GM||
+[SAHITYA]
+janakasakalē śāsubhraṇā gēndraśayanasavanavai ri sannuta
+                                                <jaga>
+
+
+[SWARA]
+P,N P MPN, P M,N PM PN|P, ,MMPM,|, G M P N P,P ||
+[SAHITYA]
+pādaviji tamauṇiśā pasavaparipā la varamantragrahaṇalō la
+
+[SWARA]
+ṆS R S, S P,P MR S Ṇ,P M |ṠṠ,N P N Ṡ Ṙ|Ṙ,,Ṡ,NP M||
+[SAHITYA]
+paramaśāntacitta ja nakajā dhipa sarōjabhavavaradā khi la
+                                                <jaga>
+
+
+[SWARA]
+S, P,M,R, S P,MRS PM|G,M PN P G,|MP,MG,P M||
+[SAHITYA]
+sṛshti sthityantakārakā mitakā mitaphaladā samānagā trasā
+
+[SWARA]
+Ṙ,N PMR, Ṡ N PMR, Ṙ Ṡ,|PṠ,MP,RG|MP,Ṡ,N PM||
+[SAHITYA]
+cī pati nutābdhimadaharā nurā garāgarā jitaka thāsāra hita
+                                                <jaga>
+
+
+[SWARA]
+S,Ṇ P R,S MRS PP, MRS |G M PM,M N P|P, ṆS RS,S||
+[SAHITYA]
+sajjanamānasāb dhi sidhākarakusumavimā nasurasā ripu
+
+[SWARA]
+P,MRS ṆP, Ṡ NP, Ṙ Ṡ N P|,Ṁ Ṙ Ṡ N P, Ṡ|Ṡ,PP,MG M||
+[SAHITYA]
+karābjalā litaca raṇā vaguṇāsuragaṇamadaharaṇa sanātanāja nuta
+                                                      <jaga>
+
+
+[SWARA]
+S,, /Ṡ,Ṡ Ṡ, ṘṠ N,,ṠṠ N|P P Ṡ Ṡ,N P N|ṠNPMR, NP||
+[SAHITYA]
+ōm kārapañjarakī rapuraharasarōja bhavakē śavā dirū
+
+[SWARA]
+,MR,ṠN PM ṘṠ Ṡ, PṠ NP|,M RS S,P P|,P Ṇ S,R G M||
+[SAHITYA]
+pavāsavaripujanakāntakakalā dharakalādharā bja ghṛṇākara sā-
+
+[SWARA]
+RG,MPN P Ṡ,Ṡ N P Ṡ Ṡ,Ṁ|ṀṘ Ṡ, ṘN,Ṡ |P N M P,M GM||
+[SAHITYA]
+raṇā gataja napālana suma nōra maṇa nirvikāra nigama sā ra ta ra
+                                              <jaga>
+
+
+[SWARA]
+P MR SṆ P̣ S,S,, MR S S,|,P MRS, ṆP|,PMR S,PM||
+[SAHITYA]
+karadhṛtaśarajā lā suramadā paharaṇāvani surasurā vana
+
+[SWARA]
+P N,N PNṠṘ, Ṙ MP NP,P |ṠNP MR, NP|MRS,,RG M||
+[SAHITYA]
+kavī na bilajamauni kṛtacaritra sannutāśrityā garā ja nuta
+                                                <jaga>
+
+
+[SWARA]
+P P,N P M N P MM,P MGMR|S R,S MG P M|NP,M GMP N||
+[SAHITYA]
+purāṇapurushanṛvarātmajā śrita parādhī nakharavirādharā
+
+[SWARA]
+PṠ,Ṡ ṘṠṀṘ Ṡ Ṙ,ṠN PM,|GG,MP Ṡ NP|MR,S SRG M||
+[SAHITYA]
+vaṇavirāvaṇā naghaparāśaramanō haravikṛtayā garā jasannuta
+                                                <jaga>
+
+
+[SWARA]
+PPN P P N P P MP,NP,, N|PP MM,PM,|N P M,Ṡ NPM||
+[SAHITYA]
+agaṇita guṇakanakacēlasā la vidaḷanā ruṇābhasamā nacaraṇā
+
+[SWARA]
+,P,MG MP,, M RS P MRS|NPMRS ṠN P|MR S P MP SR||
+[SAHITYA]
+pāramahimādbhutasu kavijana hṛtsadanasuramunigaṇavihi takala-
+
+[SWARA]
+S P̣,Ṇ S R S,MR S P,MR S|N P,P Ṡ N P,|ṘṠ,Ṡ,N P M||
+[SAHITYA]
+śā ni ranidhi jā ra maṇa pāpagaja nṛsimha vara tyāgarā jādi nuta
+                                           <jaga>
