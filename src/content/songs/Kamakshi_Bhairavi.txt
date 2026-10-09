@@ -1,4 +1,5 @@
 ﻿[TITLE: Kamakshi-Bhairavi]
+[COMPOSER: Dikshithar]
 [RAGA: Bhairavi]
 [TALA: Misra Chapu (7)]
 [BEATS: 7]
@@ -13,12 +14,12 @@
 [SECTION: PALLAVI]
 
 [SWARA]
-N,,,,,,,,, D,,, |,,,,,,,,,, MP,, |,,,,,,,,,, D,N, |S,,,,,,,,, G, R,||
+Ṇ,,,,,,,,, Ḍ1,,, |,,,,,,,,,, ṂP̣,, |,,,,,,,,,, Ḍ,Ṇ, |S,,,,,,,,, G, R,||
 [SAHITYA]
 kā          mā              kshi             am   bā         am ba
 
 [SWARA]
-RSṆ,,,,,,, ṆḌ,, |,,,,,,,,,, ḌṆP, |,,,,,,,,,, ṆḌṆ, |S,,,,,,,,, G, R,||
+RSṆ,,,,,,, ṆḌ1,, |,,,,,,,,,, ḌṆP̣, |,,,,,,,,,, ṆḌṆ, |S,,,,,,,,, G, R,||
 [SAHITYA]
 kā         mā              kshi             am    bā         kañ ci
 
@@ -28,7 +29,7 @@ RSṆ,,,,,,,,, ṆḌ,, |,,,,,,,, ḌṆP, |,,,,,,,,,, ṆḌṆ, |S,R,G, M,P,M,
 kā         mā            kshi             a nu   dinamu mara va ka
 
 [SWARA]
-R,,,,,,,,,,, Ṇ,,, |S,,, R, /G, M, P,,, |D,N,Ṡ, ṠṘN,D P |M,-G,,,,,R,,,S,||
+R,,,,,,,,,,, Ṇ,,, |S,,, R, /G, M, P,,, |D,N,Ṡ, ṠṘN,D1 P |M,-G,,,,,R,,,S,||
 [SAHITYA]
 nē         nī   pā   da  mu le dik    ka nu cu nam miti ni śrī  kañ ci
                                                               <kāmākshi>
