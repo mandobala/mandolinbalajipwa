@@ -1,0 +1,67 @@
+﻿[TITLE: Raguvamsasudha-Kadanakuthuhalam]
+[RAGA: Kadanakuthuhalam]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R2 G3 M1 P D2 N3]
+[AROHANA: S R M D N G P S]
+[AVAROHANA: S N D P M G R S]
+[TAGS: Raguvamsasudha-Kadanakuthuhalam, Shankarabharanam, Adi]
+
+[SECTION: Pallavi]
+
+
+[SWARA]
+, , , ,|, , S ,|R , M ,|, , M ,|G , , R|, , S ,|S , S Ṇ|Ḍ , P̣ ,||
+[SWARA]
+S , , ,|, , S ,|R , P ,|, , M ,|G , , R|, , S ,|S , S Ṇ|Ḍ , P̣ ,||
+[SWARA]
+S , , ,|, , S ,|R , M P|D , M ,|G , , R|, , S ,|S , S Ṇ|Ḍ , P̣ ,||
+[SWARA]
+S , , ,|, , S ,|R , M P|[Ṡ N D P]M ,|G , , R|, , S R|S R S Ṇ|Ḍ , P̣ ,||
+[SWARA]
+S , , ,|, , R ,|M , , D|, , N ,|G , , P|, , Ṡ ,|, , Ṡ Ṇ|Ḍ , P̣ ,|
+[SWARA]
+P M G R|S Ṇ R ,|M , D ,|, , N ,|G , P ,|, , Ṡ Ṙ|Ṗ Ṁ[Ġ Ṁ Ġ ,]|[Ṙ Ġ Ṙ , Ṡ Ṙ Ṡ ,]||
+[SWARA]
+N D P M|G R , ,|, , , ,|, , , ,|, , , ,|, , , ,|, , , ,|, , , ,||
+[SECTION: Anupallavi]
+
+[SWARA]
+, , , ,|, , G ,|P , Ṡ ,|, , Ṡ ,|Ṡ , , ,|, , Ṡ ,|, , Ṡ ,|, , Ṡ ,||
+[SWARA]
+, , Ṡ ,|, , G ,|P , , Ṡ|, , , Ṡ|, Ṡ , ,|, , , N|, , , D|, , , P||
+[SWARA]
+, , M ,|, , G ,|P , , Ṡ|, , , Ṡ|, Ṡ , ,|, , ,-N|Ṡ N D-P|D P D-N||
+[SWARA]
+Ṡ D-P D|P D-G ,|P , , Ṡ|, , , Ṡ|, Ṡ , ,|, , , G|, P Ṡ ,|N D , G||
+[SWARA]
+P N , D|P , G ,|P , , Ṡ|, , , Ṡ|, Ṡ , ,|, , , Ṙ|, Ṡ , ,|N , , ,||
+[SWARA]
+P D N P|D P Ṡ ,|Ṡ , Ṡ N|D , N ,|M , , D|, , N ,|G , P ,|, , G P||
+[SWARA]
+S G P S|G P Ṡ ,|Ṡ , Ṡ N|D , N ,|M D M D|M D M D|G P G P|G P G P||
+[SWARA]
+S G P S|G P Ṡ ,|Ṡ , Ṡ N|D , N ,|M D M D|M D M D|G P G P|G P Ṡ N||
+[SWARA]
+D P M G|R S , ,|, , , ,|, , , ,|, , , ,|, , , ,|, , , ,|, , , ,||
+[SECTION: Charanam]
+
+[SWARA]
+, , , ,|, , S ,|R M G ,|R S R ,|R M D ,|D N G ,|G P Ṡ ,|Ṡ N D P||
+[SWARA]
+M G P M|G R S ,|, R M G|R S R ,|, R M D|D N G ,|, G P Ṡ|Ṡ N D P||
+[SWARA]
+M G P M|G R S R|R M M D|D N G P|P Ṡ Ṡ Ṙ|Ṙ Ṁ Ṁ Ġ|Ġ Ṙ Ṙ Ṡ|Ṡ N N D||
+[SWARA]
+D P P M|G R , ,|, , , ,|, , , ,|, , , ,|, , , ,|, , , ,|, , , ,||
+[SAHITYA]
+CHARANAM:
+[SWARA]
+, , , ,|, , P ,|P , P ,|, , P ,|M , , M|, , R ,|M , G ,|, , R ,||
+[SWARA]
+S , R ,|S , S R|S R S Ṇ|Ḍ , P̣ ,|S , , ,|, , R ,|M , , G|, , R ,||
+[SWARA]
+S , R ,|S , , ,|, , , ,|, , , ,|, , , ,|, , , ,|, , , ,|, , , ,||

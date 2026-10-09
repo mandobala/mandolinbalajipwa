@@ -1,0 +1,18 @@
+﻿[TITLE: Sivaranjani-Fives]
+[COMPOSER: Balaji]
+[NOTATED BY: Balaji]
+[RAGA: Sivaranjani]
+[TALA: Custom]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R2 G2 P D2]
+[AROHANA: S R2 G2 P D2 Ṡ]
+[AVAROHANA: Ṡ D2 P G2 R2 S]
+[TAGS: Exercise, Sivaranjani, fives, 5]
+
+[SECTION: Fives]
+[SWARA]
+SRGPD RGPDṠ GPDṠṘ PDṠṘĠ |
+ĠṘṠDP ṘṠDPG | ṠDPGR DPGRS ||
