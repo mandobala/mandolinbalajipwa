@@ -3,7 +3,7 @@
 [TALA: Misra Chapu (7)]
 [BEATS: 7]
 [NADAI: 2]
-[BPM: 60]
+[BPM: 120]
 [SA: C#4]
 [SCALE: S R2 G2 M1 P D1 D2 N2]
 [AROHANA: SR²G²M¹PD²N²Ṡ]
