@@ -8,19 +8,20 @@
 [SCALE: S R2 G3 M1 P D2 N3]
 [AROHANA: S R1 G3  P D2 Ṡ]
 [AVAROHANA: Ṡ N3 D2 P M1 G3 R2 S]
+[TAGS: Krithi, Jagadhanandhakaraka-Nattai, Nattai, Adi, Balahamsa, Pacharatnam]
 
 [SECTION: Pallavi]
 
 [SWARA]
- s , , r   g , p ,   d , ṡ,    n , d , | p , d p   m g r s | r s ṇ ḍ   s , , , ||
+ s , , r   g , p ,   d , ṡ,    n , d , | (p , d p)   m g r s | (r s ṇ ḍ)   s , , , ||
 [SAHITYA]
- Ra    ra  ve   nu    go  pa      ba  la  ra  j tha sad   gu na ja ya si    la
+ Ra    ra  ve   nu    go  pa   ba  la  ra  j tha sad   gu na ja ya si    la
 
 [SECTION: Anupallavi]
 [SWARA]
  s , , r   g , p ,   m , g , p , d , |  ṙ , , ṡ   n , , d | p , , m   g , , r ||
 [SAHITYA]
- S aa  ra  saak sha   Ne    ra Me   mi  Maa    ru   baa    ri Ko    rva  le    ra
+ S aa  ra  saak sha   Ne ra Me   mi  Maa    ru   baa    ri Ko    rva  le    ra
 
 
 [SECTION: Charanam]
