@@ -1,0 +1,57 @@
+﻿[TITLE: Mahaganapthim-Nattai]
+[COMPOSER: Dikshithar]
+[NOTATED BY: Balaji]
+[RAGA: Nattai]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R3 G3 M1 P N3]
+[AROHANA: S R3 G3 M1 P N3 Ṡ]
+[AVAROHANA: Ṡ N3 P M1 G3 R3 S]
+[TAGS: Krithi, Mahaganapthim-Nattai, Nattai, Adi, Dikshithar]
+
+[SECTION: Pallavi]
+
+
+[SWARA]
+M,, P,, M, G, M, R,,, S, S, S,,, S,, R,, G,||
+[SWARA]
+M,, P,, M, G P M M R,,, S, S, S,,, S P [MPM,] R S R G||
+[SWARA]
+M,, P,, M, G P M M R,,, S, S, R R S, Ṡ N P M R S R G||
+[SWARA]
+M,, P,, M, G P M M R,,, R R S S Ṡ N P P Ṡ N P M R S R G||
+[SWARA]
+M,, P,, M, G P M M R,,, R R S Ṡ N P Ṙ Ṙ S N P M R S R G||
+[SWARA]
+M,, P,, M, G P M M R,,, P S, N P, M N P M R S N S R G||
+[SAHITYA]
+[SECTION: Charanam]
+
+[SWARA]
+G M P N P, Ṡ,,, Ṡ, Ṡ, Ṡ, Ṡ,,, Ṡ,,, Ṡ,,, Ṡ,,,||
+[SWARA]
+G M P N P, Ṡ,,, Ṡ, Ṡ, Ṡ, Ṡ, R, G, M, P, N2, N, Ṡ,||
+[SWARA]
+G M P N P, Ṡ,,, Ṡ, Ṡ, Ṡ, Ṡ,, N P,, M G,, M R,, S||
+[SWARA]
+G M P N P, Ṡ,,, Ṡ, Ṡ, Ṡ,,, Ṙ Ṙ Ṡ, Ṙ Ṙ Ṡ, Ṡ N Ṡ,,,||
+[SWARA]
+G M P N P, Ṡ,,, Ṡ, Ṡ, Ṡ,,, Ṙ Ṙ Ṡ, Ṙ Ṙ Ṡ, Ṙ,, Ṙ,,||
+[SWARA]
+Ġ,,, Ṁ, Ṙ,, Ṡ,,,,,,, P M G M P Ṙ Ṡ N P M G M P M R,||
+[SECTION: Madhyama Kala Sahitya]
+
+[SWARA]
+S, P, M, P M R S R, G, M P R,, G,, M P R,, G,, M P||
+[SWARA]
+S, P, M, P M R S R, G, M P, N Ṡ Ṙ Ṡ Ṙ Ṙ Ṡ N P, M G M R S||
+[SWARA]
+S, P, M, P M G M P N P, N Ṡ, N Ṡ Ṙ Ṡ Ṙ Ṙ Ṡ N P, M G M R S||
+
+[SWARA]
+G M P Ṙ Ṡ N P M G M P M R,,, R R S Ṡ N P Ṙ Ṙ S N P M R S R G||
+[SWARA]
+M,, P,, M, G P M M R,,,
