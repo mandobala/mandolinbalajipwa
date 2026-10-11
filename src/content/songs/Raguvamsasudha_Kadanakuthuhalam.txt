@@ -9,7 +9,7 @@
 [SCALE: S R2 G3 M1 P D2 N3]
 [AROHANA: S R M D N G P S]
 [AVAROHANA: S N D P M G R S]
-[TAGS: Raguvamsasudha-Kadanakuthuhalam, Shankarabharanam, Adi]
+[TAGS: Raguvamsasudha-Kadanakuthuhalam, Shankarabharanam, Adi, Krithi]
 
 [SECTION: Pallavi]
 
