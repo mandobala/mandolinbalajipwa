@@ -1,0 +1,69 @@
+﻿[TITLE: Kurai Ondrum Illai]
+[COMPOSER: ]
+[NOTATED BY: Balaji]
+[RAGA: Ragamalika]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 70]
+[SA: C#4]
+[SCALE: S R1 R2 G3 G2 M1 P D2 N3 N2]
+[TAGS: Krithi, Kurai Ondrum Illai, Ragamalika, Sivaranjani, Adi]
+
+[SECTION: Pallavi]
+[SWARA]
+G G , G|, , G ,|G , , ,|G , , ,|G P G P|D , , P|G , , ,|G , , ,||
+[SWARA]
+R G S ,|, , R ,|Ḍ , , S|, , G ,|R , , ,|, , , ,|G R R S|Ḍ S Ḍ P||
+[SWARA]
+P̣ Ḍ S ,|, , R ,|G P , G|R S , Ḍ|S , , ,|S , , ,|, , , ,|, , , ,||
+[SWARA]
+, , , P|, , P P|D P P ,|, P , ,|P , P ,|G , , ,|, , D ,|P , , ,||
+[SWARA]
+, , , P|, , P P|D Ṡ P ,|, P , ,|G , , G|, , R ,|S , G ,|R , , ,||
+[SWARA]
+G P D ,|, , S ,|R , , ,|R , , ,|Ḍ S , Ḍ|S G , R|Ḍ , , ,|S , , ,||
+[SWARA]
+, , , P|, , P P|P , , D|, D D ,|G , , G|P , , P|D P Ṡ ,|, Ṡ , ,||
+[SWARA]
+, , , Ṡ|, Ṡ Ṡ ,|D Ṡ Ṙ Ṡ|D P G ,|G P , D|Ṙ , , Ṙ|Ġ Ṙ Ṡ D|P G R S||
+[SWARA]
+G , , G|, , R G|P , , P|, , D P|Ṡ , , Ṡ|, , Ġ Ṙ|Ṡ , , ,|Ṡ , , ,||
+
+[SECTION: Anupallavi]
+[SWARA]
+[Ṡ Ṙ Ṡ ,]P ,|, , P ,|M N P G|, , R ,|M , M ,|P , , ,|, , , ,|P N Ṡ Ṙ||
+[SWARA]
+[Ġ Ṙ N ,]P ,|, , P ,|M N P G|, , R ,|M , M ,|P , , ,|Ṡ , , ,|P , P M||
+[SWARA]
+G3 G3 G3 ,|, , G3 ,|S G3[M N]P|G , , ,|G , G ,|R M G R|S , Ṇ ,|S , , ,||
+[SWARA]
+Ṇ Ṇ Ṇ ,|, , S ,|G G G ,|, , G ,|M N P G|, , R ,|S , G ,|R , , ,||
+[SWARA]
+R M P ,|, , P ,|N N M ,|, , P ,|M P N3 ,|, , N3 ,|Ṡ , , ,|Ṡ , , ,||
+[SWARA]
+N3 , Ṡ ,|N3 S Ġ ,|Ġ , , Ġ|, , Ġ ,|, , R M|G R Ṡ N3|Ṡ , Ġ ,|Ṙ , , ,||
+[SWARA]
+Ġ Ṙ N ,|, , P ,|G , , ,|R , , ,|R M P ,|, , P ,|N , , ,|Ṡ , , ,||
+[SWARA]
+N Ṡ Ġ3,|, , Ṁ ,|Ṙ Ṁ Ṗ Ṁ|Ġ , , ,|Ġ Ṙ Ṡ ,|, , Ṡ ,|Ġ Ṡ N P|M G R S||
+[SWARA]
+G3 , , G3|, , R M|P , , P|, , M P|N3 , , Ṡ|, , Ġ Ṙ|N3 , , Ṡ|, , , ,||
+
+[SECTION: Charanam]
+[SWARA]
+P D Ṡ ,|, , Ṡ ,|Ṡ , Ṡ ,|Ṡ , , ,|, , Ġ Ṡ|D , , ,|D , D ,|D , , ,||
+[SWARA]
+D D D ,|, , D ,|G P D Ṡ|N D D ,|P , P ,|G , , ,|P , , ,|P , P ,||
+[SWARA]
+P N Ṡ Ġ|, , Ġ ,|Ġ , Ġ ,|Ġ , , ,|, , Ġ Ṡ|D , , ,|D , D ,|D , , ,||
+[SWARA]
+D D D ,|, , D ,|G P D Ṡ|N D D ,|P , P ,|G , , ,|P , , ,|P , P ,||
+[SWARA]
+M M M ,|, , M ,|M G M ,|S , , ,|S G , M|P D M ,|P , , ,|P , , ,||
+[SWARA]
+, , P ,|, , D ,|Ṡ Ṡ , Ṡ|, , Ṡ ,|Ġ Ṡ D ,|, , P ,|G P D ,|Ṡ , , ,||
+[SWARA]
+, , Ġ ,|, , Ġ ,|Ġ , Ġ ,|Ġ , , Ġ|Ġ , Ġ ,|Ṙ Ṁ Ġ Ġ|Ṙ , , Ṙ1|, , Ṡ ,||
+[SWARA]
+, , N ,|, , N ,|Ṡ , Ṡ ,|Ṡ , , Ṡ|P Ṡ N Ṡ|Ġ , , Ġ|, Ṡ , D|, , P ||

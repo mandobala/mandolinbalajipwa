@@ -1,0 +1,111 @@
+﻿[TITLE: Siddhi Vinayakam]
+[COMPOSER: Muthuswami Dikshitar]
+[NOTATED BY: Balaji]
+[RAGA: Shanmukhapriya]
+[TALA: Rupaka (3)]
+[BEATS: 3]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R2 G2 M2 P D1 N2]
+[AROHANA: S R2 G2 M2 P D1 N2 Ṡ]
+[AVAROHANA: Ṡ N2 D1 P M2 G2 R2 S]
+[TAGS: Krithi, Siddhi Vinayakam, Shanmukhapriya, Rupaka, Muthuswami Dikshitar]
+
+[SECTION: Pallavi]
+
+<Sangati 1>
+[SWARA]
+P,,,PM R,G,R, |R,S,,,,,ṆḌṆ, |S,,,,,,,, GRGM||
+[SAHITYA]
+siddhi vinā    yakam    a     niśam     śrī
+
+<Sangati 2>
+[SWARA]
+PMPDPM GDPMG, |R,S,,,,,,,ḌṆ, |S,,,,,R,,,G, |GRR,,,GRG,M,||
+[SAHITYA]
+sid    dhi vi nā yakam    a ni  śam  cin ta  yā     myaham
+
+<Sangati 3>
+[SWARA]
+PMNDPM GM[PDPM]G, |R,S,,,GRS ṆḌṆ, |S,,,,,R,,,G, |GRR,,,GR GMP-Ṙ ||
+[SAHITYA]
+sid    dhi vi nā   yakam     a ni   śam  cin ta  yā    mya ham pra-
+
+[SWARA]
+ṠN D P M RG R S,       R S,GG R /NND PM D P D ||
+[SAHITYA]
+sid dha gaṇa nā yakam   viśi shṭārthadā yakamvaram
+
+<Sangati 4>
+[SWARA]
+NṠNDPM GM[PDPM]G, |R,S,,,GRS ṆḌṆ, |S,,,,,R,,,G, |GRR,,,GR GMP-Ṙ ||
+[SAHITYA]
+sid    dhi vi nā ya kam      a ni   śam  cin ta  yā    mya ham pra-
+
+[SWARA]
+ṠN D P M RG R S,       R S,GR G/ NND PM D P D ||
+[SAHITYA]
+siddhagaṇa nā yakam     vi śi shṭārtha dā yakam varam
+
+[SWARA]
+ṄS[Ṙ,ĠṘ] [ṠN,,] [DPM,] GM[PDPM]G, |R,S,,,GRS[ṆḌ]Ṇ, ||S,,,
+[SAHITYA]
+sid                  dhi vi nā       yakam       a ni   śam
+
+[SECTION: Anupallavi]
+
+<Sangati 1>
+[SWARA]
+S,,,S,/Ṡ,,,Ṡ, |Ṙ,,,/Ġ,ĠṘṘ,Ṡ, |NDND N,Ṡ,,,-N, |Ṡ,ṠN /Ṙ,Ṡ,,,-ṘṠ||
+[SAHITYA]
+sid dhaya ksha  kin na rā  di   sē   vi tam a    khi la ja gat pra
+
+<Sangati 2>
+[SWARA]
+[ND]D,,DN Ṡ,,,Ṡ, |Ṙ,,,/Ġ,ĠṘṘ,Ṡ, |ṘṠND N,Ṡ,,,-N, |Ṡ,ṠN /Ṙ,Ṡ,,,-ṘṠ||
+[SAHITYA]
+sid    dha ya ksha kin na rā di    sē  vi tam a    khi la ja gat pra
+
+<Sangati 3>
+[SWARA]
+[ND]D,,DN Ṡ,,,Ṡ, |Ṙ,Ġ,ṖṀ ṘĠ,Ṙ ṘṠ |ĠṘ[SND,]N,Ṡ,,,-N, |Ṡ,ṠN Ṙ,Ṡ,,,-Ġ,||
+[SAHITYA]
+sid    dha ya ksha kin na rā  di    sē      vi tam a    khi la ja gat pra
+
+[SWARA]
+Ṙ,,,Ġ,/Ṁ,,,Ṁ, |ṖṀĠ,Ṙ,Ṡ,Ṡ,,N |/Ṙ,,,Ṡ,,,Ṙ,/Ġ, |Ṙ,Ṡ,ṠN/ṘṠNDPM||
+[SAHITYA]
+sid dha mū la   pañ   ka ja ma  dhya stham mō    da ka ha    stam
+
+[SWARA]
+PDNṠ[Ṙ,ĠṘ]ṠN[DPMG], |R,S,,,,,,DN, |S,,, <…>
+[SAHITYA]
+si   ddhi vi nā        yakam    a ni śam
+
+[SECTION: Charanam]
+
+[SWARA]
+P,,,PM PDPD PM |G,R,/G,GRR,S, |ṆḌṆḌṆ, S,,,R, |/P,,,PM G,R,,,||
+[SAHITYA]
+bhādra pa da mā sa ca turt thyām brā hma ṇā di  pū  ji   tam
+
+[SWARA]
+P̣,,,S,,,/G,R, |RṆ S,,,/N,D,D, |P,,,D,P,PMR, |R,G,R, S,,,,,||
+[SAHITYA]
+pā śāñ ku śa   dha ram cha tra cā mara pa ri vi ji    tam
+
+[SWARA]
+G,R,G,/M,,,M, |P,DN DPM,PDPD |ṘṠNDN,P,[D,,N] [DPM,] |PD,ND,DN Ṡ,,,||
+[SAHITYA]
+rau drabhā va  ra hi tam dā   sa ja na hṛ da    ya     vi rā ji tam
+
+[SWARA]
+Ṙ,,,,,/Ġ,ĠṘṘ, |Ṡ,,,N ṘṠN D,,N, |Ṡ,,,NṠ,N Ṙ,Ṡ,|,N NDPD/ṘṠ NDPM||
+[SAHITYA]
+rau    hi ṇē    yā  nu   jārc ci   tam ī   ha nā    va      rji tam
+
+[SWARA]
+G,R S,R G/N,D P, |M\G, M D P M PDN Ṡ, |Ṡ,Ṙ,Ġ ṘṠ N,D PD|D/,Ṙ,Ṡ,ND,N /Ṙ ṠN <…>
+[SAHITYA]
+a dri rāja sutā tmajam a nan ta gurugu hā grajam bhadra pradapa dām bujam bhā sa mā na ca tur…

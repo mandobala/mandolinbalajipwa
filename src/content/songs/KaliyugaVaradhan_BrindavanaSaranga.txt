@@ -1,0 +1,40 @@
+﻿[TITLE: Kaliyuga Varadhan]
+[COMPOSER: ]
+[NOTATED BY: Balaji]
+[RAGA: Brindavana Saranga]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 80]
+[SA: C#4]
+[SCALE: S R2 M1 P N2 N3]
+[AROHANA: S R2 M1 P N3 Ṡ]
+[AVAROHANA: Ṡ N2 P M1 R2 S]
+[TAGS: Krithi, Kaliyuga Varadhan, Brindavana Saranga, Adi]
+
+[SWARA]
+,,PP ,ṘṠ, ṠNṘṠ P,,, | ,,Ṡ, P,,M | R,M, R,S, ||
+[SWARA]
+,,Ṇ, ,RM, P,N, M,P, | ,,MP ,,NN | Ṡ,,, ,,,, ||
+[SWARA]
+,,PṘ ,ṠṘ, ṠNṘṠ P,,, | ,,Ṡ, P,,M | R,M, R,S, ||
+[SWARA]
+,,Ṇ, ,RM, P,N, M,P, | ,,MP ,,NN | Ṡ,,, ,,,, ||
+
+[SWARA]
+,,MP N,Ṡ, Ṙ,Ṁ, Ṙ,Ṡ, | ,,Ṡ, Ṙ,N, | ,,Ṡ, ṘṘ,, ||
+[SWARA]
+,,Ṁ, ṘṠṠ, ṠNṘṠ P,,, | ,,Ṡ, P,,M | R,M, R,S, ||
+[SWARA]
+,,PṘ ,ṠṘ, ṠNṘṠ P,,, | ,,Ṡ, P,,M | R,M, R,S, ||
+[SWARA]
+,,Ṇ, ,RM, P,N, M,P, | ,,MP ,,NN | Ṡ,,, ,,,, ||
+
+[SWARA]
+,,P, M,P, R,M, R,S, | ,,S, R,Ṇ, | ,,S, RR,, ||
+[SWARA]
+,,Ṇ, ,RM, P,N, M,P, | ,,MP ,,NN | Ṡ,Ṡ, Ṡ,,, ||
+[SWARA]
+,,MP N,Ṡ, R,M, R,S, | ,,S, R,N, | ,,S, RR,, ||
+[SWARA]
+,,Ṁ, ṘṠṠ, ṠNṘṠ P,,, | ,,Ṡ, P,,M | R,M, R,S, ||

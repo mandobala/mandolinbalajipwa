@@ -1,0 +1,59 @@
+﻿[TITLE: Sreegananatha-Malahari]
+[COMPOSER: Purandara Dasa]
+[NOTATED BY: Balaji]
+[RAGA: Malahari]
+[TALA: Rupaka (3)]
+[BEATS: 3]
+[NADAI: 2]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R1 G3 M1 P D1]
+[AROHANA: S R1 M1 P D1 Ṡ]
+[AVAROHANA: Ṡ D1 P M1 G3 R1 S]
+[TAGS: Sreegananatha-Malahari, Malahari, Rupaka, Purandara Dasa, Geetham]
+
+[SECTION: Charanam 1]
+[SWARA]
+M   P | D  Ṡ  Ṡ  Ṙ   || Ṙ   Ṡ   | D P  M  P   ||
+[SAHITYA]
+śrī -   ga ṇa nā tha    siṃ dhū   - ra va rṇa
+[SWARA]
+R  M  | P  D  M  P  || D  P  | M  G  R  S ||
+[SAHITYA]
+ka ru   ṇā sā ga ra    ka ri   va da na -
+
+[SECTION: Pallavi]
+[SWARA]
+S   R | M  , G  R  || S  R  | G  R  S  , ||
+[SAHITYA]
+laṃ -   bo - da ra    la ku   mi ka ra -
+[SWARA]
+R  M | P  D M  P  || D P  | M  G  R  S  ||
+[SAHITYA]
+aṃ -   bā - su ta    a ma   ra vi nu ta
+[SWARA]
+S   R | M  , G  R  || S  R  | G  R  S  , ||
+[SAHITYA]
+laṃ -   bo - da ra    la ku   mi ka rā -
+
+[SECTION: Charanam 2]
+[SWARA]
+M  P    | D  Ṡ Ṡ  Ṙ  || Ṙ  Ṡ  | D  P M  P  ||
+[SAHITYA]
+si ddha   cā - ra ṇa    ga ṇa   se - vi ta
+[SWARA]
+R  M    | P  D  M  P  || D  P | M  G  R  S  ||
+[SAHITYA]
+si ddhi   vi nā ya ka    te -   na mo na mo
+<(lambodara)>
+
+[SECTION: Charanam 3]
+[SWARA]
+M  P  | D  Ṡ  Ṡ   Ṙ || Ṙ Ṡ  | D  P M  P  ||
+[SAHITYA]
+sa ka   la vi dyā -    - di   pū - ji ta
+[SWARA]
+R  M | P  D M   P  || D  P | M  G  R  S  ||
+[SAHITYA]
+sa R   vo - tta ma    te -   na mo na mo
+<(lambodara)>

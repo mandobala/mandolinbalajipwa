@@ -1,0 +1,74 @@
+﻿[TITLE: Kurai Ondrum Illai-]
+[NOTATED BY: Balaji]
+[RAGA: Ragamalika]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 70]
+[SA: C#4]
+[SCALE: S R1 R2 G2 G3 M1 M2 P D1 D2 N2 N3]
+[AROHANA: S R2 G3 M2 P D2 N3 Ṡ]
+[AVAROHANA: Ṡ N3 D2 P M2 G3 R2 S]
+[TAGS: Krithi, Kurai Ondrum Illai-, Ragamalika, Adi, Sivaranjani]
+
+<SivaRanjani S R2 G2 P D2 S -S D2 P G2 R2 S>
+[SECTION: Pallavi]
+[SWARA]
+G2 G2 , G2|, , G2 ,|G2 , , ,|G2 , , ,|G2 P G2 P|D , , P|G2 , , ,|G2 , , ,||
+[SWARA]
+R2 G2 S ,|, , R2 ,|Ḍ2 , , S|, , G2 ,|R2 , , ,|, , , ,|G2 R2 R2 S|Ḍ2 S Ḍ2 P||
+[SWARA]
+P̣ Ḍ2 S ,|, , R2 ,|G2 P , G|R2 S , Ḍ2|S , , ,|S , , ,|, , , ,|, , , ,||
+[SWARA]
+, , , P|, , P P|D2 P P ,|, P , ,|P , P ,|G2 , , ,|, , D2 ,|P , , ,||
+[SWARA]
+, , , P|, , P P|D2 Ṡ P ,|, P , ,|G2 , , G2|, , R2 ,|S , G2 ,|R2 , , ,||
+[SWARA]
+G2 P D2 ,|, , S ,|R2 , , ,|R2 , , ,|Ḍ2 S , Ḍ2|S G2 , R2|Ḍ2 , , ,|S , , ,||
+[SWARA]
+, , , P|, , P P|P , , D2|, D2 D2 ,|G2 , , G2|P , , P|D2 P Ṡ ,|, Ṡ , ,||
+[SWARA]
+, , , Ṡ|, Ṡ Ṡ ,|D2 Ṡ Ṙ2 Ṡ|D2 P G2 ,|G2 P , D2|Ṙ2 , , Ṙ2|Ġ2 Ṙ2 Ṡ D2|P G2 R2 S||
+[SWARA]
+G2 , , G2|, , R2 G2|P , , P|, , D2 P|Ṡ , , Ṡ|, , Ġ2 Ṙ2|Ṡ , , ,|Ṡ , , ,||
+
+[SECTION: Anupallavi]
+[SWARA]
+[Ṡ Ṙ2 Ṡ ,]P ,|, , P ,|M N2 P G2|, , R2 ,|M1 , M1 ,|P , , ,|, , , ,|P N3 Ṡ Ṙ2||
+[SWARA]
+[Ġ2 Ṙ2 N2 ,]P ,|, , P ,|M1 N2 P G2|, , R2 ,|M1 , M1,|P , , ,|Ṡ , , ,|P , P M1||
+[SWARA]
+G3 G3 G3 ,|, , G3 ,|S G3[M N2]P|G2 , , ,|G2 , G2 ,|R2 M1 G2 R2|S , Ṇ2 ,|S , , ,||
+[SWARA]
+Ṇ2 Ṇ2 Ṇ2 ,|, , S ,|G2 G2 G2 ,|, , G2 ,|M1 N2 P G2|, , R2 ,|S , G2 ,|R2 , , ,||
+[SWARA]
+R2 M1 P ,|, , P ,|N2 N2 M1 ,|, , P ,|M1 P N3 ,|, , N3 ,|Ṡ , , ,|Ṡ , , ,||
+[SWARA]
+N3 , Ṡ ,|N3 S Ġ2 ,|Ġ2 , , Ġ2, , Ġ2 ,|, , R1 M|G2 R1 Ṡ N3|Ṡ , Ġ2 ,|Ṙ2 , , ,||
+[SWARA]
+Ġ2 Ṙ2 N2 ,|, , P ,|G2 , , ,|R2 , , ,|R2 M1 P ,|, , P ,|N3 , , ,|Ṡ , , ,||
+[SWARA]
+N3 Ṡ Ġ3,|, , Ṁ1 ,|Ṙ2 Ṁ1 Ṗ Ṁ1|Ġ2 , , ,|Ġ2 Ṙ2 Ṡ ,|, , Ṡ ,|Ġ2 Ṡ N P|M1 G2 R2 S||
+[SWARA]
+G3 , , G3|, , R M|P , , P|, , M P|N3 , , Ṡ|, , Ġ Ṙ|N3 , , Ṡ|, , , ,||
+
+[SECTION: Charanam]
+[SWARA]
+P D1 Ṡ ,|, , Ṡ ,|Ṡ , Ṡ ,|Ṡ , , ,|, , Ġ2 Ṡ|D1 , , ,|D1 , D1 ,|D1 , , ,||
+[SWARA]
+D1 D1 D1 ,|, , D1 ,|G2 P D1 Ṡ|N2 D1 D1 ,|P , P ,|G2 , , ,|P , , ,|P , P ,||
+[SWARA]
+P N2 Ṡ Ġ2|, , Ġ2 ,|Ġ2 , Ġ2 ,|Ġ2 , , ,|, , Ġ2 Ṡ|D1 , , ,|D1 , D1 ,|D1 , , ,||
+[SWARA]
+D1 D1 D1 ,|, , D1 ,|G2 P D1 Ṡ|N2 D1 D1 ,|P , P ,|G2 , , ,|P , , ,|P , P ,||
+[SWARA]
+M1 M1 M1 ,|, , M1 ,|M1 G2 M1 ,|S , , ,|S G2 , M1|P D2 M1 ,|P , , ,|P , , ,||
+[SWARA]
+, , P ,|, , D2 ,|Ṡ Ṡ , Ṡ|, , Ṡ ,|Ġ Ṡ D ,|, , P ,|G P D ,|Ṡ , , ,||
+[SWARA]
+, , Ġ2 ,|, , Ġ2 ,|Ġ2 , Ġ2 ,|Ġ2 , , Ġ2|Ġ2 , Ġ2 ,|Ṙ2 Ṁ1 Ġ2 Ġ2|Ṙ2 , , Ṙ1|, , Ṡ ,||
+[SWARA]
+, , , D1 |,, D1,| D1D1D1,|D1,,,|,,PD1|M1,P,|G2,P,|M1,,,||
+,,P,|,,D1,|ṠṠṠ,|Ṡ,,,|NṠNṠ|Ṙ2,Ṡ,|D1,,,|P,,,||
+,,,Ġ2|,,Ṡ,|ĠṠD2,|,,p,|G2PD2,|,,,Ṡ|Ġ2ṠN2D2|PM1G2G2||
+P,,P|,,G2P|D1,,D1|,,PD1|Ṡ,,Ṡ|,,Ġ2Ṙ2|Ṡ,,S|,,,,||
