@@ -6,7 +6,7 @@
 [BPM: 60]
 [SA: C#4]
 [SCALE: S R2 G3 M1 P D2 N3]
-[AROHANA: S R1 G3  P D2 Ṡ]
+[AROHANA: S R2 G3  P D2 Ṡ]
 [AVAROHANA: Ṡ N3 D2 P M1 G3 R2 S]
 [TAGS: Krithi, Jagadhanandhakaraka-Nattai, Nattai, Adi, Balahamsa, Pacharatnam]
 
