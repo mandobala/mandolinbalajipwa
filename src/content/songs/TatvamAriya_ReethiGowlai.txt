@@ -1,0 +1,32 @@
+﻿[TITLE: TatvamAriya-ReethiGowlai]
+[COMPOSER: pApanAsam sivan]
+[RAGA: Reethigowlai]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R2 G2 M1 P D2 N2]
+[AROHANA: S G2 R2 G2 M1 N2 D2 M1 N2 N2 Ṡ]
+[AVAROHANA: Ṡ N2 D2 M1 G2 M1 P M1 G2 R2 S]
+[TAGS: TatvamAriya-ReethiGowlai, Reethigowlai, Adi, pApanAsam sivan]
+
+[Song: Tatvam Ariya Tharama]
+
+[Thala: Adi ]
+
+
+[SECTION: Pallavi]
+
+[SWARA]
+p , , , m , g , g r s , ṇ , ṇ , | s , , , , , , , | , , s g g , m , ||
+[Sahitya]
+tat - - - va - ma - ri - ya - ta - ra - |mA- - - - - - - | - - u - na - du - ||
+[SWARA]
+p d p m p m g m g r s , , ṇ  ṇ  , | s , , , , , , , | , , p m g r g m ||
+[Sahitya]
+tat - - va- - ma- ri - ya- - ta ra - |mA- - - - - - - | - - u - na – du - ||
+[SWARA]
+d , n d m , g m p m g r s , , [ṇṇ] | s , , , , , , , | , , g m n n ṡ n ||
+[Sahitya]
+tat- - - va - ma - ri - ya- - ta ra - |mA- - - - - - - | - - u - na - du -||
