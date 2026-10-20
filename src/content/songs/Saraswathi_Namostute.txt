@@ -1,0 +1,97 @@
+﻿[TITLE: Saraswathi Namostute]
+[COMPOSER: G. N. Balasubramaniam]
+[NOTATED BY: Balaji]
+[RAGA: Saraswathi]
+[TALA: Rupaka (3)]
+[BEATS: 3]
+[NADAI: 4]
+[BPM: 80]
+[SA: C#4]
+[SCALE: S R2 M2 P D2 N2]
+[AROHANA: S R2 M2 P D2 Ṡ]
+[AVAROHANA: Ṡ N2 D2 P M2 R2 S]
+[TAGS: Krithi, Saraswathi Namostute, Saraswathi, Rupaka, G. N. Balasubramaniam]
+
+[SECTION: Pallavi]
+
+<Saraswathi namostute>
+<Sarade vidya prade>
+
+<Sangati 1>
+[SWARA]
+S, R,,,, M,P,, |P,DDPM P,D,,, |Ṡ,, N,D, P,M,, |P,NDPM PMRSṆD||
+
+<Sangati 2>
+[SWARA]
+S, R,, PMRMRS |RMPD ṘṠ N,D,, |D,Ṡ Ṙ,Ṡ N,D, PM,, |PDṘṠ NDPMRSṆD||
+
+<Sangati 3>
+[SWARA]
+S, R,,, PMRMRS |RMPD ṘṠ N,D,, |D,Ṡ[ṘṀ]ṘṠ ND,PM,, |PDṘṠ NDPMRSṆD||
+
+<Sangati 4>
+[SWARA]
+S,R,,, MDPMRS |RMPD ṘṠ N,D,, |ṠṘṀṘ ṖṀ ṘṠND PM, |PDṘṠ NDPMRSṆD||
+
+<Sangati 5>
+[SWARA]
+SRS RMR MPM PDP |PD [PDND]PM P,D,,, |ṠṘṀ DṠṘ PDṠ MPD |PDṘṠ NDPMRSṆD||
+
+<Sangati 6>
+[SWARA]
+S,, R,, M,, P,, |D,, M,, P,, D,, |,,,, ,,,, D,M, ||
+
+[SECTION: Anupallavi]
+
+<Karadhritha veena pustaka>
+<Varamani mala lankritha>
+
+<Sangati 1>
+[SWARA]
+,, PD, ND, P,,M |DPM, DPP D,Ṡ,, |,, DṘ, ṠṠ, ṠṠND |PDṘṠ N,D, P,,Ṡ||
+
+<Sangati 2>
+[SWARA]
+,, PD,ND, PD[ṠD,Ṡ] |DPM, DPP, D,Ṡ, |,, DṘ, ṠṠ, ṠṠND |PDṘṠ N,D, P,,Ṡ||,
+
+<Sangati 3>
+[SWARA]
+,, PD,ND, ṘṠND |DPM,, DPP D,Ṙ, |, ṘṀ, ṘṠ, ṠṠND |PDṘṠ NDPMRSṆD||
+
+[SECTION: Chittai Swaram]
+
+[SWARA]
+S,RM PD,P MPD, |Ṡ,,, ,, NDPM RS||
+
+[SWARA]
+S,RM PD,P MPD, |Ṡ,, M,D, P, M,R||
+
+[SWARA]
+S,RM PD,P MPDṠ |PDṠ, NDPM ṘṠND||
+
+[SWARA]
+SRMP DṠ ṘṀ,ṘṠ N|,DP M,RS R,SND||
+
+[SECTION: Charanam]
+
+<Narahari suta vidhi lalitha>
+<Varamaniyutha kambugale>
+
+<Sangati 1>
+[SWARA]
+,, PD, PM, RSR, |RMP, PMR, R,S, |,, SR, ṆḌ, S,R, |,, SR, M,M, P,,||
+
+<Sangati 2>
+[SWARA]
+,, PD, [MDPM], RSR, |RM[PDṠ,] [NDPM]R, R,S, |,, SR, ND, S,R, |,, SR, M,M, P,,||,
+
+<Surasevitha pada yugale>
+<Sudhakara sama dhavale>
+
+<Sangati 1>
+[SWARA]
+,, PD, ND, P,M, |P,D, Ṡ,D, Ṡ,,,, |Ṙ,Ṡ,, N,D,,, |PDṘṠ N,D, P,,||,
+
+<Sangati 2>
+[SWARA]
+, PDṘṠND P,M,, |P,D, Ṡ,Ṡ, Ṙ,, |ṘṀ, ṘṠ, ṠṠNDPM |PDṘṠ NDPMRSND||
