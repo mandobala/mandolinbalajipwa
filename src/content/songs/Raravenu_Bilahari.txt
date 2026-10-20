@@ -1,4 +1,5 @@
 ﻿[TITLE: Raravenu-Bilahari]
+[COMPOSER: Patnam Subrahmaṇya Ayyar]
 [RAGA: Bilahari]
 [TALA: Adi (8)]
 [BEATS: 8]
@@ -8,7 +9,7 @@
 [SCALE: S R2 G3 M1 P D2 N3]
 [AROHANA: S R2 G3  P D2 Ṡ]
 [AVAROHANA: Ṡ N3 D2 P M1 G3 R2 S]
-[TAGS: Krithi, Jagadhanandhakaraka-Nattai, Nattai, Adi, Balahamsa, Pacharatnam]
+[TAGS: Geetham,Raravenu,Bilahari, Patnam Subrahmaṇya Ayyar]
 
 [SECTION: Pallavi]
 
