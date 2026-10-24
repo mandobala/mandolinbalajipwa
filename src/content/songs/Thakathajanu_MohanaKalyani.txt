@@ -1,0 +1,70 @@
+﻿[TITLE: Thakathajanu-MohanaKalyani]
+[NOTATED BY: Balaji]
+[RAGA: Mohana Kalyani]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R2 G3 M2 P D2 N3]
+[AROHANA: S R2 G3 P D2 Ṡ]
+[AVAROHANA: Ṡ N3 D2 P M2 G3 R2 S]
+[TAGS: Thillana, Thakathajanu, Mohana Kalyani, Adi]
+
+[SECTION: Pallavi]
+
+[SWARA]
+,,,, ,,,, ,,,, ,,,, ,,,, ,,,, ,,,, ,,GP||
+DSNP, MGR GS,N DS,R G,,,,,,,,,,,,,,,||
+
+[SWARA]
+DSNP, MGR GS,N DS,R G,,, ,,GG P,PP D,GP ||
+
+[SWARA]
+DSNP, MGR GS,N DS,R G,,, ,,PM G, SN D,GP ||
+
+[SWARA]
+DSNP, MGR GS,N DS,R G,,, ,,[DDPMGR G,] [ṘṘSN] [DPD,]GP ||
+
+[SWARA]
+DSNP, MGR GS,N DS,R G,,, ,,SR GP RG PDGP ||
+
+[SWARA]
+DSNP, MGR GS,N DS,R G,,, ,, [SRGP DṠṘĠṘṠND PMGR] GP ||
+
+[SWARA]
+DSNP, MGR GS,N DS,R G,,, ,,,, ,,,, ,,,,
+
+[SECTION: Anupallavi]
+
+[SWARA]
+GRS,,RGP D,,, ,,SN DP,G ,PDS Ṙ,,, ,,PM ||
+
+[SWARA]
+GRS,,RGP D,GD D,SN DP,G ,PDS R,DR R,DG ||
+
+[SWARA]
+RG S, ND R, S, Ṡ, NDP D ,Ṗ,Ṗ ,MGR G,S,R,GP ||
+
+<DSNP, MGR >
+<(Pallavi)>
+
+[SECTION: Charanam]
+
+[SWARA]
+DDS, NDPM GRGR S,ND SR,, GDPM GRGP DS D, ||
+
+[SWARA]
+ĠṘ,Ġ ṖṀĠ, ĠṘṠN D,GP DṘ,Ṡ NDPM GRGR S,SR ||
+
+[SWARA]
+GP,D ,RGP ,D,, ,GP, D,PD ṘṠṠN DPMG R,SR ||
+
+[SWARA]
+GM,P GPDS ,NDR ṘĠ,Ṙ Ṡ,PD ĠṘṠN DPMG R,GD ||
+
+[SWARA]
+PM, GPDṘ ,ṠND,Ṡ,D Ġ ,ṘṠN ,D P,D,Ġ, Ṙ,DS ||
+
+[SWARA]
+,ṘĠ, ṠṘĠṖ ṀĠ, G P,DṘ ,,PD ṘṠND RG,P D,GP ||

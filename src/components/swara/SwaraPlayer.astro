@@ -15,6 +15,20 @@ interface Props {
 
 const { songs } = Astro.props;
 
+/* Recorded swaras, one folder per Sa they were sung at (C, Csharp, D …):
+   served as ordinary files and fetched only when the voice is used. A file is
+   named after its swara, with h / l for each octave above / below (Sh, N3l). */
+const voiceFiles = import.meta.glob('../../content/songs/VoiceSwaras/*/*.{mp3,wav,m4a,ogg}',
+  { query: '?url', import: 'default', eager: true }) as Record<string, string>;
+const voiceUrls: Record<string, Record<string, string>> = {};
+for (const [file, url] of Object.entries(voiceFiles)) {
+  const m = file.match(/VoiceSwaras\/([^/]+)\/([^/]+)\.(mp3|wav|m4a|ogg)$/i);
+  if (!m) continue;
+  const k = m[2].match(/^([SRGMPDN][1-3]?)([hl]*)$/i);
+  const key = k ? k[1].toUpperCase() + k[2].toLowerCase() : m[2];
+  (voiceUrls[m[1]] ||= {})[key] = url;
+}
+
 /* Fold accents so "sri" finds "śrī", and build one haystack per song. */
 const fold = (v: string) =>
   (v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -53,7 +67,7 @@ const grouped = GROUPS
   .filter((g) => g.songs.length);
 ---
 
-<div class="sp" id="spPlayer">
+<div class="sp" id="spPlayer" data-voices={JSON.stringify(voiceUrls)}>
   <!-- Song text, validated at build time. Rendered as escaped text nodes and
        read by the client with textContent — never as markup. -->
   <div id="spSongs" hidden>
@@ -216,10 +230,12 @@ const grouped = GROUPS
       <label class="sp-field">
         <span>Instrument</span>
         <select id="spInstrument" aria-label="Instrument">
+          <option value="auto">Auto (voice where recorded, else flute)</option>
           <option value="piano">Piano</option>
           <option value="violin">Violin</option>
           <option value="flute">Flute</option>
           <option value="reed">Wind (reed)</option>
+          <option value="voice">Voice (recorded)</option>
         </select>
       </label>
     </div>

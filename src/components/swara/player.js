@@ -29,7 +29,7 @@ const state = {
   volMaster: 0.85,
   volPiano: 0.8,
   volClick: 0.5,
-  instrument: 'piano',      // piano, violin, flute or reed; slides on piano use violin
+  instrument: 'auto',       // auto, piano, violin, flute, reed or voice; slides on piano use violin
   selection: { start: null, end: null },
   pick: null                 // 'start' | 'end' while choosing a loop by taps
 };
@@ -186,6 +186,156 @@ function playSlide(freqs, when, dur, glideFor, kind) {
   if (voices.length > 64) voices = voices.filter(function (v) { return v.end > actx.currentTime - 0.5; });
 }
 
+/* ------------------------------------------------------- recorded voice */
+/* One recording per swara variant, in a folder per Sa (VoiceSwaras/C,
+   Csharp …). Fetched and decoded once, the first time the voice is used,
+   and shared by every song. Each recording's own pitch is measured as it is
+   decoded and every note is shifted from there to the exact note asked for;
+   the folder nearest the song's Sa is sung from, and a note it lacks is
+   borrowed from the next nearest folder. */
+let voiceUrls = null;
+let voiceBank = null;          // folder -> name -> { buffer, pitch }
+let voiceLoading = null;
+const VOICE_FOLDER_KEY = { C: 'C', Csharp: 'C#', D: 'D', Dsharp: 'D#', E: 'E', F: 'F', Fsharp: 'F#',
+                           G: 'G', Gsharp: 'G#', A: 'A', Asharp: 'A#', B: 'B' };
+
+function voiceFolders() {
+  if (!voiceUrls) {
+    try { voiceUrls = JSON.parse($('spPlayer').dataset.voices || '{}'); } catch (e) { voiceUrls = {}; }
+  }
+  return voiceUrls;
+}
+
+/* "Auto" (the default): the recorded voice when there are recordings for the
+   song's Sa — a VoiceSwaras folder named after it — and flute otherwise,
+   until every Sa has its recordings. */
+function hasVoiceFor(key) {
+  return Object.keys(voiceFolders()).some((n) => VOICE_FOLDER_KEY[n] === key);
+}
+function resolveInstrument() {
+  const inst = state.instrument || 'auto';
+  if (inst !== 'auto') return inst;
+  return hasVoiceFor(state.tonicKey) ? 'voice' : 'flute';
+}
+
+// YIN over short frames, limited to a sung swara's range so a syllable's overtones are not taken for the note
+function yinFrame(x, from, len, sr) {
+  const tmin = Math.floor(sr / 450), tmax = Math.floor(sr / 45);
+  const W = len - tmax;
+  if (W < 200) return 0;
+  const d = new Float32Array(tmax + 1);
+  let cum = 0;
+  for (let t = 1; t <= tmax; t++) {
+    let sum = 0;
+    for (let j = 0; j < W; j++) { const diff = x[from + j] - x[from + j + t]; sum += diff * diff; }
+    cum += sum;
+    d[t] = cum ? sum * t / cum : 1;
+  }
+  let best = 0;
+  for (let t = tmin; t < tmax; t++) {
+    if (d[t] < 0.15) {
+      while (t + 1 < tmax && d[t + 1] < d[t]) t++;
+      return sr / t;
+    }
+    if (!best || d[t] < d[best]) best = t;
+  }
+  return best && d[best] < 0.75 ? sr / best : 0;
+}
+
+function measurePitch(buffer) {
+  const x = buffer.getChannelData(0), sr = buffer.sampleRate;
+  let peak = 0;
+  for (let i = 0; i < x.length; i++) if (Math.abs(x[i]) > peak) peak = Math.abs(x[i]);
+  let first = 0, last = x.length - 1;
+  while (first < x.length && Math.abs(x[first]) < peak * 0.2) first++;
+  while (last > 0 && Math.abs(x[last]) < peak * 0.2) last--;
+  const frame = Math.floor(sr * 0.06), found = [];
+  for (let st = first; st + frame < last; st += frame >> 1) {
+    const f = yinFrame(x, st, frame, sr);
+    if (f) found.push(f);
+  }
+  if (!found.length) return 0;
+  found.sort((a, b) => a - b);
+  return found[found.length >> 1];
+}
+
+function loadVoices() {
+  if (voiceBank || voiceLoading || !actx) return voiceLoading;
+  const folders = voiceFolders();
+  const jobs = [];
+  Object.keys(folders).forEach((set) => {
+    Object.keys(folders[set]).forEach((name) => {
+      jobs.push(fetch(folders[set][name])
+        .then((r) => r.arrayBuffer())
+        .then((data) => actx.decodeAudioData(data))
+        .then((buffer) => ({ set, name, v: { buffer, pitch: measurePitch(buffer) } }), () => null));
+    });
+  });
+  voiceLoading = Promise.all(jobs).then((list) => {
+    const banks = {};
+    list.forEach((x) => { if (x && x.v.pitch > 0) { banks[x.set] = banks[x.set] || {}; banks[x.set][x.name] = x.v; } });
+    Object.keys(banks).forEach((set) => {
+      const bank = banks[set];
+      const pitches = Object.keys(bank).filter((k) => !/[hl]$/.test(k)).map((k) => bank[k].pitch).sort((a, b) => a - b);
+      // the folder's own Sa: its S recording, else the middle of its middle-octave notes
+      Object.defineProperty(bank, 'middle', { value: (bank.S && bank.S.pitch) || pitches[pitches.length >> 1] || 150 });
+    });
+    voiceBank = banks;
+    voiceLoading = null;
+    return voiceBank;
+  });
+  return voiceLoading;
+}
+
+// the folders, nearest the song's Sa first
+function voiceSetOrder() {
+  const want = E.KEY_SEMITONES[state.tonicKey];
+  return Object.keys(voiceBank || {}).map((n) => {
+    const k = E.KEY_SEMITONES[VOICE_FOLDER_KEY[n]];
+    const d = (k === undefined || want === undefined) ? 6 : Math.min(Math.abs(k - want), 12 - Math.abs(k - want));
+    return { n, d };
+  }).sort((a, b) => a.d - b.d).map((x) => x.n);
+}
+
+// sing one swara from its recording; false when there is no recording for it (yet)
+function playVoice(name, octave, freqs, when, dur, glideFor) {
+  if (!actx) return false;
+  if (!voiceBank) { loadVoices(); return false; }
+  const order = voiceSetOrder();
+  if (!order.length) return false;
+  const suffix = octave > 0 ? 'h'.repeat(octave) : (octave < 0 ? 'l'.repeat(-octave) : '');
+  const letter = String(name).charAt(0);
+  let v = null;
+  [name + suffix, name, letter + suffix, letter].some((key) => order.some((set) => { v = voiceBank[set][key] || null; return !!v; }));
+  if (!v) return false;
+  const octShift = Math.round(Math.log2(voiceBank[order[0]].middle / state.tonicHz));   // the singing octave, set by the chosen folder
+  const rateFor = (f) => f * Math.pow(2, octShift) / v.pitch;
+  const start = Math.max(when, actx.currentTime + 0.001);
+  const length = Math.max(0.05, dur - (start - when));
+  const src = actx.createBufferSource();
+  src.buffer = v.buffer;
+  src.playbackRate.setValueAtTime(rateFor(freqs[0]), start);
+  if (freqs.length > 1) {
+    const glide = Math.min(length * 0.9, Math.max(SLIDE_MIN, Math.min(length, glideFor) / 3));
+    for (let k = 1; k < freqs.length; k++) {
+      src.playbackRate.exponentialRampToValueAtTime(rateFor(freqs[k]), start + glide * k / (freqs.length - 1));
+    }
+  }
+  const sounding = Math.min(length, v.buffer.duration / rateFor(freqs[freqs.length - 1]));
+  const g = actx.createGain();
+  g.gain.setValueAtTime(0.0001, start);
+  g.gain.linearRampToValueAtTime(0.9, start + 0.008);
+  g.gain.setValueAtTime(0.9, Math.max(start + 0.008, start + sounding - 0.03));
+  g.gain.linearRampToValueAtTime(0.0001, start + sounding);
+  src.connect(g); g.connect(busPiano);
+  src.onended = () => { try { g.disconnect(); } catch (e) {} };
+  src.start(start);
+  src.stop(start + sounding + 0.02);
+  voices.push({ out: g, oscs: [src], end: start + sounding + 0.02 });
+  if (voices.length > 64) voices = voices.filter((x) => x.end > actx.currentTime - 0.5);
+  return true;
+}
+
 function playNote(freq, when, dur) {
   if (!actx || !isFinite(freq) || freq <= 0) return;
   const start = Math.max(when, actx.currentTime + 0.001);
@@ -340,6 +490,11 @@ function play(fromIndex) {
   if (!parsed || !schedule().length) return;
   if (!ensureAudio()) return;
   if (transport.status === 'playing') return;
+  // the recorded voice is fetched and decoded once; wait for it rather than start without it
+  if (resolveInstrument() === 'voice' && !voiceBank) {
+    const loading = loadVoices();
+    if (loading) { $('spNow').textContent = 'Loading the voice…'; loading.then(() => play(fromIndex)); return; }
+  }
 
   const sch = schedule();
   let startTime;
@@ -386,9 +541,12 @@ function schedulerTick() {
       if (s.event.valid && s.event.semitone !== null) {
         const freq = E.frequencyOf(state.tonicHz, s.event.semitone, s.event.octave);
         const noteDur = Math.min(s.duration, endT - s.startTime);  // a loop cuts its last note off
-        const inst = state.instrument || 'piano';
+        const inst = resolveInstrument();
         const own = (s.event.insideSpeedGroup ? 0.5 : 1) * timingInfo.secondsPerNoteSpace;
-        if (s.event.slideFrom) {
+        const path0 = s.event.slideFrom ? s.event.slideFrom.map((f) => E.frequencyOf(state.tonicHz, f.semitone, f.octave)).concat([freq]) : null;
+        if (inst === 'voice' && playVoice(s.event.resolvedSwara, s.event.octave, path0 || [freq], transport.origin + s.startTime, noteDur, own)) {
+          // sung from the recordings
+        } else if (s.event.slideFrom) {
           const path = s.event.slideFrom.map((f) => E.frequencyOf(state.tonicHz, f.semitone, f.octave));
           path.push(freq);
           playSlide(path, transport.origin + s.startTime, noteDur, own, inst === 'piano' ? 'violin' : inst);  // a piano cannot slide
@@ -1133,7 +1291,7 @@ function syncControls() {
   $('spVolMaster').value = String(state.volMaster);
   $('spVolPiano').value = String(state.volPiano);
   $('spVolClick').value = String(state.volClick);
-  $('spInstrument').value = state.instrument || 'piano';
+  $('spInstrument').value = state.instrument || 'auto';
   syncTransportUi();
 }
 
@@ -1455,7 +1613,11 @@ function wire() {
   $('spVolMaster').addEventListener('input', function () { state.volMaster = parseFloat(this.value); applyVolumes(); savePrefs(); });
   $('spVolPiano').addEventListener('input', function () { state.volPiano = parseFloat(this.value); applyVolumes(); savePrefs(); });
   $('spVolClick').addEventListener('input', function () { state.volClick = parseFloat(this.value); applyVolumes(); savePrefs(); });
-  $('spInstrument').addEventListener('change', function () { state.instrument = this.value; savePrefs(); });
+  $('spInstrument').addEventListener('change', function () {
+    state.instrument = this.value;
+    if (resolveInstrument() === 'voice' && ensureAudio()) loadVoices();   // fetch and decode the recordings once
+    savePrefs();
+  });
 
   wireSearch();
 

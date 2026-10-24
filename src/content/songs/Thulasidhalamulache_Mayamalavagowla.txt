@@ -1,0 +1,116 @@
+﻿[TITLE: Thulasidhalamulache]
+[COMPOSER: Thyagaraja]
+[NOTATED BY: Balaji]
+[RAGA: Mayamalavagowla]
+[TALA: Rupaka (3)]
+[BEATS: 3]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R1 G3 M1 P D1 N3]
+[AROHANA: S R1 G3 M1 P D1 N3 Ṡ]
+[AVAROHANA: Ṡ N3 D1 P M1 G3 R1 S]
+[TAGS: Krithi, Thulasidhalamulache, Mayamalavagowla, Rupaka, Thyagaraja]
+
+[SECTION: Pallavi]
+
+<Sangati 1>
+[SWARA]
+P,D,P,,,MGM, |PD PM G,,, RSRṆ |S,R,G, GR G,,, |M,P,,,PPMG M,||
+[SAHITYA]
+tu la sī da la mu la cē  san   tō sha mu gā    pū    jin tu
+
+<Sangati 2>
+[SWARA]
+PDPD M,P,MGM, |DD PMGMGR GRSṆ |S,,R G, GRG,,, |GMPDPD- PP MGM,||
+[SAHITYA]
+tu la sī da la mu la cē   san  tō sha mu gā    pū      jin tu
+
+<Sangati 3>
+[SWARA]
+N,D, N,DP /NDPM |GMPDPM-GMG RSṆ |SRGM PD NṠ-ṘṠ,N |ṠN,D ND,P PMGM||
+[SAHITYA]
+tu la sī da la   mu la   cē san  tō sha mu gā       pū   jin tu
+
+<Sangati 4>
+[SWARA]
+NNDD NNDP NDPM |GM[P,DP] [M,PM] GMG RSN |SRGMPD NṠ [Ṡ,ṘṠ]ṠN |
+[SAHITYA]
+tu la sī da la  mu la           cē san  tō sha mu gā
+
+[SWARA]
+[N,ṠN]ND[D,ND]DP PPMGM||, ND,P,,,
+[SAHITYA]
+pū        jin      tu
+<(tulasī)>
+
+[SECTION: Anupallavi]
+
+<Sangati 1>
+[SWARA]
+,, *P D,N,,,,N, |Ṡ,Ṡ,Ṡ,,,Ṙ,Ṡ, ||
+[SAHITYA]
+    palu mā ru   ci ra kā la mu
+
+<Sangati 2>
+[SWARA]
+,, *N D,N,,N,N, |Ṡ,ṠN Ṡ,,,Ṙ,Ṡ,||
+[SAHITYA]
+    pa lu mā ru  ci ra kā la mu
+
+<Sangati 3>
+[SWARA]
+ṠND,N,,,N,N, |NṠ ṘṠ Ṙ,,,Ṙ,Ṡ,||
+[SAHITYA]
+pa lu mā ru   ci ra kā   la mu
+
+<Sangati 4>
+[SWARA]
+ṘṠND N,,,N,N, |NṠṘ, ĠṀ,Ġ Ṙ,Ṡ,||
+[SAHITYA]
+pa lu mā ru    ci ra kā  la mu
+
+<Sangati 5>
+[SWARA]
+ṘṠND NṠṘṠ Ṙ,Ṙ, |Ġ,Ġ, ṀĠṖṀĠṘ Ṡ, |
+[SAHITYA]
+pa lu mā  ru     ci ra kā     la mu
+
+[SWARA]
+ṠNṠṘ ṠND,P, PM |GMPDPM-GMPDNṠ||
+[SAHITYA]
+pa ra māt mu ni  pā da mu la nu
+
+[SWARA]
+ĠṘṠN ṘṠND NDPM |GM [P,DPM,PM]GMG RSṆ |
+[SAHITYA]
+tu la sī   da la mu la        cē san
+
+[SWARA]
+SRGMPD NṠ-ṘṠ,N |ṠN,D ND,P PMGM||N,D,P,,,
+[SAHITYA]
+tō sha mu gā    pū   jin tu
+<(tulasī)>
+
+[SECTION: Charanam]
+
+[SWARA]
+,, *PD,P,,M,P, |PMGM,G M,DP D, |,,-PD, P M,MGR, |S,SR G,RG M,M,||
+[SAHITYA]
+    sara sī ru ha pun   nā  ga     cam paka pā    ṭa la kura va ka
+
+[SWARA]
+,, *G M,PD,N,Ṡ, |ṠND,PM GMGR R, |GMPDPM GMGR R, |MGPM GMGR R,S,,,||
+[SAHITYA]
+    kara vī ra   mal li kā   su  gan dha rā  ja   su ma mul
+
+[SWARA]
+,, *P D,P P,M,P, |PPMG M,DP D,D, |,,-DP DNṠN DP D, |N,D,D,ṠN ṠNṠ,||
+[SAHITYA]
+    dhara ṇi vi yo ka pa ryā ya mu   dhar māt mu ni   sā kē ta-
+
+[SWARA]
+,, *DN,Ṡ,,Ṙ,Ṡ, |ṠND,D,N,Ṡ,Ṡ, |DN Ṡ,ṠND,P, PM |GMPDPM GM PDNṠ||
+[SAHITYA]
+    puravā su ni śrī rā  muni  va ra tyā    ga rā ja    nu tu ni
+<(tulasī)>
