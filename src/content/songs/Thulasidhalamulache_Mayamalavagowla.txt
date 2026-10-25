@@ -41,8 +41,7 @@ tu la sī da la  mu la           cē san  tō sha mu gā
 [SWARA]
 [N,ṠN]ND[D,ND]DP PPMGM||, ND,P,,,
 [SAHITYA]
-pū        jin      tu
-<(tulasī)>
+pū        jin      tu  <(tulasī)>
 
 [SECTION: Anupallavi]
 
