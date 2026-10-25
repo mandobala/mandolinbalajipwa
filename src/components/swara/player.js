@@ -1300,7 +1300,8 @@ function savePrefs() {
   try {
     localStorage.setItem('sp-prefs', JSON.stringify({
       metronome: state.metronome, subClick: state.subClick, loopMode: state.loopMode, layout: state.layout,
-      volMaster: state.volMaster, volPiano: state.volPiano, volClick: state.volClick, instrument: state.instrument
+      volMaster: state.volMaster, volPiano: state.volPiano, volClick: state.volClick, instrument: state.instrument,
+      instrumentChosen: state.instrumentChosen
     }));
   } catch (e) {}
 }
@@ -1308,7 +1309,11 @@ function loadPrefs() {
   try {
     const raw = localStorage.getItem('sp-prefs');
     if (!raw) return;
-    Object.assign(state, JSON.parse(raw));
+    const saved = JSON.parse(raw);
+    /* An instrument is remembered only when someone picked it. Settings saved
+       before Auto existed carry "piano" for everyone, so those fall back to Auto. */
+    if (!saved.instrumentChosen) delete saved.instrument;
+    Object.assign(state, saved);
   } catch (e) {}
 }
 
@@ -1615,6 +1620,7 @@ function wire() {
   $('spVolClick').addEventListener('input', function () { state.volClick = parseFloat(this.value); applyVolumes(); savePrefs(); });
   $('spInstrument').addEventListener('change', function () {
     state.instrument = this.value;
+    state.instrumentChosen = true;
     if (resolveInstrument() === 'voice' && ensureAudio()) loadVoices();   // fetch and decode the recordings once
     savePrefs();
   });
