@@ -38,6 +38,8 @@ DSNP, MGR GS,N DS,R G,,, ,,,, ,,,, ,,,,
 [SECTION: Anupallavi]
 
 [SWARA]
+,,,, ,,,, ,,,, ,,,, ,,,, ,,,, ,,,, ,,PM||
+[SWARA]
 GRS,,RGP D,,, ,,SN DP,G ,PDS Ṙ,,, ,,PM ||
 
 [SWARA]
@@ -50,7 +52,8 @@ RG S, ND R, S, Ṡ, NDP D ,Ṗ,Ṗ ,MGR G,S,R,GP ||
 <(Pallavi)>
 
 [SECTION: Charanam]
-
+[SWARA]
+,,,, ,,,, ,,,, ,,,, ,,,, ,,,, ,,,, ,,P,||
 [SWARA]
 DDS, NDPM GRGR S,ND SR,, GDPM GRGP DS D, ||
 
@@ -61,10 +64,10 @@ DDS, NDPM GRGR S,ND SR,, GDPM GRGP DS D, ||
 GP,D ,RGP ,D,, ,GP, D,PD ṘṠṠN DPMG R,SR ||
 
 [SWARA]
-GM,P GPDS ,NDR ṘĠ,Ṙ Ṡ,PD ĠṘṠN DPMG R,GD ||
+GP,M GPDS ,NDṠ ṘĠ,Ṙ Ṡ,PD ĠṘṠN DPMG R,GD ||
 
 [SWARA]
-PM, GPDṘ ,ṠND,Ṡ,D Ġ ,ṘṠN ,D P,D,Ġ, Ṙ,DS ||
+,PM G,PDṘ ,ṠND,Ṡ,D Ġ ,ṘṠN ,D PD,Ġ, Ṙ,DṠ ||
 
 [SWARA]
 ,ṘĠ, ṠṘĠṖ ṀĠ, G P,DṘ ,,PD ṘṠND RG,P D,GP ||
