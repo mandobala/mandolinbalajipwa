@@ -1,0 +1,36 @@
+﻿[TITLE: NaanOruVilayatu]
+[COMPOSER: ]
+[NOTATED BY: Balaji]
+[RAGA: Navarasa Kannada]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R2 G3 M1 P D2 N2]
+[AROHANA: S G3 M1 P Ṡ]
+[AVAROHANA: Ṡ N2 D2 M1 G3 R2 S]
+[TAGS: Krithi, NaanOruVilayatu, Navarasa Kannada, Adi]
+
+[SECTION: Pallavi]
+[SWARA]
+,,GM ,PṠ, NDM, GRS, | ,,G, ,M,, | P,,, G,M, ||
+[SWARA]
+,,GM PSRS NDM, GRS, | ,,G, ,M,, | P,,, G,M, ||
+[SWARA]
+,,GM ,PṠ, MMĠṘ S,ṘṠ | D,,, ,,ṠN | ṘṠND M,M, ||
+
+[SECTION: Anupallavi]
+[SWARA]
+,,SM ,GM, P,,, ṠṠ | ,,ṠĠ ,ĠṘ, | ṀṀĠṘ Ṡ,,, ||
+[SWARA]
+ṠNṠ, NDM, NNDD Ṡ,Ṡ | ,,ṠĠ ,ṘṀ, | MMGR Ṡ,,, ||
+[SWARA]
+Ṡ,Ṡ, NDM, G,M, P,,, | S,,, ,,ṠN | ṘṠND M,M, ||
+
+[SECTION: Charanam]
+[SWARA]
+,,GM ,GM, P,S, NDM, | GMPṠ M,,P | Ṡ,,, Ṡ,Ṡ, ||
+[SWARA]
+,,ĠĠ ,ṘṠ, ṠṘNṠ NDM, | GMPS M,,P | Ṡ,,, Ṡ,Ṡ, ||
+<Repeat Anupallavi + Pallavi>

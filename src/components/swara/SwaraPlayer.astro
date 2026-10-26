@@ -37,6 +37,7 @@ const fold = (v: string) =>
 const GROUPS = [
   { id: 'krithi', label: 'Krithi', match: /^(krithi|kriti|krithis|kritis)$/ },
   { id: 'varnam', label: 'Varnam', match: /^varnams?$/ },
+  { id: 'geetham', label: 'Geetham', match: /^(geetham|geetam|gitam|geethams?|geetams?|gitams?)$/ },
   { id: 'thillana', label: 'Thillana', match: /^(thillana|tillana)s?$/ },
   { id: 'exercise', label: 'Exercise', match: /^(exercises?|sarali|janta|alankaram)$/ },
   { id: 'other', label: 'Other', match: null }
@@ -182,7 +183,7 @@ const grouped = GROUPS
     </p>
   </aside>
 
-  <details class="sp-settings">
+  <details class="sp-settings" open>
     <summary>Tempo, pitch and sound</summary>
     <div class="sp-grid">
       <label class="sp-field">
