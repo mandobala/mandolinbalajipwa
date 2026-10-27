@@ -6,7 +6,7 @@
 [BEATS: 8]
 [NADAI: 4]
 [BPM: 80]
-[SA: C#4]
+[SA: D4]
 [SCALE: S R2 G3 M2 P D2 N3]
 [AROHANA: S R2 G3 M2 P D2 N3 Ṡ]
 [AVAROHANA: Ṡ N3 D2 P M2 G3 R2 S]
@@ -25,12 +25,15 @@ mA             ulagellAm    InDRa annai ||
 ṠṘĠṘ   ṠNPM G,,, GMPD NṠṘĠ Ṙ,,, GRS, SṆGR ||
 [SAHITYA]
 unnai  allAl   vErE   gati      illai am||
-[SWARA]
-S,,, ,,,, ,,,G  RGRS NRSR SNDS NNDP MPDN ||
+S,,, ,,,, ,,,Ġ  ṘṘṠṠ NṘṠṠ NNDṠ NNDP MPDN ||
 [SAHITYA]
 mA             ulagellAm    InDRa annai ||
-[SECTION:ANUPALLAVI]
 [SWARA]
+Ṡ,Ṡ,   N,PM G,,, ,,,, R,,, ,,,, S,,, ,,,,||
+[SAHITYA]
+unnai  allAl  
+[SECTION:ANUPALLAVI]
+
 Ṡ,Ṡ, ṠNND P,,, D,P, ,,DD PMG,G,PM G,,,||
 [SAHITYA]
 ennai Or vEDamiTT      ulaga   nAAdaga 
@@ -46,13 +49,13 @@ ini ADa   muDiyA du|  tiruvuLLam irangi ||
 [SWARA]
 D,,Ġ Ṙ,Ṡ, N,D, P,,N D,P, M,G, M,P, D,N,||
 [SAHITYA]
- ADinadu        pOdum   enDRu OyvaLikka
+ ADinadu pOdum enDRu OyvaLikka
 <UNNAI ALLA> 
 [SECTION:CHARANAM]
 [SWARA]
 N,,, D,,, M,,D ,,N, G,,M ,,D, R,,G MP,,||
 [SAHITYA]
-nIyE     mInAkshii kAmAkshi  nIlAya
+nIyE mInAkshii kAmAkshi nIlAya
 [SWARA]
 GR,, S,,, ,,ṆR RG,, ,,MN DN,, P,DN DNP,||
 [SAHITYA]
@@ -60,8 +63,8 @@ DAkshiena pala peyaruDan engum
 [SWARA]
 Ṡ,[ṠND,] N,Ṡ, ,,DN  ṘĠ,, Ṡ,,N D,N, Ṡ,,, ,,,,||
 [SAHITYA]
-niraindavaL     en manak kOvililum 
+niraindavaL en manak kOvililum 
 [SWARA]
 ṠNR, ṠNND P,M, P,D, N,,, Ṡ,ṠN DNṘ, Ġ,,Ṙ||
 [SAHITYA]
-ezhundaruLiya tAyE       tirumayilai vaLarum
+ezhundaruLiya tAyE tirumayilai vaLarum
