@@ -401,7 +401,152 @@ function playClick(kind, when) {
   osc.start(start); osc.stop(start + c.len + 0.02);
 }
 
+/* ------------------------------------------------ "aah" (synthesised)
+   One continuous singing voice for the whole line: a buzzing source shaped
+   by the resonances of an open "aa" vowel, so every pitch sounds like the
+   same singer. The pitch glides quickly from note to note instead of
+   starting again, commas simply hold the vowel, a repeated note is marked
+   by a small dip, and silences fade the voice out. Experimental: a
+   recorded "aah" can replace the source later. */
+var aah = null;                       // the voice while a song plays
+/* Sound profiles for the one continuous voice:
+   aah        — a singer on an open "aa": warm, with a gentle vibrato
+   nadaswaram — a reed softened toward a trumpet: round and brassy, a little
+                buzz, a darker top, a slower and smaller vibrato */
+var LINE_SOUNDS = {
+  aah: {
+    waves: [{ type: 'sawtooth', gain: 1 }],
+    buzz: 0, highpass: 0, lowpass: 0, breath: 0,
+    formants: [{ f: 730, q: 730 / 90, g: 1.0 }, { f: 1090, q: 1090 / 110, g: 0.5 },
+               { f: 2440, q: 2440 / 170, g: 0.22 }, { f: 3400, q: 3400 / 250, g: 0.08 }],
+    body: 0.15, level: 0.5, vibrato: { rate: 5.5, cents: 12 }, glide: 0.012
+  },
+  nadaswaram: {                     // softened toward a trumpet: round and brassy rather than piercing
+    waves: [{ type: 'sawtooth', gain: 0.9 }, { type: 'square', gain: 0.15 }],
+    buzz: 1.6, highpass: 200, lowpass: 4000, breath: 0.008,
+    formants: [{ f: 600, q: 2, g: 0.5 }, { f: 1200, q: 2.5, g: 1.0 },
+               { f: 2200, q: 3, g: 0.45 }, { f: 3200, q: 4, g: 0.15 }],
+    body: 0.12, level: 0.36, vibrato: { rate: 4.5, cents: 5 }, glide: 0.025
+  }
+};
+
+// a lopsided soft clip: the rattle of a reed
+function buzzCurve(amount) {
+  var n = 1024, curve = new Float32Array(n);
+  for (var i = 0; i < n; i++) {
+    var x = i * 2 / (n - 1) - 1;
+    curve[i] = Math.tanh(amount * x + 0.35 * amount * x * x) / Math.tanh(amount);
+  }
+  return curve;
+}
+
+function aahVoice(kind) {
+  if (aah && aah.kind === kind) return aah;
+  if (aah) stopAah();
+  var sound = LINE_SOUNDS[kind] || LINE_SOUNDS.aah;
+  var now = actx.currentTime;
+  var freq = actx.createConstantSource();        // one pitch control shared by every wave
+  freq.offset.value = 220;
+  var lfo = actx.createOscillator();
+  lfo.frequency.value = sound.vibrato.rate;
+  var depth = actx.createGain();
+  depth.gain.value = sound.vibrato.cents;
+  lfo.connect(depth);
+  var mix = actx.createGain();
+  var srcs = [freq, lfo];
+  sound.waves.forEach(function (w) {
+    var o = actx.createOscillator();
+    o.type = w.type;
+    o.frequency.value = 0;
+    freq.connect(o.frequency);
+    depth.connect(o.detune);
+    var g = actx.createGain(); g.gain.value = w.gain;
+    o.connect(g); g.connect(mix);
+    srcs.push(o);
+  });
+  var shaped = mix;
+  if (sound.buzz) {
+    var ws = actx.createWaveShaper();
+    ws.curve = buzzCurve(sound.buzz);
+    ws.oversample = '2x';
+    mix.connect(ws); shaped = ws;
+  }
+  if (sound.highpass) {
+    var hp = actx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = sound.highpass;
+    shaped.connect(hp); shaped = hp;
+  }
+  var out = actx.createGain();
+  out.gain.setValueAtTime(0.0001, now);
+  var tone = actx.createGain();
+  if (sound.lowpass) {
+    var lp = actx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = sound.lowpass;
+    tone.connect(lp); lp.connect(out);
+  } else {
+    tone.connect(out);
+  }
+  var body = actx.createBiquadFilter();          // a little of the plain tone
+  body.type = 'lowpass'; body.frequency.value = 900;
+  var bodyGain = actx.createGain(); bodyGain.gain.value = sound.body;
+  shaped.connect(body); body.connect(bodyGain); bodyGain.connect(tone);
+  sound.formants.forEach(function (fm) {
+    var bp = actx.createBiquadFilter();
+    bp.type = 'bandpass'; bp.frequency.value = fm.f; bp.Q.value = fm.q;
+    var g = actx.createGain(); g.gain.value = fm.g * 2.2;
+    shaped.connect(bp); bp.connect(g); g.connect(tone);
+  });
+  if (sound.breath) {                             // a touch of air in the reed
+    if (!slideNoise) {
+      slideNoise = actx.createBuffer(1, actx.sampleRate, actx.sampleRate);
+      var data = slideNoise.getChannelData(0);
+      for (var n = 0; n < data.length; n++) data[n] = Math.random() * 2 - 1;
+    }
+    var noise = actx.createBufferSource(); noise.buffer = slideNoise; noise.loop = true;
+    var nb = actx.createBiquadFilter(); nb.type = 'bandpass'; nb.frequency.value = 2500; nb.Q.value = 0.7;
+    var ng = actx.createGain(); ng.gain.value = sound.breath;
+    noise.connect(nb); nb.connect(ng); ng.connect(tone);
+    srcs.push(noise);
+  }
+  out.connect(busPiano);
+  srcs.forEach(function (o) { o.start(now); });
+  aah = { kind: kind, sound: sound, pitch: freq.offset, srcs: srcs, out: out };
+  return aah;
+}
+
+function stopAah() {
+  if (!aah) return;
+  var now = actx.currentTime, v = aah;
+  aah = null;
+  try {
+    v.out.gain.cancelScheduledValues(now);
+    v.out.gain.setTargetAtTime(0.0001, now, 0.02);
+    v.srcs.forEach(function (o) { o.stop(now + 0.15); });
+    v.srcs[0].onended = function () { try { v.out.disconnect(); } catch (e) {} };
+  } catch (e) {}
+}
+
+// one note of the line: glide to its pitch (through any slide notes), hold it,
+// and fade at its end unless the next note follows straight on
+function playAah(kind, freqs, when, dur, glideFor, legato) {
+  var v = aahVoice(kind);
+  var level = v.sound.level;
+  var start = Math.max(when, actx.currentTime + 0.001);
+  var length = Math.max(0.03, dur - (start - when));
+  var f = v.pitch, g = v.out.gain;
+  if (freqs.length > 1) {
+    var glide = Math.min(length * 0.9, Math.max(SLIDE_MIN, Math.min(length, glideFor) / 3));
+    f.setValueAtTime(freqs[0], start);
+    for (var k = 1; k < freqs.length; k++) f.exponentialRampToValueAtTime(freqs[k], start + glide * k / (freqs.length - 1));
+  } else {
+    f.setTargetAtTime(freqs[0], start, v.sound.glide);   // a quick, smooth step to the note
+  }
+  // a small dip marks the start of a note (so a repeated note is heard), then full voice
+  g.setTargetAtTime(level * 0.55, start, 0.006);
+  g.setTargetAtTime(level, start + 0.02, 0.02);
+  if (!legato) g.setTargetAtTime(0.0001, start + Math.max(0.02, length - 0.04), 0.02);
+}
+
 function stopAllVoices() {
+  stopAah();
   if (!actx) return;
   const now = actx.currentTime;
   voices.forEach((v) => {
@@ -544,7 +689,13 @@ function schedulerTick() {
         const inst = resolveInstrument();
         const own = (s.event.insideSpeedGroup ? 0.5 : 1) * timingInfo.secondsPerNoteSpace;
         const path0 = s.event.slideFrom ? s.event.slideFrom.map((f) => E.frequencyOf(state.tonicHz, f.semitone, f.octave)).concat([freq]) : null;
-        if (inst === 'voice' && playVoice(s.event.resolvedSwara, s.event.octave, path0 || [freq], transport.origin + s.startTime, noteDur, own)) {
+        if (inst === 'aah' || inst === 'nadaswaram') {
+          // legato when the next note starts as this one ends (and is not past the loop's end)
+          const nx = sch[transport.eventPtr + 1];
+          const legato = !!(nx && nx.event.valid && nx.event.semitone !== null &&
+            Math.abs(nx.startTime - (s.startTime + s.duration)) < 0.005 && nx.startTime < endT - 1e-9);
+          playAah(inst, path0 || [freq], transport.origin + s.startTime, noteDur, own, legato);
+        } else if (inst === 'voice' && playVoice(s.event.resolvedSwara, s.event.octave, path0 || [freq], transport.origin + s.startTime, noteDur, own)) {
           // sung from the recordings
         } else if (s.event.slideFrom) {
           const path = s.event.slideFrom.map((f) => E.frequencyOf(state.tonicHz, f.semitone, f.octave));

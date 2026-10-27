@@ -302,7 +302,11 @@
 }
 
 /* ---- looping by taps ---- */
-.sp-loopbar .sp-download { margin-left: auto; }
+.sp-loopbar .sp-instrument { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--sp-ink-soft); }
+.sp-loopbar .sp-instrument select {
+  min-height: 36px; padding: 4px 8px; border: 1px solid var(--sp-line); border-radius: 8px;
+  background: var(--sp-surface); color: var(--sp-ink); font: inherit; font-size: 0.9rem;
+}
 .sp-loopbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .sp-loopbar .sp-btn.on { background: var(--sp-accent-2); color: #fff; border-color: var(--sp-accent-2); }
 .sp-picking #spLoopMsg { color: var(--sp-accent-2); font-weight: 600; }

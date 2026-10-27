@@ -153,6 +153,19 @@ const grouped = GROUPS
 
   <div class="sp-hint sp-loopbar">
     <span id="spLoopMsg" aria-live="polite">Tap a swara to play from there, or a line number to loop that line.</span>
+    <span class="sp-instrument">
+      <label for="spInstrument">Instrument</label>
+      <select id="spInstrument">
+        <option value="piano">Piano</option>
+        <option value="nadaswaram">Nadaswaram</option>
+        <option value="aah">Aah (voice)</option>
+        <option value="violin">Violin</option>
+        <option value="flute">Flute</option>
+        <option value="reed">Wind (reed)</option>
+        <option value="voice">Voice (recorded)</option>
+        <option value="auto">Auto (voice where recorded, else flute)</option>
+      </select>
+    </span>
     <button type="button" class="sp-btn sp-small sp-download" id="spDownload">Download notation</button>
   </div>
 
@@ -227,17 +240,6 @@ const grouped = GROUPS
       <label class="sp-field">
         <span>Click</span>
         <input type="range" id="spVolClick" min="0" max="1" step="0.01" value="0.5" aria-label="Metronome volume" />
-      </label>
-      <label class="sp-field">
-        <span>Instrument</span>
-        <select id="spInstrument" aria-label="Instrument">
-          <option value="piano">Piano</option>
-          <option value="auto">Auto (voice where recorded, else flute)</option>
-          <option value="violin">Violin</option>
-          <option value="flute">Flute</option>
-          <option value="reed">Wind (reed)</option>
-          <option value="voice">Voice (recorded)</option>
-        </select>
       </label>
     </div>
     <p class="sp-keys">
