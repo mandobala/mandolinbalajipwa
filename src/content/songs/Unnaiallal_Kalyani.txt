@@ -5,7 +5,7 @@
 [TALA: Adi (8)]
 [BEATS: 8]
 [NADAI: 4]
-[BPM: 60]
+[BPM: 80]
 [SA: C#4]
 [SCALE: S R2 G3 M2 P D2 N3]
 [AROHANA: S R2 G3 M2 P D2 N3 Ṡ]
