@@ -1774,6 +1774,8 @@ function wire() {
     state.instrumentChosen = true;
     if (resolveInstrument() === 'voice' && ensureAudio()) loadVoices();   // fetch and decode the recordings once
     savePrefs();
+    // mid-song: silence what is sounding (a held Aah line, notes already queued) and go on from here
+    if (transport.status === 'playing') { pause(); play(); }
   });
 
   wireSearch();
