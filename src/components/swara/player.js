@@ -29,7 +29,7 @@ const state = {
   volMaster: 0.85,
   volPiano: 0.8,
   volClick: 0.5,
-  instrument: 'auto',       // auto, piano, violin, flute, reed or voice; slides on piano use violin
+  instrument: 'piano',      // piano (default), auto, violin, flute, reed or voice; slides on piano use violin
   selection: { start: null, end: null },
   pick: null                 // 'start' | 'end' while choosing a loop by taps
 };
@@ -213,7 +213,7 @@ function hasVoiceFor(key) {
   return Object.keys(voiceFolders()).some((n) => VOICE_FOLDER_KEY[n] === key);
 }
 function resolveInstrument() {
-  const inst = state.instrument || 'auto';
+  const inst = state.instrument || 'piano';
   if (inst !== 'auto') return inst;
   return hasVoiceFor(state.tonicKey) ? 'voice' : 'flute';
 }
@@ -1291,7 +1291,7 @@ function syncControls() {
   $('spVolMaster').value = String(state.volMaster);
   $('spVolPiano').value = String(state.volPiano);
   $('spVolClick').value = String(state.volClick);
-  $('spInstrument').value = state.instrument || 'auto';
+  $('spInstrument').value = state.instrument || 'piano';
   syncTransportUi();
 }
 
@@ -1310,8 +1310,8 @@ function loadPrefs() {
     const raw = localStorage.getItem('sp-prefs');
     if (!raw) return;
     const saved = JSON.parse(raw);
-    /* An instrument is remembered only when someone picked it. Settings saved
-       before Auto existed carry "piano" for everyone, so those fall back to Auto. */
+    /* An instrument is remembered only when someone picked it; otherwise the
+       default (piano) is used. */
     if (!saved.instrumentChosen) delete saved.instrument;
     Object.assign(state, saved);
   } catch (e) {}
