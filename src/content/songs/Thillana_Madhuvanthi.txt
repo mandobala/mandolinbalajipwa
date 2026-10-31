@@ -1,0 +1,120 @@
+﻿[TITLE: Thillana-Madhuvanthi]
+[COMPOSER: Lalgudi Jayaraman]
+[NOTATED BY: Lalgudi Jayaraman]
+[RAGA: Madhuvanthi]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 8]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R2 G2 M2 P D2 N3]
+[AROHANA: S G2 M2 P N3 Ṡ]
+[AVAROHANA: Ṡ N3 D2 P M2 G2 R2 S]
+[TAGS: Thillana, Madhuvanthi, Adi, Lalgudi]
+
+[SECTION: Pallavi]
+<1>
+[SWARA]
+s, s, g,   ,,m, p,   ,,ṡ,   ,,n, d   pp,m, d,  ,,p,   | g,   ,,,,,,,,,,,,,,| r,,,,,,,s,,,,,,,||
+[SAHITYA]
+Ta ta dhīm   ta dhīm   jham   ta ṇam    ta tōm   tru'   Dhīm
+<2>
+[SWARA]
+s, s, g,   ,,m, p,   ,,ṡ,   ,,n, d   pp,m, d,  ,,p,   | g,   ,,,,,,,,,,m, pn    | d, p, m,  g,s,   r, ,,s, ||
+[SAHITYA]
+Ta ta dhīm   ta dhīm   jham   ta ṇam    ta tōm   tru'   Dhīm           nā  dru'   tā ni tōm   dru' tā   ni
+<3>
+[SWARA]
+s, s, g,   ,,m, p,   ,,p    nṡ,n, d   pp,p  mgmd,  p,   | m,   g,m,g,,,,,m, pn    | d, p, m,  g,s,   r, ,,s, ||
+[SAHITYA]
+Ta ta dhīm   ta dhīm   jham    ta ṇam    ta    tōm tru'   Dhīm           nā  dru'   tā ni tōm   dru' tā   ni
+<4>
+[SWARA]
+s, s, m    mggm, p,   ,,n    ṡġṙṡ  nd   pp,p  mgmn   dpm    | m,   g,m,pmg,mgm, pn    | d, p, m,  g,s,   r, ,,s, ||
+[SAHITYA]
+Ta ta dhīm    ta dhīm   jham    ta  ṇam    ta    tōm   tru'   Dhīm           nā  dru'   tā ni tōm   dru' tā   ni
+<A>
+[SWARA]
+ṇ, s, ṇ, ḍ  p̣p̣,ṇ, s,  ,,,,s, s, g, ,,m, p,  ,,| ,,n,   ,,,,d   pm,,,d,   | ,,,,p    mg,,,m,   ,,,,||
+[SAHITYA]
+Ta ta ra tā      ni tōm     ta ra tā   ni tōm       dhīm     tōm      dhīm       jham      dhīm
+<B>
+[SWARA]
+ṇ, r  srṇ, ḍ  p̣p̣,ṇ, s,  ,,,,s, s, m  mggm, p,  ,,| ,,n,   ṡ,ġ,ġ,  ṙ,ṡ,n,   | d,p,m,   g,s,r,   ,,s,||
+[SAHITYA]
+Ta ta   ra tā      ni tōm     ta ra tā    ni tōm       dhīm     tōm     dhīm       jham     dhīm
+
+[SECTION: Anupallavi]
+<1>
+[SWARA]
+m, p, ,,g,   ,,m, p,   ,,,,,,,,n,   ṡnd,d  pp,   | g, m, ,,p,  ,,n, ṡ,   ,,| ,,,,,,ġ,  ,,ṙ, ṙ    ṡṡ,||
+[SAHITYA]
+Ta ka   jham   ta jham         jham     ta  jham   ta ka   ṇam   ta dhīm           ṇam   ta dhīm
+<2>
+[SWARA]
+m, ,p, ,g,   ,,m, p,   ,,,,m, p, n,   ṡnd,d  pp,   | g, ,m, ,p,  ,,n, ṡ,   ,,| ,,n, ṡ, ġ,  ,,ṙ, ṙ    ṡṡ,||
+[SAHITYA]
+Ta  ka  jham   ta jham     ta ka jham     ta  jham   ta  ka  ṇam   ta dhīm       ta ka ṇam   ta dhīm
+<3>
+[SWARA]
+m, ,d  p,g,   ,,m, p,   ,,ġ, m, p, n,   ṡnd,d  pp,   | g, ,m, ,p,  ,,n, ṡ,   ,,| p, n, ṡ, ġ,  ,,ṙ, ṙ    ṡṡ,||
+[SAHITYA]
+Ta  ka   jham   ta jham   ta ka ta jham     ta  jham   ta  ka  ṇam   ta dhīm     ta ka ta ṇam   ta dhīm
+<4>
+[SWARA]
+ṡ, ,ġ, ,ṁ,  ,,ṡ,n, ṡ, ġ,  ,,ṙ, ṙ   ṡṡ,ṁ, ,p, ,| p,   n,m,m, p, p,   n,d, | d    pp,ṡ, ,ġ  ,,ṁ,  ,,s,||
+[SAHITYA]
+Ta  ka  tōm     ta ka tōm   ta tōm    ta  ka    jham     ta ka jham   ta   jham    ta  ka   tōm
+<Tata dhīm tadhīm>
+
+[SECTION: Charanam]
+<1>
+[SWARA]
+p, n   ṙṡ,n, ,d  pmg,m, p, nd,  ,ṡ, g,r, s,  ,,| s,s,  g,,,m, p,  ṡ,n, | d   pp,,,m  g,m, p, n,  ṡ, ,p||
+[SAHITYA]
+Ni nai    yē  eṇ     ṇi ni  dam  ēn   gi ḍum     e nai ā   ḷa van   da   man      nā   ma ṇi vaṇ ṇā
+<2>
+[SWARA]
+p, n   ṙṡṙn, ,d  pmg,m, p  nṡ   ndpm  dpmg  rs,  ,,| s,s,  m mggm, p   nṡ,n, | d   pp,,,m  g,m, p, n,  ṡ, ,p||
+[SAHITYA]
+Ni nai    yē  eṇ     ṇi ni  dam    ēn    gi  ḍum     e nai ā    ḷa van    da   man      nā   ma ṇi vaṇ ṇā
+<A>
+[SWARA]
+p, n,  ṡ,  ġ,ṙ,  ṙ   ṡṡ,n, ṡ   ġġ,ṁ, ṡ,ṁ, ġ,ṙ,  ,,| n, ṡ  ġṙ, ṡ,  ṁ, p  nd, p,  | g,  mdp, p  mg,r, ṙ  ṡṡ,||
+[SAHITYA]
+Ma nam koḷ   ḷai koṇ    ḍa kaṇ    ṇā ī ni u nai     ka na  vi ḷum na na  vi ḷum   nān   pi ri    yē nē
+<B>
+[SWARA]
+p, n,  ṡ,  ġ,ṙ,  ṙ   ṡṡ,n, ṡ   ġġ,ṁ, ṡ,ṁ, ġ,ṙ,  ,,| n, ṡ  ġṙ, ṡ,  ṁ, p  nd, p,  | g   mpnṡ  n  dpm  dpmg  rṡs||
+[SAHITYA]
+Ma nam koḷ   ḷai koṇ    ḍa kaṇ    ṇā ī ni u nai     ka na  vi ḷum na na  vi ḷum   nān    pi ri   yē    nē
+<1>
+[SWARA]
+s,  s,   g  g  g   g  m,   m,   ,,g,   m  m  p   p  n,   n,   ,,m  p  m   p  n,   | ṡ,   ,,,,,,,,,,,,,,| n ṙṡndpmgmdpmgrṡṇ||
+[SAHITYA]
+Tad dhit ta ka jha ṇu dhīm dhīm   dhit ta ka jha ṇu dhīm dhīm   ta ka jha ṇu dhīm   Dhīm                 a
+<2>
+[SWARA]
+s,  s,   g  g  g   g  m,   m,   ,,g,   m  m  p   p  n,   n,   ,,m  p  m   p  n,   | ṡ,   ,,g mgrsnṡndp,| ġṁġṙṡndpmdpmgrṡṇ||
+[SAHITYA]
+Tad dhit ta ka jha ṇu dhīm dhīm   dhit ta ka jha ṇu dhīm dhīm   ta ka jha ṇu dhīm   Dhīm   a
+<3>
+[SWARA]
+s,  s,   g  g  g   g  m,   m,   ,,g,   m  m  p   p  n,   n,   ,,m  p  m   p  n,   | ṡ,   ,,,,pṡ,n,pn,d,| md,p,gp,m,ṡm,g,ṇ||
+[SAHITYA]
+Tad dhit ta ka jha ṇu dhīm dhīm   dhit ta ka jha ṇu dhīm dhīm   ta ka jha ṇu dhīm   Dhīm
+<4>
+[SWARA]
+s,  s,   g  g  g   g  m,   m,   ,,g,   m  m  p   p  n,   n,   ,,m  p  m   p  n,   | ṡ,   ,,,,nṡ,ġ,ṙṡ,n,| mp,n,dp,m,ṇs,g,r||
+[SAHITYA]
+Tad dhit ta ka jha ṇu dhīm dhīm   dhit ta ka jha ṇu dhīm dhīm   ta ka jha ṇu dhīm   Dhīm
+<5>
+[SWARA]
+s,  s,   g  g  g   g  m,   m,   ,,g,   m  m  p   p  n,   n,   ,,m  p  m   p  n,   | ṡ,   ,,,,ṇs,g,rs,ṇ,| mp,n,dp,m,nṡ,ġ,ṙ||
+[SAHITYA]
+Tad dhit ta ka jha ṇu dhīm dhīm   dhit ta ka jha ṇu dhīm dhīm   ta ka jha ṇu dhīm   Dhīm
+[SWARA]
+p  p,  n  n,   ṡ   s,  ġ  ġ,  ṁ, ,,ġ, ṙ, ṡ,  ,,g  g,  m  m,   p   p   | ,n  n,  n  ṙṡ,n, d, p,  ,,| ġ  ṙ,  ṡ  n,   d   p   ,m  g,  r   ṡn,||
+[SAHITYA]
+Ta tām ta dhīm taj ham ta ṇam tā   ki ṭa tōm   ta tām ta dhīm taj ham    ta ṇam tā    ki ṭa tōm     ta tām ta dhīm taj ham  ta ṇam tām
+<Tata dhīm tadhīm>

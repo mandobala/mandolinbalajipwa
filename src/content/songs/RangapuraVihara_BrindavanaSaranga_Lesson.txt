@@ -1,0 +1,98 @@
+﻿[TITLE: Rangapura Vihara (flute lesson)]
+[COMPOSER: Muthuswami Dikshitar]
+[NOTATED BY: Bhooma Parthasarathi (YouTube flute lesson #500)]
+[RAGA: Brindavana Saranga]
+[TALA: Rupaka (3)]
+[BEATS: 3]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R2 G2 M1 P N2]
+[AROHANA: S R2 M1 P N2 Ṡ]
+[AVAROHANA: Ṡ N2 P M1 R2 G2 R2 S]
+[TAGS: Krithi, Rangapura Vihara, Brindavana Saranga, Rupaka, Lesson]
+
+[SECTION: Pallavi]
+<1>
+[SWARA]
+{P}R, SS     SN SN SP     N S,S     NP
+[SAHITYA]
+   Ranga     pu ra vi     haara     Sri
+<or end the line with NNP, SNP or RSNP>
+
+<2>
+[SWARA]
+{P}R, SS     SN SN SP     N S,R   NS
+[SAHITYA]
+   Ranga     pu ra vi     haa     ra
+
+<1)>
+[SWARA]
+{S}NS  R,     SR RGRS     NRS     NP, P
+[SAHITYA]
+   Jeya ko    thenda      Rama    va
+[SWARA]
+MNP   PM RR     RM PN       NP
+[SAHITYA]
+Thaa  ra        Raghu veera sri
+
+<3>
+[SWARA]
+{P}R, SS     SN SN SP     PP PP   PS, S
+[SAHITYA]
+   Ranga     pu ra vi     haa     ra
+
+<2)>
+[SWARA]
+{S}NS  R,     S RMRS      NRS     NP, P
+[SAHITYA]
+   Jeya ko    thenda      Rama    va
+[SWARA]
+MNP   PM RS     RM PN       NP
+[SAHITYA]
+Thaa  ra        Raghu veera sri
+
+[SWARA]
+{P}R, SS     SN SN SP     PP PP   PS, S
+[SAHITYA]
+   Ranga     pu ra vi     haa     ra
+[SWARA]
+{S}NS      PNS RM  RSS     NRS     NP, P
+[SAHITYA]
+   Jeya        ko  thenda  Rama    va
+[SWARA]
+MNP   PM RS     RM PN       NP
+[SAHITYA]
+Thaa  ra        Raghu veera sri
+
+<To stop>
+[SWARA]
+{P}R, SS     SN SN SP     PP PP   PS, R    NPM   PNS
+[SAHITYA]
+   Ranga     pu ra vi     haa              ra
+
+[SECTION: Anupallavi]
+[SWARA]
+{N}P,    N  MP     NSS      NP    NS     RSN
+[SAHITYA]
+   An    ka ja     janaka   de    va     a a
+[SWARA]
+{N}P,    N  MP     NSS      NP,   RSR
+[SAHITYA]
+   An    ka ja     janaka   de    va
+[SWARA]
+{N}P,  R,  M     RSR     {R}S,    SRN   NS   PP
+[SAHITYA]
+   Brin daa      vana       saa   ran   gendra
+[SWARA]
+SN  SN  NP   PM     MR MP     P, NMP
+[SAHITYA]
+Va  ra  tha  ra     maandha   ranga
+[SWARA]
+SNS     NPP      P, M  MRR      R, RS, S
+[SAHITYA]
+Syamalaanga      vihanga        thuranga
+[SWARA]
+{P}R RS     R NS      NPN  MP
+[SAHITYA]
+   Sathaya  panga     sath sanga
