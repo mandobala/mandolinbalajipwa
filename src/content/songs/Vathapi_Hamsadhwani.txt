@@ -1,6 +1,6 @@
 ﻿[TITLE: Vathapi-Hamsadhwani]
 [COMPOSER: Dikshithar]
-[NOTATED BY: TK Govinda Rao]
+
 [RAGA: Hamsadhwani]
 [TALA: Adi (8)]
 [BEATS: 8]
