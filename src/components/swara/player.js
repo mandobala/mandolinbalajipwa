@@ -1311,6 +1311,19 @@ function ensureRaga(meta) {
   return E.RAGAS[name] ? name : 'Chromatic (all swaras)';
 }
 
+/* [INSTRUMENT:] names any entry of the instrument menu, by value or label
+   ("Violin", "Wind", "Aah"). Missing or unknown means piano. */
+function instrumentFromMeta(meta) {
+  const name = String(meta.INSTRUMENT || '').trim().toLowerCase();
+  if (!name) return 'piano';
+  const hit = Array.from($('spInstrument').options).find((o) => {
+    const label = o.textContent.trim().toLowerCase();
+    return o.value === name || label === name || label.startsWith(name + ' ');
+  });
+  if (!hit) console.warn('Unknown instrument "' + meta.INSTRUMENT + '"; using piano.');
+  return hit ? hit.value : 'piano';
+}
+
 function applyMeta(meta) {
   const tala = talaFromMeta(meta);
   if (tala) {
@@ -1324,6 +1337,7 @@ function applyMeta(meta) {
   }
   if (meta.NADAI && !isNaN(parseInt(meta.NADAI, 10))) state.subdivisionsPerBeat = parseInt(meta.NADAI, 10);
   if (meta.BPM && !isNaN(parseInt(meta.BPM, 10))) state.bpm = Math.max(20, Math.min(300, parseInt(meta.BPM, 10)));
+  state.instrument = instrumentFromMeta(meta);
   state.raga = ensureRaga(meta);
   if (meta.SA) {
     const raw = String(meta.SA).trim();
@@ -1451,8 +1465,7 @@ function savePrefs() {
   try {
     localStorage.setItem('sp-prefs', JSON.stringify({
       metronome: state.metronome, subClick: state.subClick, loopMode: state.loopMode, layout: state.layout,
-      volMaster: state.volMaster, volPiano: state.volPiano, volClick: state.volClick, instrument: state.instrument,
-      instrumentChosen: state.instrumentChosen
+      volMaster: state.volMaster, volPiano: state.volPiano, volClick: state.volClick
     }));
   } catch (e) {}
 }
@@ -1461,9 +1474,9 @@ function loadPrefs() {
     const raw = localStorage.getItem('sp-prefs');
     if (!raw) return;
     const saved = JSON.parse(raw);
-    /* An instrument is remembered only when someone picked it; otherwise the
-       default (piano) is used. */
-    if (!saved.instrumentChosen) delete saved.instrument;
+    /* The instrument belongs to the song ([INSTRUMENT:]); older saved prefs may carry one. */
+    delete saved.instrument;
+    delete saved.instrumentChosen;
     Object.assign(state, saved);
   } catch (e) {}
 }
@@ -1771,9 +1784,7 @@ function wire() {
   $('spVolClick').addEventListener('input', function () { state.volClick = parseFloat(this.value); applyVolumes(); savePrefs(); });
   $('spInstrument').addEventListener('change', function () {
     state.instrument = this.value;
-    state.instrumentChosen = true;
     if (resolveInstrument() === 'voice' && ensureAudio()) loadVoices();   // fetch and decode the recordings once
-    savePrefs();
     // mid-song: silence what is sounding (a held Aah line, notes already queued) and go on from here
     if (transport.status === 'playing') { pause(); play(); }
   });

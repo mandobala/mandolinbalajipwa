@@ -71,6 +71,9 @@ Khanda Chapu (5), Triputa (7), Jhampa (10), Ata (14), Dhruva (14), Eka (4), Free
 because the preset also carries the beat grouping, which decides where the stronger clicks fall.
 `BEATS` and `NADAI` set the cycle on their own if you write something else. `SA` is the tonic,
 key plus octave, or a frequency in Hz. `[TAGS:]` adds extra words for the search box.
+`[INSTRUMENT:]` sets the sound the song opens with: any name from the Instrument menu (Piano,
+Nadaswaram, Aah, Violin, Flute, Wind, Voice, Auto). Missing or unknown means Piano. The menu changes
+it only until another song loads.
 
 **`SCALE` is what lets you use a raga the engine has never heard of.** Written with variant
 numbers — `S R2 G3 M1 P D2 N3` — it tells the player exactly which swaras the raga uses, so

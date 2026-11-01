@@ -6,6 +6,7 @@
 [BEATS: 3]
 [NADAI: 4]
 [BPM: 60]
+[INSTRUMENT: Piano]
 [SA: C#4]
 [SCALE: S R1 G3 M1 P N3]
 [AROHANA: S G3 M1 P N3 Ṡ]

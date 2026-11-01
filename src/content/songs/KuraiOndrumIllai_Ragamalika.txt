@@ -6,6 +6,7 @@
 [BEATS: 8]
 [NADAI: 4]
 [BPM: 70]
+[INSTRUMENT: Piano]
 [SA: C#4]
 [SCALE: S R1 R2 G3 G2 M1 P D2 N3 N2]
 [TAGS: Krithi, Kurai Ondrum Illai, Ragamalika, Sivaranjani, Adi]

@@ -290,6 +290,7 @@ const CarnaticEngine = (function () {
     SRUTHI: 'SA', SRUTI: 'SA', SHRUTI: 'SA', TONIC: 'SA', KEY: 'SA',
     THALA: 'TALA', TAALA: 'TALA', TAL: 'TALA',
     TEMPO: 'BPM', SPEED: 'BPM',
+    INTRUMENT: 'INSTRUMENT',
     GATI: 'NADAI', NADAY: 'NADAI',
     AKSHARAS: 'BEATS', BEAT: 'BEATS',
     COMPOSER_NAME: 'COMPOSER', VAGGEYAKARA: 'COMPOSER',

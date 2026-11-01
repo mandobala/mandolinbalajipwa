@@ -5,6 +5,7 @@
 [TALA: Custom]
 [BEATS: 4]
 [NADAI: 3]
+[INSTRUMENT: Piano]
 [SA: C#4]
 [SCALE: S R2 G3 P D2]
 [AROHANA: S R2 G3 P D2 Ṡ]
