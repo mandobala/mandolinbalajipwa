@@ -1,6 +1,6 @@
 ﻿[TITLE: Geetha Dhuniki]
 [COMPOSER: Swathi Thirunal]
-[NOTATED BY: Carnatic Music Notations <https://carnaticnotations.blogspot.com/2021/05/geethadhuniki-dhanashri-adi.html>]
+[NOTATED BY: Swathi Thirunal]
 [RAGA: Dhanashree]
 [TALA: Adi (8)]
 [BEATS: 8]
