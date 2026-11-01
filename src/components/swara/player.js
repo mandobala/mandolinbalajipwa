@@ -6,6 +6,7 @@
    has not already been checked.
    ========================================================================= */
 import E from '../../lib/swara/engine.js';
+import Mridangam from '../../lib/swara/mridangam.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -29,15 +30,19 @@ const state = {
   volMaster: 0.85,
   volPiano: 0.8,
   volClick: 0.5,
+  drum: false,               // the experimental percussion part
+  drumLevel: 2,              // 1 simple, 2 medium, 3 full
+  drumTake: 0,               // New take moves this on, for a different part
+  volDrum: 0.7,
   instrument: 'piano',      // piano (default), auto, violin, flute, reed or voice; slides on piano use violin
   selection: { start: null, end: null },
   pick: null                 // 'start' | 'end' while choosing a loop by taps
 };
 
-let parsed = null, timingInfo = null, ticks = [];
+let parsed = null, timingInfo = null, ticks = [], drumHits = [];
 
 /* ------------------------------------------------------------------ audio */
-let actx = null, busMaster = null, busPiano = null, busClick = null;
+let actx = null, busMaster = null, busPiano = null, busClick = null, busDrum = null;
 let voices = [];
 
 /* iPhone browsers (all WebKit) treat Web Audio as "ambient" sound, which the
@@ -70,8 +75,10 @@ function ensureAudio() {
   busMaster = actx.createGain();
   busPiano = actx.createGain();
   busClick = actx.createGain();
+  busDrum = actx.createGain();
   busPiano.connect(busMaster);
   busClick.connect(busMaster);
+  busDrum.connect(busMaster);
   busMaster.connect(actx.destination);
   applyVolumes();
   return actx;
@@ -82,6 +89,7 @@ function applyVolumes() {
   busMaster.gain.value = state.volMaster;
   busPiano.gain.value = state.volPiano;
   busClick.gain.value = state.volClick * 0.6;
+  busDrum.gain.value = state.volDrum;
 }
 
 const HARMONICS = [
@@ -401,6 +409,91 @@ function playClick(kind, when) {
   osc.start(start); osc.stop(start + c.len + 0.02);
 }
 
+/* ------------------------------------------- percussion (synthesised)
+   A mridangam-like drum. The right head rings at Sa; the left is a low thud
+   that can slide up (gumki); dry strokes are short bursts of filtered noise. */
+let drumNoise = null;
+function drumNoiseBuffer() {
+  if (drumNoise) return drumNoise;
+  drumNoise = actx.createBuffer(1, Math.floor(actx.sampleRate * 0.25), actx.sampleRate);
+  const data = drumNoise.getChannelData(0);
+  for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+  return drumNoise;
+}
+const RING = [{ r: 1, g: 1 }, { r: 2, g: 0.62 }, { r: 3, g: 0.42 }, { r: 4, g: 0.22 }, { r: 5.02, g: 0.12 }];
+const STROKES = {
+  ta:    { noise: { hz: 2600, q: 0.9, gain: 0.5, len: 0.035 }, ring: { gain: 0.1, len: 0.05 } },
+  ki:    { noise: { hz: 3600, q: 1.2, gain: 0.34, len: 0.024 } },
+  nam:   { noise: { hz: 3200, q: 1, gain: 0.12, len: 0.012 }, ring: { gain: 0.32, len: 0.3 } },
+  dhin:  { noise: { hz: 1800, q: 1, gain: 0.1, len: 0.012 }, ring: { gain: 0.36, len: 0.55, partials: 3 } },
+  chapu: { noise: { hz: 4200, q: 2, gain: 0.26, len: 0.018 }, ring: { gain: 0.16, len: 0.22, from: 2 } },
+  thom:  { bass: { hz: 82, gain: 0.72, len: 0.32 } },
+  gumki: { bass: { hz: 72, gain: 0.62, len: 0.46, rise: 1.5 } },
+  tham:  { bass: { hz: 82, gain: 0.72, len: 0.4 }, ring: { gain: 0.3, len: 0.5, partials: 3 }, noise: { hz: 2200, q: 1, gain: 0.12, len: 0.012 } }
+};
+
+function drumOsc(type, hz, gain, start, len, rise, oscs, out) {
+  const osc = actx.createOscillator();
+  const g = actx.createGain();
+  osc.type = type;
+  osc.frequency.setValueAtTime(hz, start);
+  if (rise) osc.frequency.exponentialRampToValueAtTime(hz * rise, start + len * 0.6);
+  g.gain.setValueAtTime(0.0001, start);
+  g.gain.linearRampToValueAtTime(gain, start + 0.003);
+  g.gain.exponentialRampToValueAtTime(0.0001, start + len);
+  osc.connect(g); g.connect(out);
+  osc.start(start); osc.stop(start + len + 0.02);
+  oscs.push(osc);
+}
+
+function playDrum(name, when, gain) {
+  const def = STROKES[name];
+  if (!def) return;
+  const start = Math.max(when, actx.currentTime + 0.001);
+  const out = actx.createGain();
+  out.gain.value = gain;
+  out.connect(busDrum);
+  const oscs = [];
+  let length = 0;
+  // Sa, kept in the drum's own range whatever the song's octave
+  let sa = state.tonicHz;
+  while (sa > 360) sa /= 2;
+  while (sa < 180) sa *= 2;
+  if (def.ring) {
+    const c = def.ring;
+    RING.slice(0, c.partials || RING.length).forEach((p, i) => {
+      const r = c.from ? p.r * c.from : p.r;
+      drumOsc('sine', sa * r, c.gain * p.g, start, c.len / (1 + i * 0.35), 0, oscs, out);
+    });
+    length = Math.max(length, c.len);
+  }
+  if (def.bass) {
+    const c = def.bass;
+    drumOsc('sine', c.hz * 1.35, c.gain * 0.5, start, 0.05, 0, oscs, out);
+    drumOsc('sine', c.hz, c.gain, start, c.len, c.rise, oscs, out);
+    length = Math.max(length, c.len);
+  }
+  if (def.noise) {
+    const c = def.noise;
+    const src = actx.createBufferSource();
+    const filter = actx.createBiquadFilter();
+    const g = actx.createGain();
+    src.buffer = drumNoiseBuffer();
+    filter.type = 'bandpass';
+    filter.frequency.value = c.hz;
+    filter.Q.value = c.q;
+    g.gain.setValueAtTime(c.gain, start);
+    g.gain.exponentialRampToValueAtTime(0.0001, start + c.len);
+    src.connect(filter); filter.connect(g); g.connect(out);
+    src.start(start); src.stop(start + c.len + 0.02);
+    oscs.push(src);
+    length = Math.max(length, c.len);
+  }
+  setTimeout(() => { try { out.disconnect(); } catch (e) {} }, (start - actx.currentTime + length + 0.3) * 1000);
+  voices.push({ out, oscs, end: start + length + 0.05 });
+  if (voices.length > 64) voices = voices.filter((v) => v.end > actx.currentTime - 0.5);
+}
+
 /* ------------------------------------------------ "aah" (synthesised)
    One continuous singing voice for the whole line: a buzzing source shaped
    by the resonances of an open "aa" vowel, so every pitch sounds like the
@@ -567,6 +660,7 @@ const transport = {
   pendingOrigins: [],
   eventPtr: 0,
   tickPtr: 0,
+  drumPtr: 0,
   pausedAt: 0,
   timer: null,
   raf: null,
@@ -619,6 +713,30 @@ function firstTickAtOrAfter(t) {
   return ticks.length;
 }
 
+function firstDrumAtOrAfter(t) {
+  for (let i = 0; i < drumHits.length; i++) if (drumHits[i].time >= t - 1e-9) return i;
+  return drumHits.length;
+}
+
+/* The part is written from the song, so it changes with level and take. */
+function buildDrumHits() {
+  drumHits = [];
+  if (!parsed || !timingInfo) return;
+  const sps = timingInfo.secondsPerNoteSpace;
+  drumHits = Mridangam.generate(parsed, {
+    subdivisionsPerBeat: state.subdivisionsPerBeat,
+    beatsPerCycle: state.beatsPerCycle,
+    beatGroups: state.beatGroups,
+    level: state.drumLevel,
+    take: state.drumTake
+  }).map((h) => ({ ...h, time: h.space * sps }));
+}
+
+function redrawDrumPart() {
+  buildDrumHits();
+  if (transport.status === 'playing') transport.drumPtr = firstDrumAtOrAfter(actx.currentTime + LOOKAHEAD - transport.origin);
+}
+
 function buildTicks() {
   ticks = [];
   if (!parsed || !timingInfo) return;
@@ -661,6 +779,7 @@ function play(fromIndex) {
   }
   transport.eventPtr = sIdx;
   transport.tickPtr = firstTickAtOrAfter(startTime);
+  transport.drumPtr = firstDrumAtOrAfter(startTime);
   transport.endAt = null;
   transport.status = 'playing';
 
@@ -718,6 +837,13 @@ function schedulerTick() {
       }
       transport.tickPtr++;
     }
+    while (transport.drumPtr < drumHits.length &&
+           drumHits[transport.drumPtr].time < endT - 1e-9 &&
+           transport.origin + drumHits[transport.drumPtr].time < horizon) {
+      const h = drumHits[transport.drumPtr];
+      if (state.drum) playDrum(h.stroke, transport.origin + h.time + h.offset, h.gain);
+      transport.drumPtr++;
+    }
     const eventsDone = transport.eventPtr >= sch.length || sch[transport.eventPtr].startTime >= endT - 1e-9;
     const ticksDone = transport.tickPtr >= ticks.length || ticks[transport.tickPtr].time >= endT - 1e-9;
     if (eventsDone && ticksDone && transport.origin + endT < horizon) {
@@ -727,6 +853,7 @@ function schedulerTick() {
         transport.pendingOrigins.push({ applyAt, origin: transport.origin });
         transport.eventPtr = firstEventAtOrAfter(loop.start);
         transport.tickPtr = firstTickAtOrAfter(loop.start);
+        transport.drumPtr = firstDrumAtOrAfter(loop.start);
         continue;
       }
       transport.endAt = transport.origin + endT + 0.35;
@@ -770,6 +897,9 @@ function syncTransportUi() {
   const metro = $('spMetro');
   metro.classList.toggle('on', state.metronome);
   metro.setAttribute('aria-pressed', state.metronome ? 'true' : 'false');
+  const drum = $('spDrum');
+  drum.classList.toggle('on', state.drum);
+  drum.setAttribute('aria-pressed', state.drum ? 'true' : 'false');
   const subs = $('spSubMini');
   subs.classList.toggle('on', state.subClick);
   subs.setAttribute('aria-pressed', state.subClick ? 'true' : 'false');
@@ -1421,6 +1551,7 @@ function rebuild() {
     beatsPerCycle: state.beatsPerCycle
   });
   buildTicks();
+  buildDrumHits();
   renderScore();
   updateReadout(null);
 }
@@ -1456,6 +1587,8 @@ function syncControls() {
   $('spVolMaster').value = String(state.volMaster);
   $('spVolPiano').value = String(state.volPiano);
   $('spVolClick').value = String(state.volClick);
+  $('spVolDrum').value = String(state.volDrum);
+  $('spDrumLevel').value = String(state.drumLevel);
   $('spInstrument').value = state.instrument || 'piano';
   syncTransportUi();
 }
@@ -1465,7 +1598,8 @@ function savePrefs() {
   try {
     localStorage.setItem('sp-prefs', JSON.stringify({
       metronome: state.metronome, subClick: state.subClick, loopMode: state.loopMode, layout: state.layout,
-      volMaster: state.volMaster, volPiano: state.volPiano, volClick: state.volClick
+      volMaster: state.volMaster, volPiano: state.volPiano, volClick: state.volClick,
+      drum: state.drum, drumLevel: state.drumLevel, volDrum: state.volDrum
     }));
   } catch (e) {}
 }
@@ -1745,6 +1879,16 @@ function wire() {
   });
   $('spStop').addEventListener('click', () => stop());
   $('spRestart').addEventListener('click', () => { stop(); play(0); });
+  $('spDrum').addEventListener('click', () => {
+    state.drum = !state.drum;
+    if (state.drum) ensureAudio();
+    syncTransportUi(); savePrefs();
+  });
+  $('spDrumLevel').addEventListener('change', function () {
+    state.drumLevel = parseInt(this.value, 10) || 2;
+    redrawDrumPart(); savePrefs();
+  });
+  $('spDrumTake').addEventListener('click', () => { state.drumTake++; redrawDrumPart(); });
   $('spMetro').addEventListener('click', () => {
     state.metronome = !state.metronome;
     syncTransportUi(); savePrefs();
@@ -1782,6 +1926,7 @@ function wire() {
   $('spVolMaster').addEventListener('input', function () { state.volMaster = parseFloat(this.value); applyVolumes(); savePrefs(); });
   $('spVolPiano').addEventListener('input', function () { state.volPiano = parseFloat(this.value); applyVolumes(); savePrefs(); });
   $('spVolClick').addEventListener('input', function () { state.volClick = parseFloat(this.value); applyVolumes(); savePrefs(); });
+  $('spVolDrum').addEventListener('input', function () { state.volDrum = parseFloat(this.value); applyVolumes(); savePrefs(); });
   $('spInstrument').addEventListener('change', function () {
     state.instrument = this.value;
     if (resolveInstrument() === 'voice' && ensureAudio()) loadVoices();   // fetch and decode the recordings once

@@ -241,6 +241,19 @@ const grouped = GROUPS
         <span>Click</span>
         <input type="range" id="spVolClick" min="0" max="1" step="0.01" value="0.5" aria-label="Metronome volume" />
       </label>
+      <label class="sp-field">
+        <span>Percussion</span>
+        <input type="range" id="spVolDrum" min="0" max="1" step="0.01" value="0.7" aria-label="Percussion volume" />
+      </label>
+      <label class="sp-field">
+        <span>Percussion style</span>
+        <select id="spDrumLevel" aria-label="Percussion style">
+          <option value="1">Simple</option>
+          <option value="2" selected>Medium</option>
+          <option value="3">Full</option>
+        </select>
+      </label>
+      <button type="button" class="sp-btn" id="spDrumTake" aria-label="Generate a new percussion part">New take</button>
     </div>
     <p class="sp-keys">
       Keyboard: <kbd>Space</kbd> play or pause · <kbd>S</kbd> stop · <kbd>R</kbd> restart ·
@@ -254,6 +267,7 @@ const grouped = GROUPS
       <button type="button" class="sp-btn" id="spStop" aria-label="Stop">■</button>
       <button type="button" class="sp-btn" id="spRestart" aria-label="Restart from the beginning">↺</button>
       <button type="button" class="sp-btn on" id="spMetro" aria-pressed="true" aria-label="Metronome on or off">Click</button>
+      <button type="button" class="sp-btn" id="spDrum" aria-pressed="false" aria-label="Mridangam-style percussion on or off (experimental)" title="Mridangam-style percussion (experimental)">Drum</button>
       <button type="button" class="sp-btn" id="spSubMini" aria-pressed="false" aria-label="Click every note-space">Subs</button>
       <button type="button" class="sp-btn" id="spLoopPick" aria-pressed="false">Set A-B</button>
       <span class="ab-led" id="spAbLed" role="status" hidden><i id="spLedA" aria-hidden="true">A</i><i id="spLedB" aria-hidden="true">B</i><span id="spLedText">Set A</span></span>
