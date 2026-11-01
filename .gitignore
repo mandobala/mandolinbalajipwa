@@ -50,3 +50,7 @@ functions/node_modules
 functions/.runtimeconfig.json
 functions/coverage
 functions/.nyc_output
+# Notation sources never go on the site (kept in Swara-Player/sources, gitignored)
+*.pdf
+*.caption.txt
+album_*/
