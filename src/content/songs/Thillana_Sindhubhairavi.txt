@@ -1,0 +1,322 @@
+﻿[TITLE: Thillana-Sindhubhairavi]
+[COMPOSER: Lalgudi Jayaraman]
+[NOTATED BY: Lalgudi Jayaraman]
+[RAGA: Sindhubhairavi]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R2 R1 G2 M2 M1 P D1 N2]
+[AROHANA: S R1 G2 M1 P D1 N2 Ṡ]
+[AVAROHANA: Ṡ N2 D1 P M1 G2 R1 S]
+[TAGS: Thillana, Sindhubhairavi, Adi, Lalgudi Jayaraman]
+
+
+[SECTION: Pallavi]
+
+<Sangati 1>
+[SWARA]
+s,  g, m, p,  d, m,  d, ṡ, | [ndd,] ,, ,, g, | pm [grs,] ,, rṇ ||
+[SAHITYA]
+Dhi mi ta jha ṇu jha ṇu ta   dhīm         ta   na dhīm      ta
+
+<Sangati 2>
+[SWARA]
+s,  g, m, p,  d, m,  d, ṣ, | [ndd,] ,, ,, g, | mm2m [gr] s,rṇ ||
+[SAHITYA]
+Dhi mi ta jha ṇu jha ṇu ta   dhīm         ta   na   dhīm ta
+
+<Sangati 3>
+[SWARA]
+s,  g, m, p,dd  m,  d, ġṡ | [ndd,] ,, ,, sg | mm2m [gr] s,rṇ ||
+[SAHITYA]
+Dhi mi ta jhaṇu jha ṇu ta   dhīm         ta   na   dhīm ta
+
+[SWARA]
+g, r2, ṇ, r, s,  g, d, p,  | d,  ṙ, ṡ,  m,   | ,, m2m grsṇ ||
+[SAHITYA]
+Ta tin gi ṇa tōm ta na tōm   jha ṇu tōm dhīm      ta  tōm
+
+<Sangati 4>
+[SWARA]
+s,  g, m, p,dd  m,  d, ġṡ | [ndd,] ,, ,, gm | dm2m [gr] s,rṇ ||
+[SAHITYA]
+Dhi mi ta jhaṇu jha ṇu ta   dhīm         ta   na   dhīm ta
+
+[SWARA]
+g, r2, p̣ṇ   r,  s, sr d, p,  | pd  ṙ, ṡ,  sr  | m2, m, grsṇ ||
+[SAHITYA]
+Ta tin giṇa tōm    ta na tōm   jha ṇu tōm dhī   mta ta tōm
+
+<Sangati 5>
+[SWARA]
+s,  g, m, p,dd  ggdd  ṡ, | [ndd,] ,, ,, gm | dm2m [gr] s,rṇ ||
+[SAHITYA]
+Dhi mi ta jhaṇu jhaṇu ta   dhīm         ta   na   dhīm ta
+
+[SWARA]
+g, gr2 ṇ, r, s,  gg d, p,  | dd  ṙ, ṡ,  ṙṡ   | nd m2m grsṇ ||
+[SAHITYA]
+Ta tin gi ṇa tōm ta na tōm   jha ṇu tōm dhīm      ta  tōm
+
+<Sangati 6>
+[SWARA]
+s,  g, m, p,dd  ggddġṡ  | ,n [ndd,] ,, sg | mdm gr  srṇ ||
+[SAHITYA]
+Dhi mi ta jhaṇu jhaṇuta      dhīm      ta   na  dhī mta
+
+[SWARA]
+g, gr2 ṇ, r, s,  gg d, p,  | dd  ṙ, ṡ,  [ṅṡṙṡ] | nd [gmm2m] grsṇ ||
+[SAHITYA]
+Ta tin gi ṇa tōm ta na tōm   jha ṇu tōm dhīm        ta      tōm
+
+
+[SECTION: Anupallavi]
+
+<Sangati 1>
+[SWARA]
+ṡ, ṡ, nn,n d,  m, [mgg,] ,, | p, p, d, nn  | p, d, ṡ,   ,, ||
+[SAHITYA]
+Ta ka dhīm jha ṇu dhīm        ta ki ṭa dhi   mi ta jham
+
+[SWARA]
+p, d, n, ġ, [ġṙṙ,] , ṙ   n, d, | m,   r,  ,, m, | d, ṙ,   ṡ, ,, ||
+[SAHITYA]
+Ta na na na dhīm     jha ṇu ta   dhīm dhi    mi   ta jham
+
+<Sangati 2>
+[SWARA]
+ṡ, ṡ, nn,n pnpm  [g,dm] [mgg,] ,, | pp,d   nn  | p, d, ṡ,   ,, ||
+[SAHITYA]
+Ta ka dhīm jhaṇu dhīm               takiṭa dhi   mi ta jham
+
+[SWARA]
+p, d, nṙ2ġṁ [ġṙṙ,] ,, ṙṙ  nd | mg r,   ,, mg  | dm nd ṡ,   ,, ||
+[SAHITYA]
+Ta na nana  dhīm      jha ṇu   ta dhīm    dhi   mi ta jham
+
+<Sangati 1 continued>
+[SWARA]
+d, ṡ, ṙ2, ġ,   ,, ,, ,, ,, | ,, ,, ,, ,, | , ṙ2 ṡġ d, ,, ||
+[SAHITYA]
+Ta ki ṭa  jham
+
+<Sangati 2 continued>
+[SWARA]
+d, ṡ, ṙ2, ġ,   ,, ġṙ2 ṙ2ṁ, , | ġṙ2ġ,   , ġ  ṡ, | ṙ, n, ṡ,   ,, ||
+[SAHITYA]
+Ta ki ṭa  jham    ta  tōm      ta,dhīm   ki      ṭa ta jham
+
+<Sangati 3>
+[SWARA]
+d, ṡ, ṙ2, ġ,   ,, ġṡ ṙ2ṗṗṁ | ġṙ [ṁġġ,] , ġ  ṡ, | ṙ, n, ṡ,   ,, ||
+[SAHITYA]
+Ta ki ṭa  jham    ta tōm     ta dhīm     ki      ṭa ta jham
+
+<Sangati 4>
+[SWARA]
+d, ṡ, ṙ2, ġ,   ,, ġṡ ṙ2ṗṗṁ | ġṙ [ṁġġ,] , ġ  ṡ, | [ṙ,ġṙ2] ṡn [ṡ,ṙ2ṡ] np ||
+[SAHITYA]
+Ta ki ṭa  jham    ta tōm     ta dhīm     ki      ṭa      ta jham
+
+<Sangati 5>
+[SWARA]
+d, ṡ, ṙ2, ṁṁġġ ṡġ ṁ,  ṁ2ṁ | ġṙ2 [ṁġġ,] , ġ  ṡ, | ṙ, n, ṡ,   ġṁ    ||
+[SAHITYA]
+Ta ki ṭa  jham ta tōm       ta  dhīm     ki      ṭa ta jham jhaṇu
+
+[SWARA]
+ġġ    ṡṙn    ṙ,  , ṡ,   nṡnn       pd   | g  d,  , p,   gm    | gg    srṇ    r,  , ||
+[SAHITYA]
+jhaṇu takiṭa tat   dhīm jhaṇujhaṇu taki   ṭa tat   dhīm jhaṇu   jhaṇu takiṭa tat
+
+<Sangati 6>
+[SWARA]
+d, ṡ, ṙ2, ṁṁġġ ṡġ ṁṗ,ṁ | ġṙ2 [ṁġġ,] , ġ  ṡ, | ṙ, n, ṡ,   ġṁ    ||
+[SAHITYA]
+Ta ki ṭa  jham ta tōm    ta  dhīm     ki      ṭa ta jham jhaṇu
+
+[SWARA]
+ġġ    ṡṙn    ṙ,  , ṡ,   nṡnn       pd   | g  d,  , p,   , m2  | ,, m,   , r, , ||
+[SAHITYA]
+jhaṇu takiṭa tat   dhīm jhaṇujhaṇu taki   ṭa tat   dhīm   tat      dhīm   ta
+
+
+[SECTION: Charanam]
+
+<Sangati 1>
+[SWARA]
+m, ,, m,  ,, ,, ,, gm p, | m,  g, r2, g,  | s,  r, ṇ,  s, ||
+[SAHITYA]
+Mā    lōn          ma ru   gan mu ru  gan   ceṅ    gai
+
+[SWARA]
+p, ,, p,  ,, ,, ,, p, , [dn] | d, m,  g, g, | m2m2 mg r,  s, ||
+[SAHITYA]
+Vē    lōn          vē          ḍu var ku la   maṅ     gai
+
+<Dhimita>
+<Sangati 2>
+[SWARA]
+m, ,, m2d mm2 gm, s, s  g, | mp  ndd p  gm | g dd  m   [gr,,] s,  ||
+[SAHITYA]
+Mā            lōn    ma ru   gan mu  ru        gan ceṅ        gai
+
+[SWARA]
+g, p, p,  ,, ,, ,, ddp g | [pdṡn] dm,gg,    | dd  mg r,  s, ||
+[SAHITYA]
+vē    lōn          vē             ḍuvarkula   maṅ    gai
+
+<Sangati A>
+[SWARA]
+d, ṡ, ṡ, ,, n, [ndd,] [m,,d] gm | s, , ṡ, , ṙ2, | ṁṁġġ   ṙ,     ṡ, ||
+[SAHITYA]
+Ā     lō       lam                     kū   va    magil' ndaruḷ
+
+[SWARA]
+n, ṙ, ṙs,n p, [nṡn,] [ndd,] p, | sgm p, , m,  | gpp  m [gr,,] s, ||
+[SAHITYA]
+mē    lōn  cē        va     ḍi   mē       vip   paṇi   vōm
+
+<Sangati B>
+[SWARA]
+d, ṡ, ṡ, ,, n, [ndd,] [m,,d] gm | s, , ṡ, , ṙ2, | ṁṁġġ   ṙ,     ṡ, ||
+[SAHITYA]
+Ā     lō       lam                     kū   va    magil' ndaruḷ
+
+[SWARA]
+n, ṙ, ṙs,n p, [nṡn,] [ndd,] p, | gpdṡ nd m, | gpp  m [gr,,] s, ||
+[SAHITYA]
+mē    lōn  cē        va     ḍi   mē   vi p    paṇi   vōm
+
+
+[SECTION: Charanam swaras]
+
+<1>
+[SWARA]
+gg ṇs gmd, ,, p,  ,, p,  | ,, p,   ,, p,   | ,, md mgrs ||
+[SAHITYA]
+              Tōm    tām      dhīm    jham
+
+[SWARA]
+ddgm dnṙ, ,, ṡ,  ,, ṡ,  | ,, ṡ,   ,, ṡ,   | ,, nd mgrs ||
+[SAHITYA]
+             tōm    tām      dhīm    jham
+
+<2>
+[SWARA]
+gg ṇs gmd, ,, p,  , dp,   | , dp,    , dp,    | , dmd mgrs ||
+[SAHITYA]
+              Tōm   tatām     tadhīm   tajham
+
+[SWARA]
+ddgm dnṙ, ,, ṡ,  , ṙṡ,   | , ṙṡ,    , ṙṡ,    | , ṙnd mgrs ||
+[SAHITYA]
+             tōm   tatām     tadhīm   tajham
+
+<3>
+[SWARA]
+gg ṇs gmd, ,, p,  , d   , p   | , d   , p    , d   , p    | , dmd mgrs ||
+[SAHITYA]
+              Tōm   tat   tām     tat   dhīm   taj   jham
+
+[SWARA]
+ddgm dnṙ, ,, ṡ,  , ṙ   , ṡ   | , ṙ   , ṡ    , ṙ   , ṡ    | , ṙnd mgrs ||
+[SAHITYA]
+             tōm   tat   tām     tat   dhīm   taj   jham
+
+<4>
+[SWARA]
+gg ṇs gmd, ,, p,  , d   , p   | , d  p,   , d   , p    | , dmd mgrs ||
+[SAHITYA]
+              Tōm   tat   tām     ta dhīm   taj   jham
+
+[SWARA]
+ddgm dnṙ, ,, ṡ,  , ṙ   , ṡ   | , ṙ  ṡ,   , ṙ   , ṡ    | , ṙnd mgrs ||
+[SAHITYA]
+             tōm   tat   tām     ta dhīm   taj   jham
+
+<A>
+[SWARA]
+s,  , g,  , m,  ,, , dpmgr | g,   , p,   , d,   | ,, , ṙṡndp ||
+[SAHITYA]
+Tām   tām   tām              dhīm   dhīm   dhīm
+
+[SWARA]
+d, , ġṁġ [ġṙṙ,] ,, , nṙn   [ndd,] | ,, , m2, , m, | ,, , r, , ṇ, ||
+[SAHITYA]
+     g.. R.          taj.. jham
+
+<B>
+[SWARA]
+sgm    p,  gp,   sp,    mdpmg | gpd    ṡ,  nṡ,    | pṡ,    nṙṡnp ||
+[SAHITYA]
+Takiṭa tām tatām tadhīm         takiṭa tām tadhīm   tajham
+
+<1>
+[SWARA]
+nṡṙ2ġ, pnṡṙ,       gpdn, s  | gm    d,   ṇsgm | pdnṡ ġṙṡn     ||
+[SAHITYA]
+       jhaṇutadhīm       ta   jhaṇu dhīm             tarikiṭa
+
+[SWARA]
+dpmgrs         ṇ, r, s,   , ṡ,   , | s,   ,, ġṙṡn     | dpmgrs         ṇ, ||
+[SAHITYA]
+takajhaṇujhaṇu ta ka dhīm   dhīm     dhīm    tarikiṭa   takajhaṇujhaṇu ta
+
+[SWARA]
+r, s,   , ṡ,   , s,   ,, ġṙṡn     | dpmgrs         ṇ, | r, s,   , ṡ,   , ||
+[SAHITYA]
+ka dhīm   dhīm   dhīm    tarikiṭa   takajhaṇujhaṇu ta   ka dhīm   dhīm
+
+<Dhimita>
+<2>
+[SWARA]
+nṡṙ2ġ, pnṡṙ,       gpdn, s  | gm    d,   ṇsgm | pdnṡ ġṙṡn     ||
+[SAHITYA]
+       jhaṇutadhīm       ta   jhaṇu dhīm             tarikiṭa
+
+[SWARA]
+dpmgrs         ḍṇ   s,   ḍṇ   s,   ḍṇ   | s,   ,, ġṙṡn     | dpmgrs         ḍṇ   ||
+[SAHITYA]
+takajhaṇujhaṇu taka dhīm taka dhīm taka   dhīm    tarikiṭa   takajhaṇujhaṇu taka
+
+[SWARA]
+s,   ḍṇ   s,   ḍṇ   s,   ,, ġṙṡn     | dpmgrs         ḍṇ   | s,   ḍṇ   s,   ḍṇ   ||
+[SAHITYA]
+dhīm taka dhīm taka dhīm    tarikiṭa   takajhaṇujhaṇu taka   dhīm taka dhīm taka
+
+<Dhimita>
+[SWARA]
+s,  , g,  , m,  ,, , dpmgr | g,   , p,   , d,   | ,, , ṙṡndp ||
+[SAHITYA]
+Tām   tām   tām              dhīm   dhīm   dhīm
+
+[SWARA]
+d, , ġṁġ [ġṙṙ,] ,, , nṙn   [ndd,] | ,, , m2, , m, | ,, , r, , ṇ, ||
+[SAHITYA]
+     g.. R.          taj.. jham
+
+[SWARA]
+sgm    p,  gp,   sp,    mdpmg | gpd    ṡ,  nṡ,    | pṡ,    nṙṡnp ||
+[SAHITYA]
+Takiṭa tām tatām tadhīm         takiṭa tām tadhīm   tajham
+
+<3>
+[SWARA]
+nṡṙ2ġ, pnṡṙ,       gpdn, s  | gm    d,   ṇsgm | pdnṡ ġṙṡn ||
+[SAHITYA]
+       jhaṇutadhīm       ta   jhaṇu dhīm
+
+[SWARA]
+dpmgrs         nṡ,    dn,   pd,   g  | p,   ,, ġṙṡn | dpmgrs pd    ||
+[SAHITYA]
+takajhaṇujhaṇu tadhīm tatām tatōm ta   jham                  tatōm
+
+[SWARA]
+, mp,    gm,   r2g,   ,, ġṙṡn | dpmgrs gm    | , r2g,   sr,ṇ    ||
+[SAHITYA]
+  tadhīm tatōm tajham                  tatām     tadhīm tatōmta
+
+<Dhimita>
