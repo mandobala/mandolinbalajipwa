@@ -1,6 +1,5 @@
 ﻿[TITLE: Rangapura_BrindavaSaranga]
 [COMPOSER: Dikshithar]
-[NOTATED BY: TKGovinda Rao]
 [RAGA: BrindavaSaranga]
 [TALA: Rupaka (6)]
 [BEATS: 6]
