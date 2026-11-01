@@ -25,6 +25,7 @@ mA             ulagellAm    InDRa annai ||
 ṠṘĠṘ   ṠNPM G,,, GMPD NṠṘĠ Ṙ,,, GRS, SṆGR ||
 [SAHITYA]
 unnai  allAl   vErE   gati      illai am||
+[SWARA]
 S,,, ,,,, ,,,Ġ  ṘṘṠṠ NṘṠṠ NNDṠ NNDP MPDN ||
 [SAHITYA]
 mA             ulagellAm    InDRa annai ||
@@ -33,7 +34,7 @@ mA             ulagellAm    InDRa annai ||
 [SAHITYA]
 unnai  allAl  
 [SECTION:ANUPALLAVI]
-
+[SWARA]
 Ṡ,Ṡ, ṠNND P,,, D,P, ,,DD PMG,G,PM G,,,||
 [SAHITYA]
 ennai Or vEDamiTT      ulaga   nAAdaga 
