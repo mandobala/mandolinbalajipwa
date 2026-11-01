@@ -1,35 +1,39 @@
 /* ============================================================================
    Mridangam-style accompaniment (experimental)
    Pure logic: reads a parsed song and returns the strokes to play. No DOM, no
-   audio. The same song, level and take always give the same part.
+   audio. The same song, level and take always give the same part. The whole
+   part is composed when the song loads, so it can look ahead at the melody.
 
-   Each beat is judged from the notation:
-     busy melody  -> step back to the beat, leave the melody room
-     sustained    -> leave space, sometimes a gumki slide on the bass
-     silence      -> fill the gap with a short phrase
-     otherwise    -> the keeping pattern
-   A part builds through each section, and a section whose end meets a cycle
-   closes with a three-fold phrase landing on the next sam.
+   Composing happens in this order:
+     1. find every gap between melody notes (a comma counts: a held note is a
+        space for the drummer to play in)
+     2. keep a groove that spans two beats, so strokes fall off the beat too
+     3. thin the groove under busy melody; meet long notes with an open stroke
+     4. fill each gap with a phrase cut to its exact length, landing on the
+        note that ends it; long gaps may get a tihai
+     5. close a section that meets a cycle with a tihai onto the next sam
+   The part grows through each section, and when a line comes round again.
    ========================================================================= */
 import E from './engine.js';
 
-/* The keeping pattern for one beat, by how many spaces the beat has. */
-const KEEP = {
-  2: [['nam', 'ta'], ['dhin', 'ki']],
-  3: [['nam', 'ta', 'ki'], ['dhin', 'ta', 'ki']],
-  4: [['nam', null, 'ta', 'ki'], ['dhin', null, 'ta', 'chapu'], ['nam', 'ki', null, 'ta']]
+/* Two-beat grooves, by pulses in a beat. '.' leaves the pulse empty. */
+const GROOVES = {
+  3: ['nam . ki ta . ki', 'dhin . ta . ki ta', 'thom . ta ki . nam'],
+  4: ['nam . ki ta . ki nam .', 'dhin . ta ki . ta dhin ki', 'nam ki . ta nam . ki .', 'thom . ki ta . nam . ki']
 };
-/* Fills for a beat of open space; the last stroke leans into the next beat. */
-const FILLS = {
-  2: [['ta', 'ki'], ['ki', 'ta']],
-  3: [['ta', 'ki', 'ta'], ['ta', 'ka', 'dhin'], ['thom', 'ta', 'ki']],
-  4: [['ta', 'ka', 'dhin', 'mi'], ['ta', 'ki', 'ta', 'ka'], ['thom', null, 'ta', 'ki'], ['dhin', 'ki', 'ta', 'chapu']]
+const GROUP3 = 'nam . ki', GROUP4 = 'dhin . ta ki';
+/* Building blocks for fills, by length. */
+const PHRASES = {
+  2: ['ta ki', 'ki ta'],
+  3: ['ta ki ta', 'ta ka dhin', 'thom ta ki'],
+  4: ['ta ka dhin mi', 'ta ki ta ka', 'thom . ta ki', 'dhin ki ta chapu'],
+  5: ['ta ka ta ki ta', 'ta . ka dhin mi', 'thom ta ka dhin ki']
 };
 const ALIAS = { ka: 'ki', mi: 'ta' };   // spoken syllables that share a stroke
 const LEVELS = {
-  1: { fill: 0.25, keep: false, landing: false, gain: 0.85 },
-  2: { fill: 0.55, keep: true,  landing: true,  gain: 0.95 },
-  3: { fill: 0.85, keep: true,  landing: true,  gain: 1 }
+  1: { fill: 0.5,  groove: false, reach: 1, tihai: false, gain: 0.85 },
+  2: { fill: 0.85, groove: true,  reach: 2, tihai: true,  gain: 0.95 },
+  3: { fill: 1,    groove: true,  reach: 3, tihai: true,  gain: 1 }
 };
 
 function hash(text) {
@@ -46,110 +50,186 @@ function randomFrom(seed) {
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
+const words = (text) => text.split(' ').map((w) => (w === '.' ? null : w));
 
-function cellsFor(table, spaces) {
-  if (table[spaces]) return table[spaces];
-  if (spaces > 4 && table[4]) return table[4];   // longer beats: the phrase, then room
-  return table[2];
+/* The drummer's own pulse: slow nadais are doubled and very fast ones halved,
+   so the part stays playable whatever the notation's spacing. */
+function pulsesInBeat(sub) {
+  if (sub <= 2) return sub * 2;
+  if (sub >= 6 && sub % 2 === 0) return sub / 2;
+  return sub;
 }
 
-/* What the melody does in each whole space of the song. */
-function readMelody(parsed, length) {
+function groovesFor(ppb) {
+  if (GROOVES[ppb]) return GROOVES[ppb].map(words);
+  // khanda, misra and the like: a three and a four, across two beats
+  const cell = (first, second) => words(first + ' ' + second + ' ' + first + ' ' + second).slice(0, ppb * 2);
+  return [cell(GROUP3, GROUP4), cell(GROUP4, GROUP3)];
+}
+
+/* A phrase of exactly `length` pulses (at least 2), in groups of 2 to 5. */
+function composeFill(length, random) {
+  const out = [];
+  let left = length;
+  while (left > 0) {
+    let size = left <= 5 ? left : 3 + Math.floor(random() * 3);
+    if (left - size === 1) size--;   // never strand a single stroke
+    const set = PHRASES[size];
+    out.push(...words(set[Math.floor(random() * set.length)]));
+    left -= size;
+  }
+  return out;
+}
+
+/* A phrase said three times with a rest between, whose last stroke falls on
+   the landing. Returns null when no phrase fits the room exactly. */
+function composeTihai(room, random) {
+  const reach = room + 1;   // the third phrase ends on the landing itself
+  for (let p = 7; p >= 3; p--) {
+    for (let g = 2; g >= 0; g--) {
+      if (3 * p + 2 * g !== reach) continue;
+      const body = composeFill(p - 1, random).concat(['dhin']);
+      const rest = new Array(g).fill(null);
+      return body.concat(rest, body, rest, body);
+    }
+  }
+  return null;
+}
+
+/* Where each note starts, in pulses, and how long it lasts. */
+function readMelody(parsed, step, length) {
   const onsets = new Array(length).fill(0);
-  const sounding = new Array(length).fill(false);
+  const held = new Array(length).fill(0);
   parsed.events.forEach((e) => {
     if (e.isRest || !e.valid) return;
-    const first = Math.floor(e.startSpace);
-    if (first < length) onsets[first]++;
-    const end = Math.min(length, Math.ceil(e.startSpace + e.durationInSpaces));
-    for (let s = first; s < end; s++) sounding[s] = true;
+    const p = Math.floor(e.startSpace / step + 1e-6);
+    if (p >= length) return;
+    onsets[p]++;
+    held[p] = Math.max(held[p], e.durationInSpaces / step);
   });
-  return { onsets, sounding };
+  return { onsets, held };
 }
 
-/* -> [{ space, stroke, gain }], in time order. `offset` is a tiny lateness in
-   seconds, the human part of the timing. */
+/* -> [{ space, stroke, gain, offset }], in time order. `offset` is a tiny
+   lateness in seconds, the human part of the timing. */
 function generate(parsed, config) {
   const sub = config.subdivisionsPerBeat || 4;
   const beats = config.beatsPerCycle || 8;
-  const groups = config.beatGroups && config.beatGroups.length ? config.beatGroups : [beats];
   const level = LEVELS[config.level] || LEVELS[2];
   const random = randomFrom(hash((parsed.title || '') + '|' + (config.take || 0) + '|' + (config.level || 2)));
-  const cycle = sub * beats;
   const total = parsed.totalSpaces;
   if (!parsed.events.length || !total) return [];
-  const length = Math.ceil(total);
-  const { onsets, sounding } = readMelody(parsed, length);
 
-  const angaStarts = {};
-  let at = 0;
-  groups.forEach((g) => { angaStarts[at] = true; at += g; });
+  const ppb = pulsesInBeat(sub);
+  const step = sub / ppb;              // spaces in one pulse
+  const cycle = ppb * beats;
+  const length = Math.ceil(total / step);
+  const { onsets, held } = readMelody(parsed, step, length);
 
-  const report = E.cycleReport(parsed, { subdivisionsPerBeat: sub, beatsPerCycle: beats });
-  const sections = report.sections.length ? report.sections : [{ startSpace: 0 }];
   const hits = new Map();
-  const put = (space, stroke, gain) => {
+  const put = (pulse, stroke, gain) => {
+    const space = pulse * step;
     if (!stroke || space < 0 || space >= total) return;
     hits.set(space, {
       space,
       stroke: ALIAS[stroke] || stroke,
-      gain: Math.min(1, gain * level.gain * (0.92 + random() * 0.14)),
-      offset: random() * 0.006
+      gain: Math.min(1, gain * level.gain * (0.9 + random() * 0.18)),
+      offset: random() * 0.008
     });
   };
 
+  const report = E.cycleReport(parsed, { subdivisionsPerBeat: sub, beatsPerCycle: beats });
+  const sections = report.sections.length ? report.sections : [{ startSpace: 0 }];
+  const grooves = groovesFor(ppb);
+  const home = Math.floor(random() * grooves.length);
+  const seenLines = new Map();         // the same melody again is played fuller
+
   sections.forEach((sec, n) => {
-    const start = n === 0 ? Math.floor(sec.startSpace) : Math.round(sec.startSpace);
+    const start = Math.round(sec.startSpace / step);
     const next = sections[n + 1];
-    const end = next ? Math.round(next.startSpace) : length;
+    const end = next ? Math.round(next.startSpace / step) : length;
     const span = Math.max(1, end - start);
-    let keepIndex = 0;
 
+    // how much each cycle may say
+    const energy = new Map();
     for (let c = start; c < end; c += cycle) {
-      const progress = Math.min(1, (c - start) / span);   // the part builds through a section
-      for (let b = 0; b < beats; b++) {
-        const beatAt = c + b * sub;
-        if (beatAt >= end) break;
-        let count = 0, held = false;
-        for (let s = beatAt; s < Math.min(length, beatAt + sub); s++) { count += onsets[s]; held = held || sounding[s]; }
+      const key = onsets.slice(c, Math.min(end, c + cycle)).join('');
+      const seen = seenLines.get(key) || 0;
+      seenLines.set(key, seen + 1);
+      energy.set(c, Math.min(1, 0.2 + 0.25 * Math.min(1, n / 3) + 0.45 * ((c - start) / span) + 0.15 * seen));
+    }
+    const energyAt = (p) => energy.get(start + Math.floor((p - start) / cycle) * cycle) || 0.3;
 
-        if (b === 0) put(beatAt, 'tham', 1);
-        else if (angaStarts[b]) put(beatAt, 'dhin', 0.78);
-
-        if (count === 0 && !held) {
-          // silence in the melody: answer it
-          if (random() < level.fill + progress * 0.15) {
-            const f = cellsFor(FILLS, sub);
-            f[Math.floor(random() * f.length)].forEach((st, i) => { if (b > 0 || i > 0) put(beatAt + i, st, 0.5 + 0.1 * i); });
-          } else if (b > 0 && !angaStarts[b]) put(beatAt, 'ta', 0.35);
-        } else if (count === 0) {
-          // a sustain: leave it room
-          if (b > 0 && random() < 0.3 + progress * 0.2) put(beatAt, 'gumki', 0.5);
-          else if (b > 0 && !angaStarts[b]) put(beatAt, 'nam', 0.32);
-        } else if (count >= sub) {
-          // a busy phrase: only mark the beat
-          if (b > 0 && !angaStarts[b]) put(beatAt, b % 2 ? 'ta' : 'nam', 0.42);
-        } else if (level.keep) {
-          const k = cellsFor(KEEP, sub);
-          k[keepIndex++ % k.length].forEach((st, i) => {
-            if (i === 0 && (b === 0 || angaStarts[b])) return;
-            put(beatAt + i, st, i === 0 ? 0.55 : 0.3 + random() * 0.14);
-          });
-        } else if (b > 0 && !angaStarts[b]) put(beatAt, 'nam', 0.4);
+    // 1. the gaps, and the phrase each one will carry
+    const reserved = new Set();
+    const fills = [];
+    let last = -1;
+    for (let p = start; p < end; p++) {
+      if (!onsets[p]) continue;
+      const room = p - Math.max(last + 1, start);
+      if (room >= Math.max(2, ppb - 1)) {
+        const e = energyAt(p);
+        if (random() < level.fill * (0.65 + e)) {
+          const leave = last < start ? 0 : Math.ceil(room / 4);   // let the note speak first
+          const size = Math.min(room - leave, Math.ceil(ppb * (1 + e * level.reach)));
+          if (size >= 2) {
+            fills.push({ from: p - size, landing: p, room, e });
+            for (let q = p - room; q <= p; q++) reserved.add(q);
+          }
+        }
       }
+      last = p;
     }
 
-    // tirmanam: ta ka dhin, three times, the last dhin on the next sam
-    const whole = (end - start) % cycle === 0;
-    if (level.landing && next && whole && span >= cycle) {
-      const period = sub + 1;
-      const from = end - 2 * period - 2;
-      for (let s = Math.max(start + sub, from); s < end; s++) hits.delete(s);
-      for (let r = 0; r < 3; r++) {
-        const p = from + r * period;
-        put(p, 'ta', 0.62 + r * 0.08);
-        put(p + 1, 'ki', 0.58 + r * 0.08);
-        if (r < 2) put(p + 2, 'dhin', 0.74 + r * 0.08);
+    // 2 and 3. the groove, thinned to suit the melody
+    for (let p = start; p < end; p++) {
+      if (reserved.has(p)) continue;
+      const rel = p - start;
+      const inCycle = rel % cycle;
+      const cycleNo = Math.floor(rel / cycle);
+      const e = energyAt(p);
+      if (inCycle === 0) {
+        const open = cycleNo % 4 === 0;
+        put(p, !open && cycleNo % 2 ? 'dhin' : 'tham', open ? 0.92 : 0.66);
+        continue;
+      }
+      if (held[p] >= ppb * 1.5) { put(p, random() < 0.5 ? 'dhin' : 'nam', 0.6); continue; }   // meet a long note
+      if (!level.groove) {
+        if (inCycle % (ppb * 2) === 0) put(p, 'nam', 0.4);
+        continue;
+      }
+      const shape = grooves[(home + (cycleNo % 4 === 3 ? 1 : 0) + n) % grooves.length];
+      const stroke = shape[inCycle % shape.length];
+      if (!stroke) continue;
+      let busy = 0;
+      for (let q = Math.max(0, p - ppb); q < Math.min(length, p + ppb); q++) if (onsets[q]) busy++;
+      const light = stroke === 'ki' || stroke === 'ta';
+      if (light && busy >= ppb * 1.5) continue;            // leave the melody room
+      if (light && random() > 0.55 + e * 0.45) continue;   // the groove breathes
+      const accent = inCycle % ppb === 0 ? 0.08 : 0;
+      put(p, stroke, (light ? 0.24 + e * 0.1 : 0.4 + e * 0.12) + accent);
+    }
+
+    // 4. the fills
+    fills.forEach(({ from, landing, room, e }) => {
+      const size = landing - from;
+      if (size < room && room >= ppb * 2 && random() < 0.35 + e * 0.3) put(landing - room + 1, 'gumki', 0.46);
+      const tihai = level.tihai && size >= ppb * 2 && random() < 0.2 + e * 0.4 ? composeTihai(size, random) : null;
+      const line = tihai || composeFill(size, random);
+      line.forEach((st, i) => put(from + i, st, 0.32 + 0.38 * (i / Math.max(1, line.length - 1))));
+      if (e > 0.5 && level.reach > 1 && !tihai && size >= 4) put(landing - 1.5, 'ki', 0.34);   // a quick flick into the landing
+      const onSam = (landing - start) % cycle === 0;
+      if (!tihai) put(landing, onSam ? 'tham' : (random() < 0.5 ? 'dhin' : 'nam'), onSam ? 0.95 : 0.68);
+    });
+
+    // 5. the closing tihai
+    if (level.tihai && next && span % cycle === 0 && span >= cycle && energyAt(end - 1) > 0.4) {
+      let line = null;
+      for (let room = Math.round(ppb * 2.5); room <= ppb * 4 && !line; room++) line = composeTihai(room, random);
+      if (line) {
+        const from = end - (line.length - 1);
+        Array.from(hits.keys()).forEach((key) => { if (key >= from * step && key < end * step) hits.delete(key); });
+        line.forEach((st, i) => put(from + i, st, 0.46 + 0.34 * (i / (line.length - 1))));
       }
     }
   });

@@ -8,6 +8,7 @@
 import E from '../../lib/swara/engine.js';
 import Mridangam from '../../lib/swara/mridangam.js';
 
+const DRUM_ENABLED = false;   // percussion is switched off on the site; set true to bring it back
 const $ = (id) => document.getElementById(id);
 
 const state = {
@@ -841,7 +842,7 @@ function schedulerTick() {
            drumHits[transport.drumPtr].time < endT - 1e-9 &&
            transport.origin + drumHits[transport.drumPtr].time < horizon) {
       const h = drumHits[transport.drumPtr];
-      if (state.drum) playDrum(h.stroke, transport.origin + h.time + h.offset, h.gain);
+      if (DRUM_ENABLED && state.drum) playDrum(h.stroke, transport.origin + h.time + h.offset, h.gain);
       transport.drumPtr++;
     }
     const eventsDone = transport.eventPtr >= sch.length || sch[transport.eventPtr].startTime >= endT - 1e-9;
