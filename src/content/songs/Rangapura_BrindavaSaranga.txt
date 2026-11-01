@@ -11,7 +11,7 @@
 [AVAROHANA: ṠN2PM1R2S]
 [TAGS: Krithi, Dikshithar, BridavanSaranga, Rupakam]
 
-<Ārō: SR2M1PN2Ṡ Avarō: ṠN2PM1R2S / G²R²G²S,>                 
+<SR2M1PN2Ṡ ṠN2PM1R2S >                 
 
 [SECTION: Pallavi]
 
@@ -36,7 +36,7 @@ raṅ  ga  pu ra   vi           hā   ra     jaya
 [SAHITYA]
 kō  daṇ ḍa     rā       mā va  tā ra raghuvī ra      śrī
 
-<raṅgapuravihāra>
+<Rangapura>
 
 [SECTION: Anupallavi]
 
@@ -65,7 +65,7 @@ P, M / P[MR,,]R    {M}RN,S |{p}Ġ | Ṙ Ṡ, ṘNṠ NP, NMP ||
 lāṅga vihaṅga      turaṅga         sa   dayāpāṅga sat saṅ ga
 
 
-<raṅga>
+<Rangapura>
 
 
 [SECTION: Charanam]
@@ -100,28 +100,6 @@ P, ,, M, [PM]R,S,, | [S,RS]N, NS,, ,, R,   | M,P, ,, P, PN M, | P,Ṡ, ,,ṠN / 
 [SAHITYA]
 shāṅ  kāsa yanabha          kta      san     tō      sha ē    ṇā    ṅka   ra vi   na       yana mṛ du ta ra       bhāsha a ka -ḷaṅ     ka da   rpa   ṇa kapō                la vi śē       sha muni
 
-[SWARA]
-
-[SAHITYA]
-
-
-[SWARA]
-
-
-[SAHITYA]
-
-
-[SWARA]
-[SAHITYA]
-
-
-
-[SWARA]
-
-[SAHITYA]
-
-
-[SWARA]
 
 
 
@@ -139,4 +117,4 @@ san kaṭa haraṇa gō vinda vēṅ kaṭa ramaṇamu kunda
 [SAHITYA]
  san kar shaṇa   mūla kanda  śaṅkara     guru gu   hā   nanda
 
-<raṅgapuravihāra>
+<Rangapura>
