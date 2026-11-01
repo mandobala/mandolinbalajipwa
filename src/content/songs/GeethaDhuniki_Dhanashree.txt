@@ -1,0 +1,93 @@
+﻿[TITLE: Geetha Dhuniki]
+[COMPOSER: Swathi Thirunal]
+[NOTATED BY: Carnatic Music Notations <https://carnaticnotations.blogspot.com/2021/05/geethadhuniki-dhanashri-adi.html>]
+[RAGA: Dhanashree]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R2 G2 M1 P D2 N2]
+[AROHANA: S G2 M1 P N2 Ṡ]
+[AVAROHANA: Ṡ N2 D2 P M1 G2 R2 S]
+[TAGS: Thillana, Geetha Dhuniki, Dhanashree, Adi, Swathi Thirunal]
+
+[SECTION: Pallavi]
+[SWARA]
+G   , , , R   , R   , S  , R  , Ṇ   , S  , | P     , , , P   , N    , | M   , P   , Ṡ    , , , ||
+[SAHITYA]
+gee       tha   dhu   ni   ku   tha   ka     theem       tha   dhru     kru   tha   thom
+[SWARA]
+N   , , , Ṡ   , Ṡ  , Ṡ  , Ṙ , N  , P  , | Ṡ    Ṙ , N   Ṡ    , P    N | , M   P    , G  M  N   P  ||
+[SAHITYA]
+naa       cha   ra   hE       go   ri     thAm     tha thai   thai       dhi thai   ki ta tha ka
+
+[SECTION: Anupallavi]
+[SWARA]
+N   , P , N  , Ṡ  , , , , , Ṡ  , Ṡ  Ṙ  | N   , , , N   , Ṡ  , | Ġ  , Ġ   , Ṙ  , Ṡ  , ||
+[SAHITYA]
+bhA       ja   pA           ya   lu ka   hun       jha   na     na   jha   na   na
+[SWARA]
+N   , P , N  , Ṡ  , , , , , Ṡ  , Ṡ  Ṙ  | N   , , , N   N  Ṅ  Ṡ   | Ṡ  Ṡ  Ġ   Ġ  Ġ  Ṙ  Ṙ  N  ||
+[SAHITYA]
+bhA       ja   pA           ya   lu ka   hun       jha na na jha   na na jha na na na na na
+[SWARA]
+Ṡ    , , , N   P  P  N   N  N  Ṡ   Ṡ  Ṡ  N   D  M  | P    , , , G   S  S  M   | G  G  P   M  M  N   P  P  ||
+[SAHITYA]
+thom       jha na na jha na na jha na na jha na na   thom       jha na na jha   na na jha na na jha na na
+
+[SECTION: Charanam 1]
+[SWARA]
+P   , , , P  , G  M P N Ṡ N D  P , , | G   , G  , N   P G    , | R   , S    , , , , , ||
+[SAHITYA]
+thA       na   gA           vE         tha   ka   tha   thai     tha   thai
+[SWARA]
+P   , , , P  , N  P Ṡ N R Ṡ N  D P , | G   , G  , N   P G    , | R   , S    , , , , , ||
+[SAHITYA]
+thA       na   gA           vE         tha   ka   tha   thai     tha   thai
+[SWARA]
+Ṇ    , , S   G    , , M   S   G  M   P  , , G     , | , M   P  N  P   M  P     , | , , N     , , N   Ṡ  Ġ  ||
+[SAHITYA]
+thai     tha thai     tha tha ka tha nA     dheem       tha ki ta tha ka dheem         dheem     tha ki ta
+[SWARA]
+Ṙ   N  Ṡ     , , , Ġ     , , Ṡ   Ġ  Ṙ  Ṙ   Ṡ  N     P | , , Ṡ  Ṙ   N    Ṡ , , | P  N   M    P , M  N   P ||
+[SAHITYA]
+tha ka dheem       dheem     tha ki ta tha ka dheem         ha tha thom         ha tha thom     ha tha
+
+[SECTION: Charanam 2]
+[SWARA]
+, , P  , M   , P  , G  , , , M   , M   , | P   , , , P  , , , | P   , Ṡ N D  P , , ||
+[SAHITYA]
+    pa   dhu   ma   nA       bha   thu     mhA       ri         lee       lA
+[SWARA]
+, , P  , M   , P  , G  , , , M   , G   M | P   , , , P  , , , | N   P Ṡ Ṙ Ṙ  Ṡ [N D] [P ,] ||
+[SAHITYA]
+    pa   dhu   ma   nA       bha   thu     mhA       ri         lee       lA
+[SWARA]
+, , N   , P , N  , Ṡ   , , , N   , , , | , , N  Ṡ Ġ , Ṙ  , | Ṡ  , , , , , , , ||
+[SAHITYA]
+    kyA       ka   hun       mai             sA       va     rO
+[SWARA]
+, , N   Ṡ Ṁ Ġ Ġ  , Ṡ   Ṙ , N Ṡ  , Ṡ  , | Ṡ  N Ṙ  Ṡ N  D P , | P M N P M  G M , ||
+[SAHITYA]
+    thA       pa   san       ka   ta     ha   ra   Na         A       yo
+[SWARA]
+, , N  Ṡ , P  P , M  P N P G  , , , | , , N   P [M G] G  , , | S  R , S S , , , ||
+[SAHITYA]
+    sO     ha     mA       rO             thu   ma    ha       rO
+[SWARA]
+Ṇ   S     , G   S     , G   M  P  , Ṇ S   G  M   P   N | P  M   G M N  P   ,     Ṡ   | N     , Ġ   Ṙ  Ṡ  , , , ||
+[SAHITYA]
+tha dheem   tha dheem   dhi ra nA   u dha ni tha dha     ni thA     ni tha dheem tha   dheem   dhi ra nA
+[SWARA]
+P   , N   , Ṡ    , N   Ṡ  Ġ  Ṙ  Ṡ   Ṙ  N   Ṡ   , N  | D   P  G   , M  P     , , | G G  M  G  R  S  Ṇ  S   ||
+[SAHITYA]
+thA   dhi   thAm   tha ka na ka tha ri tha dhA   na   tha ka thA   na dheem       a la ri ka la ri ga tha
+[SWARA]
+M  G    , G    , G   G   M  N   P   , N   P N  Ṡ   N  | Ṡ   N    , Ṡ   N  Ṡ     Ġ Ṡ | Ġ     Ṡ     Ġ , , , Ġ   Ṡ  ||
+[SAHITYA]
+ka thAm   thAm   tha tha ka tha mAm   thA   ni tha ka   tha thAm   thA ra dheem       dheem dheem         tha ni
+[SWARA]
+N  Ṙ  S  N    P N    P N    , , P   Ṡ  N   Ṡ  P  N  | P  M    G M    G M    , P   | Ṡ  N  Ṡ  P   N  M  N  P  ||
+[SAHITYA]
+ma la ri thAm   thAm   thAm     tha ka tha ni ma la   ri thom   thom   thom   tha   ka Na ka tha ni ma la ri

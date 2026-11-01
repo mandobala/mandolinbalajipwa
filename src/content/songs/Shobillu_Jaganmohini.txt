@@ -1,0 +1,58 @@
+﻿[TITLE: Shobillu Saptaswara]
+[COMPOSER: Thyagaraja]
+[NOTATED BY: Balaji]
+[RAGA: Jaganmohini]
+[TALA: Rupaka (3)]
+[BEATS: 3]
+[NADAI: 4]
+[BPM: 60]
+[SA: C#4]
+[SCALE: S R1 G3 M1 P N3]
+[AROHANA: S G3 M1 P N3 Ṡ]
+[AVAROHANA: Ṡ N3 P M1 G3 R1 S]
+[TAGS: Krithi, Shobillu Saptaswara, Jaganmohini, Rupaka, Thyagaraja]
+
+[SECTION: Pallavi]
+<1>
+[SWARA]
+G,,, | ,,r, s,ṇ, || s,,, | g,,, m,m, ||
+<2>
+[SWARA]
+gmpm | gmpm grsṇ || s,,, | g,,, m,m, ||
+<3>
+[SWARA]
+gmpn | pm-pm grsṇ || sgm, | gmp, mpn, ||
+<4>
+[SWARA]
+ṡnpm | gmpm grsṇ || sgm-g | mp-mp n-pnṡ ||
+<5>
+[SWARA]
+ṡ,ġṙ | ṡ,ṡ, ṡnp, || ṡnp, | npm, gmpn ||
+<6>
+[SWARA]
+ṡṙṡ-n | sn-pn pmpm || grsṇ | sgm-gmp- mpn-pnṡ ||
+<7>
+[SWARA]
+ṡ,ġṙ | ṡ,ṡ, ṡnp, || ṡnp, | npm, gmpn ||
+<8>
+[SWARA]
+s,,, | ,,gm p,m, || g,,, | ,,,, ,,,, ||
+<9>
+[SWARA]
+r,,, | ,,,, ,,,, || s,,, | ,,,, ,,,, ||
+
+[SECTION: Anupallavi]
+[SWARA]
+,,P, | ,,n, ,,ṡ, || ṡ,,, | ṡnṡ, ṙ,ṡ, ||
+,,P, | ,,n, ,,ṡ, || ṡ,,, | ṡnṡ, ġ,ġ, ||
+ġṁṗṁ | ġṁṗṁ grṡ, || ṡnpn | pmgm pnṡ, ||
+<Pallavi lines 6-9>
+
+[SECTION: Charanam]
+[SWARA]
+,,pp | p,,, mpnp || m,,, | gmpm g,,, ||
+,,gm | ,gr, s,ṇ, || ,,gm | ,pm, p,,, ||
+,,np | n,,, ṡ,ṡ, || ṡ,,, | n,ṡ, ṙ,s, ||
+,,np | n,,, ṡ,ṡ, || ṡ,,, | n,ṡ, ġ,ġ, ||
+ġṁṗṁ | ġṁṗṁ grṡ, || ṡnpn | pmgm pnṡ, ||
+<Pallavi lines 6-9>
