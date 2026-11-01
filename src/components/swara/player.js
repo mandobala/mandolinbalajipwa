@@ -1027,7 +1027,7 @@ function renderScore() {
         const cell = document.createElement('button');
         cell.type = 'button';
         cell.className = 'sp-cell swara' + (e.insideSpeedGroup ? ' speed' : '') + (e.isRest ? ' rest' : '') +
-          (e.phrase ? (e.phrase % 2 ? ' ph-a' : ' ph-b') : '');
+          (e.warning ? ' off-scale' : '') + (e.phrase ? (e.phrase % 2 ? ' ph-a' : ' ph-b') : '');
         if (loop && gi >= loop.a && gi <= loop.b) cell.classList.add('in-loop');
         if (state.selection.start === gi) cell.classList.add('sel-start');
         cell.dataset.index = String(gi);

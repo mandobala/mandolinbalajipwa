@@ -239,7 +239,7 @@ const CarnaticEngine = (function () {
     // Bare letter: S and P have no variants.
     if (letter === 'S' || letter === 'P') {
       if (ctx.swaras.indexOf(letter) === -1) {
-        return { error: letter + ' is not part of ' + ctx.name + '. Add it to the raga or correct the notation.' };
+        return { name: letter, semitone: ctx.positions[letter], warning: letter + ' is not part of ' + ctx.name };
       }
       return { name: letter, semitone: ctx.positions[letter] };
     }
@@ -249,7 +249,10 @@ const CarnaticEngine = (function () {
         var def = ctx.defaults[letter];
         return { name: def, semitone: ctx.positions[def] };
       }
-      return { error: letter + ' is not part of ' + ctx.name + '. Assign its position or correct the notation.' };
+      /* Outside the scale: still play it, at its usual position, and let the
+         warning mark it so the player can show it in red. */
+      var fallback = RAGAS['Chromatic (all swaras)'].defaults[letter];
+      return { name: fallback, semitone: ctx.positions[fallback], warning: letter + ' is not part of ' + ctx.name };
     }
     if (candidates.length > 1) {
       if (ctx.defaults && ctx.defaults[letter] && candidates.indexOf(ctx.defaults[letter]) !== -1) {

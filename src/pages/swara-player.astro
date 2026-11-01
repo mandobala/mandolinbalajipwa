@@ -19,13 +19,16 @@ const songs = Object.entries(files as Record<string, string>).map(([path, raw]) 
   Object.assign(meta, probe.meta || {});
 
   /* A raga the engine does not ship is built from the song's own [SCALE:] or a
-     numbered [AROHANA:], so adding a raga needs no code change. */
+     numbered [AROHANA:], so adding a raga needs no code change. Songs may share
+     a raga name but play it differently, so the song's own scale wins over one
+     registered by an earlier song. */
   let raga = 'Chromatic (all swaras)';
   if (meta.RAGA) {
-    if (E.RAGAS[meta.RAGA]) {
+    const known = E.RAGAS[meta.RAGA];
+    const derived = known && !known.custom ? null : E.swarasFromScale(meta.SCALE || meta.AROHANA);
+    if (known && !derived) {
       raga = meta.RAGA;
     } else {
-      const derived = E.swarasFromScale(meta.SCALE || meta.AROHANA);
       if (!derived) {
         problems.push(
           `Unknown raga "${meta.RAGA}". Add [SCALE: S R2 G3 M1 P D2 N3] to the song ` +

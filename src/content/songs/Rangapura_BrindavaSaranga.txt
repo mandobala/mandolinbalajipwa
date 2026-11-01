@@ -5,7 +5,7 @@
 [TALA: Rupaka (6)]
 [BEATS: 6]
 [NADAI: 4]
-[BPM: 60]
+[BPM: 44]
 [SA: C#4]
 [SCALE: S R2 G3 M1 P N2 N3]
 [AROHANA: SR2M1PN2Ṡ]
@@ -18,29 +18,24 @@
 
 
 [SWARA]
-PṘ, ,Ṡ Ṡ,Ṡ, Ṡ,N,Ṡ,P,       | NṠ,, Ṡ, ,, ṠNṠ,
+{P}Ṙ, ,Ṡ   Ṡ,   N,   Ṡ,  P,    | NṠ,, Ṡ, ,, ṠNṠ, ||
 [SAHITYA]
-raṅ   gapu ra   vi  hā   ra     jaya         kō daṇḍa
+raṅ  ga  pu ra   vi           hā   ra     jaya  
 
 [SWARA]
-| Ṙ,, [ṘĠ Ṡ,] NṠN NPM | [RG]SS, RM P,Ṡ N,Ṡ,P, ||
+| Ṙ,, [ṘĠ Ṡ,] Ṡ, [NSN,]P, M| [RG]S, RM P,   NṠ,    P, ||
 [SAHITYA]
-  rā          māva tā ra   raghuvī ra śrī
+  kō daṇ     ḍa rā  mā  va   tā ra  raghuvī ra      śrī
 
 [SWARA]
-PṘ, ,Ṡ Ṡ,Ṡ, Ṡ,N,Ṡ,P,       | NṠ,, Ṡ, ,, ṘNṠ,
+{P}Ṙ, ,Ṡ   Ṡ,   N,   Ṡ,  P,    | NṠ,, Ṡ, ,, ṠNṠ, ||
 [SAHITYA]
-raṅ   gapu ra   vi  hā   ra     ja   ya       kō daṇ
+raṅ  ga  pu ra   vi           hā   ra     jaya   
 
 [SWARA]
-| Ṙ,, [ṀṖṀ,ṘĠṠ,] [NṠṘNṠ,] NPM
+Ṙ,, [ṀṖṀ,ṘĠṠ,] [NṠṘNṠ,] [NP] M | [RG]S, RM P,   NṠ,    P, ||
 [SAHITYA]
-  ḍa   rā          māva tā   ra
-
-[SWARA]
-| [RG]SS, RM P,Ṡ N,Ṡ,P, ||
-[SAHITYA]
-  raghuvī ra śrī
+kō  daṇ ḍa     rā       mā va  tā ra raghuvī ra      śrī
 
 <raṅgapuravihāra>
 
@@ -48,35 +43,28 @@ raṅ   gapu ra   vi  hā   ra     ja   ya       kō daṇ
 
 
 [SWARA]
-P, ,, ,, [PN,,] P, [PN,,]
+P, ,, ,, [PN,,] P, [PN,,] | [NM,,] [P,,Ṡ] NṠ,, ,,Ṡ, |
 [SAHITYA]
-añ        ga   ja ja
-
-[SWARA]
-| [NM,,] [P,,Ṡ] NṠ,, ,,Ṡ, | NP,, {R}{s}Ṙ, ,, [Ṙ,Ġ] Ṙ,
-[SAHITYA]
-  na      ka    dē     va     brṇ   dā    va    na sā
-
-[SWARA]
-| Ṡ,, ṠṘN N,Ṡ,ṠP ||
-[SAHITYA]
-  raṅ  gēn dra
+añ        ga   ja ja         na      ka    dē     va   
 
 
 [SWARA]
-PNP, M, MRM, ,, | P, [PṠN] NMP, , NṠN
+ NP,, {R}{s}Ṙ, ,, [Ṙ,Ġ,] Ṙ, | Ṡ,, ṠṘN N,Ṡ,ṠP ||
+
+[SAHITYA]
+  brṇ   dā    va    na sā  raṅ  gēn dra
+
+
+[SWARA]
+PNP, M, MRM, ,, | P, [PṠN,] NMP, , NṠN||
 [SAHITYA]
 va ra da ra mañ   ta  raṅ    ga     śyāma
 
 [SWARA]
-| P, M / P[MR,,]R    {M}RN,S
+P, M / P[MR,,]R    {M}RN,S |{p}Ġ | Ṙ Ṡ, ṘNṠ NP, NMP ||
 [SAHITYA]
-  lāṅga vihaṅga      turaṅga
+lāṅga vihaṅga      turaṅga         sa   dayāpāṅga sat saṅ ga
 
-[SWARA]
-{p}Ġ | Ṙ Ṡ, ṘNṠ NP, NMP ||
-[SAHITYA]
-sa   dayāpāṅga sat saṅ ga
 
 <raṅga>
 
@@ -85,90 +73,71 @@ sa   dayāpāṅga sat saṅ ga
 
 
 [SWARA]
-R,P,M,P,,,P, /NPP, /NM M, /PRR,,
+R,P,M,P,,,P, |/NPP, /NM M, /PRR, |    SR[PMMR] R,S ,,Ṇ   P̣R ||
 [SAHITYA]
-pañ ka jā pta kula  ja la  ni dhi
-
+pañ ka jā pta |kula  ja la  ni dhi |  sō       o ma      va  ra|           
 [SWARA]
-| SR[PMMR] RS, ,,NP[P,,R]
+ R,, GR, [R,,G]SS, | {s}MR,, ,,M,P, [P,,Ṙ] | [ṘṠN,N,,Ṙ] ṠNṠ,NP [P,,Ṙ] ||
 [SAHITYA]
-  sō          ma  va ra
+  pañka ja   mu   khapa   ṭṭā   bhi     rā           ma   pa da
 
-[SWARA]
-| {s}R,, R/GR, [R,,G]SS,
-[SAHITYA]
-  pañka ja   mu
 
-[SWARA]
-| {s}MR,, ,,M,P, [P,,Ṙ] | [ṘṠN,N,,Ṙ] ṠNṠ,NP [P,,Ṙ] |
-[SAHITYA]
-  khapa   ṭṭā   bhi     rā           ma   pa da
+
 
 
 [SWARA]
-Ṙ, ,, Ṙ/ĠṘ, [Ṙ/ĠṠṠ,]
+Ṙ, ,, Ṙ/ĠṘ, [ĠṠṠ,] ,,   | Ṙ, ,Ṗ ṀṖṀṘ Ṙ,[Ṡ,,Ṙ] | [ṘṠNP], ṘṘ, ,, Ṡ,,N    | /Ṙ, ,, ,,Ṙ, ṘĠṘ, | Ṡ, ,, [N,ṘṠ] [Ṡ,,N] P, Ṙ,   | [Ṡ,ṘṠ]NP,,M, P,ṠN ||
 [SAHITYA]
-pañ   ka ja  ji
+pañ   ka ja  ji            ta kā    ma    ra ghurā      mā         vā   mañ     ga ga ta   si      tā             vara     vē         sha śē
 
-[SWARA]
-| Ṙ, ,Ṗ ṀṖṀṘ Ṙ,[Ṡ,,Ṙ] | [ṘṠNP,] ṘṘ, ,, Ṡ,,N
-[SAHITYA]
-  ta kā    ma    ra ghurā      mā         vā
 
-[SWARA]
-| /Ṙ, ,, ,,Ṙ, ṘĠṘ, | Ṡ, ,, [N,ṘṠ] [Ṡ,,N] P, Ṙ,
-[SAHITYA]
-   mañ     ga ga ta   si      tā             vara
 
-[SWARA]
-| [Ṡ,ṘṠ]NP,,M, P,ṠN ||
-[SAHITYA]
-  vē         sha śē
+
+
 
 
 [SWARA]
-P, ,, M, [PM]R,S, | [S,RS]N, NS,, ,, R,
+P, ,, M, [PM]R,S,, | [S,RS]N, NS,, ,, R,   | M,P, ,, P, PN M, | P,Ṡ, ,,ṠN / Ṙ,Ṡ, | [Ṙ,,Ṁ]Ṙ,Ṡ, /Ṁ,ṀṠ/ Ṙ,Ṡ, ,,Ṡ, Ṡ,Ṡ, ||       [N,,Ṡ]    Ṙ,Ṡ, ṠṘ\N NṠ\P, P,     [M,PN] [PNṠN]P, RMPNPMRNS, - RS ||
 [SAHITYA]
-shāṅ  kāsa yanabha          kta      san
+shāṅ  kāsa yanabha          kta      san     tō      sha ē    ṇā    ṅka   ra vi   na       yana mṛ du ta ra       bhāsha a ka -ḷaṅ     ka da   rpa   ṇa kapō                la vi śē       sha muni
 
 [SWARA]
-| M,P, ,, P, PN,
-[SAHITYA]
-  tō      sha ē
 
-[SWARA]
-| P,Ṡ, ,,ṠN / Ṙ,Ṡ, | [Ṙ,,ṀṘ,]Ṡ, /Ṁ,ṀṠ/
 [SAHITYA]
-  ṇā    ṅka   ra vi   na       yana mṛ du ta
-
-[SWARA]
-Ṙ,ṘN/Ṡ, ,,Ṡ, Ṡ,Ṡ, ||
-[SAHITYA]
-ra       bhāsha a ka-
 
 
 [SWARA]
-[N,,Ṡ] Ṙ,Ṡ, ṠṘ\N NṠ\P, P,
+
+
 [SAHITYA]
-ḷaṅ     ka da   rpa   ṇa kapō
+
 
 [SWARA]
-[M,PN] [PNṠN]P, RMPNPMRNS, - RS ||
 [SAHITYA]
-                la vi śē       sha muni
+
+
+
+[SWARA]
+
+[SAHITYA]
+
+
+[SWARA]
+
+
 
 
 [SECTION: Madhyama Kala Sahitya]
 
 
 [SWARA]
-R, MP N P N NMP, P | PṘ,, Ġ Ṙ ṘṠ Ṙ N Ṡ,, S
+R, MP N P N      NMP, P | PṘ,, Ġ Ṙ ṘṠ Ṙ N Ṡ,, S
 [SAHITYA]
-san kaṭa haraṇa gō vinda vēṅ kaṭa ramaṇamu kunda san
+san kaṭa haraṇa gō vinda vēṅ kaṭa ramaṇamu kunda
 
 [SWARA]
-| Ṙ, ṀṘ Ġ Ṙ ṠNṠ NP N SRN S MR S [NP,,] NMP[,,R] ||
+| Ṙ, ṀṘ   Ġ Ṙ     ṠNṠ NP N   SRN  S     MR      S [NP,,] NMP[,,R] ||
 [SAHITYA]
-  kar shaṇa mūla kanda śaṅkara guruguhā nanda
+ san kar shaṇa   mūla kanda  śaṅkara     guru gu   hā   nanda
 
 <raṅgapuravihāra>

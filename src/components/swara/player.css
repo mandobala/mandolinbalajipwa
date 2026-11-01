@@ -212,6 +212,7 @@
 .sp-cell.bar { width: 14px; color: var(--sp-ink-soft); }
 .sp-cell.bar.hint { color: var(--sp-accent-2); font-size: 0.9rem; opacity: 0.75; }
 .sp-cell.swara.rest { color: var(--sp-ink-soft); opacity: 0.6; font-weight: 400; }
+.sp-cell.swara.off-scale:not(.active) { color: #d11a2a; }
 
 /* ---- layout switch ---- */
 .sp-layout[hidden] { display: none; }
