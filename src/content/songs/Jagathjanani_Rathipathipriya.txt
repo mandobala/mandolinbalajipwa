@@ -1,0 +1,39 @@
+﻿[TITLE: Jagathjanani]
+[COMPOSER: ]
+[NOTATED BY: Balaji]
+[RAGA: Rathipathipriya]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 80]
+[SA: C#4]
+[SCALE: S R2 G2 P N2]
+[AROHANA: S R2 G2 P N2 Ṡ]
+[AVAROHANA: Ṡ N2 P G2 R2 S]
+[TAGS: Krithi, Jagathjanani, Rathipathipriya, Adi]
+# Source: Edam 1
+
+[SECTION: Pallavi]
+[SWARA]
+,,PṠ ,,NP G,,, ,,RG | S,,, R,G, | P,,, P,,, ||
+<JAGATHJANANI SUKA PANI KALYANI>
+,,NṠ ,,NP G,,, ,,RG | S,,, R,G, | P,,, P,,, ||
+,,ĠṠ ,,NP G,,, ,,RG | S,,, R,G, | P,,, P,,, ||
+,,PṠ ,,NP G,,, ,,,, | ,,,, ,,,, | ,,,, ,,,, ||
+
+[SECTION: Anupallavi]
+[SWARA]
+,,Ṡ, Ṡ,Ṡ, N,,, P,N, | ,,PN ,,ṠĠ | N,,, Ṙ,Ṡ, ||
+,,N, N,N, ,,N, NṠNṠ | G,ṠĠ Ṡ,N, | P,,P NṠṘĠ ||
+,,ĠṠ ,,NP G,,, ,,RG | S,,, R,G, | P,,, P,,, ||
+<Jagathjanani>
+
+[SECTION: Charanam]
+[SWARA]
+,,,R ,G,P G,,, R,R, | GRRS S,S, | R,,, G,R, ||
+,,,R ,G, P,,, R,G, | P,,, ,,G, | P,,, ,,,, ||
+,,Ṡ, Ṡ,Ṡ, N,,, P,N, | ,,PN ,,ṠĠ | N,,, Ṙ,Ṡ, ||
+,,N, N,N, ,,N, NṠNṠ | G,ṠĠ Ṡ,N, | P,,P NṠṘĠ ||
+
+,,ĠṠ ,,NP G,,, ,,RG | S,,, R,G, | P,,, P,,, ||
+,,ĠṠ ,,NP G,,, ,,,, | ,,,, ,,,, | ,,,, ,,,, ||
