@@ -6,6 +6,7 @@
 [BEATS: 8]
 [NADAI: 4]
 [BPM: 80]
+[SA: C#4]
 [SCALE: S R2 G3 M1 P N3]
 [AROHANA: S G R M P N Ṡ]
 [AVAROHANA: Ṡ N P M G R S]
@@ -15,19 +16,20 @@
 [SWARA]
 ,,,, ,,M, M,MG R,S, | G,,, ,,S, | G,,, ,,S, ||
 G,,, ,,M, M,MG R,S, | G,,, ,,R, | M,,, ,,R, ||
-P,,, ,,M, M,MG R,S, | G,PS G,R, | M,ṆR M,R, ||
-P,Ṇ RPM, M,MG R,S, | G,GP SGR, | M,P̣Ṇ RMR, ||
-P,P̣ ṆṚP, P,M, G,R, | S,S, SGRM | PNṠ, ṠĠ <?> ||
-Ġ,Ṙ, Ṡ,N, P,MG R,S, | G,,, ,,,, | R,,, ,,,, ||
-S,,, ,, <to Anupallavi>
+P,,, ,,M, M,MG R,S, | G,P̣S G,R, | M,ṆR M,R, ||
+P,ṆR P,M, M,MG R,S, | G,G̣P̣ SGR, | M,P̣Ṇ RMR, ||
+P,P̣ ṆṚP, P,M, G,R, | S,,S ,,SG | RMPN Ṡ,ṠĠ ||
+ṘṀĠṘ Ṡ,N, P,MG R,S, | G,,, ,,,, | R,,, ,,,, ||
+S,,, ,,,, ,,,, ,,,, | ,,,, ,,,, | ,,,, ,,,, ||
+<to Anupallavi>
 
 [SECTION: Anupallavi]
 [SWARA]
 ,,,, ,,P, N,,Ṡ ,,N, | Ṡ,,, ,,Ṡ, | ,,Ṡ, ,,Ṡ, ||
 ,,Ṡ, ,,P, N,,Ṡ ,,N, | Ṡ,,, ,,Ṡ, | Ġ,Ṙ, ,,Ṁ, ||
 Ġ,,, ,,Ṙ, Ṁ,,Ġ ,,Ṙ, | N,,Ṙ ,,Ṁ, | Ġ,Ṡ, Ṡ,Ṡ, ||
-PNṠĠ Ṙ,N, P,MG R,S, | S,S, SGRM | PNṠ, ṠĠṘṀ ||
-Ġ,Ṙ, Ṡ,N, P,MG R,S, | G,,, ,,,, | R,,, ,,,, ||
+PNṠĠ Ṙ,N, P,MG R,S, |  S,,S ,,SG | RMPN Ṡ,ṠĠ ||
+ṘṀĠṘ Ṡ,N,P,MG R,S, | G,,, ,,,, | R,,, ,,,, ||
 S,,, ,,
 
 [SECTION: Charanam]
