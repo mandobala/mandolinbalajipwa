@@ -1,11 +1,11 @@
-﻿[TITLE: Rangapura Vihara]
+﻿[TITLE: RangapuraVihara-BrindavanaSaranga]
 [COMPOSER: Muthuswami Dikshitar]
-[NOTATED BY: Shivkumar]
+[NOTATED BY: Shivkumar https://www.shivkumar.org/music/rangapura.htm]
 [RAGA: Brindavanasaranga]
 [TALA: Rupaka (6)]
 [BEATS: 6]
 [NADAI: 4]
-[BPM: 60]
+[BPM: 100]
 [SA: C#4]
 [SCALE: S R2 G2 M1 P N2 N3]
 [AROHANA: S R2 M1 P N3 Ṡ]
@@ -14,81 +14,80 @@
 
 [SECTION: Pallavi]
 [SWARA]
-r, ,, ,, , n | s, ,, - n, ,, | n, ,, n, p, || s, ,, ,, ,, | s, ,, ,, ,, | s n n p ,, n, ||
+ṙ, ,, ,, , n | ṡ, ,, - n, ,, | n, ,, n, p, || ṡ, ,, ,, ,, | ṡ, ,, ,, ,, | ṡ n n p ,, n, ||
 [SAHITYA]
-Ran-           ga pu           ra-Vi-         haa---        raa-          Sri---
+Ran-           ga      pu      ra-   Vi        haa---        raa-          Sri---
 
 [SWARA]
-r, ,, ,, , n | s, ,, - n, ,, | n, ,, n, p, || n, s, ,, ,, | s, ,, ,, ,, | n, ,, s, ,, ||
+ṙ, ,, ,, , n | ṡ, ,, - n, ,, | n, ,, n, p, || n, ṡ, ,, ,, | ṡ, ,, ,, ,, | n, ,, ṡ, ,, ||
 [SAHITYA]
-Ran-           ga pu           ra-Vi-         haa---        raa-          Ja ya
+Ran-           ga      pu      ra-   Vi        haa---        raa-          Sri---
+[SWARA]
+ṙ, ,, ,, ,, | ġ ṙ ṙ, ,, ,, | ṡ, - n, ṡ, n p || ,, m n p m r, | s, - r, m, p, | ,, n, p, ,, ||
+[SAHITYA]
+Ko---         dan----        da   Raa-maa-       -va-taa--       ra Raghuvi      -ra Sri-
 
 [SWARA]
-r, ,, ,, ,, | g r r, ,, ,, | s, - n, s, n p || ,, m n p m r, | s, - r, m, p, | ,, n, p, ,, ||
-[SAHITYA]
-Ko---         dan----        da Raa-maa-       -va-taa--       ra Raghuvi      -ra Sri-
-
-[SWARA]
-r s r, ,, ,, | s, ,, - n, ,, | [r s s n] ,, n, p, || s, ,, ,, ,, | s, ,, ,, ,, | s, r m r s s, ||
+ṙ ṡ ṙ, ,, ,, | ṡ, ,, - n, ,, | [ṙ ṡ ṡ n] ,, n, p, || ṡ, ,, ,, ,, | ṡ, ,, ,, ,, | ṡ, ṙ ṁ ṙ ṡ ṡ, ||
 [SAHITYA]
 Ran-           ga pu           ra---Vi-              haa---        raa-          Ja--ya-
 
 [SWARA]
-r, ,, ,, , s | s r p m r, s, | s, - n, s, n p || ,, m n p m r, | s, - r, m, p, | ,, n, n, p, ||
+ṙ, ,, ,, , ṡ | ṡ ṙ ṗ ṁ ṙ, ṡ, | ṡ, - n, ṡ, n p || ,, m n p m r, | s, - r, m, p, | ,, n, n, p, ||
 [SAHITYA]
 Ko---          dan---          da Raa-maa-       -va-taa--       ra Raghuvi      -ra Sri-
 
 [SWARA]
-n p r, ,, , s | s, ,, - s r n, | s, n, - n, p, || n, s, ,, ,, | s, ,, ,, ,, | n, p, p, ,, ||
+n p ṙ, ,, , ṡ | ṡ, ,, - ṡ ṙ n, | ṡ, n, - n, p, || n, ṡ, ,, ,, | ṡ, ,, ,, ,, | n, p, p, ,, ||
 [SAHITYA]
 Ran---          ga pu            ra-Vi-           haa---        raa-          Ja--ya-
 
 [SWARA]
-m p n s r p m m | ,, r, - s, r, | s, - r s s, n p || ,, m n p m r, | s, - r, m, p, | ,, n, n, p, ||
+m p n ṡ ṙ ṗ ṁ ṁ | ,, ṙ, - ṡ, ṙ, | ṡ, - ṙ ṡ ṡ, n p || ,, m n p m r, | s, - r, m, p, | ,, n, n, p, ||
 [SAHITYA]
 Ko-----           -dan            da Raa-maa-        -va-taa--       ra Raghuvi      -ra Sri-
 
 [SWARA]
-n r, ,, ,, , | s, ,, - s, n, | s, n, - n, p, || s, ,, ,, ,, | s, ,, ,, ,, | ,, ,, ,, ,, ||
+n ṙ, ,, ,, , | ṡ, ,, - ṡ, n, | ṡ, n, - n, p, || ṡ, ,, ,, ,, | ṡ, ,, ,, ,, | ,, ,, ,, ,, ||
 [SAHITYA]
 Ran---         ga pu           ra-Vi-           haa---        raa-          ----
 
 
 [SECTION: Anupallavi]
 [SWARA]
-p, ,, ,, ,, | ,, ,, n, m, | p, ,, - s, n, || s, n, s, n, | s, ,, ,, ,, | ,, ,, s, ,, ||
+p, ,, ,, ,, | ,, ,, n, m, | p, ,, - ṡ, n, || ṡ, n, ṡ, n, | ṡ, ,, ,, ,, | ,, ,, ṡ, ,, ||
 [SAHITYA]
-An--          --ga-         ja-Ja-           na-ka-        De---         --va-
+An--          --ga-         ja-     Ja-      na-    ka-    De---         --    va-
 
 [SWARA]
-[s n n p] ,, ,, ,, | ,, ,, p n m, | p, ,, - s, n, || s, n, s, n, | n, s, ,, ,, | ,, ,, n, r, ||
+[ṡ n n p] ,, ,, ,, | ,, ,, p n m, | p, ,, - ṡ, n, || ṡ, n, ṡ, n, | n, ṡ, ,, ,, | ,, ,, n, ṙ, ||
 [SAHITYA]
-An--                 --ga-          ja-Ja-           na-ka-        De---         --va-
+An--          --           ga-              ja-     Ja-    na-    ka- De---         --    va-
 
 [SWARA]
-[s n n p] ,, ,, ,, | r, ,, ,, ,, | r, ,, s, ,, || s, ,, ,, ,, | s, ,, r n ,, | n, s, p, ,, ||
+[ṡ n n p] ,, ,, ,, | ṙ, ,, ,, ,, | ṙ, ,, ṡ, ,, || ṡ, ,, ,, ,, | ṡ, ,, ṙ n ,, | n, ṡ, p, ,, ||
 [SAHITYA]
-Brin---              daa--         va-na-         Saa---        ran---         gen---
+Brin---              daa--         va-   na-      Saa---        ran---         gen---
 
 [SWARA]
-p, s n s, n, | n, p, p, m, | r, ,, p m m r || m, ,, p, ,, | m, p, [p s s n m,] ,, | p, ,, p, ,, ||
+p, s n ṡ, n, | n, p, p, m, | r, ,, p m m r || m, ,, p, ,, | m, p, [p ṡ ṡ n m,] , | p, ,, p, ,, ||
 [SAHITYA]
-dra-Va-        ra-da-        Ra maan--        n-ta-         ran---                  n-ga-
+dra-Va-        ra-da-        Ra    maan--     n-    ta-     ran---                 n-    ga-
 
 [SWARA]
-[s n n p] ,, ,, ,, | r s r, ,, , m | r, ,, s, ,, || s, ,, ,, ,, | s, ,, r n ,, | n, s, p, ,, ||
+[ṡ n n p] ,, ,, ,, | ṙ ṡ ṙ, ,, , ṁ | ṙ, ,, ṡ, ,, || ṡ, ,, ,, ,, | ṡ, ,, ṙ n ,, | n, ṡ, p, ,, ||
 [SAHITYA]
-Brin---              daa--           va-na-         Saa---        ran---         gen---
+Brin---              daa--           va-   na-      Saa---        ran---         gen---
 
 [SWARA]
-p, s n n r s s | n, p, p, m, | r, ,, [p m m r] ,, || m, ,, p, ,, | m, p, [p s s n m,] ,, | p, ,, n, s, ||
+p, ṡ n n ṙ ṡ ṡ | n, p, p, m, | r, ,, [p m m r] ,, || m, ,, p, ,, | m, p, [p ṡ ṡ n m,] ,, | p, ,, n, ṡ, ||
 [SAHITYA]
-dra-Va-          ra-da-        Ra maan--             n-ta-         ran---                  nga Shyaa-
+dra-Va-          ra-da-        Ra maan--             n-ta-         ran---                  nga   Shyaa-
 
 [SWARA]
-n, p, ,, m, | m, r, ,, r, | s, r, n, s, || r, s, s, ,, | r, n, s, - n, | p, - n, m, p, ||
+n, p, ,, m, | m, r, ,, r, | s, r, ṇ, s, || r, s, s, ,, | r, n, s, - n, | p, - n, m, p, ||
 [SAHITYA]
-ma laa-nga    Vihan-ga      Turan-ga       Sadayaa-      paa-nga Sa      -tsa-nga
+ma laa -nga  Vi han-   ga   Turan-   ga    Sadayaa-      paa-nga     Sa      -tsa-nga
 
 
 [SECTION: Charanam]
@@ -138,7 +137,7 @@ p, ,, ,, ,, | ,, ,, n, ,, | r, ,, s, ,, || m, ,, r, ,, | s, ,, - r, ,, | s, ,, s
 Naan-         --ka-         ra-vi-         na-ya-        na-Mru-         du-ta-          ra-Bhaa--       sha- A-         ka-
 
 [SWARA]
-r, ,, ,, , s | s, ,, - s, ,, | ,, ,, r, n, || s, ,, - [s n n p] ,, | p m p n p s n p, | ,, - r, m, || p n p m r, ,, | r s s, - s, ,, | ,, ,, r, s, ||
+r, ,, ,, , s | s, ,, - s, ,, | ,, ,, r, n, || s, ,, - [s n n p] ,, p m p n p s n n | p, ,, - r, m, || p n p m r, ,, | r s s, - s, ,, | ,, ,, r, s, ||
 [SAHITYA]
 lan---         ka- Dar-        -rpa-          na Ka-                 po----             la Vi-        se----          ---sha-          Muni-
 
