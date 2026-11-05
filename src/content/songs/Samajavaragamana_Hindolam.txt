@@ -1,0 +1,63 @@
+﻿[TITLE: Samajavaragamana]
+[COMPOSER: Tyagaraja]
+[NOTATED BY: Balaji]
+[RAGA: Hindolam]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 60]
+[INSTRUMENT: Piano]
+[SCALE: S G2 M1 D1 N2]
+[AROHANA: S G2 M1 D1 N2 Ṡ]
+[AVAROHANA: Ṡ N2 D1 M1 G2 S]
+[TAGS: Krithi, Song, Hindolam, Adi, Tyagaraja]
+
+[SECTION: Pallavi]
+[SWARA]
+m,,, g,s, ṇ,ḍ, ṇ,ṇ, | s,,, ,,s, | m,g, m,,, || <4>
+<Saamaja Vara Gamana Saadhu Hrut>
+d,,, mgs, ṇ,ḍ, ṇ,ṇ, | s,,, ,,s, | m,g, m,,, || <3>
+<Saamaja Vara Gamana Saadhu Hrut>
+ṡ,,, ndm, gsnd, ,,ṇṇ | s,,, ,,s, | m,g, m,,, || <2>
+<Saamaja Vara Gamana Saadhu Hrut>
+dnṡ, ndm, gsnd, ,,ṇṇ | s,,, ,,s, | m,g, m,,, || <1>
+<Saamaja Vara Gamana Saadhu Hrut>
+gm,g md,d dn,d dnṡġ | ṡ,,, ,,ṡ, | nġṡn dmdn ||
+<Saarasaabja Paala Kaalaateeta Vikhyaata>
+[ṡġṡ, nsn,] [dnd, mdm,] gsnd n,n, | s,,, ,,s, || <…>
+<Saamaja Vara Gamana Saadhu Hrut>
+ṡ,,, ndm, gsnd, ,,ṇṇ | s,,, ,,,, | ,,,, ,,,, ||
+<Saamaja Vara Gamana  aaaa>
+<count 1 to 8 twice (2 cycles)>
+
+[SECTION: Anupallavi]
+[SWARA]
+ṡ,,, m,n, d,n, ṡ,n, | ṡ,,, ,,,, | ,,,, ,,,, ||
+<Saama Nigamaja Sudhaamaya Gaana>
+ṡ,,, m,n, d,n, ṡ,n, | ṡ,,, d,n, | ṡ,,, ṡ,ṡ, ||
+<Saama Nigamaja Sudhaamaya Gaana>
+ṡ,,, m,n, d,n, ṡ,n, | ṡ,,, d,n, | ṡ,,, ṡ,ṡ, ||
+<Saama Nigamaja Sudhaamaya Gaana>
+ṁ,,, ġ,ṡ, n,d, n,ṡ, | nṡ,n dn,d | md,d gmdn ||
+<Vichakshana Gunasheela Dayaalavaala Maam Paalaya>
+[ṡġṡ, nsn,] [dnd, mdm,] gsnd n,n, | s,,, ,,s, || <…>
+<Saamaja Vara Gamana Saadhu Hrut>
+gm,g md,d dn,d dnṡġ | ṡ,,, ,,ṡ, | nġṡn dmdn ||
+<Saarasaabja Paala Kaalaateeta Vikhyaata>
+ṡ,,, ndm, gsnd, ,,ṇṇ | s,,, ,,,, | ,,,, ,,,, ||
+<Saamaja Vara Gamana>
+
+[SECTION: Charanam]
+[SWARA]
+,,,s ,mg, m,,, m,,, | d,d, dnṡ, | ṡnd, n,n, ||
+<Veda Shiromaatruja Saptasvara>
+ṡ,,, ndm, gsnd, ,,ṇṇ | s,,, ,,s, | m,g, m,,, ||
+<Naadaachala Deepa Sveekruta>
+ṡ,,, m,n, d,n, ṡ,n, | ṡ,,, d,n, | ṡ,,, ṡ,ṡ, || <2>
+<Yaadavakula Murali Vaadana>
+ṡ,,, m,n, d,n, ṡ,n, | ṡ,,, d,n, | ṡ,,, ṡ,ṡ, || <1>
+<Yaadavakula Murali Vaadana>
+ṁ,,, ġ,ṡ, n,d, n,ṡ, | nṡ,n dn,d | md,d gmdn ||
+<Vinoda Mohanakara Tyaagaraaja Vandaneeya>
+ṡ,,, ndm, gsnd, ,,ṇṇ | s,,, ,,,, | ,,,, ,,,, ||
+<Saamaja Vara Gamana Saadhu Hrut>

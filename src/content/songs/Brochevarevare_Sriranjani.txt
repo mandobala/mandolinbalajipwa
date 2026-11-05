@@ -1,0 +1,41 @@
+﻿[TITLE: Brochevarevare]
+[COMPOSER: Tyagaraja]
+[NOTATED BY: Balaji]
+[RAGA: Sriranjani]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 4]
+[BPM: 80]
+[INSTRUMENT: Piano]
+[SCALE: S R2 G2 M1 D2 N2]
+[AROHANA: S R2 G2 M1 D2 N2 Ṡ]
+[AVAROHANA: Ṡ N2 D2 M1 G2 R2 S]
+[TAGS: Krithi, Song, Sriranjani, Adi, Tyagaraja]
+
+[SECTION: Pallavi]
+[SWARA]
+m,,, mgr, r,,, g,r, | s,,, ,,d, | s,r, g,,, ||
+<Brochevarevare Raghupate>
+mdmd mgr, r,,, g,r, | s,,, ,,d, | s,r, g,,, ||
+<Brochevarevare Raghupate>
+mdnd mgr, r,,, g,r, | s,,, ,,r, | g,m, d,,, ||
+<Brochevarevare Ninnuvinaa>
+mdnd mgr, r,,, g,r, | s,,, ,,r, | g,m, dsnd ||
+<Brochevarevare Sri rama nenaruna>
+mdnd mgr, r,,, g,r, | s,,, ,,rg | md,d dsnd ||
+<Brochevarevare Sakala Loka Naa-yaka>
+mdnd mgr, r,,, g,r, | s,,, ,,dn | sn dsndnd ||
+<Brochevarevare Naravara Neesari>
+sndsnd mgr, r,,, g,r, | s,,, ,,dnsn | dsndn ||
+<Brochevarevare>
+
+[SECTION: Anupallavi]
+[SWARA]
+m,mg r,gm m,mm md,d | dndn s,,, | sndn rsnd ||
+<Devendraadulu Mecchutaku Lanka Dayato Daana Mosangi Sadaa>
+m,gr ,gm, gr,s nsrg | m,d, n,sr | gr,s dsnd ||
+<Muni Savambu Juda Venta Janikala Maarichaadula Hatambu Jesi>
+m,gr ,gm, dns, rgm, | rgm, grs, | grrs snnd ||
+<Vaali Nokka Kolanesi Ravi Baaluni Raajuniga Vinchi Juchi>
+nd,n ssr, gmgr gmgr | s,,s ,,dg | rsnd snd, ||
+<Bhavaabdi Taruno Paayamu Lerani Tyaagaraajuni Karambidi>
