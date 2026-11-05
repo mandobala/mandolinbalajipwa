@@ -1,0 +1,71 @@
+﻿[TITLE: Padumanabha]
+[COMPOSER: Purandara Dasa]
+[NOTATED BY: Balaji]
+[RAGA: Malahari]
+[TALA: Triputa (7)]
+[BEATS: 7]
+[NADAI: 1]
+[BPM: 60]
+[INSTRUMENT: Piano]
+[SCALE: S R1 G3 M1 P D1]
+[AROHANA: S R1 M1 P D1 Ṡ]
+[AVAROHANA: Ṡ D1 P M1 G3 R1 S]
+[TAGS: Geetham, Malahari, Triputa, Purandara Dasa]
+
+[SECTION: Padumanabha]
+[SWARA]
+r   s   ḍ   | s   ,   | s   ,   || m   g   r   | m   m   | p   ,   ||
+[SAHITYA]
+pa  du  ma    nA        bhA        pa  ra  ma    pu  ru    shA
+[SWARA]
+s   d   ,   | d   p   | m   p   || d   d   p   | m   g   | r   s   ||
+[SAHITYA]
+pa  ram       jO            ti     swa rU        pA
+[SWARA]
+r   s   ḍ   | s   ,   | s   ,   || m   g   r   | m   m   | p   ,   ||
+[SAHITYA]
+vi  du  ra    van       dyA        vi  ma  la    ca  ri    tA
+[SWARA]
+s   d   ,   | d   p   | m   p   || d   d   p   | m   g   | r   s   ||
+[SAHITYA]
+vi  haM       gA            dhi    rO      ha    NA
+[SWARA]
+p   m   p   | d   ṡ   | d   ṡ   || ṙ   ṡ   d   | d   ṡ   | d   p   ||
+[SAHITYA]
+u   da  di    ni  vA        sa     u   ra  ga    Sa  ya        na
+[SWARA]
+d   d   p   | p   ,   | p   m   || r   m   m   | p   ,   | p   ,   ||
+[SAHITYA]
+un      na    tOn       na  ta     ma  hi        mA
+[SWARA]
+d   d   p   | p   ,   | p   m   || r   ,   m   | m   g   | r    s   ||
+[SAHITYA]
+ya  du  ku    lO        tta ma     ya      gna   ra        ksha ka
+[SWARA]
+s   ,   s   | d   ,   | d    p   || p   ,   p   | m   g   | r   s   ||
+[SAHITYA]
+ya      gna   si        ksha ka     rA      ma    nA            ma
+[SWARA]
+d   ṡ   ,   | d   p   | m   p   || d   d   p   | m   g   | r   s   ||
+[SAHITYA]
+vi  bhI       sha Na    pA         la  ka        na  mO    na  mO
+[SWARA]
+ṙ   ṡ   ,   | d   p   | m   p   || d   d   p   | m   g   | r   s   ||
+[SAHITYA]
+i   bha       va  ra    dA         ya  ka        na  mO    na  mO
+[SWARA]
+p   m   p   | d   ṡ   | d   ṡ   || ṙ   ṡ   d   | d   ṡ   | d   p   ||
+[SAHITYA]
+su  bha       pra da    su  ma     nO      ra    da        ya  su
+[SWARA]
+d   d   p   | p   ,   | p   m   || r   m   m   | p   ,   | p   ,   ||
+[SAHITYA]
+rEn     dra   ma        nO         ran     ja    nA
+[SWARA]
+d   d   p   | p   ,   | p   m   || r   ,   m   | m   g   | r   s   ||
+[SAHITYA]
+a   bhi       na        va  pu     ran     da    rA            vi
+[SWARA]
+s   ,   s   | d   ,   | d   p   || p   ,   p   | m   g   | r   s   ||
+[SAHITYA]
+Tha     la    bha       lla re     rA      ma    nA            ma

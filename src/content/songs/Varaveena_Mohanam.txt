@@ -1,0 +1,55 @@
+﻿[TITLE: Varaveena]
+[COMPOSER: Purandara Dasa]
+[NOTATED BY: Balaji]
+[RAGA: Mohanam]
+[TALA: Rupaka (3)]
+[BEATS: 3]
+[NADAI: 2]
+[BPM: 60]
+[INSTRUMENT: Piano]
+[SCALE: S R2 G3 P D2]
+[AROHANA: S R2 G3 P D2 Ṡ]
+[AVAROHANA: Ṡ D2 P G3 R2 S]
+[TAGS: Geetham, Mohanam, Rupaka, Purandara Dasa]
+
+[SECTION: Varaveena]
+[SWARA]
+g   g   | p   ,   p   ,   || d   p   | ṡ   ,   ṡ   ,   ||
+[SAHITYA]
+va  ra    vI      NA         mR  du    pA      nI
+[SWARA]
+ṙ   ṡ   | d   d   p   ,   || d   p   | g   g   r   ,   ||
+[SAHITYA]
+va  na    ru  ha  lO         cha na    rA      NI
+[SWARA]
+g   p   | d   ṡ   d   ,   || d   p   | g   g   r   ,   ||
+[SAHITYA]
+su  ru    chi ra  bam        bha ra    vE      NI
+[SWARA]
+g   g   | d   p   g   ,   || p   g   | g   r   s   ,   ||
+[SAHITYA]
+su  ra    nu  ta  ka         Lya               NI
+[SWARA]
+g   g   | g   g   r   g   || p   g   | p   ,   p   ,   ||
+[SAHITYA]
+ni  ru    pa  ma  Su  bha    gu  Na    lO      lA
+[SWARA]
+g   g   | d   p   d   ,   || d   p   | ṡ   ,   ṡ   ,   ||
+[SAHITYA]
+ni  ra    ta  ja  ya         pra da    See     lA
+[SWARA]
+d   ġ   | ṙ   ṙ   ṡ   ṡ   || d   ṡ   | d   d   d   p   ||
+[SAHITYA]
+va  ra    dA      pri ya     ran ga    nA      ya  ki
+[SWARA]
+g   p   | d   ṡ   d   p   || d   p   | g   g   r   s   ||
+[SAHITYA]
+van       chi ta  pha la     dA                ya  ki
+[SWARA]
+s   r   | g   ,   g   ,   || g   r   | p   g   r   ,   ||
+[SAHITYA]
+sa  ra    see     ja         sa  nu    ja  na  nI
+[SWARA]
+s   r   | s   g   r   s   || r   r   | s   ,   s   ,   ||
+[SAHITYA]
+ja  ya    ja  ya  ja  ya     ja  ya    vA      NI
