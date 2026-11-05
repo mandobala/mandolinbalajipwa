@@ -6,11 +6,13 @@
 [BEATS: 3]
 [NADAI: 2]
 [BPM: 60]
-[INSTRUMENT: Piano]
+[SA: C4]
 [SCALE: S R1 G3 M1 P D1]
 [AROHANA: S R1 M1 P D1 Ṡ]
 [AVAROHANA: Ṡ D1 P M1 G3 R1 S]
 [TAGS: Geetham, Malahari, Rupaka, Purandara Dasa]
+
+[INSTRUMENT: Piano]
 
 [SECTION: Pallavi]
 [SWARA]
@@ -18,7 +20,7 @@ d   p   | m   g   r   s   || r   m   | p   d   m   p   ||
 [SAHITYA]
 kun da    gow         ra     gow       ri      va  ra
 [SWARA]
-d   ṙ   | ṙ   s   d   p   || d   p   | m   g   r   s   ||
+d   ṙ   | ṙ   ṡ   d   p   || d   p   | m   g   r   s   ||
 [SAHITYA]
 man di    ra          ya     maa       na  ma  ku  ta
 [SWARA]
@@ -36,7 +38,7 @@ d   p   | m   g   r   s   || r   m   | p   d   m   p   ||
 [SAHITYA]
 hE        ma  ku      ta     sim       ha      sa  na
 [SWARA]
-d   ṙ   | ṙ   s   d   p    || d   p   | m   g   r   s   ||
+d   ṙ   | ṙ   ṡ   d   p    || d   p   | m   g   r   s   ||
 [SAHITYA]
 vi  ru    paa         ksha    ka  ru    naa     ka  ra
 <(mandara)>
@@ -47,6 +49,6 @@ d   p   | m   g   r   s   || r   m   | p   d   m   p   ||
 [SAHITYA]
 can da    ma          ma     man       daa     ki  ni
 [SWARA]
-d   ṙ   | ṙ   s   d   p   || d   p   | m   g   r   s   ||
+d   ṙ   | ṙ   ṡ   d   p   || d   p   | m   g   r   s   ||
 [SAHITYA]
 man di    raa         ya     ma        na  ma  ku  Ta
