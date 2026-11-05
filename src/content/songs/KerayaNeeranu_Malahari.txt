@@ -1,0 +1,47 @@
+﻿[TITLE: Sree Hari Prardhana (Keraya Neeranu)]
+[COMPOSER: Purandara Dasa]
+[NOTATED BY: Balaji]
+[RAGA: Malahari]
+[TALA: Triputa (7)]
+[BEATS: 7]
+[NADAI: 1]
+[BPM: 60]
+[INSTRUMENT: Piano]
+[SCALE: S R1 G3 M1 P D1]
+[AROHANA: S R1 M1 P D1 Ṡ]
+[AVAROHANA: Ṡ D1 P M1 G3 R1 S]
+[TAGS: Geetham, Malahari, Triputa, Purandara Dasa]
+
+[SECTION: Keraya Neeranu]
+[SWARA]
+d   ṡ   ṡ   | d   p   | m   p   || d   d   p   | m   m   | p   ,   ||
+[SAHITYA]
+ke  re  ya    nee       ra  nu     ke  re  ge    jal       li
+[SWARA]
+d   d   ṡ   | d   p   | m   p   || d   d   p   | m   g   | r   s   ||
+[SAHITYA]
+va  ra  va    pa  De    da  va     ran     ti    ka        ne  ro
+[SWARA]
+s   r   r   | s   r   | s   r   || d   d   p   | m   g   | r   s   ||
+[SAHITYA]
+ha  ri  ya    ka  ru    Na  da     LA      da    bha       gya va
+[SWARA]
+d   p   d   | ṡ   ,   | d   p   || d   d   p   | m   g   | r   s   ||
+[SAHITYA]
+ha  ri  sa    mA        rpa Ne     mA      Di    bra du    ke  ro
+[SWARA]
+d    ṡ   ṡ   | d   p   | m   p   || d   d   p   | m   m   | p   ,   ||
+[SAHITYA]
+Sree     pu    ran       da  ra     vi  Tha la    rA        yA
+[SWARA]
+d   d   ṡ   | d   p   | m   p   || d   d   p   | m   g   | r   s   ||
+[SAHITYA]
+cha ra  Na    ka  ma    la  va     no      di    bra du    ke  ro
+[SWARA]
+s   r   r   | s   r   | s   r   || d   d   p   | m   g   | r   s   ||
+[SAHITYA]
+ha  ri  ya    ka  ru    Na  da     LA      da    bha       gya va
+[SWARA]
+d   p   d   | ṡ   ,   | d   p   || d   d   p   | m   g   | r   s   ||
+[SAHITYA]
+ha  ri  sa    mA        rpa Ne     mA      Di    ba  du    ki  ro
