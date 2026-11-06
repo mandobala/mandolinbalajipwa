@@ -1,0 +1,59 @@
+﻿[TITLE: Harivarasanam]
+[COMPOSER: Konnakath Janaki Amma]
+[NOTATED BY: Balaji]
+[RAGA: Madhyamavati]
+[TALA: Adi (8)]
+[BEATS: 8]
+[NADAI: 3]
+[BPM: 60]
+[INSTRUMENT: Piano]
+[SCALE: S R2 M1 P N2]
+[AROHANA: S R2 M1 P N2 Ṡ]
+[AVAROHANA: Ṡ N2 P M1 R2 S]
+[TAGS: Song, Madhyamavati, Adi, Tisra Nadai, Konnakath Janaki Amma]
+
+[SECTION: Sharanam (after every line)]
+[SWARA]
+r     m  m  m   ,  m  m   ,  ,  r   ,  s  | r     m  m  m   ,  m  | m   ,  ,  ,  ,  ,  ||
+[SAHITYA]
+shara    Na may    ya ppA       swA    mi   shara    Na may    ya   ppA
+[SWARA]
+m     p  m  p   ,  n  p   m  r  r   p  m  | r     ,  s  s   ,  s  | s   ,  ,  ,  ,  ,  ||
+[SAHITYA]
+shara    Na may    ya ppA       swA    mi   shara    Na may    ya   ppA
+
+[SECTION: Harivarasanam]
+[SWARA]
+ṇ  s  s  s  ,  s  r   s  r  ,  ,  ,  | ṇ  ,  ṇ    r  ,  s  | s   ,  ,  ,  ,  ,  ||
+[SAHITYA]
+ha ri va rA    sa nam                  vi    shwa mO    ha   nam
+[SWARA]
+ṇ  s  r   s    ,  s    [rsṇp̣,,] ,  p̣ ,  | r  ,  s    s  ,  s   | s   ,  ,  ,  ,  ,  ||
+[SAHITYA]
+ha ri dha dhee    shwa ram          A       rA    dhya pA    dhu   kam
+[SWARA]
+r  m  m  m   ,  m   m   ,  ,  m  r  s  | r  ,  p    m   ,  m   | m   ,  ,  ,  ,  ,  ||
+[SAHITYA]
+A  ri vi mar    DHa nam                  ni    thya nar    tha   nam
+[SWARA]
+m  p  m  p  ,  n    p   m  r  r  p  m  | r   ,  s  s  ,  s    | s  ,  ,  ,  ,  ,  ||
+[SAHITYA]
+ha ri ha rA    thma jam                  dhE    va mA    shra   yE
+
+[SECTION: Sharanakirthanam]
+[SWARA]
+p     p  m  p   ,  ṡ   n   ,  ,  ,  ,  ,  | ṡ   ,  n    p  ,  p  | p   ,  m  p  ,  m  ||
+[SAHITYA]
+shara    Na kIr    tha nam                  bha    ktha mA    na   sam
+[SWARA]
+p     p  ṙ  ṡ  ,  ṡ  ṡ   ,  ,  ṙ  n  ,  | n   ,  ṡ   ṡ  ,  ṡ  | ṡ   ,  ,  ,  ,  ,  ||
+[SAHITYA]
+bhara    Na lO    lu pam                  nar    tha nA    la   sam
+[SWARA]
+p  n  n  n   ,  n  n   ,  ,  ṙ  ,  ṡ  | p    ,  p   p  ,  p  | m   ,  ,  ,  ,  ,  ||
+[SAHITYA]
+a  ru Na bhA    su ram                  bhoo    tha nA    ya   kam
+[SWARA]
+r  m  p  n  ṡ  n    p   m  r  r  p  m  | r   ,  s  s  ,  s    | s  ,  ,  ,  ,  ,  ||
+[SAHITYA]
+ha ri ha rA    thma jam                  dhE    va mA    shra   yE
