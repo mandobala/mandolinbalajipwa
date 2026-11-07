@@ -24,13 +24,13 @@ p,,p|,,pn|pnpm|r,r,|s r,s|,,ṇ,|s,,p|,,m,||
 p,,p|,,pn|snpm|r,r,|s r,s|,,ṇ,|s,,p|,,m,||
 
 [SWARA]
-p,,p|,,pn|snpm|r,r,|s r,s|,,ṇ,|s,,s|,s,, ||
+p,,p|,,pn|snpm|r,r,|s r,s|,,ṡ,|ṡ,,ṡ|,ṡ,, ||
 
 [SWARA]
-ṙ,s,|n,pn|snpm|r,r,|s r,s|,,sn|pm(pm|rs)ṇs||
+ṙ,ṡ,|n,pn|snpm|r,r,|s r,s|,,sn|pm(pm|rs)ṇs||
 
 [SWARA]
-rm(pn|sṙ)pn|snpm|r,r,|s r,s|,,n,|s,,p|,,m,||
+rm(pn|ṡṙ)pn|snpm|r,r,|s r,s|,,ṇ,|s,,p|,,m,||
 
 [SWARA]
 P,,p|,,
