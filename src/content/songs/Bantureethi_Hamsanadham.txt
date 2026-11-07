@@ -21,7 +21,7 @@
 p,,p|,,pn|pnpm|r,r,|s r,s|,,ṇ,|s,,p|,,m,||
 
 [SWARA]
-p,,p|,,pn|snpm|r,r,|s r,s|,,ṇ,|s,,p|,,m,||
+p,,p|,,pn|ṡnpm|r,r,|s r,s|,,ṇ,|s,,p|,,m,||
 
 [SWARA]
 p,,p|,,pn|snpm|r,r,|s r,s|,,ṡ,|ṡ,,ṡ|,ṡ,, ||
@@ -30,7 +30,7 @@ p,,p|,,pn|snpm|r,r,|s r,s|,,ṡ,|ṡ,,ṡ|,ṡ,, ||
 ṙ,ṡ,|n,pn|snpm|r,r,|s r,s|,,sn|pm(pm|rs)ṇs||
 
 [SWARA]
-rm(pn|ṡṙ)pn|snpm|r,r,|s r,s|,,ṇ,|s,,p|,,m,||
+rm(pn|ṡṙ)pn|ṡnpm|r,r,|s r,s|,,ṇ,|s,,p|,,m,||
 
 [SWARA]
 P,,p|,,
